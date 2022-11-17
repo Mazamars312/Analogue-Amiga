@@ -1,0 +1,42 @@
+{
+    "input": {
+        "magic": "APF_VER_1",
+        "controllers": [
+            {
+                "type": "default",
+              "mappings": [
+                    {
+                        "id": 0,
+                        "name": "Sample Image 1",
+                        "key": "pad_btn_a"
+                    },
+                    {
+                        "id": 1,
+                        "name": "Sample Image 2",
+                        "key": "pad_btn_b"
+                    },
+                    {
+                        "id": 2,
+                        "name": "Sample Image 3",
+                        "key": "pad_btn_x"
+                    },
+                    {
+                        "id": 3,
+                        "name": "Sample Image 4",
+                        "key": "pad_btn_y"
+                    },
+                    {
+                        "id": 4,
+                        "name": "Save Framebuffer",
+                        "key": "pad_btn_select"
+                    },
+                    {
+                        "id": 5,
+                        "name": "Load Framebuffer",
+                        "key": "pad_btn_start"
+                    }
+                ]
+            }
+        ]
+    }
+}

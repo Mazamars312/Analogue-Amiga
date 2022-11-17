@@ -1,0 +1,24 @@
+{
+  "data": {
+    "magic": "APF_VER_1",
+    "data_slots": [
+      {
+        "name": "Image Bank",
+        "id": "0x20",
+        "required": true,
+        "parameters": 2,
+		"deferload": true,
+        "filename": "ex_image_all.bin",
+        "address": "0x00000000"
+      },
+	  {
+        "name": "Saved Image",
+        "id": "0x22",
+        "required": false,
+        "parameters": 3,
+		"deferload": true,
+        "filename": "saved.bin"
+      }
+    ]
+  }
+}

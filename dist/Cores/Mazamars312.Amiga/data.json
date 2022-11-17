@@ -1,0 +1,16 @@
+{
+  "data": {
+    "magic": "APF_VER_1",
+    "data_slots": [
+      {
+        "name": "BIOS",
+        "id": "1",
+        "required": true,
+        "parameters": 136,
+		"size_maximum": 1048576,
+        "filename": "bios.rom",
+        "address": "0x00700000"
+      }
+    ]
+  }
+}

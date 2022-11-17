@@ -1,0 +1,18 @@
+{
+  "interact": {
+    "magic": "APF_VER_1",
+    "variables": [
+      {
+        "name": "Screen Border",
+        "id": 1,
+        "type": "check",
+        "enabled": true,
+        "persist": true,
+        "address": "0x50000000",
+        "defaultval": 1,
+        "value": 1,
+        "mask": "0xFFFF0000"
+      }
+    ]
+  }
+}

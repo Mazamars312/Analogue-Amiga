@@ -1,0 +1,31 @@
+# Example: Keyboard Mouse Target Data
+
+This example demonstrates using a keyboard and mouse plugged into Dock, as well as reading and writing with APF Target commands. 
+By default, the core boots into a gray screen with a mouse cursor. The framebuffer can be drawn on either by using the mouse or keyboard.
+In the bottom right of the screen are spaces for 4 small colored boxes indicating the connection status of the 4 controller slots.
+
+On mouse, the controls are 
+* LMB: Draw
+
+On keyboard, the controls are
+* Arrow keys: Move cursor
+* Left CTRL: Draw
+
+On controller 1:
+* A/B/X/Y buttons: Reload the framebuffer with 1 out of 4 images read using APF Target commands.
+* Select button: Save the franebuffer to slot ID 0x22. The asset file "saved.bin" will be created or overwritten.
+* Start button: Load the franebuffer from slot ID 0x22, corresponding to asset file "saved.bin".
+
+Features demonstrated:
+
+* SDRAM controller
+* Video generation
+* Dock mouse/keyboard
+* Cursor generation
+* Target read/write commands
+
+
+## Legal
+Analogue’s Development program was created to further video game hardware preservation with FPGA technology. Analogue does not support or endorse the use of infringing content.
+
+Analogue Developers have access to Analogue Pocket I/O’s so Developers can utilize cartridge adapters or interface with other pieces of original or bespoke hardware to support legacy media.
