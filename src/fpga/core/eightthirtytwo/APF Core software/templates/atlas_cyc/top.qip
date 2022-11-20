@@ -1,0 +1,6 @@
+#set_global_assignment -name VERILOG_FILE  [file join $::quartus(qip_path) defs.v]
+set_global_assignment -name VHDL_FILE [file join $::quartus(qip_path) atlas_cyc_top.vhd]
+set_global_assignment -name QIP_FILE [file join $::quartus(qip_path) pll.qip]
+set_global_assignment -name QIP_FILE [file join $::quartus(qip_path) pll2/pll2.qip]
+#set_global_assignment -name VERILOG_FILE  [file join $::quartus(qip_path) mist_video2.v]
+#set_global_assignment -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) sdram.sv]

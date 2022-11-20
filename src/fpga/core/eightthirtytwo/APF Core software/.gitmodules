@@ -1,0 +1,6 @@
+[submodule "Board/chameleon-modules"]
+	path = Board/chameleon-modules
+	url = https://github.com/robinsonb5/chameleon-modules.git
+[submodule "EightThirtyTwo"]
+	path = EightThirtyTwo
+	url = https://github.com/robinsonb5/EightThirtyTwo.git

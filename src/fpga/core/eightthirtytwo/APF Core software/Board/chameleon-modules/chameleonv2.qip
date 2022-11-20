@@ -1,0 +1,5 @@
+set_global_assignment -name VHDL_FILE [file join $::quartus(qip_path) "chameleon2_io_a.vhd"]
+set_global_assignment -name VHDL_FILE [file join $::quartus(qip_path) "chameleon2_io_e.vhd"]
+set_global_assignment -name VHDL_FILE [file join $::quartus(qip_path) "chameleon2_io_ps2iec.vhd"]
+set_global_assignment -name VHDL_FILE [file join $::quartus(qip_path) "chameleon2_io_shiftreg.vhd"]
+set_global_assignment -name QIP_FILE [file join $::quartus(qip_path) "chameleon_common.qip"]

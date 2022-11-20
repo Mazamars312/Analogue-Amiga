@@ -1,0 +1,7 @@
+# use following format when adding mist core project files
+#set_global_assignment -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) mist/sdram.sv]
+#set_global_assignment -name QIP_FILE [file join $::quartus(qip_path) mist/pll.qip]
+#
+# fill it in with the original Mist project files found in .qsf file
+# remember to comment out the pll file (and possibly sdram controller)
+#

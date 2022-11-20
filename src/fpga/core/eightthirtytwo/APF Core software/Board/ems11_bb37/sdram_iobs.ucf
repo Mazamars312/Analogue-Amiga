@@ -1,0 +1,17 @@
+#Created by Constraints Editor (xc6slx45-fgg676-3) - 2013/12/29
+INST "project/mysdram/sdata_reg_0" IOB = TRUE;
+INST "project/mysdram/sdata_reg_1" IOB = TRUE;
+INST "project/mysdram/sdata_reg_2" IOB = TRUE;
+INST "project/mysdram/sdata_reg_3" IOB = TRUE;
+INST "project/mysdram/sdata_reg_4" IOB = TRUE;
+INST "project/mysdram/sdata_reg_5" IOB = TRUE;
+INST "project/mysdram/sdata_reg_6" IOB = TRUE;
+INST "project/mysdram/sdata_reg_7" IOB = TRUE;
+INST "project/mysdram/sdata_reg_8" IOB = TRUE;
+INST "project/mysdram/sdata_reg_9" IOB = TRUE;
+INST "project/mysdram/sdata_reg_10" IOB = TRUE;
+INST "project/mysdram/sdata_reg_11" IOB = TRUE;
+INST "project/mysdram/sdata_reg_12" IOB = TRUE;
+INST "project/mysdram/sdata_reg_13" IOB = TRUE;
+INST "project/mysdram/sdata_reg_14" IOB = TRUE;
+INST "project/mysdram/sdata_reg_15" IOB = TRUE;

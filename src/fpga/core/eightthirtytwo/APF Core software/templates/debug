@@ -1,0 +1,7 @@
+#! /bin/sh
+quartus_stp -t DeMiSTify/EightThirtyTwo/tcl/832bridge.tcl 2>/dev/null >/dev/null &
+while ! netstat -tna | grep 'LISTEN\>' | grep -q ':33581\>'; do
+  sleep 1
+done
+DeMiSTify/EightThirtyTwo/832ocd/832ocd -el -m firmware/controller.map -u firmware/controller.bin
+kill $!

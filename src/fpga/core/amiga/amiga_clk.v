@@ -6,7 +6,8 @@ module amiga_clk
   input        clk_28,     // 28MHz output clock ( 28.375160MHz)
   output       clk7_en,    // 7MHz output clock enable (on 28MHz clock domain)
   output       clk7n_en,   // 7MHz negedge output clock enable (on 28MHz clock domain)
-  output 		clk7n_en90,
+  output 		clk7n_vga_en90,
+  output			clk7n_vga_en,
   output reg   c1,         // clk28m clock domain signal synchronous with clk signal
   output reg   c3,         // clk28m clock domain signal synchronous with clk signal delayed by 90 degrees
   output reg   cck,        // colour clock output (3.54 MHz)
@@ -21,6 +22,7 @@ reg [1:0] clk7_cnt = 2'b10;
 reg       clk7_en_reg = 1'b1;
 reg       clk7n_en_reg = 1'b1;
 reg 	    clk7_90en_reg = 1'b1;
+reg 	    clk7n_vga_reg = 1'b1;
 reg [9:0] shifter;
 always @ (posedge clk_28, negedge reset_n) begin
 	if (!reset_n) begin
@@ -34,6 +36,7 @@ always @ (posedge clk_28, negedge reset_n) begin
 		clk7_cnt     <= clk7_cnt + 2'b01;
 		clk7_en_reg  <= (clk7_cnt == 2'b00);
 		clk7_90en_reg  <= (clk7_cnt == 2'b01) || (clk7_cnt == 2'b10);
+		clk7n_vga_reg	<= (clk7_cnt == 2'b00) || (clk7_cnt == 2'b01);
 		clk7n_en_reg <= (clk7_cnt == 2'b10);
 		if(clk7_cnt == 2'b01) begin
 			cck <= ~cck;
@@ -45,7 +48,8 @@ end
 
 wire   clk_7 = clk7_cnt[1];
 assign clk7_en = clk7_en_reg;
-assign clk7n_en90 = clk7_90en_reg;
+assign clk7n_vga_en90 = clk7_90en_reg;
+assign clk7n_vga_en = clk7n_vga_reg;
 assign clk7n_en = clk7n_en_reg;
 
 // amiga clocks & clock enables

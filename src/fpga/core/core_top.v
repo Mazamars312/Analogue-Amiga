@@ -608,8 +608,8 @@ pll pll
 	.refclk(clk_74a),
 	.outclk_0(clk_114),
 	.outclk_1(clk_sys),
-	.outclk_2(video_rgb_clock),
-	.outclk_3(video_rgb_clock_90),
+//	.outclk_2(video_rgb_clock),
+//	.outclk_3(video_rgb_clock_90),
 	.locked(pll_core_locked)
 );
 
@@ -617,7 +617,8 @@ amiga_clk amiga_clk
 (
 	.clk_28   ( clk_sys    ), // input  clock c1 ( 28.687500MHz)
 	.clk7_en  ( clk7_en    ), // output clock 7 enable (on 28MHz clock domain)
-	.clk7n_en90 ( clk7n_en90   ), // 7MHz negedge output clock enable (on 28MHz clock domain)
+	.clk7n_vga_en90 ( video_rgb_clock_90   ), // 7MHz negedge output clock enable (on 28MHz clock domain)
+	.clk7n_vga_en ( video_rgb_clock   ), // 7MHz negedge output clock enable (on 28MHz clock domain)
 	.clk7n_en ( clk7n_en   ), // 7MHz negedge output clock enable (on 28MHz clock domain)
 	.c1       ( c1         ), // clk28m clock domain signal synchronous with clk signal
 	.c3       ( c3         ), // clk28m clock domain signal synchronous with clk signal delayed by 90 degrees
@@ -752,7 +753,7 @@ fastchip fastchip
 
 
 substitute_mcu_apf_mister substitute_mcu_apf_mister(
-		.clk									( clk_sys), 
+		.clk_sys									( clk_sys), 
 		.reset_n								( reset_n),
 		.clk_74a								( clk_74a ),
 		.bridge_addr            		( bridge_addr ),
@@ -767,7 +768,7 @@ substitute_mcu_apf_mister substitute_mcu_apf_mister(
 		.IO_WAIT      						( io_wait ),
 		.IO_DIN       						( io_dout ),
 		.IO_DOUT      						( io_din ),
-		
+		.IO_WIDE								( 1'b1 ),
 		.rxd									( RXDATA ),
 		.txd									( TXDATA ),
 		
@@ -1036,8 +1037,8 @@ cpu_wrapper cpu_wrapper
 
 reg hs_reg, vs_reg, hblank_i_reg;
 
-//assign video_rgb_clock = clk7_en;
-//assign video_rgb_clock_90 = clk7n_en90;
+//assign video_rgb_clock = clk7_en_vga;
+//assign video_rgb_clock_90 = clk7n_vga_en90;
 always @(posedge video_rgb_clock) begin
 	video_rgb 	<= 'b0;
 	video_de 	<= 'b0;

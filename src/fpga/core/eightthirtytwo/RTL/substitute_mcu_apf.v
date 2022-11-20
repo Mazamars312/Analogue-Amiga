@@ -18,7 +18,7 @@
 // This runs a Mister interface and other interfaces can be built for this for other projects :-)
 
 module substitute_mcu_apf_mister(
-	input                  clk,
+	input                  clk_sys,
 	input                  reset_n,
 	output reg             reset_out,
 		
@@ -30,12 +30,13 @@ module substitute_mcu_apf_mister(
 	input  [31:0]   	   bridge_wr_data,
 		 
 	//Mister HPS Bus via the 32bit bus
-	output reg	     	   IO_UIO,
-	output reg   		   IO_FPGA,
-	output reg   		   IO_STROBE,
+	output 	     	   	IO_UIO,
+	output    		   	IO_FPGA,
+	output    		   	IO_STROBE,
 	input 	     		   IO_WAIT,
 	input  [15:0] 		   IO_DIN,
-	output reg [15:0] 	   IO_DOUT,
+	output reg [15:0] 	IO_DOUT,
+	input 					IO_WIDE, // 1 = 16bit, 0 = 8bit;
 	
     input 	     	       dataslot_update,
     input 	     	[15:0] dataslot_update_id,
@@ -87,7 +88,7 @@ reg         ser_txgo;
 
 // We need to see what is happening right?
 simple_uart simple_uart (
-.clk        (clk),
+.clk        (clk_sys),
 .reset      (reset_n),
 .txdata     (ser_txdata),
 .txready    (ser_txready),
@@ -104,7 +105,7 @@ simple_uart simple_uart (
 controller_rom 
 #(.top_address(16'h8000))
 controller_rom(
-    .clk               (clk),
+    .clk               (clk_sys),
     .addr              (cpu_addr[13:2]),
     .d                 (from_cpu),
     .q                 (from_rom),
@@ -125,7 +126,7 @@ assign rom_wr = ~|cpu_addr[31:16] && cpu_wr;
 eightthirtytwo_cpu 
 eightthirtytwo_cpu
 	(
-		.clk (clk),
+		.clk (clk_sys),
 		.reset_n (reset_n),
 		.interrupt (cpu_int),
 		.addr (cpu_addr[31:2]),
@@ -144,7 +145,7 @@ reg [31:0] millisecond_counter;
 reg [19:0] millisecond_tick;
 reg        timer_tick;
 
-always @(posedge clk) begin
+always @(posedge clk_sys) begin
     timer_tick <= 0;
     millisecond_tick <= millisecond_tick + 1;
     if (millisecond_tick == sysclk_frequency * 100) begin
@@ -161,7 +162,7 @@ reg int_ack;
 wire int_status;
 
 interupt_clock interupt_clock (
-	.clk       (clk),        // the system clock
+	.clk       (clk_sys),        // the system clock
 	.int_clk   (clk_74a),    // the interupt clock domain
 	.reset_n   (reset_n),
 	.trigger   (dataslot_update),
@@ -174,7 +175,7 @@ wire [15:0] dataslot_update_id_latched;
 
 clock_reg_latch #(.data_size(16) ) dataslot_update_id_latch(
 	.write_clk             (clk_74a),        // the APF clock
-	.read_clk              (clk),        // the system clock
+	.read_clk              (clk_sys),        // the system clock
 	.reset_n               (reset_n),
 	.write_trigger         (dataslot_update),
 	.write_data_in         (dataslot_update_id),
@@ -185,7 +186,7 @@ wire [31:0] dataslot_update_size_latched;
 
 clock_reg_latch #(.data_size(32) ) dataslot_update_size_latch(
 	.write_clk             (clk_74a),        // the APF clock
-	.read_clk              (clk),        // the system clock
+	.read_clk              (clk_sys),        // the system clock
 	.reset_n               (reset_n),
 	.write_trigger         (dataslot_update),
 	.write_data_in         (dataslot_update_size),
@@ -199,9 +200,14 @@ reg         ser_rxrecv;
 reg         mem_busy, rom_ack;
 reg         data_slot_ram_ack, data_slot_ram_ack_1;
 
+reg        	io_clk;
+reg        	io_ss0;
+reg        	io_ss1;
+reg        	io_ss2;
+
 assign datatable_addr = cpu_addr[11:2];
 
-always @(posedge clk) begin
+always @(posedge clk_sys) begin
     mem_busy <= 1'b1;
     rom_ack <= 0;
     ser_txgo <= 0;
@@ -230,10 +236,10 @@ always @(posedge clk) begin
                         mem_busy <= 0;
                     end
                     16'hff88 : begin // target_dataslot_length read
-						ext_data_out <= target_dataslot_length;
-						mem_busy<= 0;
-					end
-					16'hff8C : begin // target_dataslot_slotoffset read
+								ext_data_out <= target_dataslot_length;
+								mem_busy<= 0;
+						  end
+						  16'hff8C : begin // target_dataslot_slotoffset read
                         ext_data_out <= target_dataslot_slotoffset;
                         mem_busy <= 0;
                     end
@@ -241,20 +247,17 @@ always @(posedge clk) begin
                         ext_data_out <= {target_dataslot_ack, target_dataslot_done, target_dataslot_err};
                         mem_busy <= 0;
                     end
-                    16'hffA0 : begin // This is setup for the mister interface
-                        ext_data_out <= {IO_WAIT, IO_DIN};
-                        mem_busy <= 0;
-                    end
+                    
                     16'hffA4 : begin // The reset the core function incase the system wants to make sure it is in sync
                         ext_data_out[0] <= reset_out;
                         mem_busy <= 0;
                     end
                     16'hffB0 : begin // Interrupt
-							ext_data_out <= int_status;
-							int_ack <= 1;
-							mem_busy<= 0;
-					end
-					16'hffB4 : begin // data update ID
+								ext_data_out <= int_status;
+								int_ack <= 1;
+								mem_busy<= 0;
+						  end
+						  16'hffB4 : begin // data update ID
                         ext_data_out <= dataslot_update_id_latched;
                         mem_busy <= 0;
                     end
@@ -262,13 +265,17 @@ always @(posedge clk) begin
                         ext_data_out <= dataslot_update_size_latched;
                         mem_busy <= 0;
                     end
-                    16'hffC0 : begin
+                    16'hffC0 : begin // UART access
                         ext_data_out <= {ser_rxrecv,ser_txready,ser_rxdata};
                         if (ser_rxrecv) ser_rxrecv<= 0;
                         mem_busy <= 0;
                     end
-                    16'hffC8 : begin
+                    16'hffC8 : begin // Timer
                         ext_data_out <= millisecond_counter;
+                        mem_busy <= 0;
+                    end
+						  16'hffD0 : begin // This is setup for the SPI interface
+                        ext_data_out <= {io_ack, IO_WIDE, IO_DIN};
                         mem_busy <= 0;
                     end
                     default : mem_busy <= 0;
@@ -302,20 +309,22 @@ always @(posedge clk) begin
                         {target_dataslot_write, target_dataslot_read} <= from_cpu;
                         mem_busy <= 0;
                     end
-                    16'hffA0 : begin // This is setup for the mister interface
-                        IO_FPGA <= from_cpu[19];
-                        IO_UIO <= from_cpu[18];
-                        IO_STROBE <= from_cpu[17];
-                        IO_DOUT <= from_cpu[15:0];
-                        mem_busy <= 0;
-                    end
+                    
                     16'hffA4 : begin // The reset the core function incase the system wants to make sure it is in sync
                         reset_out <= from_cpu[0];
                         mem_busy <= 0;
                     end
-                    16'hffC0 : begin
+                    16'hffC0 : begin // UART Data
                         ser_txdata <= from_cpu[7:0];
                         ser_txgo <= 1;
+                        mem_busy <= 0;
+                    end
+						  16'hffD0 : begin // This is setup for the SPI interface
+                        io_clk = from_cpu[17];
+								io_ss0 = from_cpu[18];
+								io_ss1 = from_cpu[19];
+								io_ss2 = from_cpu[20];
+                        IO_DOUT <= from_cpu[15:0];
                         mem_busy <= 0;
                     end
                     default : mem_busy <= 0;
@@ -334,6 +343,17 @@ always @(posedge clk) begin
     to_cpu <= ext_data_en ? ext_data_out : from_rom;
 end
 
+assign IO_FPGA     = ~io_ss1 & io_ss0;
+assign IO_UIO      = ~io_ss1 & io_ss2;
+reg  io_ack;
+reg  rack;
+assign IO_STROBE = ~rack & io_clk;
+always @(posedge clk_sys) begin
+	if(~(IO_WAIT) | IO_STROBE) begin
+		rack <= io_clk;
+		io_ack <= rack;
+	end
+end
     
 endmodule
 

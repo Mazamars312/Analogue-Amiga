@@ -83,11 +83,10 @@ always@(posedge clk_sys) begin
 
 		if(byte_cnt == 0) begin
 			cmd <= io_din;
-			dout_en <= (io_din >= EXT_CMD_MIN && io_din <= EXT_CMD_MAX) || (io_din >= EXT_CMD_MIN2 && io_din <= EXT_CMD_MAX2);
+			dout_en <= (io_din >= EXT_CMD_MIN2 && io_din <= EXT_CMD_MAX2);
 			if(io_din == 'h63) io_dout_reg <= {4'hE, 2'b00, 2'b00, 2'b00, ide_req};
 		end else begin
-			case(cmd)
-								
+			case(cmd)		
 				'h61: if(byte_cnt >= 3 && ide_cs) begin
 							ide_wr <= 1;
 						end
