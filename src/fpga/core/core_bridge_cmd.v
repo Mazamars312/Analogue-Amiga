@@ -19,6 +19,7 @@ module core_bridge_cmd (
 
 input   wire            clk,
 output  reg             reset_n,
+input   wire				clk_sys,
 
 input   wire            bridge_endian_little,
 input   wire    [31:0]  bridge_addr,
@@ -528,7 +529,7 @@ end
 mf_datatable idt (
     .address_a      ( datatable_addr ),
     .address_b      ( b_datatable_addr ),
-    .clock_a        ( clk ),
+    .clock_a        ( clk_sys ),
     .clock_b        ( clk ),
     .data_a         ( datatable_data ),
     .data_b         ( bridge_wr_data_in ),

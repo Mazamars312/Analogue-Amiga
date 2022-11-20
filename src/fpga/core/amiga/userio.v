@@ -23,6 +23,13 @@
 //                                                                            //
 ////////////////////////////////////////////////////////////////////////////////
 
+/*******************************************************************************
+
+	This has been changed by Mazamars to allow the afp bus to upload the bios and change
+	setting on the fly.
+
+
+*******************************************************************************/
 
 
 module userio
@@ -31,6 +38,7 @@ module userio
 	input             clk,        // bus clock
 	input             reset,      // reset
 	input             clk7_en,
+	input 				reset_n,
 
 	input       [8:1] reg_address_in, // register adress inputs
 	input      [15:0] data_in,    // bus data in
@@ -66,15 +74,15 @@ module userio
 	output reg  [5:0] ide_config,
 	output reg  [1:0] cpu_config,
 	output reg  [2:0] cache_config,
-	output reg        bootrom =0, // do the A1000 bootrom magic in gary.v
-	output reg        usrrst = 0,     // user reset from osd module
-	output reg        cpurst = 0,
-	output reg        cpuhlt = 0,
+	output reg        bootrom, // do the A1000 bootrom magic in gary.v
+	output reg        usrrst,     // user reset from osd module
+	output reg        cpurst,
+	output reg        cpuhlt,
 	// host
 	output reg        host_cs,
 	output reg [23:0] host_adr,
 	output reg        host_we,
-	output      [1:0] host_bs,
+	output reg  [1:0] host_bs,
 	output reg [15:0] host_wdat,
 	input      [15:0] host_rdat,
 	input             host_ack
@@ -392,7 +400,7 @@ assign _mthird = ~mouse_btn[2];
 //--------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------
 
-assign host_bs = 2'b11;
+//assign host_bs = 2'b11;
 
 reg [7:0] t_memory_config = 8'b0_0_11_11_11;
 reg [5:0] t_ide_config = 0;
@@ -424,52 +432,136 @@ end
 reg [7:0] cmd;
 
 // reg selects
-wire mem_write_sel    = (bridge_addr[6:2] == 0); // A_A_A_A B,B,... || write system memory, A - 32 bit memory address, B - variable number of bytes
-wire reset_ctrl_sel   = (bridge_addr[6:2] == 1); // XXXXHRBC || reset control   | H - CPU halt, R - reset, B - reset to bootloader, C - reset control block
-wire aud_sel          = (bridge_addr[6:2] == 2);
-wire chip_cfg_sel     = (bridge_addr[6:2] == 3); // XXXGEANT || chipset config  | G - AGA, E - ECS, A - OCS A1000, N - NTSC, T - turbo
-wire cpu_cfg_sel      = (bridge_addr[6:2] == 4); // XXXXKCTT || cpu config      | K - fast kickstart enable, C - CPU cache enable, TT - CPU type (00=68k, 01=68k10, 10=68k20)
-wire memory_cfg_sel   = (bridge_addr[6:2] == 5); // XHFFSSCC || memory config   | H - HRTmon, FF - fast, SS - slow, CC - chip
-wire video_cfg_sel    = (bridge_addr[6:2] == 6); // DDHHLLSS || video config    | DD - dither, HH - hires interp. filter, LL - lowres interp. filter, SS - scanline mode
-wire floppy_cfg_sel   = (bridge_addr[6:2] == 7); // XXXXXFFS || floppy config   | FF - drive number, S - floppy speed
-wire harddisk_cfg_sel = (bridge_addr[6:2] == 8); // XXXXXSMC || harddisk config | S - enable slave HDD, M - enable master HDD, C - enable HDD controler
-wire joystick_cfg_sel = (bridge_addr[6:2] == 9); // XXXXSMMX || joystick config | S - swap joysticks, MM - dig/analog/cd32
-wire mirror_sel 		 = (bridge_addr[6:2] == 10); // XXXXXXXM || Mirror Bios	  | 1 = Not Mirrored 0 = Mirrored
+//wire mem_write_sel    = (bridge_addr[6:2] == 0); // A_A_A_A B,B,... || write system memory, A - 32 bit memory address, B - variable number of bytes
+//wire reset_ctrl_sel   = (bridge_addr[7:0] == 'h00); // XXXXHRBC || reset control   | H - CPU halt, R - reset, B - reset to bootloader, C - reset control block
+//wire aud_sel          = (bridge_addr[7:0] == 'h04);
+//wire chip_cfg_sel     = (bridge_addr[7:0] == 'h08); // XXXGEANT || chipset config  | G - AGA, E - ECS, A - OCS A1000, N - NTSC, T - turbo
+//wire cpu_cfg_sel      = (bridge_addr[7:0] == 'h0c); // XXXXKCTT || cpu config      | K - fast kickstart enable, C - CPU cache enable, TT - CPU type (00=68k, 01=68k10, 10=68k20)
+//wire memory_cfg_sel   = (bridge_addr[7:0] == 'h10); // XHFFSSCC || memory config   | H - HRTmon, FF - fast, SS - slow, CC - chip
+//wire video_cfg_sel    = (bridge_addr[7:0] == 'h14); // DDHHLLSS || video config    | DD - dither, HH - hires interp. filter, LL - lowres interp. filter, SS - scanline mode
+//wire floppy_cfg_sel   = (bridge_addr[7:0] == 'h18); // XXXXXFFS || floppy config   | FF - drive number, S - floppy speed
+//wire harddisk_cfg_sel = (bridge_addr[7:0] == 'h1c); // XXXXXSMC || harddisk config | S - enable slave HDD, M - enable master HDD, C - enable HDD controler
+//wire joystick_cfg_sel = (bridge_addr[7:0] == 'h20); // XXXXSMMX || joystick config | S - swap joysticks, MM - dig/analog/cd32
+//wire mirror_sel 		 = (bridge_addr[7:0] == 'h24); // XXXXXXXM || Mirror Bios	  | 1 = Not Mirrored 0 = Mirrored
 
 always @(posedge clk_74a) begin
-	if (bridge_addr == 32'h000f80000) bootrom <= 1;
-	
+	cpuhlt <= ~reset_n;
 	if (bridge_wr) begin
-		if(bridge_addr[31:24] == 16'h10) begin
-
-				if (reset_ctrl_sel)   {cpuhlt, cpurst, usrrst} <= bridge_wr_data[2:0];
-				if (chip_cfg_sel)     t_chipset_config <= bridge_wr_data[4:0];
-				if (cpu_cfg_sel)      t_cpu_config <= bridge_wr_data[4:0];
-				if (memory_cfg_sel)   t_memory_config <= bridge_wr_data[7:0];
-				if (video_cfg_sel)    {blver, ar, scanline} <= {bridge_wr_data[11:8],bridge_wr_data[2:0]};
-				if (floppy_cfg_sel)   floppy_config <= bridge_wr_data[3:0];
-				if (harddisk_cfg_sel) t_ide_config <= bridge_wr_data[5:0];
-				if (joystick_cfg_sel) {joy_swap, cd32pad, joy_ana_en} <= bridge_wr_data[2:0];
-				if (aud_sel)          aud_mix <= bridge_wr_data[1:0];
-				if (mirror_sel)		 bootrom <= bridge_wr_data[0];
+		if(bridge_addr[31:8] == 24'h100000) begin
+				case (bridge_addr[7:0])
+					8'h00 :  {cpurst, usrrst} <= bridge_wr_data[1:0];
+					8'h04 :  aud_mix <= bridge_wr_data[1:0];
+					8'h08 :  t_chipset_config <= bridge_wr_data[4:0];
+					8'h0c :  t_cpu_config <= bridge_wr_data[4:0];
+					8'h10 :  t_memory_config <= bridge_wr_data[7:0];
+					8'h14 :  {blver, ar, scanline} <= {bridge_wr_data[11:8],bridge_wr_data[2:0]};
+					8'h18 :  floppy_config <= bridge_wr_data[3:0];
+					8'h1c :  t_ide_config <= bridge_wr_data[5:0];
+					8'h20 :  {joy_swap, cd32pad, joy_ana_en} <= bridge_wr_data[2:0];
+					8'h24 :  bootrom <= bridge_wr_data[0];
+				endcase
 		end
 	end
-	if (bridge_rd) begin
+end
 
-		if (reset_ctrl_sel)   bridge_rd_data_reg <= {cpuhlt, cpurst, usrrst};
-		else if (chip_cfg_sel)     bridge_rd_data_reg <= t_chipset_config;
-		else if (cpu_cfg_sel)      bridge_rd_data_reg <= t_cpu_config;
-		else if (memory_cfg_sel)   bridge_rd_data_reg <= t_memory_config;
-		else if (video_cfg_sel)    bridge_rd_data_reg <= {blver, ar, scanline};
-		else if (floppy_cfg_sel)   bridge_rd_data_reg <= floppy_config;
-		else if (harddisk_cfg_sel) bridge_rd_data_reg <= t_ide_config;
-		else if (joystick_cfg_sel) bridge_rd_data_reg <= {joy_swap, cd32pad, joy_ana_en};
-		else if (aud_sel)          bridge_rd_data_reg <= aud_mix;
-		else if (mirror_sel)       bridge_rd_data_reg <= bootrom;
+always @(posedge clk_74a) begin
+	if (bridge_rd) begin
+		case (bridge_addr[7:0])
+			8'h00 : bridge_rd_data_reg <= {cpuhlt, cpurst, usrrst};
+			8'h04 : bridge_rd_data_reg <= aud_mix;
+			8'h08 : bridge_rd_data_reg <= t_chipset_config;
+			8'h0c : bridge_rd_data_reg <= t_cpu_config;
+			8'h10 : bridge_rd_data_reg <= t_memory_config;
+			8'h14 : bridge_rd_data_reg <= {blver, ar, scanline};
+			8'h18 : bridge_rd_data_reg <= floppy_config;
+			8'h1c : bridge_rd_data_reg <= t_ide_config;
+			8'h20 : bridge_rd_data_reg <= {joy_swap, cd32pad, joy_ana_en};
+			8'h24 : bridge_rd_data_reg <= bootrom;
+		endcase
 		
-		bridge_rd_data <= bridge_rd_data_reg;
 	end
+	bridge_rd_data <= bridge_rd_data_reg;
+end
+
+
+	// host
+//	output reg        host_cs,
+//	output reg [23:0] host_adr,
+//	output reg        host_we,
+//	output      [1:0] host_bs,
+//	output reg [15:0] host_wdat,
+//	input      [15:0] host_rdat,
+//	input             host_ack
+
+wire 			ioctl_wr;
+reg 			ioctl_ack;
+wire [23:0]	ioctl_addr;
+wire [15:0]	ioctl_dout;
+
+  data_loader #(
+      .ADDRESS_MASK_UPPER_4(4'h0),
+      .ADDRESS_SIZE(25),
+      .WRITE_MEM_CLOCK_DELAY(7),
+      .OUTPUT_WORD_SIZE(2)
+  ) data_loader (
+      .clk_74a(clk_74a),
+      .clk_memory(clk),
+
+      .bridge_wr(bridge_wr),
+      .bridge_endian_little(1'b1),
+      .bridge_addr(bridge_addr),
+      .bridge_wr_data(bridge_wr_data),
+
+      .write_en  (ioctl_wr),
+		.write_ack (ioctl_ack),
+      .write_addr(ioctl_addr),
+      .write_data(ioctl_dout)
+  );
+
+reg [2:0] memory_state;
+
+parameter 	memory_idle		=	0,
+				memory_send		= 	1,
+				memory_ack		=	2;
+reg mrx;
+always @(posedge clk) begin
+	ioctl_ack <= 'b0;
+	mrx <= 1'b0;
+	case (memory_state)
+		memory_idle : begin
+			if (ioctl_wr) begin
+				memory_state <= memory_send;
+				host_adr <=	ioctl_addr;
+				host_wdat <= ioctl_dout;
+				host_bs <= 2'b11;
+				mrx <= 1'b1;
+			end
+		end
+		memory_send : begin
+			if (host_ack) begin
+				memory_state <= memory_ack;
+				mrx <= 1'b0;
+				ioctl_ack <= 'b1;
+			end
+			else begin
+				mrx <= 1'b1;
+			end
+		end
+		memory_ack : begin
+			memory_state <= memory_idle;
+			
+		end
+		default : begin
+			memory_state <= memory_idle;
+			ioctl_ack <= 'b0;
+		end
 	
+	endcase
+	if(clk7_en) begin
+		host_cs <= mrx;
+		host_we <= mrx;
+		if(host_ack) mrx <= 0;
+	end
 end
 
 endmodule

@@ -149,6 +149,7 @@
 module minimig
 (
 	input 			clk_74a,
+	input 			reset_n,
 	//m68k pins
 	input  [23:1] cpu_address, // m68k address bus
 	output [15:0] cpu_data,    // m68k data bus
@@ -533,6 +534,7 @@ userio USERIO1
 	.clk(clk),
 	.clk7_en(clk7_en),
 	.reset(reset),
+	.reset_n(reset_n),
 	.reg_address_in(reg_address),
 	.data_in(custom_data_in),
 	.data_out(user_data_out),

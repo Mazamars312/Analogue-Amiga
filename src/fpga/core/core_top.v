@@ -235,19 +235,30 @@ assign bridge_endian_little = 0;
 
 // cart is unused, so set all level translators accordingly
 // directions are 0:IN, 1:OUT
-assign cart_tran_bank3 = 8'hzz;
-assign cart_tran_bank3_dir = 1'b0;
-assign cart_tran_bank2 = 8'hzz;
-assign cart_tran_bank2_dir = 1'b0;
-assign cart_tran_bank1 = 8'hzz;
-assign cart_tran_bank1_dir = 1'b0;
-assign cart_tran_bank0 = 4'hf;
-assign cart_tran_bank0_dir = 1'b1;
-assign cart_tran_pin30 = 1'b0;      // reset or cs2, we let the hw control it by itself
-assign cart_tran_pin30_dir = 1'bz;
-assign cart_pin30_pwroff_reset = 1'b0;  // hardware can control this
-assign cart_tran_pin31 = 1'bz;      // input
-assign cart_tran_pin31_dir = 1'b0;  // input
+assign cart_tran_bank3 = 8'hzz;            // these pins are not used, make them inputs
+ assign cart_tran_bank3_dir = 1'b0;
+ 
+ assign cart_tran_bank2 = 8'hzz;            // these pins are not used, make them inputs
+ assign cart_tran_bank2_dir = 1'b0;
+ assign cart_tran_bank1 = 8'hzz;            // these pins are not used, make them inputs
+ assign cart_tran_bank1_dir = 1'b0;
+ 
+ assign cart_tran_bank0 = {1'b0, TXDATA, LED, 1'b0};    // LED and TXD hook up here
+ assign cart_tran_bank0_dir = 1'b1;
+ 
+ assign cart_tran_pin30 = 1'bz;            // this pin is not used, make it an input
+ assign cart_tran_pin30_dir = 1'b0;
+ assign cart_pin30_pwroff_reset = 1'b1;    
+ 
+ assign cart_tran_pin31 = 1'bz;            // this pin is an input
+ assign cart_tran_pin31_dir = 1'b0;        // input
+ // UART
+ wire TXDATA;                        // your UART transmit data hooks up here
+ wire RXDATA = cart_tran_pin31;        // your UART RX data shows up here
+ 
+ // button/LED
+ wire LED = 1'b1;                    // LED hooks up here.  HIGH = light up, LOW = off
+ wire BUTTON = cart_tran_bank3[0];    // button data comes out here.  LOW = pressed, HIGH = unpressed
 
 // link port is unused, set to input only to be safe
 // each bit may be bidirectional in some applications
@@ -298,10 +309,8 @@ assign aux_scl = 1'bZ;
 assign vpll_feed = 1'bZ;
 
 wire [31:0] fpga_bridge_rd_data;
+wire [31:0] substitute_mcu_bridge_rd_data;
 
-
-    wire    [31:0]  ram1_word_q_s;
-synch_3 #(.WIDTH(32)) s0(ram1_word_q, ram1_word_q_s, clk_74a);
 
 // for bridge write data, we just broadcast it to all bus devices
 // for bridge read data, we have to mux it
@@ -312,11 +321,11 @@ always @(*) begin
         // all unmapped addresses are zero
         bridge_rd_data <= 0;
     end
-    32'b000000xx_xxxxxxxx_xxxxxxxx_xxxxxxxx: begin
-        bridge_rd_data <= ram1_word_q_s;
-    end
 	 32'h10xxxxxx: begin
         bridge_rd_data <= fpga_bridge_rd_data;
+    end
+	 32'h8000xxxx: begin
+        bridge_rd_data <= substitute_mcu_bridge_rd_data;
     end
     32'hF8xxxxxx: begin
         bridge_rd_data <= cmd_bridge_rd_data;
@@ -406,6 +415,7 @@ core_bridge_cmd icb (
 
     .clk                    ( clk_74a ),
     .reset_n                ( reset_n ),
+	 .clk_sys					 (clk_sys),
 
     .bridge_endian_little   ( bridge_endian_little ),
     .bridge_addr            ( bridge_addr ),
@@ -491,67 +501,12 @@ core_bridge_cmd icb (
     reg         reset_n_last;
     reg [3:0]   bootup_clearing;
     
-always @(posedge clk_74a) begin
-	 ram1_word_wr <= 0;
-	 ram1_word_rd <= 0; 
-    // handle memory mapped I/O from pocket
-    //
-    if(bridge_wr) begin
-        casex(bridge_addr)
-        32'h00XXXXXX: begin
-            // 64mbyte sdram mapped at 0x0
-        
-            // the ram controller's word port is 32bit aligned
-            ram1_word_wr <= 1;
-            ram1_word_wrmask <= 2'b00;
-            ram1_word_addr <= bridge_addr[25:2];
-            ram1_word_data <= bridge_wr_data;
-        end
-        endcase
-    end
-    if(bridge_rd) begin
-        casex(bridge_addr[31:0])
-        32'h00XXXXXX: begin
-            // start new read
-            ram1_word_rd <= 1;                  
-            // convert from byte address to word address
-            ram1_word_addr <= bridge_addr[25:2]; 
-        end
-        endcase
-        
-    end    
-end
 
-	wire 				clk_ram_controller;
-	wire 				clk_ram_chip;
-	wire 				clk_ram_90;
-
-    reg             ram1_burst_rd; // must be synchronous to clk_ram
-    reg     [24:0]  ram1_burst_addr;
-    reg     [10:0]  ram1_burst_len;
-    reg             ram1_burst_32bit;
-    wire    [31:0]  ram1_burst_data;
-    wire            ram1_burst_data_valid;
-    wire            ram1_burst_data_done;
-    
-    wire            ram1_burstwr;
-    wire    [24:0]  ram1_burstwr_addr;
-    wire            ram1_burstwr_ready;
-    wire            ram1_burstwr_strobe;
-    wire    [15:0]  ram1_burstwr_data;
-    wire            ram1_burstwr_done;
-    
-    reg             ram1_word_rd;
-    reg             ram1_word_wr;
-    reg     [23:0]  ram1_word_addr;
-    reg     [1:0]   ram1_word_wrmask;
-    reg     [31:0]  ram1_word_data;
-    wire    [31:0]  ram1_word_q;
-    wire            ram1_word_busy;
 	 
 	 //// amiga clocks ////
 	wire       	clk7_en;
 	wire       	clk7n_en;
+	wire 			clk7n_en90;
 	wire       	c1;
 	wire       	c3;
 	wire       	cck;
@@ -653,6 +608,8 @@ pll pll
 	.refclk(clk_74a),
 	.outclk_0(clk_114),
 	.outclk_1(clk_sys),
+	.outclk_2(video_rgb_clock),
+	.outclk_3(video_rgb_clock_90),
 	.locked(pll_core_locked)
 );
 
@@ -660,21 +617,22 @@ amiga_clk amiga_clk
 (
 	.clk_28   ( clk_sys    ), // input  clock c1 ( 28.687500MHz)
 	.clk7_en  ( clk7_en    ), // output clock 7 enable (on 28MHz clock domain)
+	.clk7n_en90 ( clk7n_en90   ), // 7MHz negedge output clock enable (on 28MHz clock domain)
 	.clk7n_en ( clk7n_en   ), // 7MHz negedge output clock enable (on 28MHz clock domain)
 	.c1       ( c1         ), // clk28m clock domain signal synchronous with clk signal
 	.c3       ( c3         ), // clk28m clock domain signal synchronous with clk signal delayed by 90 degrees
 	.cck      ( cck        ), // colour clock output (3.54 MHz)
 	.eclk     ( eclk       ), // 0.709379 MHz clock enable output (clk domain pulse)
-	.reset_n  ( reset_n    )
+	.reset_n  ( pll_core_locked    )
 );
 
 	reg [7:0] reset_s;
 	reg rs;
 	reg [1:0] kbd_mouse_type_reg;
 
-always @(posedge clk_sys or negedge reset_n) begin
+always @(posedge clk_sys) begin
 
-	if(~reset_n) begin
+	if(~pll_core_locked) begin
 		reset_s <= 'd1;
 		kbd_mouse_type <= 2'b0;
 	end
@@ -709,46 +667,44 @@ always @(posedge clk_sys or negedge reset_n) begin
 	kbd_mouse_type_reg <= kbd_mouse_type;
 end
 
-io_sdram isr0 (
-    .controller_clk ( clk_114 ),
-    .chip_clk       ( clk_114 ),
-    .clk_90         ( clk_ram_90 ),
-    .reset_n        ( 1'b1 ), // fsm has its own boot reset
-    
-    .phy_cke        		( dram_cke ),
-    .phy_clk        		( dram_clk ),
-    .phy_cas        		( dram_cas_n ),
-    .phy_ras        		( dram_ras_n ),
-    .phy_we         		( dram_we_n ),
-    .phy_ba         		( dram_ba ),
-    .phy_a          		( dram_a ),
-    .phy_dq         		( dram_dq ),
-    .phy_dqm        		( dram_dqm ),
-    
-    .burst_rd           ( ~(_ram_oe) ),
-    .burst_addr         ( ram_address ),
-    .burst_len          ( 'd4 ),
-    .burst_64bit        ( 1'b1 ),
-    .burst_data         ( {chip48, ramdata_in} ),
-    .burst_data_valid   ( ram1_burst_data_valid ),
-    .burst_data_done    ( ram1_burst_data_done ),
 
-    .burstwr        		( ~(_ram_we) ),
-    .burstwr_addr   		( ram_address),
-	 .burstwr_mask			({chip_uds, chip_lds}),
-    .burstwr_ready  		(  ),
-    .burstwr_strobe 		( 1'b0 ),
-    .burstwr_data   		( ram_data ),
-    .burstwr_done   		(  ),
-    
-    .word_rd    			( ram1_word_rd ),
-    .word_wr    			( ram1_word_wr ),
-    .word_addr  			( ram1_word_addr ),
-    .word_wrmask 			( ram1_word_wrmask ),
-    .word_data  			( ram1_word_data ),
-    .word_q     			( ram1_word_q ),
-    .word_busy  			( ram1_word_busy )
-        
+
+sdram_ctrl ram1
+(
+	.sysclk       (clk_114         ),
+	.reset_n      (~reset_d        ),
+	.c_7m         (c1              ),
+
+	.cache_rst    (cpu_rst         ),
+	.cpu_cache_ctrl(cpu_cacr       ),
+
+	.sd_data      (dram_dq        ),
+	.sd_addr      (dram_a         ),
+	.sd_dqm       (dram_dqm),
+	.sd_ba        (dram_ba        ),
+	.sd_we        (dram_we_n       ),
+	.sd_ras       (dram_ras_n      ),
+	.sd_cas       (dram_cas_n      ),
+	.sd_cke       (dram_cke       ),
+	.sd_clk       (dram_clk       ),
+
+	.cpuWR        (ram_din         ),
+	.cpuAddr      (ram_addr[22:1]  ),
+	.cpuU         (ram_uds         ),
+	.cpuL         (ram_lds         ),
+	.cpustate     (cpu_state       ),
+	.cpuCS        (ram_cs), //~zram_sel&
+	.cpuRD        (ram_dout1       ),
+	.ramready     (ram_ready1      ),
+
+	.chipWR       (ram_data        ),
+	.chipAddr     (ram_address     ),
+	.chipU        (_ram_bhe        ),
+	.chipL        (_ram_ble        ),
+	.chipRW       (_ram_we         ),
+	.chipDMA      (_ram_oe         ),
+	.chipRD       (ramdata_in      ),
+	.chip48       (chip48          )
 );
 
 fastchip fastchip
@@ -795,48 +751,55 @@ fastchip fastchip
 );
 
 
-//vexriscv_wrapper vexrv_inst(
-//		.clk									( clk_sys), 
-//		.reset_n								( reset_n),
-//		.clk_74a								( clk_74a ),
-//		.bridge_addr            		( bridge_addr ),
-//		.bridge_rd              		( bridge_rd ),
-//		.bridge_rd_data         		( fpga_bridge_rd_data ),
-//		.bridge_wr              		( bridge_wr ),
-//		.bridge_wr_data         		( bridge_wr_data ),
-//	  
-//	  	.IO_UIO       						( io_uio ),
-//		.IO_FPGA      						( io_fpga ),
-//		.IO_STROBE    						( io_strobe ),
-//		.IO_WAIT      						( io_wait ),
-//		.IO_DIN       						( io_dout ),
-//		.IO_DOUT      						( io_din ),
-//	  
-//		.target_dataslot_read       	( target_dataslot_read ),
-//		.target_dataslot_write      	( target_dataslot_write ),
-//
-//		.target_dataslot_ack        	( target_dataslot_ack ),
-//		.target_dataslot_done       	( target_dataslot_done ),
-//		.target_dataslot_err        	( target_dataslot_err ),
-//
-//		.target_dataslot_id         	( target_dataslot_id ),
-//		.target_dataslot_slotoffset 	( target_dataslot_slotoffset ),
-//		.target_dataslot_bridgeaddr 	( target_dataslot_bridgeaddr ),
-//		.target_dataslot_length     	( target_dataslot_length ),
-//
-//		.datatable_addr         		( datatable_addr ),
-//		.datatable_wren         		( datatable_wren ),
-//		.datatable_data         		( datatable_data ),
-//		.datatable_q            		( datatable_q )
-//	 
-//	 );
+substitute_mcu_apf_mister substitute_mcu_apf_mister(
+		.clk									( clk_sys), 
+		.reset_n								( reset_n),
+		.clk_74a								( clk_74a ),
+		.bridge_addr            		( bridge_addr ),
+		.bridge_rd              		( bridge_rd ),
+		.bridge_rd_data         		( substitute_mcu_bridge_rd_data ),
+		.bridge_wr              		( bridge_wr ),
+		.bridge_wr_data         		( bridge_wr_data ),
+	  
+	  	.IO_UIO       						( io_uio ),
+		.IO_FPGA      						( io_fpga ),
+		.IO_STROBE    						( io_strobe ),
+		.IO_WAIT      						( io_wait ),
+		.IO_DIN       						( io_dout ),
+		.IO_DOUT      						( io_din ),
+		
+		.rxd									( RXDATA ),
+		.txd									( TXDATA ),
+		
+		.dataslot_update            	( dataslot_update ),
+		.dataslot_update_id         	( dataslot_update_id ),
+		.dataslot_update_size       	( dataslot_update_size ),
+	  
+		.target_dataslot_read       	( target_dataslot_read ),
+		.target_dataslot_write      	( target_dataslot_write ),
+
+		.target_dataslot_ack        	( target_dataslot_ack ),
+		.target_dataslot_done       	( target_dataslot_done ),
+		.target_dataslot_err        	( target_dataslot_err ),
+
+		.target_dataslot_id         	( target_dataslot_id ),
+		.target_dataslot_slotoffset 	( target_dataslot_slotoffset ),
+		.target_dataslot_bridgeaddr 	( target_dataslot_bridgeaddr ),
+		.target_dataslot_length     	( target_dataslot_length ),
+
+		.datatable_addr         		( datatable_addr ),
+		.datatable_wren         		( datatable_wren ),
+		.datatable_data         		( datatable_data ),
+		.datatable_q            		( datatable_q )
+	 
+	 );
 
 wire        vs;
 wire        hs;
 wire  [1:0] ar;
 wire [7:0] red, green, blue, r,g,b;
 wire lace, field1;
-wire hblank, vbl, fx;
+wire hblank_i, vblank_i, vbl, fx;
 wire  [1:0] res;
 
 wire  [1:0] cpu_state;
@@ -844,6 +807,7 @@ wire  [3:0] cpu_cacr;
 
 minimig minimig
 (
+	.reset_n		  (reset_n),
 	.clk_74a		  (clk_74a			  ),
 	//m68k pins
 	.cpu_address  (chip_addr        ), // M68K address bus
@@ -926,8 +890,8 @@ minimig minimig
 	.red          (r                ), // red
 	.green        (g                ), // green
 	.blue         (b                ), // blue
-	.hblank       (hblank           ),
-	.vblank       (vbl              ),
+	.hblank       (hblank_i           ),
+	.vblank       (vblank_i            ),
 	.ar           (ar               ),
 	.scanline     (fx               ),
 	//.ce_pix     (ce_pix           ),
@@ -972,12 +936,14 @@ hps_ext hps_ext(
 .ide_addr		(ide_addr),
 .ide_rd			(ide_rd),
 .ide_wr			(ide_wr),
-.ide_req			(ide_c_req),  
-.ide_din			(ide_c_readdata));
+.ide_req			(ide_fast ? ide_f_req : ide_c_req),  
+.ide_din			(ide_fast ? ide_f_readdata : ide_c_readdata));
 
+wire cpu_type = cpucfg[1];
 reg  cpu_ph1;
 reg  cpu_ph2;
 reg  cyc;
+reg ram_cs;
 
 always @(posedge clk_114) begin
 	reg [3:0] div;
@@ -1005,45 +971,8 @@ always @(posedge clk_114) begin
 		end
 	end
 
-//	ram_cs <= ~(ram_ready & cyc & cpu_type) & ram_sel;
+	ram_cs <= ~(ram_ready & cyc & cpu_type) & ram_sel;
 end
-
-
-
-wire  [2:0] fc_o;
-
-//fx68k cpu_inst_o
-//(
-//	.clk(clk_sys),
-//	.enPhi1(cpu_ph1),
-//	.enPhi2(cpu_ph2),
-//
-//	.extReset(~cpu_rst),
-//	.pwrUp(~cpu_rst),
-//	.oRESETn(cpu_nrst_out),
-//	.HALTn(1),
-//
-//	.eRWn(chip_rw),
-//	.ASn(chip_as),
-//	.LDSn(chip_lds),
-//	.UDSn(chip_uds),
-//	.DTACKn(chip_dtack),
-//
-//	.FC0(fc_o[0]),
-//	.FC1(fc_o[1]),
-//	.FC2(fc_o[2]), 
-//
-//	.VPAn(~&fc_o),
-//	.BERRn(1),
-//	.BRn(1),
-//	.BGACKn(1),
-//	.IPL0n(chip_ipl[0]),
-//	.IPL1n(chip_ipl[1]),
-//	.IPL2n(chip_ipl[2]),
-//	.iEdb(chip_dout),
-//	.oEdb(chip_din),
-//	.eab(chip_addr)
-//);
 
 cpu_wrapper cpu_wrapper
 (
@@ -1105,29 +1034,42 @@ cpu_wrapper cpu_wrapper
 *****************************************************************************/
 
 
-reg hs_reg, vs_reg;
+reg hs_reg, vs_reg, hblank_i_reg;
 
-assign video_rgb_clock = clk7_en;
-assign video_rgb_clock_90 = clk7n_en;
-always @(posedge clk7_en) begin
+//assign video_rgb_clock = clk7_en;
+//assign video_rgb_clock_90 = clk7n_en90;
+always @(posedge video_rgb_clock) begin
 	video_rgb 	<= 'b0;
 	video_de 	<= 'b0;
 	video_skip 	<= 'b0;
 	video_vs 	<= 'b0;
 	video_hs 	<= 'b0;
+	hblank_i_reg <= hblank_i;
 	
 	hs_reg <= hs;
 	
-	if (hs && ~hs_reg)  video_hs 	<= 'b1;
+	if (~hs && hs_reg)  video_hs 	<= 'b1;
 	
 	vs_reg <= vs;
 	
-	if (vs && ~vs_reg) begin
+	if (~vs && vs_reg) begin
 		video_vs 	<= 'b1;
-		video_rgb 	<= {21'd0, 1'b0, field1, 1'b1, 1'b0}; // This is the interlace part for the core.
+		video_rgb 	<= {21'd0, 1'b0, field1 && lace, lace, 1'b0}; // This is the interlace part for the core.
 	end
 	
-	if (~hblank && ~vbl) video_rgb 	<= {r, g, b};
+	else if (~hblank_i && ~hblank_i) begin
+		video_rgb 	<= {r, g, b};
+		video_de 	<= 'b1;
+	end
+	
+	else if (hblank_i && ~hblank_i_reg) begin
+		case (res)
+			2'b11		: video_rgb 	<= 24'h030000;
+			2'b10		: video_rgb 	<= 24'h020000;
+			2'b01		: video_rgb 	<= 24'h010000;
+			default : video_rgb 	<= 24'h0;
+		endcase
+	end
 	
 end
     

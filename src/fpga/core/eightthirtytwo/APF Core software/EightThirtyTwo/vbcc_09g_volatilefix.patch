@@ -1,0 +1,88 @@
+diff -uwN vbcc_orig/flow.c vbcc/flow.c
+--- vbcc_orig/flow.c	2020-04-27 16:02:04.000000000 +0100
++++ vbcc/flow.c	2022-05-15 18:56:49.647261269 +0100
+@@ -446,7 +446,7 @@
+                     if(l2){ lp->graph=0;continue;}
+                     np=ng->end;
+                     if(!np){ i=-1;break;}
+-                    if(ng->branchout&&np->code!=BRA){i=-1;break;}
++                    if(ng->branchout&&(np->code!=BRA||ng->branchout!=g)){i=-1;break;}
+                     if(np->code==BRA) np=np->prev;
+                     if(!np){ i=-1;break;}
+                     if(!p){
+diff -uwN vbcc_orig/ic.c vbcc/ic.c
+--- vbcc_orig/ic.c	2020-04-27 16:02:04.000000000 +0100
++++ vbcc/ic.c	2022-05-15 18:57:07.374960763 +0100
+@@ -729,6 +729,7 @@
+           p->o.flags|=DREFOBJ;
+ 	  p->o.dtyp=POINTER_TYPE(p->ntyp);
+         }
++	if(p->left->ntyp->next->flags&VOLATILE) p->o.dtyp|=PVOLATILE;
+         return;
+     }
+     if(p->flags==ASSIGN){
+@@ -2110,7 +2111,7 @@
+   int to,tn,mc,dr;
+   static node n,nn;
+   static type nt;
+-  char *libname;
++  char *libname=0;
+   if((f&NQ)==VOID) return;
+ 
+   if(p->flags==CEXPR||p->flags==PCEXPR){
+diff -uwN vbcc_orig/supp.c vbcc/supp.c
+--- vbcc_orig/supp.c	2020-04-27 16:02:04.000000000 +0100
++++ vbcc/supp.c	2022-05-15 18:57:35.642481618 +0100
+@@ -759,6 +759,8 @@
+     p=((char *)p)+sizeof(size);
+     memset(p,0xaa,size-sizeof(size));
+   } 
++  else
++    memset(p,0x00,size);
+   return p;
+ }
+ 
+@@ -868,6 +870,7 @@
+     fprintf(f,"([");
+     if(p->dtyp&CONST) fprintf(f,"const ");
+     if(p->dtyp&VOLATILE) fprintf(f,"volatile ");
++    if(p->dtyp&PVOLATILE) fprintf(f,"pvolatile ");
+     fprintf(f,"%s]",typname[p->dtyp&NQ]);
+   }
+   if(p->flags&VARADR) fprintf(f,"#");
+@@ -1171,7 +1174,7 @@
+ int is_volatile_obj(obj *o)
+ {
+   if(o->flags&DREFOBJ){
+-    if(o->dtyp&VOLATILE)
++    if(o->dtyp&(VOLATILE|PVOLATILE))
+       return 1;
+     if((o->flags&VAR)&&ISPOINTER(o->v->vtyp->flags)&&(o->v->vtyp->next->flags&VOLATILE))
+       return 1;
+diff -uwN vbcc_orig/supp.h vbcc/supp.h
+--- vbcc_orig/supp.h	2020-04-27 16:02:04.000000000 +0100
++++ vbcc/supp.h	2022-05-15 18:56:49.647261269 +0100
+@@ -65,6 +65,7 @@
+ #define STRINGCONST (UNCOMPLETE<<1)
+ #define BOOLEAN (STRINGCONST<<1)
+ #define SIGNED_CHARACTER (BOOLEAN<<1)
++#define PVOLATILE (SIGNED_CHARACTER<<1)
+ #ifdef HAVE_ECPP
+ /* removed */
+ /* removed */
+@@ -188,9 +189,13 @@
+   zumax stack1;
+   zumax stack2;
+ } function_info;
++typedef int typfl;
++#if PVOLATILE >= INT_MAX
++#error "need host with larger int size"
++#endif
+ /*  struct for types.    */
+ typedef struct Typ{
+-  int flags;  /*  see above   */
++  typfl flags;  /*  see above   */
+   struct Typ *next;
+   struct struct_declaration *exact;   /* used for STRUCT/UNION/FUNKT  */
+   zmax size;     /*  used for ARRAY  */
+
