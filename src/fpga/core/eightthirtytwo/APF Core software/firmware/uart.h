@@ -7,7 +7,6 @@
 extern "C" {
 #endif
 
-#define UARTBASE 0xFFFFFFC0
 #define HW_UART(x) *(volatile unsigned int *)(UARTBASE+x)
 
 #define REG_UART 0x0
@@ -34,4 +33,3 @@ char getserial();
 #endif
 
 #endif
-

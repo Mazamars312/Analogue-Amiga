@@ -1,31 +1,17 @@
-# Example: Keyboard Mouse Target Data
+#Commodore Amiga 500
 
-This example demonstrates using a keyboard and mouse plugged into Dock, as well as reading and writing with APF Target commands. 
-By default, the core boots into a gray screen with a mouse cursor. The framebuffer can be drawn on either by using the mouse or keyboard.
-In the bottom right of the screen are spaces for 4 small colored boxes indicating the connection status of the 4 controller slots.
+The Commodore Amiga 500 was a personal computer that replaced the well loved Commodore C64 in Commodores product line. It also was one of the many 68K personal computers that showed that this CPU was a power house when intergrated with great hardware beside it.
 
-On mouse, the controls are 
-* LMB: Draw
+This is powered from the Mister line of the Amiga Mist project (Also known as the minimig) and the picorv32 RISC-v chip for the media arbitor between the core and APF framework for floopy, harddrive and CDrom access.
 
-On keyboard, the controls are
-* Arrow keys: Move cursor
-* Left CTRL: Draw
+## Credits
 
-On controller 1:
-* A/B/X/Y buttons: Reload the framebuffer with 1 out of 4 images read using APF Target commands.
-* Select button: Save the franebuffer to slot ID 0x22. The asset file "saved.bin" will be created or overwritten.
-* Start button: Load the franebuffer from slot ID 0x22, corresponding to asset file "saved.bin".
+This sourcecode is based on Rok Krajnc project (minimig-de1).
 
-Features demonstrated:
+Original minimig sources from Dennis van Weeren with updates by Jakub Bednarski are published on Google Code.
 
-* SDRAM controller
-* Video generation
-* Dock mouse/keyboard
-* Cursor generation
-* Target read/write commands
+ARM firmware updates and minimig-tc64 port changes by Christian Vogelsang (minimig_tc64) and A.M. Robinson (minimig_tc64).
 
+MiSTer project by Sorgelig (MiSTer).
 
-## Legal
-Analogue’s Development program was created to further video game hardware preservation with FPGA technology. Analogue does not support or endorse the use of infringing content.
-
-Analogue Developers have access to Analogue Pocket I/O’s so Developers can utilize cartridge adapters or interface with other pieces of original or bespoke hardware to support legacy media.
+TG68K.C core by Tobias Gubener.

@@ -1,0 +1,8 @@
+emulated
+generate_hex_files.sh
+*.o
+ram.bin
+*.elf
+ram_?_byte?.hex
+
+

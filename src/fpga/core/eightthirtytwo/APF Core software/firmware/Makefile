@@ -1,8 +1,14 @@
 DEMISTIFYPATH=../
 832DIR=$(DEMISTIFYPATH)/EightThirtyTwo
-CC=$(832DIR)/vbcc/bin/vbcc832
-AS=$(832DIR)/832a/832a
-LD=$(832DIR)/832a/832l
+# CC=$(832DIR)/vbcc/bin/vbcc832
+#AS=$(832DIR)/832a/832a
+#LD=$(832DIR)/832a/832l
+
+-cc=$832DIR/vbcc/bin/vbcc832 -+ -I$832DIR/include %s -o=%s %s -O=%ld
+-as=TMPFILE=%s ; $832DIR/832a/832a -o %s $TMPFILE
+-ld=$832DIR/832a/832l $832DIR/lib832/crt0.a %s %s $832DIR/lib832/lib832.a -o %s -M map
+
+
 DUMP=objdump
 INCDIR=$(832DIR)/include/
 LIBDIR=$(832DIR)/lib832
@@ -21,11 +27,7 @@ LDFLAGS  = -el -s_STACKSIZE=$(STACKSIZE)
 START = $(LIBDIR)/tinycrt0.a
 LIBS = $(LIBDIR)/libtiny832.a
 
-PRJ_OBJ = spi.o spi_sd.o minfat.o swap.o configstring.o main.o interrupts.o ps2.o keyboard.o mouse.o user_io.o \
-	statusword.o arcfile.o osd.o font.o menu.o cue_parser.o pcecd.o timer.o diskimg.o settings.o overrides.o
-
-ROMGENDIR = $(DEMISTIFYPATH)/EightThirtyTwo/romgen
-ROMGEN = $(ROMGENDIR)/romgen
+PRJ_OBJ = main.o interrupts.o
 
 all: controller_rom_byte.vhd controller_rom_word.vhd
 
@@ -89,7 +91,7 @@ controller.bin : $(START) $(LIBS) $(PRJ_OBJ)
 		&& echo "\033[32m  OK\033[0m"
 	@$(AS) >/dev/null $(ASFLAGS) -o $*.o $*.asm
 
-%.o : $(LIBDIR)/%.asm Makefile 
+%.o : $(LIBDIR)/%.asm Makefile
 	@$(AS) >/dev/null $(ASFLAGS) -o $*.o $(LIBDIR)/$*.asm
 
 %.asm : $(DEMISTIFYPATH)/firmware/%.c config.h $(CC)
@@ -97,8 +99,4 @@ controller.bin : $(START) $(LIBS) $(PRJ_OBJ)
 	@$(CC) $(COPT) $(CFLAGS) -I$(INCDIR) $*.c \
 		&& echo "\033[32m  OK\033[0m"
 
-$(ROMGEN): $(ROMGENDIR)/romgen.c
-	@gcc -o $(ROMGENDIR)/romgen $(ROMGENDIR)/romgen.c
-
 force:
-

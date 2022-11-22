@@ -1,4 +1,5 @@
-make[1]: Entering directory '/mnt/d/GITHUB/DeMiSTify/EightThirtyTwo/vbcc/test'
+make[1]: Entering directory '/mnt/f/Analogue/Analogue-Amiga/src/fpga/core/eightthirtytwo/APF Core software/EightThirtyTwo/vbcc/test'
+../bin/vbcc832 -+ -c99 -I../..//include/ -I../..//lib832 -eb -O=32767 -speed -unsigned-char -I../../ helloworld.c
 vbcc V0.9g (c) in 1995-2019 by Volker Barthelmann
 vbcc EightThirtyTwo code-generator, (c) 2019/2020 by Alastair M. Robinson
 Based on the generic RISC example backend (c) 2001 by Volker Barthelmann
@@ -12,6 +13,7 @@ Writing map file map
 ../../832emu/832e -eb helloworld.bin
 Hello world!
 
+../bin/vbcc832 -+ -c99 -I../..//include/ -I../..//lib832 -eb -O=32767 -speed -unsigned-char -I../../ strcpytest.c
 vbcc V0.9g (c) in 1995-2019 by Volker Barthelmann
 vbcc EightThirtyTwo code-generator, (c) 2019/2020 by Alastair M. Robinson
 Based on the generic RISC example backend (c) 2001 by Volker Barthelmann
@@ -30,6 +32,7 @@ strcasecmp: [32mPassed[0m
 strncmp: [32mPassed[0m
 strncasecmp: [32mPassed[0m
 
+../bin/vbcc832 -+ -c99 -I../..//include/ -I../..//lib832 -eb -O=32767 -speed -unsigned-char -I../../ fptrtest.c
 vbcc V0.9g (c) in 1995-2019 by Volker Barthelmann
 vbcc EightThirtyTwo code-generator, (c) 2019/2020 by Alastair M. Robinson
 Based on the generic RISC example backend (c) 2001 by Volker Barthelmann
@@ -43,6 +46,7 @@ Writing map file map
 ../../832emu/832e -eb fptrtest.bin
 [32mPassed[0m
 
+../bin/vbcc832 -+ -c99 -I../..//include/ -I../..//lib832 -eb -O=32767 -speed -unsigned-char -I../../ copytest.c
 vbcc V0.9g (c) in 1995-2019 by Volker Barthelmann
 vbcc EightThirtyTwo code-generator, (c) 2019/2020 by Alastair M. Robinson
 Based on the generic RISC example backend (c) 2001 by Volker Barthelmann
@@ -56,6 +60,7 @@ Writing map file map
 ../../832emu/832e -eb copytest.bin
 [32mPassed[0m
 
+../bin/vbcc832 -+ -c99 -I../..//include/ -I../..//lib832 -eb -O=32767 -speed -unsigned-char -I../../ comparisons.c
 vbcc V0.9g (c) in 1995-2019 by Volker Barthelmann
 vbcc EightThirtyTwo code-generator, (c) 2019/2020 by Alastair M. Robinson
 Based on the generic RISC example backend (c) 2001 by Volker Barthelmann
@@ -69,6 +74,7 @@ Writing map file map
 ../../832emu/832e -eb comparisons.bin
 [32mPassed (unsigned char)[0m
 
+../bin/vbcc832 -+ -c99 -I../..//include/ -I../..//lib832 -eb -O=32767 -speed -unsigned-char -I../../ divtest.c
 vbcc V0.9g (c) in 1995-2019 by Volker Barthelmann
 vbcc EightThirtyTwo code-generator, (c) 2019/2020 by Alastair M. Robinson
 Based on the generic RISC example backend (c) 2001 by Volker Barthelmann
@@ -98,4 +104,4 @@ Writing map file map
 [32mPassed:[0m 291 % 4660: 291, expected: 291
 
 rm copytest.o helloworld.o fptrtest.o strcpytest.o comparisons.o copytest.bin helloworld.bin fptrtest.bin strcpytest.bin comparisons.bin divtest.o divtest.bin
-make[1]: Leaving directory '/mnt/d/GITHUB/DeMiSTify/EightThirtyTwo/vbcc/test'
+make[1]: Leaving directory '/mnt/f/Analogue/Analogue-Amiga/src/fpga/core/eightthirtytwo/APF Core software/EightThirtyTwo/vbcc/test'
