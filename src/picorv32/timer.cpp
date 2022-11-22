@@ -1,4 +1,5 @@
 #include "timer.h"
+#include "hardware.h"
 
 unsigned int GetTimer(unsigned int offset)
 {
@@ -13,4 +14,3 @@ unsigned int CheckTimer(unsigned int time)
     time -= systimer;
     return(time > (1UL << 31));
 }
-

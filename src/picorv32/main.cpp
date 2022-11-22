@@ -34,26 +34,37 @@
 #include <stdio.h>
 #include <string.h>
 #include "interrupts.h"
+#include "hardware.h"
 #include "timer.h"
 #include "uart.h"
 #include "spi.h"
-
+#include "apf.h"
+// const char buffer;
 void init()
 {
   EnableInterrupts();
+	puts("Interup enabled");
 }
 
 void mainloop()
 {
 	while(true){
-			puts("Hello there\n");
-			puts("Hello there\n");
+
+			// char timers = GetTimer(0);
+			// buffer << GetTimer(0);
+			putchar (GetTimer(0));
+			// char buffer = (char)vIn;
+			// buffer = GetTimer(0);
+			// buffer = GetTimer(0);
+			// GetTimer();
+			// puts(buffer);
 	}
 
 }
 
 int main()
 {
+	puts("Startup");
 	init();
 	mainloop();
 

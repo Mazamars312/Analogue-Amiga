@@ -5,7 +5,7 @@
       "platform_ids": [
         "amiga"
       ],
-      "shortname": "Amiga 500 Core",
+      "shortname": "amiga",
       "description": "Amiga 500 Core",
       "author": "Mazamars312",
       "url": "https://github.com/open-fpga",
@@ -29,7 +29,7 @@
       {
         "name": "default",
         "id": 0,
-        "filename": "bitstream.rbf_r"
+        "filename": "Bitstream.rbf_r"
       }
     ]
   }

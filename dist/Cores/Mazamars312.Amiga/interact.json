@@ -2,16 +2,171 @@
   "interact": {
     "magic": "APF_VER_1",
     "variables": [
-      {
-        "name": "Screen Border",
-        "id": 1,
+	  {
+        "name": "CPU Reset",
+        "id": 110,
+        "type": "check",
+        "enabled": true,
+        "address": "0x10000000",
+        "defaultval": 1,
+        "value": 1,
+		"value_off" : 0,
+        "mask": "0xFFFFFFFE"
+      },
+	  {
+        "name": "user reset",
+        "id": 111,
+        "type": "check",
+        "enabled": true,
+        "address": "0x10000000",
+        "defaultval": 1,
+        "value": 2,
+        "mask": "0xFFFFFFFD"
+      },
+	  {
+        "name": "NTSC",
+        "id": 112,
         "type": "check",
         "enabled": true,
         "persist": true,
-        "address": "0x50000000",
-        "defaultval": 1,
+        "address": "0x10000008",
+        "defaultval": 0,
+        "value": 2,
+        "mask": "0xFFFFFFFD"
+      },
+	  {
+        "name": "AGA",
+        "id": 113,
+        "type": "check",
+        "enabled": true,
+        "persist": true,
+        "address": "0x10000008",
+        "defaultval": 0,
+        "value": "0x10",
+        "mask": "0xFFFFffef"
+      },
+	  {
+        "name": "Turbo",
+        "id": 114,
+        "type": "check",
+        "enabled": true,
+        "persist": true,
+        "address": "0x10000008",
+        "defaultval": 0,
         "value": 1,
-        "mask": "0xFFFF0000"
+        "mask": "0xFFFFfffe"
+      },
+      {
+        "name": "CPU Type",
+        "id": 105,
+        "type": "list",
+        "enabled": true,
+        "persist": true,
+        "address": "0x1000000c",
+        "defaultval": 0,
+        "mask": "0xFFFFfff8",
+        "options": [
+          {
+            "value": "0x0000",
+            "name": "68K CPU"
+          },
+          {
+            "value": "0x0002",
+            "name": "68010K CPU"
+          },
+          {
+            "value": "0x0003",
+            "name": "68020K CPU - No Cache"
+          },
+          {
+            "value": "0x0007",
+            "name": "68020K CPU - Cache"
+          }
+        ]
+      },
+	  {
+        "name": "memory - chip",
+        "id": 106,
+        "type": "list",
+        "enabled": true,
+        "persist": true,
+        "address": "0x10000010",
+        "defaultval": 0,
+        "mask": "0xFFFFfffc",
+        "options": [
+          {
+            "value": "0x00",
+            "name": "512kb"
+          },
+          {
+            "value": "0x01",
+            "name": "1Mb"
+          },
+          {
+            "value": "0x02",
+            "name": "1.5Mb"
+          },
+          {
+            "value": "0x03",
+            "name": "2Mb"
+          }
+        ]
+      },
+	  {
+        "name": "memory - slow",
+        "id": 107,
+        "type": "list",
+        "enabled": true,
+        "persist": true,
+        "address": "0x10000010",
+        "defaultval": 0,
+        "mask": "0xFFFFfff3",
+        "options": [
+          {
+            "value": "0x0000",
+            "name": "None"
+          },
+          {
+            "value": "0x0004",
+            "name": "512K"
+          },
+          {
+            "value": "0x0008",
+            "name": "1Mb"
+          },
+          {
+            "value": "0x000c",
+            "name": "1.5Mb"
+          }
+        ]
+      },
+	  {
+        "name": "memory - fast",
+        "id": 108,
+        "type": "list",
+        "enabled": true,
+        "persist": true,
+        "address": "0x10000010",
+        "defaultval": 0,
+        "mask": "0xFFFFffcf",
+        "options": [
+          {
+            "value": "0x0000",
+            "name": "Zero Fast Memory"
+          },
+          {
+            "value": "0x0010",
+            "name": "2Mbytes Fast Memory"
+          },
+          {
+            "value": "0x0020",
+            "name": "4Mbytes Fast Memory"
+          },
+          {
+            "value": "0x0030",
+            "name": "8Mbytes Fast Memory"
+          }
+        ]
       }
     ]
   }

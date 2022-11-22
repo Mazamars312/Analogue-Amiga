@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include "hardware.h"
+#include "apf.h"
 
 #ifndef FPGAIO_H
 #define FPGAIO_H

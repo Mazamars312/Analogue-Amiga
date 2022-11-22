@@ -4,6 +4,7 @@
 #include <inttypes.h>
 #include "hardware.h"
 #include "fpga_io.h"
+#include "apf.h"
 /* FPGA functions */
 
 void EnableFpga();

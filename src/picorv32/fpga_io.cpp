@@ -5,6 +5,7 @@
 #include "hardware.h"
 #include "uart.h"
 #include "fpga_io.h"
+#include "apf.h"
 
 #define MAP_ADDR(x) (volatile uint32_t*)(&map_base[(((uint32_t)(x)) & 0xFFFFFF)>>2])
 #define IS_REG(x) (((((uint32_t)(x))-1)>=(FPGA_REG_BASE - 1)) && ((((uint32_t)(x))-1)<(FPGA_REG_BASE + FPGA_REG_SIZE - 1)))

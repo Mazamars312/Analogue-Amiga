@@ -9,7 +9,131 @@
         "parameters": 136,
 		"size_maximum": 1048576,
         "filename": "bios.rom",
-        "address": "0x00700000"
+        "address": "0x00f00000"
+      },
+	  {
+        "name": "BIOSa",
+        "id": "2",
+        "required": true,
+        "parameters": 0,
+		"size_maximum": 1048576,
+        "filename": "bios.rom",
+        "address": "0x00f40000"
+      },
+	  {
+        "name": "BIOSb",
+        "id": "3",
+        "required": true,
+        "parameters": 0,
+		"size_maximum": 1048576,
+        "filename": "bios.rom",
+        "address": "0x00f80000"
+      },
+	  {
+        "name": "BIOSC",
+        "id": "4",
+        "required": true,
+        "parameters": 0,
+		"size_maximum": 1048576,
+        "filename": "bios.rom",
+        "address": "0x00fc0000"
+      },
+	  {
+        "name": "harddrive - Slow 1",
+        "id": "310",
+        "required": false,
+		"deferload": true,
+        "parameters": 0,
+        "filename": "slowhd1.img"
+      },
+	  {
+        "name": "harddrive - Slow 2",
+        "id": "311",
+        "required": false,
+		"deferload": true,
+        "parameters": 0,
+        "filename": "slowhd2.img"
+      },
+	  {
+        "name": "harddrive - Fast 1",
+        "id": "312",
+        "required": false,
+		"deferload": true,
+        "parameters": 0,
+        "filename": "fasthd1.img"
+      },
+	  {
+        "name": "harddrive - Fast 2",
+        "id": "313",
+        "required": false,
+		"deferload": true,
+        "parameters": 0,
+        "filename": "fasthd2.img"
+      },
+	  {
+        "name": "Floopy drive 0",
+        "id": "320",
+        "required": false,
+		"deferload": true,
+        "parameters": 1,
+        "extensions": [
+		"adf"
+		],
+        "size_exact": 0,
+        "size_maximum": 1572864,
+        "address": "0x80000000"
+      },
+	  {
+        "name": "Floopy drive 1",
+        "id": "321",
+        "required": false,
+		"deferload": true,
+        "parameters": 1,
+        "extensions": [
+		"adf"
+		],
+        "size_exact": 0,
+        "size_maximum": 1572864,
+        "address": "0x80000000"
+      },
+	  {
+        "name": "Floopy drive 2",
+        "id": "322",
+        "required": false,
+		"deferload": true,
+        "parameters": 1,
+        "extensions": [
+		"adf"
+		],
+        "size_exact": 0,
+        "size_maximum": 1572864,
+        "address": "0x80000000"
+      },
+	  {
+        "name": "Floopy drive 3",
+        "id": "323",
+        "required": false,
+		"deferload": true,
+        "parameters": 1,
+        "extensions": [
+		"adf"
+		],
+        "size_exact": 0,
+        "size_maximum": 1572864,
+        "address": "0x80000000"
+      },
+	  {
+        "name": "MPU Bios",
+        "id": "200",
+        "required": true,
+        "parameters": 3,
+        "filename": "ram.bin",
+        "extensions": [
+		"bin"
+		],
+        "size_exact": 0,
+        "size_maximum": 16384,
+        "address": "0x80000000"
       }
     ]
   }

@@ -1,6 +1,7 @@
 #include "spi.h"
 #include "hardware.h"
 #include "fpga_io.h"
+#include "apf.h"
 
 #define SSPI_FPGA_EN (1<<18)
 #define SSPI_OSD_EN  (1<<19)
