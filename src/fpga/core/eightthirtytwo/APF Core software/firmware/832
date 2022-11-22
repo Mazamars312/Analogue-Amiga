@@ -1,4 +1,0 @@
--cc=$E32DIR/vbcc/bin/vbcc832 -+ -I$E32DIR/include %s -o=%s %s -O=%ld
--as=TMPFILE=%s ; $E32DIR/832a/832a -o %s $TMPFILE
--ld=$E32DIR/832a/832l $E32DIR/lib832/crt0.a %s %s $E32DIR/lib832/lib832.a -o %s -M map
-

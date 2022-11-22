@@ -1,6 +1,0 @@
-db/
-*.o
-*.bak
-*~
-site.mk
-upd.sh
