@@ -22,11 +22,11 @@
  */
 SECTIONS
 {
-    . = 0x00000;
-    .ram : {
+    . = 0x10000;
+    .ram : { 
         *(.startup)
         *(.text*)
-        __global_pointer$ = . + 0x3800;
+        __global_pointer$ = . + 0x800;
         *(.sdata*)
         *(.sbss*)
         *(.data*)

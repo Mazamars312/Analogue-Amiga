@@ -51,18 +51,23 @@ void init()
 
 void mainloop()
 {
-	while(!CheckTimer(10000)){
+	while(!CheckTimer(1000)){
 
 	}
 	printf("\r\n Startup \r\n");
 	printf("RISC MPU Startup core\r\n");
   printf("Mazamars312 \r\n");
-	while(!CheckTimer(20000)){
+	while(!CheckTimer(5000)){
 
 	}
 	while(true){
-		printf("n: %d \r\n", GetTimer(0));
-    printf("n: %d \r\n", CheckTimer(4000));
+		printf("Timer Before : %d \r\n", GetTimer());
+
+
+		if (CheckTimer(2000)) {
+			ResetTimer();
+		};
+		printf("Timer after : %d \r\n", GetTimer());
 	}
 
 }

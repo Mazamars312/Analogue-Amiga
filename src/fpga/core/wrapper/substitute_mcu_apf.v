@@ -143,14 +143,14 @@ wire cpu_req;
 	parameter [ 0:0] ENABLE_COUNTERS64 = 1;
 	parameter [ 0:0] ENABLE_REGS_16_31 = 1;
 	parameter [ 0:0] ENABLE_REGS_DUALPORT = 1;
-	parameter [ 0:0] LATCHED_MEM_RDATA = 0;
+	parameter [ 0:0] LATCHED_MEM_RDATA = 1;
 	parameter [ 0:0] TWO_STAGE_SHIFT = 1;
 	parameter [ 0:0] BARREL_SHIFTER = 1;
 	parameter [ 0:0] TWO_CYCLE_COMPARE = 0;
 	parameter [ 0:0] TWO_CYCLE_ALU = 0;
 	parameter [ 0:0] COMPRESSED_ISA = 0;
-	parameter [ 0:0] CATCH_MISALIGN = 1;
-	parameter [ 0:0] CATCH_ILLINSN = 1;
+	parameter [ 0:0] CATCH_MISALIGN = 0;
+	parameter [ 0:0] CATCH_ILLINSN = 0;
 	parameter [ 0:0] ENABLE_PCPI = 0;
 	parameter [ 0:0] ENABLE_MUL = 1;
 	parameter [ 0:0] ENABLE_FAST_MUL = 0;
@@ -158,13 +158,13 @@ wire cpu_req;
 	parameter [ 0:0] ENABLE_IRQ = 1;
 	parameter [ 0:0] ENABLE_IRQ_QREGS = 1;
 	parameter [ 0:0] ENABLE_IRQ_TIMER = 1;
-	parameter [ 0:0] ENABLE_TRACE = 0;
-	parameter [ 0:0] REGS_INIT_ZERO = 0;
-	parameter [31:0] MASKED_IRQ = 32'h 0000_0001;
+	parameter [ 0:0] ENABLE_TRACE = 1;
+	parameter [ 0:0] REGS_INIT_ZERO = 1;
+	parameter [31:0] MASKED_IRQ = 32'h 0000_0000;
 	parameter [31:0] LATCHED_IRQ = 32'h ffff_ffff;
 	parameter [31:0] PROGADDR_RESET = 32'h 0000_0000;
 	parameter [31:0] PROGADDR_IRQ = 32'h 0000_0010;
-	parameter [31:0] STACKADDR = 32'h 0000_ffff;
+	parameter [31:0] STACKADDR = 32'h 0000_3000;
     
 picorv32 #(
 		.ENABLE_COUNTERS     (ENABLE_COUNTERS     ),
@@ -365,7 +365,7 @@ always @(posedge clk_sys) begin
                 casez (cpu_addr[15:0])
                     16'h0zzz : begin // target_dataslot_id read
                         ext_data_out <= datatable_q;
-                        mem_busy <= data_slot_ram_ack_1;
+                        mem_busy <= ~data_slot_ram_ack_1;
                     end
                     16'hff80 : begin // target_dataslot_id read
                         ext_data_out <= target_dataslot_id;
@@ -376,10 +376,10 @@ always @(posedge clk_sys) begin
                         mem_busy <= 0;
                     end
                     16'hff88 : begin // target_dataslot_length read
-						ext_data_out <= target_dataslot_length;
-						mem_busy<= 0;
-					end
-					 16'hff8C : begin // target_dataslot_slotoffset read
+							ext_data_out <= target_dataslot_length;
+							mem_busy<= 0;
+						end
+						 16'hff8C : begin // target_dataslot_slotoffset read
                         ext_data_out <= target_dataslot_slotoffset;
                         mem_busy <= 0;
                     end

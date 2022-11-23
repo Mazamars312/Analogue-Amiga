@@ -5,21 +5,39 @@
 #include "hardware.h"
 #include "uart.h"
 #include "apf.h"
+#include "printf.h"
 
 // This is to search though the dataslot ram on what the sizes of each
-void inline dataslot_search_id(uint16_t value)
+uint32_t dataslot_search_id(uint16_t value)
 {
     int i = 0;
     // while loop from 1 to 5
-    while (i <= 5) {
-        cout << i << " ";
-        ++i;
-    }
+    do  {
+      if (DATASLOT_RAM_ACCESS(i<<2) == value){
+        return (i);
+      };
+      i=i+2;
+    } while (i <= 0x100);
+    return (0);
+}
+
+uint32_t dataslot_size(uint16_t value)
+{
+  int i;
+  i = dataslot_search_id(value);
+  printf("number slot: %d \r\n", i);
+  return (DATASLOT_RAM_ACCESS((i+1)<<2));
+}
+
+void dataslot_search_active(uint16_t value)
+{
+    // int i = dataslot_search_id(value);
+
 }
 
 // This will send the read command
 
-void inline dataslot_read(uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length)
+void dataslot_read(uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length)
 {
 
 
@@ -27,7 +45,7 @@ void inline dataslot_read(uint16_t dataslot, uint32_t address, uint32_t offset, 
 
 // This will send the write command
 
-void inline dataslot_read(uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length)
+void dataslot_write(uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length)
 {
 
 

@@ -4,8 +4,9 @@
 #define HW_TIMER(x) *(volatile unsigned int *)(TIMERBASE+x)
 #define REG_MILLISECONDS 0
 
-unsigned int GetTimer(unsigned int offset);
+unsigned int GetTimer();
 unsigned int CheckTimer(unsigned int time);
+// Will reset the timer
+void ResetTimer();
 
 #endif
-
