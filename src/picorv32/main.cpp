@@ -39,25 +39,22 @@
 #include "uart.h"
 #include "spi.h"
 #include "apf.h"
+#include "printf.h"
 // const char buffer;
+
+
 void init()
 {
   EnableInterrupts();
-	puts("Interup enabled");
 }
 
 void mainloop()
 {
 	while(true){
-
-			// char timers = GetTimer(0);
-			// buffer << GetTimer(0);
-			putchar (GetTimer(0));
-			// char buffer = (char)vIn;
-			// buffer = GetTimer(0);
-			// buffer = GetTimer(0);
-			// GetTimer();
-			// puts(buffer);
+		printf("n: %d \n", GetTimer(0));
+		// uint8_t i;
+		// puts("Startup %s", i);
+		// i=i+1;
 	}
 
 }

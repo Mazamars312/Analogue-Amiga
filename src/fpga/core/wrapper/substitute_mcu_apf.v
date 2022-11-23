@@ -112,7 +112,7 @@ controller_rom(
     .we                (rom_wr),
     .bytesel           (cpu_bytesel),
     .clk_74a           (clk_74a),
-	 .little_enden		  (1'b1),
+	 .little_enden		  (~reset_n), // THe compiled code is in little enden. So this helps swap the BRAM from little to big once running
 	.bridge_addr       (bridge_addr),
 	.bridge_rd         (bridge_rd),
 	.bridge_rd_data    (bridge_rd_data),

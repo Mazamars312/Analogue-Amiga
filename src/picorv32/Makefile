@@ -45,6 +45,7 @@ OBJECTS := main.o \
            start.o \
 		   spi.o \
 		   fpga_io.o \
+		   printf.o \
            uart.o \
            apf.o \
            startup.o
@@ -66,6 +67,7 @@ uart.o: uart.cpp Makefile
 spi.o: spi.cpp Makefile
 fpga_io.o: fpga_io.cpp Makefile
 apf.o: apf.cpp Makefile
+printf.o: printf.cpp Makefile
 
 main-emulated.o: main.cpp Makefile
 	g++ -g -c -o main-emulated.o -std=c++14 -Wall main.cpp -DEMULATE_TARGET -Wno-narrowing
