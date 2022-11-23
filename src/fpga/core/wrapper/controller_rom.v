@@ -24,7 +24,7 @@ module controller_rom #(parameter top_address = 16'h8000)
 (
 
 	input                  	clk,
-	input [11:0]           	addr,
+	input [13:0]           	addr,
 	input [31:0]           	d,
 	output [31:0]      		q,
 	input                  	we,
@@ -43,7 +43,7 @@ wire wren_b = bridge_addr[31:16] == top_address && bridge_wr;
 
 controller_ram_duel_port controller_ram_duel_port (
 	.address_a	(addr),
-	.address_b	(bridge_addr[13:2]),
+	.address_b	(bridge_addr[15:2]),
 	.byteena_a	(bytesel),
 	.rden_a		(1'b1),
 	.rden_b		(bridge_rd),

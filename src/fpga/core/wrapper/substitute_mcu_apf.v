@@ -106,13 +106,13 @@ controller_rom
 #(.top_address(16'h8000))
 controller_rom(
     .clk               (clk_sys),
-    .addr              (cpu_addr[13:2]),
+    .addr              (cpu_addr[15:2]),
     .d                 (from_cpu),
     .q                 (from_rom),
     .we                (rom_wr),
     .bytesel           (cpu_bytesel),
     .clk_74a           (clk_74a),
-	 .little_enden		  (~reset_n), // THe compiled code is in little enden. So this helps swap the BRAM from little to big once running
+	 .little_enden		  (1'b1), // THe compiled code is in little enden. So this helps swap the BRAM from little to big once running
 	.bridge_addr       (bridge_addr),
 	.bridge_rd         (bridge_rd),
 	.bridge_rd_data    (bridge_rd_data),
@@ -213,17 +213,25 @@ picorv32 #(
 reg [31:0] millisecond_counter;
 reg [19:0] millisecond_tick;
 reg        timer_tick;
+reg 		  millisecond_counter_reset;
 
-always @(posedge clk_sys) begin
-    timer_tick <= 0;
-    millisecond_tick <= millisecond_tick + 1;
-    if (millisecond_tick == sysclk_frequency * 100) begin
-        if (millisecond_counter[3:0] == 'h0) begin
-            timer_tick <= 1;
-        end
-        millisecond_counter <= millisecond_counter + 1;
-        millisecond_tick <= 'h00000;
-    end
+always @(posedge clk_sys or posedge millisecond_counter_reset) begin
+    if (millisecond_counter_reset) begin
+		millisecond_tick <= 'd0;
+		millisecond_counter <= 'd0;
+		timer_tick	<= 'd0;
+	 end
+	 else begin
+		 timer_tick <= 0;
+		 millisecond_tick <= millisecond_tick + 1;
+		 if (millisecond_tick == sysclk_frequency * 100) begin
+			  if (millisecond_counter[3:0] == 'h0) begin
+					timer_tick <= 1;
+			  end
+			  millisecond_counter <= millisecond_counter + 1;
+			  millisecond_tick <= 'h00000;
+		 end
+	 end
 end
 
 // Interupt core for the data slot updates
@@ -347,6 +355,7 @@ always @(posedge clk_sys) begin
     data_slot_ram_ack <= &{cpu_addr[31:16] == 16'hffff, cpu_addr[15:12] == 4'h0, cpu_req};
     data_slot_ram_ack_1 <= data_slot_ram_ack;
     datatable_wren <= 'b0;
+	 millisecond_counter_reset <= 1'b0;
     // UART Received signal
     if (ser_rxint) ser_rxrecv <= 1;
 	 
@@ -448,6 +457,10 @@ always @(posedge clk_sys) begin
                     16'hffC0 : begin // UART Data
                         ser_txdata <= from_cpu[7:0];
                         ser_txgo <= 1;
+                        mem_busy <= 0;
+                    end
+						  16'hffC8 : begin // Timer
+                        millisecond_counter_reset <= from_cpu[0];
                         mem_busy <= 0;
                     end
 					 16'hffD0 : begin // This is setup for the SPI interface

@@ -749,10 +749,11 @@ fastchip fastchip
 	.ide_led      (ide_f_led         )
 );
 
-
+wire reset_mpu_l;
 substitute_mcu_apf_mister substitute_mcu_apf_mister(
 		.clk_sys									( clk_sys), 
 		.reset_n								( reset_n),
+		.reset_out							(reset_mpu_l),
 		.clk_74a								( clk_74a ),
 		.bridge_addr            		( bridge_addr ),
 		.bridge_rd              		( bridge_rd ),
@@ -808,6 +809,7 @@ minimig minimig
 (
 	.reset_n		  (reset_n),
 	.clk_74a		  (clk_74a			  ),
+	.reset_mpu_l	(reset_mpu_l),
 	//m68k pins
 	.cpu_address  (chip_addr        ), // M68K address bus
 	.cpu_data     (chip_dout        ), // M68K data bus

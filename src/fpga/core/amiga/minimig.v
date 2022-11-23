@@ -150,6 +150,7 @@ module minimig
 (
 	input 			clk_74a,
 	input 			reset_n,
+	input 			reset_mpu_l,
 	//m68k pins
 	input  [23:1] cpu_address, // m68k address bus
 	output [15:0] cpu_data,    // m68k data bus

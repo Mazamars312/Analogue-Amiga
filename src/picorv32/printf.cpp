@@ -61,39 +61,39 @@
 
 // support for the floating point type (%f)
 // default: activated
-#ifndef PRINTF_DISABLE_SUPPORT_FLOAT
+// #ifndef PRINTF_DISABLE_SUPPORT_FLOAT
 // #define PRINTF_SUPPORT_FLOAT
-#endif
+// #endif
 
 // support for exponential floating point notation (%e/%g)
 // default: activated
 #ifndef PRINTF_DISABLE_SUPPORT_EXPONENTIAL
-#define PRINTF_SUPPORT_EXPONENTIAL
+// #define PRINTF_SUPPORT_EXPONENTIAL
 #endif
 
 // define the default floating point precision
 // default: 6 digits
-#ifndef PRINTF_DEFAULT_FLOAT_PRECISION
+// #ifndef PRINTF_DEFAULT_FLOAT_PRECISION
 // #define PRINTF_DEFAULT_FLOAT_PRECISION  6U
-#endif
+// #endif
 
 // define the largest float suitable to print with %f
 // default: 1e9
-#ifndef PRINTF_MAX_FLOAT
+// #ifndef PRINTF_MAX_FLOAT
 // #define PRINTF_MAX_FLOAT  1e9
-#endif
+// #endif
 
 // support for the long long types (%llu or %p)
 // default: activated
 #ifndef PRINTF_DISABLE_SUPPORT_LONG_LONG
-#define PRINTF_SUPPORT_LONG_LONG
+// #define PRINTF_SUPPORT_LONG_LONG
 #endif
 
 // support for the ptrdiff_t type (%t)
 // ptrdiff_t is normally defined in <stddef.h> as long or long long type
 // default: activated
 #ifndef PRINTF_DISABLE_SUPPORT_PTRDIFF_T
-#define PRINTF_SUPPORT_PTRDIFF_T
+// #define PRINTF_SUPPORT_PTRDIFF_T
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -112,11 +112,6 @@
 #define FLAGS_PRECISION (1U << 10U)
 #define FLAGS_ADAPT_EXP (1U << 11U)
 
-
-// import float.h for DBL_MAX
-#if defined(PRINTF_SUPPORT_FLOAT)
-#include <float.h>
-#endif
 
 
 // output function type
@@ -866,50 +861,6 @@ int printf_(const char* format, ...)
   va_start(va, format);
   char buffer[1];
   const int ret = _vsnprintf(_out_char, buffer, (size_t)-1, format, va);
-  va_end(va);
-  return ret;
-}
-
-
-int sprintf_(char* buffer, const char* format, ...)
-{
-  va_list va;
-  va_start(va, format);
-  const int ret = _vsnprintf(_out_buffer, buffer, (size_t)-1, format, va);
-  va_end(va);
-  return ret;
-}
-
-
-int snprintf_(char* buffer, size_t count, const char* format, ...)
-{
-  va_list va;
-  va_start(va, format);
-  const int ret = _vsnprintf(_out_buffer, buffer, count, format, va);
-  va_end(va);
-  return ret;
-}
-
-
-int vprintf_(const char* format, va_list va)
-{
-  char buffer[1];
-  return _vsnprintf(_out_char, buffer, (size_t)-1, format, va);
-}
-
-
-int vsnprintf_(char* buffer, size_t count, const char* format, va_list va)
-{
-  return _vsnprintf(_out_buffer, buffer, count, format, va);
-}
-
-
-int fctprintf(void (*out)(char character, void* arg), void* arg, const char* format, ...)
-{
-  va_list va;
-  va_start(va, format);
-  const out_fct_wrap_type out_fct_wrap = { out, arg };
-  const int ret = _vsnprintf(_out_fct, (char*)(uintptr_t)&out_fct_wrap, (size_t)-1, format, va);
   va_end(va);
   return ret;
 }

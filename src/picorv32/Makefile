@@ -36,7 +36,7 @@ generate_hex_files.sh: #make_block_memory.sh
 	#./make_block_memory.sh -s
 
 ram.bin: ram-stripped.elf Makefile
-	riscv32-unknown-elf-objcopy -O binary --pad-to 0x4000 ram.elf ram.bin
+	riscv32-unknown-elf-objcopy -O binary --pad-to 0x10000 ram.elf ram.bin
 	du -sh ram.bin
 
 OBJECTS := main.o \

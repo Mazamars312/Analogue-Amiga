@@ -46,22 +46,30 @@
 void init()
 {
   EnableInterrupts();
+	return;
 }
 
 void mainloop()
 {
+	while(!CheckTimer(10000)){
+
+	}
+	printf("\r\n Startup \r\n");
+	printf("RISC MPU Startup core\r\n");
+  printf("Mazamars312 \r\n");
+	while(!CheckTimer(20000)){
+
+	}
 	while(true){
-		printf("n: %d \n", GetTimer(0));
-		// uint8_t i;
-		// puts("Startup %s", i);
-		// i=i+1;
+		printf("n: %d \r\n", GetTimer(0));
+    printf("n: %d \r\n", CheckTimer(4000));
 	}
 
 }
 
 int main()
 {
-	puts("Startup");
+
 	init();
 	mainloop();
 
