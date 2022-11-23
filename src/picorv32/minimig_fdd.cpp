@@ -627,6 +627,7 @@ void HandleFDD(unsigned char c1, unsigned char c2)
 }
 
 // insert floppy image pointed to to by global <file> into <drive>
+// We will change this for the inputerup so this gets updated by the APF interface
 void InsertFloppy(adfTYPE *drive, char* path)
 {
 	int writable = FileCanWrite(path);
