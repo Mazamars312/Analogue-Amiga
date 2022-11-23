@@ -41,10 +41,14 @@
 #include "apf.h"
 #include "printf.h"
 // const char buffer;
-
+uint32_t sys_clock = 284; // This is the CPU clock speed in a int size 28.6mhz
+uint32_t uart_rate = 1152; // This is the UART Rate shifted right by 2
 
 void init()
 {
+	SetTimer(sys_clock);
+	SetUART(sys_clock, uart_rate);
+	ResetTimer();
   EnableInterrupts();
 	return;
 }
@@ -56,7 +60,7 @@ void mainloop()
 	}
 	printf("\r\n Startup \r\n");
 	printf("RISC MPU Startup core\r\n");
-  printf("Mazamars312 \r\n");
+  printf("Created By Mazamars312 \r\n");
 	while(!CheckTimer(5000)){
 
 	}

@@ -68,9 +68,7 @@ parameter false = 0;
 parameter true = 1;
 
 // some timing for the UART and timer cores
-parameter sysclk_frequency = 284;
-parameter sysclk_hz = sysclk_frequency*1000;
-parameter uart_divisor = sysclk_hz/1152;
+reg [31:0] uart_divisor;
 
 // CPU Wires
 wire [31:0] cpu_addr;
@@ -214,6 +212,7 @@ reg [31:0] millisecond_counter;
 reg [19:0] millisecond_tick;
 reg        timer_tick;
 reg 		  millisecond_counter_reset;
+reg [31:0] sysclk_frequency;
 
 always @(posedge clk_sys or posedge millisecond_counter_reset) begin
     if (millisecond_counter_reset) begin
@@ -224,7 +223,7 @@ always @(posedge clk_sys or posedge millisecond_counter_reset) begin
 	 else begin
 		 timer_tick <= 0;
 		 millisecond_tick <= millisecond_tick + 1;
-		 if (millisecond_tick == sysclk_frequency * 100) begin
+		 if (millisecond_tick == sysclk_frequency) begin
 			  if (millisecond_counter[3:0] == 'h0) begin
 					timer_tick <= 1;
 			  end
@@ -387,17 +386,24 @@ always @(posedge clk_sys) begin
                         ext_data_out <= {target_dataslot_ack, target_dataslot_done, target_dataslot_err[2:0]};
                         mem_busy <= 0;
                     end
-                    
+                    16'hff94 : begin // uart_divisor set
+                        ext_data_out <= uart_divisor;
+                        mem_busy <= 0;
+                    end
+						  16'hff98 : begin // System clock set
+                        ext_data_out <= sysclk_frequency;
+                        mem_busy <= 0;
+                    end
                     16'hffA4 : begin // The reset the core function incase the system wants to make sure it is in sync
                         ext_data_out[0] <= reset_out;
                         mem_busy <= 0;
                     end
                     16'hffB0 : begin // Interrupt
-						ext_data_out <= int_status;
-						int_ack <= 1;
-						mem_busy<= 0;
-					end
-					16'hffB4 : begin // dataslot_update_id ID
+								ext_data_out <= int_status;
+								int_ack <= 1;
+								mem_busy<= 0;
+							end
+							16'hffB4 : begin // dataslot_update_id ID
                         ext_data_out <= dataslot_update_id_latched;
                         mem_busy <= 0;
                     end
@@ -438,10 +444,10 @@ always @(posedge clk_sys) begin
                         mem_busy <= 0;
                     end
                     16'hff88 : begin // target_dataslot_length read
-						target_dataslot_length <= from_cpu;
-						mem_busy<= 0;
-					end
-					16'hff8C : begin // target_dataslot_slotoffset read
+								target_dataslot_length <= from_cpu;
+								mem_busy<= 0;
+							end
+							16'hff8C : begin // target_dataslot_slotoffset read
                         target_dataslot_slotoffset <= from_cpu;
                         mem_busy <= 0;
                     end
@@ -449,7 +455,14 @@ always @(posedge clk_sys) begin
                         {target_dataslot_write, target_dataslot_read} <= from_cpu;
                         mem_busy <= 0;
                     end
-                    
+                    16'hff94 : begin // uart_divisor set
+                        uart_divisor <= from_cpu;
+                        mem_busy <= 0;
+                    end
+						  16'hff98 : begin // System clock set
+                        sysclk_frequency <= from_cpu;
+                        mem_busy <= 0;
+                    end
                     16'hffA4 : begin // The reset the core function incase the system wants to make sure it is in sync
                         reset_out <= from_cpu[0];
                         mem_busy <= 0;
@@ -463,11 +476,11 @@ always @(posedge clk_sys) begin
                         millisecond_counter_reset <= from_cpu[0];
                         mem_busy <= 0;
                     end
-					 16'hffD0 : begin // This is setup for the SPI interface
-                        io_clk = from_cpu[17];
-						io_ss0 = from_cpu[18];
-						io_ss1 = from_cpu[19];
-						io_ss2 = from_cpu[20];
+							16'hffD0 : begin // This is setup for the SPI interface
+								io_clk = from_cpu[17];
+								io_ss0 = from_cpu[18];
+								io_ss1 = from_cpu[19];
+								io_ss2 = from_cpu[20];
                         IO_DOUT <= from_cpu[15:0];
                         mem_busy <= 0;
                     end

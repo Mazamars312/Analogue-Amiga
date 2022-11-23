@@ -27,3 +27,8 @@ void ResetTimer()
   }
   HW_TIMER(0) = 0;
 };
+
+void SetTimer(unsigned int time)
+{
+  HW_SYSCLOCK(0) = time * 100;
+};
