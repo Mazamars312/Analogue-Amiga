@@ -25,13 +25,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <stdio.h>
 #include <string.h>
-#include "../../hardware.h"
-#include "../../file_io.h"
+#include "hardware.h"
 #include "minimig_fdd.h"
-#include "minimig_config.h"
-#include "../../debug.h"
-#include "../../user_io.h"
-#include "../../menu.h"
+#include "spi.h"
+#include "printf.h"
 
 unsigned char drives = 0; // number of active drives reported by FPGA (may change only during reset)
 adfTYPE *pdfx;            // drive select pointer
@@ -170,7 +167,7 @@ void ReadTrack(adfTYPE *drive)
 
 	if (drive->track >= drive->tracks)
 	{
-		fdd_debugf("Illegal track read: %d\n", drive->track);
+		printf("Illegal track read: %d\n", drive->track);
 		drive->track = drive->tracks - 1;
 	}
 
@@ -189,10 +186,10 @@ void ReadTrack(adfTYPE *drive)
 		lba = (drive->track * SECTOR_COUNT) + sector;
 	}
 
-	if (!FileSeekLBA(&drive->file, lba))
-	{
-		return;
-	}
+	// if (!FileSeekLBA(&drive->file, lba))
+	// {
+	// 	return;
+	// }
 
 	EnableFpga();
 	tmp = spi_w(0);
@@ -207,7 +204,7 @@ void ReadTrack(adfTYPE *drive)
 
 	while (1)
 	{
-		FileReadSec(&drive->file, sector_buffer);
+		// FileReadSec(&drive->file, sector_buffer);
 
 		EnableFpga();
 
@@ -265,10 +262,10 @@ void ReadTrack(adfTYPE *drive)
 			// go to the start of current track
 			sector = 0;
 			lba = drive->track * SECTOR_COUNT;
-			if (!FileSeekLBA(&drive->file, lba))
-			{
-				return;
-			}
+			// if (!FileSeekLBA(&drive->file, lba))
+			// {
+			// 	return;
+			// }
 		}
 
 		// remember current sector
@@ -340,7 +337,7 @@ unsigned char GetHeader(unsigned char *pTrack, unsigned char *pSector)
 			if (tmp != 0x4489)
 			{
 				Error = 21;
-				fdd_debugf("\nSecond sync word missing...\n");
+				printf("\nSecond sync word missing...\n");
 				break;
 			}
 
@@ -387,7 +384,7 @@ unsigned char GetHeader(unsigned char *pTrack, unsigned char *pSector)
 
 			if (Error)
 			{
-				fdd_debugf("\nWrong header: %u.%u.%u.%u\n", c1, c2, c3, c4);
+				printf("\nWrong header: %u.%u.%u.%u\n", c1, c2, c3, c4);
 				break;
 			}
 
@@ -571,21 +568,21 @@ void WriteTrack(adfTYPE *drive)
 		{
 			if (Track == drive->track)
 			{
-				if (!FileSeekLBA(&drive->file, lba+Sector))
-				{
-					return;
-				}
+				// if (!FileSeekLBA(&drive->file, lba+Sector))
+				// {
+				// 	return;
+				// }
 
 				if (GetData())
 				{
 					if (drive->status & DSK_WRITABLE)
 					{
-						FileWriteSec(&drive->file, sector_buffer);
+						// FileWriteSec(&drive->file, sector_buffer);
 					}
 					else
 					{
 						Error = 30;
-						fdd_debugf("Write attempt to protected disk!\n");
+						printf("Write attempt to protected disk!\n");
 					}
 				}
 			}
@@ -594,8 +591,8 @@ void WriteTrack(adfTYPE *drive)
 		}
 		if (Error)
 		{
-			fdd_debugf("WriteTrack: error %u\n", Error);
-			Info("Write error");
+			printf("WriteTrack: error %u\n", Error);
+			puts("Write error");
 		}
 	}
 }
@@ -630,12 +627,12 @@ void HandleFDD(unsigned char c1, unsigned char c2)
 // We will change this for the inputerup so this gets updated by the APF interface
 void InsertFloppy(adfTYPE *drive, char* path)
 {
-	int writable = FileCanWrite(path);
+	// int writable = FileCanWrite(path);
 
-	if (!FileOpenEx(&drive->file, path, writable ? O_RDWR | O_SYNC : O_RDONLY))
-	{
-		return;
-	}
+	// if (!FileOpenEx(&drive->file, path, writable ? O_RDWR | O_SYNC : O_RDONLY))
+	// {
+	// 	return;
+	// }
 
 	unsigned long tracks;
 
@@ -643,7 +640,7 @@ void InsertFloppy(adfTYPE *drive, char* path)
 	tracks = drive->file.size / (512 * 11);
 	if (tracks > MAX_TRACKS)
 	{
-		menu_debugf("UNSUPPORTED ADF SIZE!!! Too many tracks: %lu\n", tracks);
+		printf("UNSUPPORTED ADF SIZE!!! Too many tracks: %lu\n", tracks);
 		tracks = MAX_TRACKS;
 	}
 	drive->tracks = (unsigned char)tracks;
@@ -652,16 +649,16 @@ void InsertFloppy(adfTYPE *drive, char* path)
 
 	// initialize the rest of drive struct
 	drive->status = DSK_INSERTED;
-	if (writable) // read-only attribute
-		drive->status |= DSK_WRITABLE;
+	// if (writable) // read-only attribute
+	// 	drive->status |= DSK_WRITABLE;
 
 	drive->sector_offset = 0;
 	drive->track = 0;
 	drive->track_prev = -1;
 
-	menu_debugf("Inserting floppy: \"%s\"\n", path);
-	menu_debugf("file writable: %d\n", writable);
-	menu_debugf("file size: %lu (%lu KB)\n", drive->file.size, drive->file.size >> 10);
-	menu_debugf("drive tracks: %u\n", drive->tracks);
-	menu_debugf("drive status: 0x%02X\n", drive->status);
+	printf("Inserting floppy: \"%s\"\n", path);
+	// printf("file writable: %d\n", writable);
+	printf("file size: %lu (%lu KB)\n", drive->file.size, drive->file.size >> 10);
+	printf("drive tracks: %u\n", drive->tracks);
+	printf("drive status: 0x%02X\n", drive->status);
 }

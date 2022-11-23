@@ -1,8 +1,6 @@
 #ifndef __MINIMIG_FDD_H__
 #define __MINIMIG_FDD_H__
 
-#include "../../file_io.h"
-
 // floppy disk interface defs
 #define CMD_RDTRK 0x01
 #define CMD_WRTRK 0x02
@@ -12,6 +10,21 @@
 #define DSK_WRITABLE 0x10 /*disk is writable*/
 
 #define MAX_TRACKS (83*2)
+
+struct fileTYPE
+{
+	fileTYPE();
+	~fileTYPE();
+	int opened();
+
+	FILE           *filp;
+	int             mode;
+	int             type;
+	uint32_t       size;
+	uint32_t       offset;
+	char            path[1024];
+	char            name[261];
+};
 
 typedef struct
 {
@@ -32,4 +45,3 @@ void HandleFDD(unsigned char c1, unsigned char c2);
 void InsertFloppy(adfTYPE *drive, char* path);
 
 #endif
-

@@ -24,6 +24,7 @@ int puts(const char *msg)
 	return(result);
 }
 
+// Very simple
 void SetUART(int sys_clock, int uart_rate)
 {
 	SET_UART(0) = ((sys_clock * 1000)/uart_rate);

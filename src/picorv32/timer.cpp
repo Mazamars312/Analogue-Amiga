@@ -32,3 +32,10 @@ void SetTimer(unsigned int time)
 {
   HW_SYSCLOCK(0) = time * 100;
 };
+
+void usleep(unsigned int time)
+{
+  ResetTimer();
+  while (CheckTimer(time)){};
+  return;
+};

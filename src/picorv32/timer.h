@@ -10,6 +10,7 @@ unsigned int GetTimer();
 unsigned int CheckTimer(unsigned int time);
 // Will reset the timer
 void ResetTimer();
-void SetTimer(unsigned int tim);
+void SetTimer(unsigned int time);
+void usleep(unsigned int time);
 
 #endif

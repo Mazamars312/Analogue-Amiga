@@ -44,7 +44,6 @@ OBJECTS := main.o \
 		   timer.o \
            start.o \
 		   spi.o \
-		   fpga_io.o \
 		   printf.o \
            uart.o \
            apf.o \
@@ -65,7 +64,6 @@ interrupts.o: interrupts.cpp Makefile
 timer.o: timer.cpp Makefile
 uart.o: uart.cpp Makefile
 spi.o: spi.cpp Makefile
-fpga_io.o: fpga_io.cpp Makefile
 apf.o: apf.cpp Makefile
 printf.o: printf.cpp Makefile
 

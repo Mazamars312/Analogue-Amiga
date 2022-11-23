@@ -24,7 +24,7 @@
 //#include <string.h>
 //#include <stdlib.h>
 //#include <math.h>
-//#include <strings.h>
+#include <strings.h>
 
 #include <stdint.h>
 #include <limits.h>
@@ -37,41 +37,45 @@
 #include "hardware.h"
 #include "timer.h"
 #include "uart.h"
-#include "spi.h"
 #include "apf.h"
 #include "printf.h"
-// const char buffer;
+// #include "minimig_fdd.h"
+#include "spi.h"
+
+
+// these values help with both the UART and System clock setups
 uint32_t sys_clock = 284; // This is the CPU clock speed in a int size 28.6mhz
 uint32_t uart_rate = 1152; // This is the UART Rate shifted right by 2
 
 void init()
 {
+	// This setups the timers and the CPU clock rate on the system.
 	SetTimer(sys_clock);
 	SetUART(sys_clock, uart_rate);
 	ResetTimer();
-  EnableInterrupts();
+  DisableInterrupts();
 	return;
 }
 
 void mainloop()
 {
-	while(!CheckTimer(1000)){
 
-	}
+	usleep(100);
 	printf("\r\n Startup \r\n");
 	printf("RISC MPU Startup core\r\n");
-  printf("Created By Mazamars312 \r\n");
-	while(!CheckTimer(5000)){
-
-	}
+  printf("Created By Mazamars312\r\n");
+	usleep(500);
+	ResetTimer();
 	while(true){
-		printf("Timer Before : %d \r\n", GetTimer());
-
-
-		if (CheckTimer(2000)) {
-			ResetTimer();
-		};
-		printf("Timer after : %d \r\n", GetTimer());
+		unsigned char  c1, c2;
+		EnableFpga();
+		uint16_t tmp = spi_w(0);
+		c1 = (uint8_t)(tmp >> 8); // cmd request and drive number
+		c2 = (uint8_t)tmp;      // track number
+		spi_w(0);
+		spi_w(0);
+		DisableFpga();
+		// HandleFDD(c1, c2);
 	}
 
 }
