@@ -8,7 +8,7 @@
         "required": true,
         "parameters": 136,
 		"size_maximum": 1048576,
-        "filename": "bios.rom",
+        "filename": "kickstart.rom",
         "address": "0x00f00000"
       },
 	  {
@@ -17,7 +17,7 @@
         "required": true,
         "parameters": 0,
 		"size_maximum": 1048576,
-        "filename": "bios.rom",
+        "filename": "kickstart.rom",
         "address": "0x00f40000"
       },
 	  {
@@ -26,7 +26,7 @@
         "required": true,
         "parameters": 0,
 		"size_maximum": 1048576,
-        "filename": "bios.rom",
+        "filename": "kickstart.rom",
         "address": "0x00f80000"
       },
 	  {
@@ -35,7 +35,7 @@
         "required": true,
         "parameters": 0,
 		"size_maximum": 1048576,
-        "filename": "bios.rom",
+        "filename": "kickstart.rom",
         "address": "0x00fc0000"
       },
 	  {
@@ -127,7 +127,7 @@
         "id": "200",
         "required": true,
         "parameters": 3,
-        "filename": "ram.bin",
+        "filename": "mpu.bin",
         "extensions": [
 		"bin"
 		],

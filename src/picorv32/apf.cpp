@@ -5,6 +5,7 @@
 #include "hardware.h"
 #include "apf.h"
 #include "printf.h"
+#include "timer.h"
 
 #define SSPI_ACK
 
@@ -60,6 +61,53 @@ uint32_t dataslot_read(uint16_t dataslot, uint32_t address, uint32_t offset, uin
 			return (apf_codes & APF_ERROR);
 		}
 	} while (!(apf_codes & APF_DONE));
+  return(0);
+}
+
+
+// THis will set the pointers read to go
+uint32_t dataslot_read_lba_set(uint16_t dataslot, uint32_t address, uint32_t offset)
+{
+  WRITE_TARGET_DATASLOT_ID(0) = dataslot;
+  WRITE_TARGET_DATASLOT_BRIDGE_ADD(0) = APF_ADDRESS_OFFSET | address;
+  WRITE_TARGET_DATASLOT_OFFSET(0) = offset << 9;
+  WRITE_TARGET_DATASLOT_LENGTH(0) = 1;
+  WRITE_TARGET_DATASLOT_CONTROL(0) = TARGET_DATASLOT_READ_REG;
+  printf("WRITE_TARGET_DATASLOT_ID %.4x\r\n", WRITE_TARGET_DATASLOT_ID(0));
+  printf("WRITE_TARGET_DATASLOT_BRIDGE_ADD %.4x\r\n", WRITE_TARGET_DATASLOT_BRIDGE_ADD(0));
+  printf("WRITE_TARGET_DATASLOT_LENGTH %.4x\r\n", WRITE_TARGET_DATASLOT_LENGTH(0));
+  printf("WRITE_TARGET_DATASLOT_OFFSET %.4x\r\n", WRITE_TARGET_DATASLOT_OFFSET(0));
+
+  int apf_codes;
+	do
+	{
+		apf_codes = READ_TARGET_DATASLOT_CONTROL(0);
+    if ((apf_codes & APF_ERROR) > 0)
+		{
+			printf("APF FAILD?\r\n", apf_codes & APF_DONE);
+			return (apf_codes & APF_ERROR);
+		}
+	} while (!(apf_codes & APF_DONE));
+  return(0);
+}
+
+// THis will set the pointers read to go
+uint32_t dataslot_read_lba_read(uint32_t length)
+{
+  WRITE_TARGET_DATASLOT_LENGTH(0) = length;
+  WRITE_TARGET_DATASLOT_CONTROL(0) = TARGET_DATASLOT_READ_REG;
+  int apf_codes;
+	do
+	{
+		apf_codes = READ_TARGET_DATASLOT_CONTROL(0);
+    if ((apf_codes & APF_ERROR) > 0)
+		{
+			printf("APF FAILD?\r\n", apf_codes & APF_DONE);
+			return (apf_codes & APF_ERROR);
+		}
+	} while (!(apf_codes & APF_DONE));
+  int tmp = WRITE_TARGET_DATASLOT_OFFSET(0);
+  WRITE_TARGET_DATASLOT_OFFSET(0) = tmp + length;
   return(0);
 }
 

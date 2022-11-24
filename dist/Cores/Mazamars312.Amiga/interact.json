@@ -20,7 +20,7 @@
         "enabled": true,
         "address": "0x10000000",
         "defaultval": 1,
-        "value": 2,
+        "value": 0,
         "mask": "0xFFFFFFFD"
       },
 	  {
@@ -31,7 +31,7 @@
         "persist": true,
         "address": "0x10000008",
         "defaultval": 0,
-        "value": 2,
+        "value": 0,
         "mask": "0xFFFFFFFD"
       },
 	  {

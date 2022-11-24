@@ -636,32 +636,29 @@ always @(posedge clk_sys) begin
 	if(~pll_core_locked) begin
 		reset_s <= 'd1;
 		kbd_mouse_type <= 2'b0;
+		kbd_mouse_level <= 1'b0;
 	end
 	else begin
 		reset_s <= reset_s << 1;
 		rs <= reset_s[7];
 		reset_d <= rs;
-		
+		kbd_mouse_level <= ~kbd_mouse_level;
 		case (kbd_mouse_type_reg)
 			1: begin
 				kbd_mouse_type <= 2;
 				kbd_mouse_data <= cont3_joy[31:24];
-				kbd_mouse_level <= 1;
 			end
 			2: begin
 				kbd_mouse_type <= 3;
 				kbd_mouse_data <= cont3_key[7:0];
-				kbd_mouse_level <= 0;
 			end
 			3: begin
 				kbd_mouse_type <= 0;
 				kbd_mouse_data <= cont4_joy[7:0];
-				kbd_mouse_level <= 1;
 			end
 			default: begin
 				kbd_mouse_type <= 1;
 				kbd_mouse_data <= cont4_trig[7:0];
-				kbd_mouse_level <= 0;
 			end
 		endcase
 	end

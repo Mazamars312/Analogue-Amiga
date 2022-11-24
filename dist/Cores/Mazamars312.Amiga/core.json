@@ -8,9 +8,9 @@
       "shortname": "amiga",
       "description": "Amiga 500 Core",
       "author": "Mazamars312",
-      "url": "https://github.com/open-fpga",
-      "version": "1.0.0",
-      "date_release": "2022-11-30"
+      "url": "https://github.com/Mazamars312",
+      "version": "0.0.1",
+      "date_release": "2022-11-25"
     },
     "framework": {
       "target_product": "Analogue Pocket",
