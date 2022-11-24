@@ -36,7 +36,7 @@ generate_hex_files.sh: #make_block_memory.sh
 	#./make_block_memory.sh -s
 
 mpu.bin: mpu-stripped.elf Makefile
-	riscv32-unknown-elf-objcopy -O binary --pad-to 0x8000 mpu.elf mpu.bin
+	riscv32-unknown-elf-objcopy -O binary --pad-to 0x800 mpu.elf mpu.bin
 	du -sh mpu.bin
 
 OBJECTS := main.o \
