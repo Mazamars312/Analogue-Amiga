@@ -36,6 +36,6 @@ void SetTimer(unsigned int time)
 void usleep(unsigned int time)
 {
   ResetTimer();
-  while (CheckTimer(time)){};
+  while (!CheckTimer(time)){};
   return;
 };

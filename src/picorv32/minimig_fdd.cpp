@@ -48,7 +48,7 @@ unsigned char Error;
 #define LAST_SECTOR (SECTOR_COUNT - 1)
 #define GAP_SIZE (TRACK_SIZE - SECTOR_COUNT * SECTOR_SIZE)
 
-#define B2W(a,b) (((((uint16_t)(a))<<8) & 0xFF00) | ((uint16_t)(b) & 0x00FF))
+#define B2W(a,b) ( ((uint16_t)(b) & 0x00FF) | (((  (uint16_t)(a))<<8) & 0xFF00) )
 
 void SendSector(unsigned char *pData, unsigned char sector, unsigned char track, unsigned char dsksynch, unsigned char dsksyncl)
 {
@@ -56,7 +56,6 @@ void SendSector(unsigned char *pData, unsigned char sector, unsigned char track,
 	unsigned short i;
 	unsigned char x,y;
 	unsigned char *p;
-
 	// preamble
 	spi_w(0xAAAA);
 	spi_w(0xAAAA);
@@ -106,13 +105,23 @@ void SendSector(unsigned char *pData, unsigned char sector, unsigned char track,
 	checksum[1] = 0;
 	checksum[2] = 0;
 	checksum[3] = 0;
+	i = 0;
+  while (i != 512)
+	{
+		printf("seak data: %.2x%.2x%.2x%.2x\r\n", pData[i], pData[i+1], pData[i+2], pData[i+3]);
 
+		i=i+4;
+	}
+	printf("main sector: %d\r\n", sector);
+	printf("main track: %d\r\n", track);
+	printf("main dsksynch: %d\r\n", dsksynch);
+	printf("main dsksyncl: %d\r\n", dsksyncl);
+	usleep(1000);
 	p = pData;
 	i = DATA_SIZE / 2 / 4;
 	while (i--)
 	{
-		printf("seak data: %d\r\n", p[i]);
-		printf("seak data0: %d\r\n", p[0]);
+
 		x = *p++;
 		checksum[0] ^= x ^ x >> 1;
 		x = *p++;
@@ -155,7 +164,9 @@ void SendGap(void)
 {
 	unsigned short i = GAP_SIZE/2;
 	while (i--) spi_w(0xAAAA);
+
 	printf("sent gap\r\n");
+	usleep(2000);
 }
 
 // read a track from disk
@@ -174,7 +185,7 @@ void ReadTrack(adfTYPE *drive)
 		drive->track = drive->tracks - 1;
 	}
 
-	unsigned long lba;
+	uint32_t lba;
 
 	if (drive->track != drive->track_prev)
 	{ // track step or track 0, start at beginning of track
@@ -194,9 +205,12 @@ void ReadTrack(adfTYPE *drive)
 	{
 		return;
 	}
-	printf("sector_buffer: 0x%02\r\n", &sector_buffer);
-	printf("drive->sector_offset: 0x%02\r\n", drive->sector_offset);
-
+	printf("sector: %d\r\n", sector);
+	printf("drive->track: %d\r\n", drive->track);
+  printf("lba: %d\r\n", lba);
+	printf("sector_buffer: %p\r\n", &sector_buffer);
+	printf("drive->sector_offset: %d\r\n", drive->sector_offset);
+  usleep(2000);
 	mister_EnableFpga();
 	tmp = spi_w(0);
 	status = (uint8_t)(tmp>>8); // read request signal
@@ -288,12 +302,8 @@ void UpdateDriveStatus(void)
 	mister_EnableFpga();
 	spi_w(i);
 	mister_DisableFpga();
-	usleep(1000);
+	usleep(300);
 	i = 0x1000 | df[0].status | (df[1].status << 1) | (df[2].status << 2) | (df[3].status << 3);
-	printf("ffd status0: %.4x\r\n", df[0].status);
-	printf("ffd status1: %.4x\r\n", df[1].status);
-	printf("ffd status2: %.4x\r\n", df[2].status);
-	printf("ffd status3: %.4x\r\n", df[3].status);
 	mister_EnableFpga();
 	spi_w(i);
 	mister_DisableFpga();
@@ -302,17 +312,15 @@ void UpdateDriveStatus(void)
 
 void HandleFDD(unsigned char c1, unsigned char c2)
 {
-	printf("ffd status0: %.4x\r\n", df[0].status);
-	printf("ffd status1: %.4x\r\n", df[1].status);
-	printf("ffd status2: %.4x\r\n", df[2].status);
-	printf("ffd status3: %.4x\r\n", df[3].status);
+
 	unsigned char sel;
 	drives = (c1 >> 4) & 0x03; // number of active floppy drives
-	printf("selected drive %d\r\n", sel);
+
 	if (c1 & CMD_RDTRK)
 	{
 		sel = (c1 >> 6) & 0x03;
 		df[sel].track = c2;
+		printf("selected drive %d\r\n", sel);
 		ReadTrack(&df[sel]);
 	}
 	// else if (c1 & CMD_WRTRK)

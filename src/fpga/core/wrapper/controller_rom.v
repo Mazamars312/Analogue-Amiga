@@ -50,7 +50,7 @@ controller_ram_duel_port controller_ram_duel_port (
 	.clock_a		(clk),
 	.clock_b		(clk_74a),
 	.data_a		(d),
-	.data_b		(little_enden ? {bridge_wr_data[7:0], bridge_wr_data[15:8], bridge_wr_data[23:16], bridge_wr_data[31:24]} : bridge_wr_data),
+	.data_b		(~little_enden ? {bridge_wr_data[7:0], bridge_wr_data[15:8], bridge_wr_data[23:16], bridge_wr_data[31:24]} : bridge_wr_data),
 	.wren_a		(we),
 	.wren_b		(wren_b),
 	.q_a			(q),

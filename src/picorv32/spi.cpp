@@ -27,7 +27,6 @@ uint32_t mister_fpga_gpi_read(){
 void mister_fpga_spi_en(uint32_t mask, uint32_t en)
 {
 	uint32_t gpo = mister_fpga_gpo_read() | 0x80000000;
-	printf("gpoout %.4x\r\n", gpo);
 	mister_fpga_gpo_write(en ? gpo | mask : gpo & ~mask);
 }
 

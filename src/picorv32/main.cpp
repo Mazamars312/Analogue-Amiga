@@ -69,7 +69,7 @@ void mainloop()
 	printf("\r\n Startup \r\n");
 	printf("RISC MPU Startup core\r\n");
   printf("Created By Mazamars312\r\n");
-	usleep(500);
+	usleep(5000);
 	ResetTimer();
 	minigmig_reset(1);
 	// I do enjoy reseting this timer.
@@ -90,7 +90,7 @@ void mainloop()
 
 int main()
 {
-	usleep(20000);
+	usleep(2000);
 	printf ("\r\n%d\r\n",CheckTimer(0));
   minigmig_reset(0);
 	init();

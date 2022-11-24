@@ -127,7 +127,8 @@ simple_uart simple_uart (
 .txd        (txd));
     
 // Ram controller that is duel ported so one side is on the APF bus and is addressable
-assign rom_wr = ~|cpu_addr[31:16] && cpu_wr;    
+assign rom_wr = ~|cpu_addr[31:16] && cpu_wr;  
+reg	littlenden;  
 controller_rom 
 #(.top_address(16'h8000) // This sets the location on the APF bus to watch out for
 )
@@ -139,7 +140,7 @@ controller_rom(
     .q                 (from_rom),
     .we                (rom_wr),
     .bytesel           (cpu_bytesel),
-	 .little_enden		  (~reset_n), // THe compiled code is in little enden on the APF bus. So we need to make a reg on the CPU to change this.
+	 .little_enden		  (littlenden), // THe compiled code is in little enden on the APF bus. So we need to make a reg on the CPU to change this.
 	// APF Bus
 	
     .clk_74a           (clk_74a),
@@ -418,6 +419,10 @@ always @(posedge clk_sys) begin
                         ext_data_out <= {io_ack, IO_WIDE, IO_DIN};
                         mem_busy <= 0;
                     end
+						  16'hfff0 : begin // This is GPI setup for the SPI interface
+                        ext_data_out <= littlenden;
+                        mem_busy <= 0;
+                    end
                     default : mem_busy <= 0;
                 endcase
                 ext_data_en <= 1;
@@ -476,6 +481,10 @@ always @(posedge clk_sys) begin
 								io_ss1 = from_cpu[19];
 								io_ss2 = from_cpu[20];
                         IO_DOUT <= from_cpu[15:0];
+                        mem_busy <= 0;
+                    end
+						  16'hfff0 : begin // This is GPI setup for the SPI interface
+                        littlenden <= from_cpu[0];
                         mem_busy <= 0;
                     end
                     default : mem_busy <= 0;
