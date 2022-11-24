@@ -25,10 +25,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <stdio.h>
 #include <string.h>
-#include "hardware.h"
 #include "minimig_fdd.h"
-#include "spi.h"
-#include "printf.h"
+#include "../spi.h"
+#include "../printf.h"
 
 unsigned char drives = 0; // number of active drives reported by FPGA (may change only during reset)
 adfTYPE *pdfx;            // drive select pointer

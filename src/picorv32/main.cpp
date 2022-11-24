@@ -39,8 +39,8 @@
 #include "uart.h"
 #include "apf.h"
 #include "printf.h"
-// #include "minimig_fdd.h"
 #include "spi.h"
+#include "minimig/minimig.h"
 
 
 // these values help with both the UART and System clock setups
@@ -50,39 +50,46 @@ uint32_t uart_rate = 1152; // This is the UART Rate shifted right by 2
 void init()
 {
 	// This setups the timers and the CPU clock rate on the system.
+  DisableInterrupts();
 	SetTimer(sys_clock);
 	SetUART(sys_clock, uart_rate);
 	ResetTimer();
-  DisableInterrupts();
+
+	// This is where you setup the core startup dataslots that the APT loads up for your core.
+  minigmig_startup_dataslot_updates();
+
 	return;
 }
 
 void mainloop()
 {
-
-	usleep(100);
+  // We like to see over the UART that hey I did something :-)
+	usleep(10000);
 	printf("\r\n Startup \r\n");
 	printf("RISC MPU Startup core\r\n");
   printf("Created By Mazamars312\r\n");
 	usleep(500);
 	ResetTimer();
-	while(true){
-		unsigned char  c1, c2;
-		EnableFpga();
-		uint16_t tmp = spi_w(0);
-		c1 = (uint8_t)(tmp >> 8); // cmd request and drive number
-		c2 = (uint8_t)tmp;      // track number
-		spi_w(0);
-		spi_w(0);
-		DisableFpga();
-		// HandleFDD(c1, c2);
-	}
+	minigmig_reset(true);
+	// I do enjoy reseting this timer.
 
+	// This loop is what keeps the checking of the core interface
+	while(true){
+		if(dataslot_updated()){
+				// This subprogram is for the program to check what dataslots are updated
+			minimig_fdd_update();
+		}
+		// Im waiting to introduce a delay in floppy drive changes in the APF framwork
+		// THis will read the timer and will wait to mount the disk. the value is in seconds
+		minimig_timer_update();
+		// This does the polling of the core and will then run the processes required for it
+		minimig_poll_io();
+	};
 }
 
 int main()
 {
-
+  minigmig_reset(false);
 	init();
 	mainloop();
 

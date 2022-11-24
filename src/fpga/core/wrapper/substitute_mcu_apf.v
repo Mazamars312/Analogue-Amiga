@@ -1,5 +1,5 @@
 // 832 CPU MCU for the Analogue Pocket
-// Copyright � 2022 by Murray Aickin(mazamars312
+// Copyright � 2022 by Murray Aickin(mazamars312)
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -14,7 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-// Big thanks to Alastair M. Robinson as it was his fantastic 832 CPU that allowed me to build this.
+// Big thanks to Alastair M. Robinson as it was his fantastic 832 CPU that allowed me to build this. I do want
+//
 // This runs a Mister interface and other interfaces can be built for this for other projects :-)
 
 module substitute_mcu_apf_mister(
@@ -64,78 +65,8 @@ module substitute_mcu_apf_mister(
 	input                  rxd
     );
 
-parameter false = 0;
-parameter true = 1;
-
-// some timing for the UART and timer cores
-reg [31:0] uart_divisor;
-
-// CPU Wires
-wire [31:0] cpu_addr;
-wire [31:0] from_cpu, from_rom;
-wire [3:0]  cpu_bytesel;
-reg  [31:0] to_cpu;
-reg         cpu_ack;
-wire        rom_wr;
-
-// UART
-
-reg  [7:0]  ser_txdata; 
-wire [7:0]  ser_rxdata;
-reg         ser_txgo;
-
-// We need to see what is happening right?
-simple_uart simple_uart (
-.clk        (clk_sys),
-.reset      (reset_n),
-.txdata     (ser_txdata),
-.txready    (ser_txready),
-.txgo       (ser_txgo),
-.rxdata     (ser_rxdata),
-.rxint      (ser_rxint),
-.txint      (open),
-.clock_divisor (uart_divisor),
-.rxd        (rxd),
-.txd        (txd));
-    
-// Ram controller that is duel ported
-    
-controller_rom 
-#(.top_address(16'h8000))
-controller_rom(
-    .clk               (clk_sys),
-    .addr              (cpu_addr[15:2]),
-    .d                 (from_cpu),
-    .q                 (from_rom),
-    .we                (rom_wr),
-    .bytesel           (cpu_bytesel),
-    .clk_74a           (clk_74a),
-	 .little_enden		  (1'b1), // THe compiled code is in little enden. So this helps swap the BRAM from little to big once running
-	.bridge_addr       (bridge_addr),
-	.bridge_rd         (bridge_rd),
-	.bridge_rd_data    (bridge_rd_data),
-	.bridge_wr         (bridge_wr),
-	.bridge_wr_data    (bridge_wr_data)
-);
-
-assign rom_wr = ~|cpu_addr[31:16] && cpu_wr;
-wire cpu_req;
-// The CPU
-    
-//eightthirtytwo_cpu 
-//eightthirtytwo_cpu
-//	(
-//		.clk (clk_sys),
-//		.reset_n (reset_n),
-//		.interrupt (cpu_int),
-//		.addr (cpu_addr[31:2]),
-//		.d (to_cpu),
-//		.q (from_cpu),
-//		.bytesel (cpu_bytesel),
-//		.wr (cpu_wr),
-//		.req (cpu_req),
-//		.ack (cpu_ack)	
-//	);
+	parameter false = 0;
+	parameter true = 1;
 
 	parameter [ 0:0] ENABLE_COUNTERS = 1;
 	parameter [ 0:0] ENABLE_COUNTERS64 = 1;
@@ -163,7 +94,67 @@ wire cpu_req;
 	parameter [31:0] PROGADDR_RESET = 32'h 0000_0000;
 	parameter [31:0] PROGADDR_IRQ = 32'h 0000_0010;
 	parameter [31:0] STACKADDR = 32'h 0000_3000;
+
+// some timing for the UART and timer cores
+reg [31:0] uart_divisor;
+
+// CPU Wires
+wire [31:0] cpu_addr;
+wire [31:0] from_cpu, from_rom;
+wire [3:0]  cpu_bytesel;
+reg  [31:0] to_cpu;
+reg         cpu_ack;
+wire        rom_wr;
+
+// UART
+
+reg  [7:0]  ser_txdata; 
+wire [7:0]  ser_rxdata;
+reg         ser_txgo;
+
+// We need to see what is happening right? this is sent via the UART on the Cart port
+simple_uart simple_uart (
+.clk        (clk_sys),
+.reset      (reset_n),
+.txdata     (ser_txdata),
+.txready    (ser_txready),
+.txgo       (ser_txgo),
+.rxdata     (ser_rxdata),
+.rxint      (ser_rxint),
+.txint      (open),
+.clock_divisor (uart_divisor),
+.rxd        (rxd),
+.txd        (txd));
     
+// Ram controller that is duel ported so one side is on the APF bus and is addressable
+assign rom_wr = ~|cpu_addr[31:16] && cpu_wr;    
+controller_rom 
+#(.top_address(16'h8000) // This sets the location on the APF bus to watch out for
+)
+controller_rom(
+	// CPU Bus
+    .clk               (clk_sys),
+    .addr              (cpu_addr[15:2]),
+    .d                 (from_cpu),
+    .q                 (from_rom),
+    .we                (rom_wr),
+    .bytesel           (cpu_bytesel),
+	 .little_enden		  (1'b1), // THe compiled code is in little enden on the APF bus. So we need to make a reg on the CPU to change this.
+	// APF Bus
+	
+    .clk_74a           (clk_74a),
+	.bridge_addr       (bridge_addr),
+	.bridge_rd         (bridge_rd),
+	.bridge_rd_data    (bridge_rd_data),
+	.bridge_wr         (bridge_wr),
+	.bridge_wr_data    (bridge_wr_data)
+);
+
+
+// The CPU picorv32
+
+wire cpu_req;
+   
 picorv32 #(
 		.ENABLE_COUNTERS     (ENABLE_COUNTERS     ),
 		.ENABLE_COUNTERS64   (ENABLE_COUNTERS64   ),
@@ -235,7 +226,7 @@ end
 
 // Interupt core for the data slot updates
 reg int_ack;
-wire int_status;
+wire dataslot_update_true;
 
 interupt_clock interupt_clock (
 	.clk       (clk_sys),        // the system clock
@@ -243,8 +234,7 @@ interupt_clock interupt_clock (
 	.reset_n   (reset_n),
 	.trigger   (dataslot_update),
 	.ack       (int_ack),
-	.int       (cpu_int),  
-	.out       (int_status)
+	.out       (dataslot_update_true)
 );
 
 wire [15:0] dataslot_update_id_latched;
@@ -398,9 +388,9 @@ always @(posedge clk_sys) begin
                         ext_data_out[0] <= reset_out;
                         mem_busy <= 0;
                     end
-                    16'hffB0 : begin // Interrupt
-								ext_data_out <= int_status;
-								int_ack <= 1;
+                    16'hffB0 : begin // dataslot update
+								ext_data_out <= dataslot_update_true;
+								if (dataslot_update_true) int_ack <= 1;
 								mem_busy<= 0;
 							end
 							16'hffB4 : begin // dataslot_update_id ID
@@ -420,7 +410,11 @@ always @(posedge clk_sys) begin
                         ext_data_out <= millisecond_counter;
                         mem_busy <= 0;
                     end
-					16'hffD0 : begin // This is setup for the SPI interface
+						  16'hffD0 : begin // This is GPO setup for the SPI interface
+                        ext_data_out <= {io_ss2, io_ss1,io_ss0,io_clk,1'b0,IO_DOUT[15:0]};
+                        mem_busy <= 0;
+                    end
+						  16'hffD4 : begin // This is GPI setup for the SPI interface
                         ext_data_out <= {io_ack, IO_WIDE, IO_DIN};
                         mem_busy <= 0;
                     end
@@ -520,38 +514,29 @@ module interupt_clock (
 	input          reset_n,
 	input          trigger,
 	input          ack,
-	output reg     int,
 	output reg     out
 );
 
-reg ack_clk_1, ack_clk_2, ack_clk_3; // Doing a 3 stage sync between the clock domains - Fuck I hate these.......
+reg ack_clk_1; // Doing a 3 stage sync between the clock domains - Fuck I hate these.......
 // But this "should" help with different clocks on both sides.
-reg interupt_int_clk_1, interupt_int_clk_2, interupt_int_clk_3;
-
+reg interupt_int_clk_1;
 always @(posedge int_clk or negedge reset_n) begin
     if (~reset_n) begin
         interupt_int_clk_1 <= 'b0;
-        interupt_int_clk_2 <= 'b0;
-        interupt_int_clk_3 <= 'b0;
     end
     else begin
-        if (trigger) interupt_int_clk_1 <= 1'b1;
-        else if (|{ack_clk_1, ack_clk_2, ack_clk_3}) interupt_int_clk_1 <= 1'b0;
-        interupt_int_clk_2 <= interupt_int_clk_1;
-        interupt_int_clk_3 <= interupt_int_clk_2;
+			if (trigger) interupt_int_clk_1 <= 1'b1;
+			else if (out) interupt_int_clk_1 <= 1'b0;
     end
 end
 
 always @(posedge clk or negedge reset_n) begin
     if (~reset_n) begin
-        ack_clk_1 <= 'b0;
-        int <= 'b0;
+        out <= 'b0;
     end
     else begin
-        ack_clk_1 <= ack;
-        ack_clk_2 <= ack_clk_1;
-        ack_clk_3 <= ack_clk_2;
-        int <= &{interupt_int_clk_1, interupt_int_clk_2, interupt_int_clk_3};
+		  if (interupt_int_clk_1) out <= 1'b1;
+        else if (ack) out <= 1'b0;
     end
 end
 

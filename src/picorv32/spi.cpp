@@ -1,467 +1,74 @@
 #include "spi.h"
 #include "printf.h"
-// #include "apf.h"
+#include "apf.h"
 
+#define SSPI_STROBE  (1<<17)
+#define SSPI_ACK     SSPI_STROBE
 #define SSPI_FPGA_EN (1<<18)
 #define SSPI_OSD_EN  (1<<19)
 #define SSPI_IO_EN   (1<<20)
 
 #define SWAPW(a) ((((a)<<8)&0xff00)|(((a)>>8)&0x00ff))
-#define SPI_READ_FPGA(x) *(volatile unsigned int *)(SPIHARDWAREBASE)
 
-void fpga_spi_en(uint32_t mask, uint32_t en){
-	uint32_t gpo = fpga_gpo_read() | 0x80000000;
-	fpga_gpo_write(en ? gpo | mask : gpo & ~mask);
+
+// These will emulated the Mister
+void mister_fpga_gpo_write(uint32_t value){
+ 	mister_spi_write_fpga(0) = value;
 };
 
-unsigned int fpga_gpo_read (){
-	return (SPI_READ_FPGA());
+uint32_t mister_fpga_gpo_read(){
+ 	return (mister_spi_write_fpga(0));
 };
 
-void fpga_gpo_write (uint32_t value){
-	spi_write_fpga() = value;
+uint32_t mister_fpga_gpi_read(){
+ 	return (mister_spi_read_fpga(0));
 };
 
-void EnableFpga()
+void mister_fpga_spi_en(uint32_t mask, uint32_t en)
 {
-	fpga_spi_en(SSPI_FPGA_EN, 1);
+	uint32_t gpo = mister_fpga_gpo_read() | 0x80000000;
+	printf("gpoout %d\r\n", gpo);
+	mister_fpga_gpo_write(en ? gpo | mask : gpo & ~mask);
 }
 
-void DisableFpga()
+void mister_EnableFpga()
 {
-	fpga_spi_en(SSPI_FPGA_EN, 0);
+	mister_fpga_spi_en(SSPI_FPGA_EN, 1);
 }
 
-void EnableIO()
+void mister_DisableFpga()
 {
-	fpga_spi_en(SSPI_IO_EN, 1);
+	mister_fpga_spi_en(SSPI_FPGA_EN, 0);
 }
 
-void DisableIO()
+void mister_EnableIO()
 {
-	fpga_spi_en(SSPI_IO_EN, 0);
+	mister_fpga_spi_en(SSPI_IO_EN, 1);
 }
 
-#define SSPI_STROBE  (1<<17)
-#define SSPI_ACK     SSPI_STROBE
-
-
-uint32_t spi32_w(uint32_t parm)
+void mister_DisableIO()
 {
-	uint32_t res;
-	res = spi_w(parm);
-	res |= (spi_w(parm>>16))<<16;
-	return res;
+	mister_fpga_spi_en(SSPI_IO_EN, 0);
 }
 
-// little endian: lsb first
-void spi32_b(uint32_t parm)
+uint16_t mister_fpga_spi(uint16_t word)
 {
-	spi_b(parm >> 0);
-	spi_b(parm >> 8);
-	spi_b(parm >> 16);
-	spi_b(parm >> 24);
-}
+	uint32_t gpo = (mister_fpga_gpo_read() & ~(0xFFFF | SSPI_STROBE)) | word;
 
-/* User_io related SPI functions */
-uint16_t spi_uio_cmd_cont(uint16_t cmd)
-{
-	EnableIO();
-	return spi_w(cmd);
-}
-
-uint16_t spi_uio_cmd(uint16_t cmd)
-{
-	uint16_t res = spi_uio_cmd_cont(cmd);
-	DisableIO();
-	return res;
-}
-
-uint8_t spi_uio_cmd8_cont(uint8_t cmd, uint8_t parm)
-{
-	EnableIO();
-	spi_b(cmd);
-	return spi_b(parm);
-}
-
-uint8_t spi_uio_cmd8(uint8_t cmd, uint8_t parm)
-{
-	uint8_t res = spi_uio_cmd8_cont(cmd, parm);
-	DisableIO();
-	return res;
-}
-
-uint16_t spi_uio_cmd16(uint8_t cmd, uint16_t parm)
-{
-	spi_uio_cmd_cont(cmd);
-	uint16_t res = spi_w(parm);
-	DisableIO();
-	return res;
-}
-
-void spi_uio_cmd32(uint8_t cmd, uint32_t parm, int wide)
-{
-	EnableIO();
-	spi_b(cmd);
-	if (wide)
-	{
-		spi_w((uint16_t)parm);
-		spi_w((uint16_t)(parm >> 16));
-	}
-	else
-	{
-		spi_b(parm);
-		spi_b(parm >> 8);
-		spi_b(parm >> 16);
-		spi_b(parm >> 24);
-	}
-	DisableIO();
-}
-
-void spi_n(uint8_t value, uint16_t cnt)
-{
-	while (cnt--) spi_b(value);
-}
-
-void spi_read(uint8_t *addr, uint32_t len, int wide)
-{
-	if (wide)
-	{
-		uint32_t len16 = len >> 1;
-		uint16_t *a16 = (uint16_t*)addr;
-		while (len16--) *a16++ = spi_w(0);
-		if (len & 1) *((uint8_t*)a16) = spi_w(0);
-	}
-	else
-	{
-		while (len--) *addr++ = spi_b(0);
-	}
-}
-
-void spi_write(const uint8_t *addr, uint32_t len, int wide)
-{
-	if (wide)
-	{
-		uint32_t len16 = len >> 1;
-		uint16_t *a16 = (uint16_t*)addr;
-		while (len16--) spi_w(*a16++);
-		if(len & 1) spi_w(*((uint8_t*)a16));
-	}
-	else
-	{
-		while (len--) spi_b(*addr++);
-	}
-}
-
-void spi_block_read(uint8_t *addr, int wide, int sz)
-{
-	if (wide) fpga_spi_fast_block_read((uint16_t*)addr, sz/2);
-	else fpga_spi_fast_block_read_8(addr, sz);
-}
-
-void spi_block_write(const uint8_t *addr, int wide, int sz)
-{
-	if (wide) fpga_spi_fast_block_write((const uint16_t*)addr, sz/2);
-	else fpga_spi_fast_block_write_8(addr, sz);
-}
-
-void fpga_spi_fast_block_read(uint16_t *buf, uint32_t length)
-{
-	uint32_t gpo = (fpga_gpo_read() & ~(0xFFFF | SSPI_STROBE));
-	uint32_t rem = length % 16;
-	length /= 16;
-
-	// not optimized by compiler automatically
-	// so do manual optimization for speed.
-	while (length--)
-	{
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint16_t)fpga_gpi_read();
-
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint16_t)fpga_gpi_read();
-
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint16_t)fpga_gpi_read();
-
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint16_t)fpga_gpi_read();
-
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint16_t)fpga_gpi_read();
-
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint16_t)fpga_gpi_read();
-
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint16_t)fpga_gpi_read();
-
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint16_t)fpga_gpi_read();
-
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint16_t)fpga_gpi_read();
-
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint16_t)fpga_gpi_read();
-
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint16_t)fpga_gpi_read();
-
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint16_t)fpga_gpi_read();
-
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint16_t)fpga_gpi_read();
-
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint16_t)fpga_gpi_read();
-
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint16_t)fpga_gpi_read();
-
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint16_t)fpga_gpi_read();
-	}
-
-	while (rem--)
-	{
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint16_t)fpga_gpi_read();
-	}
-}
-
-void fpga_spi_fast_block_write_8(const uint8_t *buf, uint32_t length)
-{
-	uint32_t gpoH = (fpga_gpo_read() & ~(0xFFFF | SSPI_STROBE));
-	uint32_t gpo = gpoH;
-	uint32_t rem = length % 16;
-	length /= 16;
-
-	// not optimized by compiler automatically
-	// so do manual optimization for speed.
-	while (length--)
-	{
-		gpo = gpoH | *buf++;
-		fpga_gpo_write(gpo);
-		fpga_gpo_write(gpo | SSPI_STROBE);
-
-		gpo = gpoH | *buf++;
-		fpga_gpo_write(gpo);
-		fpga_gpo_write(gpo | SSPI_STROBE);
-
-		gpo = gpoH | *buf++;
-		fpga_gpo_write(gpo);
-		fpga_gpo_write(gpo | SSPI_STROBE);
-
-		gpo = gpoH | *buf++;
-		fpga_gpo_write(gpo);
-		fpga_gpo_write(gpo | SSPI_STROBE);
-
-		gpo = gpoH | *buf++;
-		fpga_gpo_write(gpo);
-		fpga_gpo_write(gpo | SSPI_STROBE);
-
-		gpo = gpoH | *buf++;
-		fpga_gpo_write(gpo);
-		fpga_gpo_write(gpo | SSPI_STROBE);
-
-		gpo = gpoH | *buf++;
-		fpga_gpo_write(gpo);
-		fpga_gpo_write(gpo | SSPI_STROBE);
-
-		gpo = gpoH | *buf++;
-		fpga_gpo_write(gpo);
-		fpga_gpo_write(gpo | SSPI_STROBE);
-
-		gpo = gpoH | *buf++;
-		fpga_gpo_write(gpo);
-		fpga_gpo_write(gpo | SSPI_STROBE);
-
-		gpo = gpoH | *buf++;
-		fpga_gpo_write(gpo);
-		fpga_gpo_write(gpo | SSPI_STROBE);
-
-		gpo = gpoH | *buf++;
-		fpga_gpo_write(gpo);
-		fpga_gpo_write(gpo | SSPI_STROBE);
-
-		gpo = gpoH | *buf++;
-		fpga_gpo_write(gpo);
-		fpga_gpo_write(gpo | SSPI_STROBE);
-
-		gpo = gpoH | *buf++;
-		fpga_gpo_write(gpo);
-		fpga_gpo_write(gpo | SSPI_STROBE);
-
-		gpo = gpoH | *buf++;
-		fpga_gpo_write(gpo);
-		fpga_gpo_write(gpo | SSPI_STROBE);
-
-		gpo = gpoH | *buf++;
-		fpga_gpo_write(gpo);
-		fpga_gpo_write(gpo | SSPI_STROBE);
-
-		gpo = gpoH | *buf++;
-		fpga_gpo_write(gpo);
-		fpga_gpo_write(gpo | SSPI_STROBE);
-	}
-
-	while (rem--)
-	{
-		gpo = gpoH | *buf++;
-		fpga_gpo_write(gpo);
-		fpga_gpo_write(gpo | SSPI_STROBE);
-	}
-
-	fpga_gpo_write(gpo);
-}
-
-void fpga_spi_fast_block_read_8(uint8_t *buf, uint32_t length)
-{
-	uint32_t gpo = (fpga_gpo_read() & ~(0xFFFF | SSPI_STROBE));
-	uint32_t rem = length % 16;
-	length /= 16;
-
-	// not optimized by compiler automatically
-	// so do manual optimization for speed.
-	while (length--)
-	{
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint8_t)fpga_gpi_read();
-
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint8_t)fpga_gpi_read();
-
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint8_t)fpga_gpi_read();
-
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint8_t)fpga_gpi_read();
-
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint8_t)fpga_gpi_read();
-
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint8_t)fpga_gpi_read();
-
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint8_t)fpga_gpi_read();
-
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint8_t)fpga_gpi_read();
-
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint8_t)fpga_gpi_read();
-
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint8_t)fpga_gpi_read();
-
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint8_t)fpga_gpi_read();
-
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint8_t)fpga_gpi_read();
-
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint8_t)fpga_gpi_read();
-
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint8_t)fpga_gpi_read();
-
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint8_t)fpga_gpi_read();
-
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint8_t)fpga_gpi_read();
-	}
-
-	while (rem--)
-	{
-		fpga_gpo_write(gpo | SSPI_STROBE);
-		fpga_gpo_write(gpo);
-		*buf++ = (uint8_t)fpga_gpi_read();
-	}
-}
-
-void fpga_spi_fast_block_write(const uint16_t *buf, uint32_t length)
-{
-	uint32_t gpoH = (fpga_gpo_read() & ~(0xFFFF | SSPI_STROBE));
-	uint32_t gpo = gpoH;
-
-	// should be optimized for speed by compiler automatically
-	while (length--)
-	{
-		gpo = gpoH | *buf++;
-		fpga_gpo_write(gpo);
-		fpga_gpo_write(gpo | SSPI_STROBE);
-	}
-	fpga_gpo_write(gpo);
-}
-
-uint16_t fpga_spi(uint16_t word)
-{
-	uint32_t gpo = (fpga_gpo_read() & ~(0xFFFF | SSPI_STROBE)) | word;
-
-	fpga_gpo_write(gpo);
-	fpga_gpo_write(gpo | SSPI_STROBE);
+	mister_fpga_gpo_write(gpo);
+	mister_fpga_gpo_write(gpo | SSPI_STROBE);
 
 	int gpi;
 	do
 	{
-		gpi = fpga_gpi_read();
-		if (gpi < 0)
-		{
-			printf("GPI[31]==1. FPGA is uninitialized?\n");
-
-			return 0;
-		}
+		gpi = mister_fpga_gpi_read();
 	} while (!(gpi & SSPI_ACK));
 
-	fpga_gpo_write(gpo);
+	mister_fpga_gpo_write(gpo);
 
 	do
 	{
-		gpi = fpga_gpi_read();
-		if (gpi < 0)
-		{
-			printf("GPI[31]==1. FPGA is uninitialized?\n");
-
-			return 0;
-		}
+		gpi = mister_fpga_gpi_read();
 	} while (gpi & SSPI_ACK);
 
 	return (uint16_t)gpi;

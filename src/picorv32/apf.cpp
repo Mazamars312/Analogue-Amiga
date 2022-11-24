@@ -3,9 +3,10 @@
 #include <string.h>
 
 #include "hardware.h"
-#include "uart.h"
 #include "apf.h"
 #include "printf.h"
+
+#define SSPI_ACK
 
 // This is to search though the dataslot ram on what the sizes of each
 uint32_t dataslot_search_id(uint16_t value)
@@ -29,24 +30,52 @@ uint32_t dataslot_size(uint16_t value)
   return (DATASLOT_RAM_ACCESS((i+1)<<2));
 }
 
-void dataslot_search_active(uint16_t value)
+bool dataslot_updated()
 {
-    // int i = dataslot_search_id(value);
-
+    return(DATASLOT_UPDATE_REG(0));
 }
 
-// This will send the read command
+// This will send the read command to the APF
+// The WRITE_* are the regs in the core for the location of the
 
-void dataslot_read(uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length)
+uint32_t dataslot_read(uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length)
 {
-
-
+  WRITE_TARGET_DATASLOT_ID(0) = dataslot;
+  WRITE_TARGET_DATASLOT_BRIDGE_ADD(0) = address;
+  WRITE_TARGET_DATASLOT_LENGTH(0) = length;
+  WRITE_TARGET_DATASLOT_OFFSET(0) = offset;
+  WRITE_TARGET_DATASLOT_CONTROL(0) = TARGET_DATASLOT_READ_REG;
+  int apf_codes;
+	do
+	{
+		apf_codes = READ_TARGET_DATASLOT_CONTROL(0);
+    if ((apf_codes & APF_ERROR) > 0)
+		{
+			printf("APF FAILD?\r\n", apf_codes & APF_DONE);
+			return (apf_codes & APF_ERROR);
+		}
+	} while (!(apf_codes & APF_DONE));
+  return(0);
 }
 
-// This will send the write command
+// This will send the write command to the APF and send back a error if true
 
-void dataslot_write(uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length)
+uint32_t dataslot_write(uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length)
 {
-
-
+  WRITE_TARGET_DATASLOT_ID(0) = dataslot;
+  WRITE_TARGET_DATASLOT_BRIDGE_ADD(0) = address;
+  WRITE_TARGET_DATASLOT_LENGTH(0) = length;
+  WRITE_TARGET_DATASLOT_OFFSET(0) = offset;
+  WRITE_TARGET_DATASLOT_CONTROL(0) = TARGET_DATASLOT_WRITE_REG;
+  int apf_codes;
+	do
+	{
+		apf_codes = READ_TARGET_DATASLOT_CONTROL(0);
+    if ((apf_codes & APF_ERROR) > 0)
+		{
+			printf("APF FAILD?\r\n", apf_codes & APF_DONE);
+			return (apf_codes & APF_ERROR);
+		}
+	} while (!(apf_codes & APF_DONE));
+  return(0);
 }

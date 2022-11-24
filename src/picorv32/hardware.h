@@ -8,8 +8,9 @@
 #define SPI_RST_CPU         0x2
 #define SPI_CPU_HLT         0x4
 
-#define INTERRUPTBASE       0xffffffb0
-#define SPIHARDWAREBASE     0xffffffd0
+#define INTERRUPTBASE             0xffffffb0
+#define MISTERGPOHARDWAREBASE     0xffffffd0
+#define MISTERGPIHARDWAREBASE     0xffffffd4
 
 #define RESTARTBASE 0xFFFFFFA4
 #define RESET_CORE(x) *(volatile unsigned int *)(RESTARTBASE+x)
