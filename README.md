@@ -4,14 +4,15 @@ The Commodore Amiga 500 was a personal computer that replaced the well loved Com
 
 This is powered from the Mister line of the Amiga Mist project (Also known as the minimig) and the picorv32 RISC-v chip for the media arbitor between the core and APF framework for floopy, harddrive and CDrom access.
 
+
+
 ## Credits
 
-This sourcecode is based on Rok Krajnc project (minimig-de1).
-
-Original minimig sources from Dennis van Weeren with updates by Jakub Bednarski are published on Google Code.
-
-ARM firmware updates and minimig-tc64 port changes by Christian Vogelsang (minimig_tc64) and A.M. Robinson (minimig_tc64).
-
-MiSTer project by Sorgelig (MiSTer).
-
-TG68K.C core by Tobias Gubener.
+* This sourcecode is based on Rok Krajnc project (minimig-de1).
+* Original minimig sources from Dennis van Weeren with updates by Jakub Bednarski are published on Google Code.
+* ARM firmware updates and minimig-tc64 port changes by Christian Vogelsang (minimig_tc64) and A.M. Robinson (minimig_tc64).
+* MiSTer project by Sorgelig (MiSTer).
+* TG68K.C core by Tobias Gubener.
+* YosysHQ for their picorv32 CPU
+* Robinsonb5 for his time answering my questions on his 832 CPU - Tho I did not use it, I would of love too as is was a nice looking core
+* Boogerman for some coding questions - You still owe me on the use of my jtag tho LOL
