@@ -57,7 +57,7 @@ addi x29, zero, 0
 addi x30, zero, 0
 addi x31, zero, 0
 la gp, __global_pointer$
-li sp, 0x00003000
+li sp, 0x00008000
 .option pop
 j _start
 .balign 0x40

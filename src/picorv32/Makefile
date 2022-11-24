@@ -36,7 +36,7 @@ generate_hex_files.sh: #make_block_memory.sh
 	#./make_block_memory.sh -s
 
 ram.bin: ram-stripped.elf Makefile
-	riscv32-unknown-elf-objcopy -O binary --pad-to 0x10000 ram.elf ram.bin
+	riscv32-unknown-elf-objcopy -O binary --pad-to 0x2000 ram.elf ram.bin
 	du -sh ram.bin
 
 OBJECTS := main.o \
@@ -47,6 +47,8 @@ OBJECTS := main.o \
 		   printf.o \
            uart.o \
            apf.o \
+           minimig.o \
+           minimig_fdd.o \
            startup.o
 
 ram-stripped.elf: Makefile ram.elf
@@ -66,10 +68,12 @@ uart.o: uart.cpp Makefile
 spi.o: spi.cpp Makefile
 apf.o: apf.cpp Makefile
 printf.o: printf.cpp Makefile
+minimig.o: minimig.cpp Makefile
+minimig_fdd.o: minimig_fdd.cpp Makefile
 
 main-emulated.o: main.cpp Makefile
 	g++ -g -c -o main-emulated.o -std=c++14 -Wall main.cpp -DEMULATE_TARGET -Wno-narrowing
-	
+
 emulated: main-emulated.o Makefile
 	g++ -g -o emulated -std=c++14 -Wall main-emulated.o -static
 

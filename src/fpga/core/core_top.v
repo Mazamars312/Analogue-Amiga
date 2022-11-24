@@ -608,6 +608,8 @@ pll pll
 	.refclk(clk_74a),
 	.outclk_0(clk_114),
 	.outclk_1(clk_sys),
+	.outclk_2(video_rgb_clock),
+	.outclk_3(video_rgb_clock_90),
 	.locked(pll_core_locked)
 );
 
@@ -615,8 +617,8 @@ amiga_clk amiga_clk
 (
 	.clk_28   ( clk_sys    ), // input  clock c1 ( 28.687500MHz)
 	.clk7_en  ( clk7_en    ), // output clock 7 enable (on 28MHz clock domain)
-	.clk7n_vga_en90 ( video_rgb_clock_90   ), // 7MHz 90 Degree Video output clock enable (on 28MHz clock domain)
-	.clk7n_vga_en ( video_rgb_clock   ), // 7MHz 0 Degree Video output clock enable (on 28MHz clock domain)
+//	.clk7n_vga_en90 ( video_rgb_clock_90   ), // 7MHz 90 Degree Video output clock enable (on 28MHz clock domain)
+//	.clk7n_vga_en ( video_rgb_clock   ), // 7MHz 0 Degree Video output clock enable (on 28MHz clock domain)
 	.clk7n_en ( clk7n_en   ), // 7MHz negedge output clock enable (on 28MHz clock domain)
 	.c1       ( c1         ), // clk28m clock domain signal synchronous with clk signal
 	.c3       ( c3         ), // clk28m clock domain signal synchronous with clk signal delayed by 90 degrees

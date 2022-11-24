@@ -139,7 +139,7 @@ controller_rom(
     .q                 (from_rom),
     .we                (rom_wr),
     .bytesel           (cpu_bytesel),
-	 .little_enden		  (1'b1), // THe compiled code is in little enden on the APF bus. So we need to make a reg on the CPU to change this.
+	 .little_enden		  (~reset_n), // THe compiled code is in little enden on the APF bus. So we need to make a reg on the CPU to change this.
 	// APF Bus
 	
     .clk_74a           (clk_74a),

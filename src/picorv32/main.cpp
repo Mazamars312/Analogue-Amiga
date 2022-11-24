@@ -25,6 +25,7 @@
 //#include <stdlib.h>
 //#include <math.h>
 #include <strings.h>
+#include <inttypes.h>
 
 #include <stdint.h>
 #include <limits.h>
@@ -40,7 +41,7 @@
 #include "apf.h"
 #include "printf.h"
 #include "spi.h"
-#include "minimig/minimig.h"
+#include "minimig.h"
 
 
 // these values help with both the UART and System clock setups
@@ -64,18 +65,18 @@ void init()
 void mainloop()
 {
   // We like to see over the UART that hey I did something :-)
-	usleep(10000);
+	usleep(100);
 	printf("\r\n Startup \r\n");
 	printf("RISC MPU Startup core\r\n");
   printf("Created By Mazamars312\r\n");
 	usleep(500);
 	ResetTimer();
-	minigmig_reset(true);
+	minigmig_reset(1);
 	// I do enjoy reseting this timer.
 
 	// This loop is what keeps the checking of the core interface
 	while(true){
-		if(dataslot_updated()){
+		if(DATASLOT_UPDATE_REG(0)){
 				// This subprogram is for the program to check what dataslots are updated
 			minimig_fdd_update();
 		}
@@ -89,7 +90,9 @@ void mainloop()
 
 int main()
 {
-  minigmig_reset(false);
+	usleep(20000);
+	printf ("\r\n%d\r\n",CheckTimer(0));
+  minigmig_reset(0);
 	init();
 	mainloop();
 

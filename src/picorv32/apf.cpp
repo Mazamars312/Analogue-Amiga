@@ -41,7 +41,7 @@ bool dataslot_updated()
 uint32_t dataslot_read(uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length)
 {
   WRITE_TARGET_DATASLOT_ID(0) = dataslot;
-  WRITE_TARGET_DATASLOT_BRIDGE_ADD(0) = address;
+  WRITE_TARGET_DATASLOT_BRIDGE_ADD(0) = APF_ADDRESS_OFFSET | address;
   WRITE_TARGET_DATASLOT_LENGTH(0) = length;
   WRITE_TARGET_DATASLOT_OFFSET(0) = offset;
   WRITE_TARGET_DATASLOT_CONTROL(0) = TARGET_DATASLOT_READ_REG;
@@ -58,12 +58,13 @@ uint32_t dataslot_read(uint16_t dataslot, uint32_t address, uint32_t offset, uin
   return(0);
 }
 
+
 // This will send the write command to the APF and send back a error if true
 
 uint32_t dataslot_write(uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length)
 {
   WRITE_TARGET_DATASLOT_ID(0) = dataslot;
-  WRITE_TARGET_DATASLOT_BRIDGE_ADD(0) = address;
+  WRITE_TARGET_DATASLOT_BRIDGE_ADD(0) = APF_ADDRESS_OFFSET | address;
   WRITE_TARGET_DATASLOT_LENGTH(0) = length;
   WRITE_TARGET_DATASLOT_OFFSET(0) = offset;
   WRITE_TARGET_DATASLOT_CONTROL(0) = TARGET_DATASLOT_WRITE_REG;

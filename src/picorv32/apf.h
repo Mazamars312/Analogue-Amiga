@@ -22,6 +22,8 @@
 #define TARGET_DATASLOT_READ_REG      0x1
 #define TARGET_DATASLOT_WRITE_REG     0x2
 
+
+#define APF_ADDRESS_OFFSET      0x80000000
 #define APF_ACK 0x10
 #define APF_DONE 0x8
 #define APF_ERROR 0x7
@@ -46,7 +48,7 @@
 uint32_t dataslot_search_id(uint16_t value);
 uint32_t dataslot_size(uint16_t value);
 void dataslot_search_active(uint16_t value);
-bool dataslot_updated();
+// bool dataslot_updated();
 uint32_t dataslot_read(uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length);
 uint32_t dataslot_write(uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length);
 
