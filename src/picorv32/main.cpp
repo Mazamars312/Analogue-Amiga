@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Jacob Lifshay
+ * Copyright 2022 Murray Aickin
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,9 +21,6 @@
  *
  */
 #include <stdio.h>
-//#include <string.h>
-//#include <stdlib.h>
-//#include <math.h>
 #include <strings.h>
 #include <inttypes.h>
 
@@ -57,7 +54,7 @@ void init()
 	ResetTimer();
 
 	// This is where you setup the core startup dataslots that the APT loads up for your core.
-  minigmig_startup_dataslot_updates();
+  minimig_fdd_update();
 
 	return;
 }
@@ -66,11 +63,10 @@ void mainloop()
 {
   // We like to see over the UART that hey I did something :-)
 	usleep(100);
-	printf("\r\n Startup \r\n");
 	printf("RISC MPU Startup core\r\n");
   printf("Created By Mazamars312\r\n");
+  printf("Make in 2022\r\n");
 	usleep(5000);
-	ResetTimer();
 	minigmig_reset(1);
 	// I do enjoy reseting this timer.
 

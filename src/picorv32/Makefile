@@ -24,20 +24,20 @@ LIBGCC := $(shell riscv32-unknown-elf-g++ -print-libgcc-file-name)
 LIBGCC_DIR := $(dir $(LIBGCC))
 
 #all: ram0_byte0.hex ../output.bit emulated
-#../output.bit: ram.elf ../main.bit
-	#bash -c '. /opt/Xilinx/14.7/ISE_DS/settings64.sh; data2mem -bm ../cpu.bmm -bd ram.elf -bt ../main.bit -o b ../output.bit'
+#../output.bit: mpu.elf ../main.bit
+	#bash -c '. /opt/Xilinx/14.7/ISE_DS/settings64.sh; data2mem -bm ../cpu.bmm -bd mpu.elf -bt ../main.bit -o b ../output.bit'
 
-all: ram.bin
+all: mpu.bin
 
-ram0_byte0.hex: ram.bin generate_hex_files.sh Makefile
+ram0_byte0.hex: mpu.bin generate_hex_files.sh Makefile
 	#./generate_hex_files.sh
 
 generate_hex_files.sh: #make_block_memory.sh
 	#./make_block_memory.sh -s
 
-ram.bin: ram-stripped.elf Makefile
-	riscv32-unknown-elf-objcopy -O binary --pad-to 0x2000 ram.elf ram.bin
-	du -sh ram.bin
+mpu.bin: mpu-stripped.elf Makefile
+	riscv32-unknown-elf-objcopy -O binary --pad-to 0x8000 mpu.elf mpu.bin
+	du -sh mpu.bin
 
 OBJECTS := main.o \
            interrupts.o \
@@ -51,11 +51,11 @@ OBJECTS := main.o \
            minimig_fdd.o \
            startup.o
 
-ram-stripped.elf: Makefile ram.elf
-	riscv32-unknown-elf-strip -o ram-stripped.elf ram.elf
+mpu-stripped.elf: Makefile mpu.elf
+	riscv32-unknown-elf-strip -o mpu-stripped.elf mpu.elf
 
-ram.elf: $(OBJECTS) Makefile ram.ld
-	riscv32-unknown-elf-ld -o ram.elf $(OBJECTS) -static -T ram.ld -L$(LIBGCC_DIR) -L/opt/riscv/riscv32-unknown-elf/lib -lgcc
+mpu.elf: $(OBJECTS) Makefile mpu.ld
+	riscv32-unknown-elf-ld -o mpu.elf $(OBJECTS) -static -T mpu.ld -L$(LIBGCC_DIR) -L/opt/riscv/riscv32-unknown-elf/lib -lgcc
 
 startup.o: startup.S Makefile
 	riscv32-unknown-elf-g++ -c -o startup.o startup.S -march=rv32i -mabi=ilp32
@@ -73,7 +73,7 @@ minimig_fdd.o: minimig_fdd.cpp Makefile
 
 main-emulated.o: main.cpp Makefile
 	g++ -g -c -o main-emulated.o -std=c++14 -Wall main.cpp -DEMULATE_TARGET -Wno-narrowing
-
+	
 emulated: main-emulated.o Makefile
 	g++ -g -o emulated -std=c++14 -Wall main-emulated.o -static
 
@@ -81,4 +81,4 @@ emulated: main-emulated.o Makefile
 	riscv32-unknown-elf-g++ -Os -c -o $@ $< -std=c++14 -Wall -march=rv32i -mabi=ilp32 -fno-exceptions
 
 clean:
-	rm -f ram*.hex ram.bin ram.elf ram-stripped.elf *.o emulated generate_hex_files.sh
+	rm -f mpu*.hex mpu.bin mpu.elf mpu-stripped.elf *.o emulated generate_hex_files.sh

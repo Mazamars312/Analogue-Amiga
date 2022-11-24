@@ -29,6 +29,8 @@
 //        malloc for printf (and may not be thread safe).
 //
 ///////////////////////////////////////////////////////////////////////////////
+// 25-11-25 Removed a lot of the code to fit in the Pocket MPU Core
+
 
 #include <stdbool.h>
 #include <stdint.h>

@@ -1,3 +1,30 @@
+/*
+Copyright 2005, 2006, 2007 Dennis van Weeren
+Copyright 2008, 2009 Jakub Bednarski
+Copyright 2022 Murray Aickin
+
+This file is part of Minimig
+
+Minimig is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+Minimig is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+// 2009-11-14   - adapted gap size
+// 2009-12-24   - updated sync word list
+//              - fixed sector header generation
+// 2010-01-09   - support for variable number of tracks
+// 2022-11-25   - Added Pocket APF access
+
 #ifndef MINIMIG_FDD_H
 #define MINIMIG_FDD_H
 #include <stdint.h>

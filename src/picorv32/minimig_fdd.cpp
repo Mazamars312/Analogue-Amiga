@@ -1,6 +1,7 @@
 /*
 Copyright 2005, 2006, 2007 Dennis van Weeren
 Copyright 2008, 2009 Jakub Bednarski
+Copyright 2022 Murray Aickin
 
 This file is part of Minimig
 
@@ -22,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // 2009-12-24   - updated sync word list
 //              - fixed sector header generation
 // 2010-01-09   - support for variable number of tracks
+// 2022-11-25   - Added Pocket APF access
 
 #include <stdio.h>
 #include <string.h>
@@ -207,7 +209,7 @@ void ReadTrack(adfTYPE *drive)
 	{
 		foo = (uint32_t) &sector_buffer;
 		// RAMENDEN(0) = 1;
-		dataslot_read_lba_read(512);
+		dataslot_read_lba(512);
 		// RAMENDEN(0) = 0;
 		// FileReadSec(&drive->file, sector_buffer);
 
