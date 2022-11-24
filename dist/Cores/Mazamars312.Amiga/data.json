@@ -132,7 +132,7 @@
 		"bin"
 		],
         "size_exact": 0,
-        "size_maximum": 16384,
+        "size_maximum": 65536,
         "address": "0x80000000"
       }
     ]
