@@ -64,6 +64,10 @@ module userio
 	input               bridge_wr,
 	input       [31:0]  bridge_wr_data,
 	
+	input               IO_ENA,
+	input               IO_STROBE,
+	output reg          IO_WAIT,
+	input      [15:0]   IO_DIN,
 	
 	output reg  [7:0] memory_config,
 	output reg  [4:0] chipset_config,
@@ -445,7 +449,7 @@ reg [7:0] cmd;
 //wire mirror_sel 		 = (bridge_addr[7:0] == 'h24); // XXXXXXXM || Mirror Bios	  | 1 = Not Mirrored 0 = Mirrored
 
 always @(posedge clk_74a) begin
-	cpuhlt <= ~reset_n;
+	
 	if (bridge_wr) begin
 		if(bridge_addr[31:8] == 24'h100000) begin
 				case (bridge_addr[7:0])
@@ -527,9 +531,10 @@ reg mrx;
 always @(posedge clk) begin
 	fifo_ack <= 'b0;
 	mrx <= 1'b0;
+	cpuhlt <= ~reset_n;
 	case (memory_state)
 		memory_idle : begin
-			if (ioctl_wr) begin
+			if (fifo_wr) begin
 				memory_state <= memory_send;
 				host_adr <=	fifo_addr;
 				host_wdat <= fifo_dout;
