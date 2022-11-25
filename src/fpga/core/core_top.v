@@ -257,7 +257,7 @@ assign cart_tran_bank3 = 8'hzz;            // these pins are not used, make them
  wire RXDATA = cart_tran_pin31;        // your UART RX data shows up here
  
  // button/LED
- wire LED = 1'b1;                    // LED hooks up here.  HIGH = light up, LOW = off
+ wire LED;                    // LED hooks up here.  HIGH = light up, LOW = off
  wire BUTTON = cart_tran_bank3[0];    // button data comes out here.  LOW = pressed, HIGH = unpressed
 
 // link port is unused, set to input only to be safe
@@ -310,6 +310,7 @@ assign vpll_feed = 1'bZ;
 
 wire [31:0] fpga_bridge_rd_data;
 wire [31:0] substitute_mcu_bridge_rd_data;
+reg  [31:0] vga_bridge_rd_data;
 
 
 // for bridge write data, we just broadcast it to all bus devices
@@ -324,6 +325,9 @@ always @(*) begin
 	 32'h10xxxxxx: begin
         bridge_rd_data <= fpga_bridge_rd_data;
     end
+	 32'h200000xx: begin
+        bridge_rd_data <= vga_bridge_rd_data;
+    end
 	 32'h8000xxxx: begin
         bridge_rd_data <= substitute_mcu_bridge_rd_data;
     end
@@ -332,7 +336,6 @@ always @(*) begin
     end
     endcase
 end
-
 
 //
 // host/target command handler
@@ -567,12 +570,12 @@ wire        ide_f_led;
 //wire        ide_f_irq;
 wire  [5:0] ide_f_req;
 wire [15:0] ide_f_readdata;
-	
-	wire [15:0] JOY0;
+wire [15:0] joystick_enable;
+	wire [15:0] JOY0;// = {16{joystick_enable[0]}} & {cont1_key[7], cont1_key[6], cont1_key[4], cont1_key[5], cont1_key[0], cont1_key[1], cont1_key[2], cont1_key[3]};
 	// joystick 2 [fire4,fire3,fire2,fire,up,down,left,right] (default joystick port)
-	wire [15:0] JOY1 = {cont1_key[7], cont1_key[6], cont1_key[4], cont1_key[5], cont1_key[0], cont1_key[1], cont1_key[2], cont1_key[3]};
-	wire [15:0] JOY2 = {cont1_key[7], cont1_key[6], cont1_key[4], cont1_key[5], cont1_key[0], cont1_key[1], cont1_key[2], cont1_key[3]};
-	wire [15:0] JOY3;
+	wire [15:0] JOY1;// = {16{joystick_enable[1]}} & {cont1_key[7], cont1_key[6], cont1_key[4], cont1_key[5], cont1_key[0], cont1_key[1], cont1_key[2], cont1_key[3]};
+	wire [15:0] JOY2;// = {16{joystick_enable[2]}} & {cont1_key[7], cont1_key[6], cont1_key[4], cont1_key[5], cont1_key[0], cont1_key[1], cont1_key[2], cont1_key[3]};
+	wire [15:0] JOY3;// = {16{joystick_enable[3]}} & {cont1_key[7], cont1_key[6], cont1_key[4], cont1_key[5], cont1_key[0], cont1_key[1], cont1_key[2], cont1_key[3]};
 	wire [15:0] JOYA0;
 	wire [15:0] JOYA1;
 	reg   [7:0] kbd_mouse_data;
@@ -888,7 +891,7 @@ minimig minimig
 	.kbd_mouse_type (kbd_mouse_type ), // type of data
 	.kms_level    (kbd_mouse_level  ),
 //	.pwr_led      (pwr_led          ), // power led
-//	.fdd_led      (LED_USER         ),
+	.fdd_led      (LED         ),
 //	.hdd_led      (ide_c_led        ),
 	.rtc          (RTC              ),
 
@@ -1059,8 +1062,47 @@ cpu_wrapper cpu_wrapper
 reg hs_reg, vs_reg, hblank_i_reg;
 reg hs_delay0, hs_delay1, hs_delay2, hs_delay3;
 
-//assign video_rgb_clock = clk7_en_vga;
-//assign video_rgb_clock_90 = clk7n_vga_en90;
+// lets get some video offsets working
+
+reg [7:0] x_offset = 0;
+reg [7:0] y_offset = 0;
+wire [7:0] x_offset_s;
+wire [7:0] y_offset_s;
+reg [31:0] vga_bridge_rd_data_reg;
+
+always @(posedge clk_74a) begin
+	if (bridge_wr && bridge_addr[31:8] == 24'h200000) begin
+		case (bridge_addr[7:0])
+			8'h00 : begin
+				x_offset <= bridge_wr_data;
+			end
+			8'h04 : begin
+				y_offset <= bridge_wr_data;
+			end
+		endcase
+	end
+end
+
+always @(posedge clk_74a) begin
+	if (bridge_rd) begin
+		case (bridge_addr[7:0])
+			8'h00 : begin
+				vga_bridge_rd_data_reg <= x_offset;
+			end
+			8'h04 : begin
+				vga_bridge_rd_data_reg <= y_offset;
+			end
+		endcase
+	end
+	vga_bridge_rd_data <= vga_bridge_rd_data_reg;
+end
+
+synch_3 #(.WIDTH(8)) x_offset_sync(x_offset, x_offset_s, video_rgb_clock);
+synch_3 #(.WIDTH(8)) y_offset_sync(y_offset, y_offset_s, video_rgb_clock);
+
+reg [7:0] x_offset_vga; // these are the counters for the offset when the DE or each HS wit DE happens
+reg [7:0] y_offset_vga;
+
 always @(posedge video_rgb_clock) begin
 	video_rgb 	<= 'b0;
 	video_de 	<= 'b0;
@@ -1076,25 +1118,31 @@ always @(posedge video_rgb_clock) begin
 	
 	hs_reg <= hs;
 	
-	if (~hs && hs_reg)  hs_delay0 	<= 'b1;
+	if (~hs && hs_reg)  begin
+		hs_delay0 	<= 'b1;
+		x_offset_vga <= x_offset_s;
+		if (y_offset_vga != 0) y_offset_vga <= y_offset_vga - 1;
+	end
 	
 	vs_reg <= vs;
 	
 	if (~vs && vs_reg) begin
+		y_offset_vga <= y_offset_s;
 		video_vs 	<= 'b1;
 		video_rgb 	<= {21'd0, 1'b0, ~field1 && lace, lace, 1'b0}; // This is the interlace part for the core.
 	end
 	
 	else if (~hblank_i && ~vblank_i) begin
 		video_rgb 	<= {r, g, b};
-		video_de 	<= 'b1;
+		if (y_offset_vga == 0 && x_offset_vga == 0 ) video_de 	<= 'b1;
+		if (x_offset_vga != 0) x_offset_vga <= x_offset_vga - 1;
 	end
 	
 	else if (hblank_i && ~hblank_i_reg) begin
 		case (res)
-			2'b11		: video_rgb 	<= 24'h030000;
-			2'b10		: video_rgb 	<= 24'h020000;
-			2'b01		: video_rgb 	<= 24'h010000;
+			2'b11		: video_rgb 	<= {10'd0, 3'h3, 13'd0};
+			2'b10		: video_rgb 	<= {10'd0, 3'h2, 13'd0};
+			2'b01		: video_rgb 	<= {10'd0, 3'h1, 13'd0};
 			default : video_rgb 	<= 24'h0;
 		endcase
 	end

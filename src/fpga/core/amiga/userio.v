@@ -493,10 +493,10 @@ end
 //	input      [15:0] host_rdat,
 //	input             host_ack
 
-wire 			ioctl_wr;
-reg 			ioctl_ack;
-wire [23:0]	ioctl_addr;
-wire [15:0]	ioctl_dout;
+wire 			fifo_wr;
+reg 			fifo_ack;
+wire [23:0]	fifo_addr;
+wire [15:0]	fifo_dout;
 
   data_loader #(
       .ADDRESS_MASK_UPPER_4(4'h0),
@@ -512,10 +512,10 @@ wire [15:0]	ioctl_dout;
       .bridge_addr(bridge_addr),
       .bridge_wr_data(bridge_wr_data),
 
-      .write_en  (ioctl_wr),
-		.write_ack (ioctl_ack),
-      .write_addr(ioctl_addr),
-      .write_data(ioctl_dout)
+      .write_en  (fifo_wr),
+		.write_ack (fifo_ack),
+      .write_addr(fifo_addr),
+      .write_data(fifo_dout)
   );
 
 reg [2:0] memory_state;
@@ -525,14 +525,14 @@ parameter 	memory_idle		=	0,
 				memory_ack		=	2;
 reg mrx;
 always @(posedge clk) begin
-	ioctl_ack <= 'b0;
+	fifo_ack <= 'b0;
 	mrx <= 1'b0;
 	case (memory_state)
 		memory_idle : begin
 			if (ioctl_wr) begin
 				memory_state <= memory_send;
-				host_adr <=	ioctl_addr;
-				host_wdat <= ioctl_dout;
+				host_adr <=	fifo_addr;
+				host_wdat <= fifo_dout;
 				host_bs <= 2'b11;
 				mrx <= 1'b1;
 			end
@@ -541,7 +541,7 @@ always @(posedge clk) begin
 			if (host_ack) begin
 				memory_state <= memory_ack;
 				mrx <= 1'b0;
-				ioctl_ack <= 'b1;
+				fifo_ack <= 'b1;
 			end
 			else begin
 				mrx <= 1'b1;
@@ -553,7 +553,7 @@ always @(posedge clk) begin
 		end
 		default : begin
 			memory_state <= memory_idle;
-			ioctl_ack <= 'b0;
+			fifo_ack <= 'b0;
 		end
 	
 	endcase
