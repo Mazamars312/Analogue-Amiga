@@ -569,15 +569,16 @@ wire  [5:0] ide_f_req;
 wire [15:0] ide_f_readdata;
 	
 	wire [15:0] JOY0;
-	wire [15:0] JOY1;
-	wire [15:0] JOY2;
+	// joystick 2 [fire4,fire3,fire2,fire,up,down,left,right] (default joystick port)
+	wire [15:0] JOY1 = {cont1_key[7], cont1_key[6], cont1_key[4], cont1_key[5], cont1_key[0], cont1_key[1], cont1_key[2], cont1_key[3]};
+	wire [15:0] JOY2 = {cont1_key[7], cont1_key[6], cont1_key[4], cont1_key[5], cont1_key[0], cont1_key[1], cont1_key[2], cont1_key[3]};
 	wire [15:0] JOY3;
 	wire [15:0] JOYA0;
 	wire [15:0] JOYA1;
 	reg   [7:0] kbd_mouse_data;
 	reg         kbd_mouse_level;
 	reg   [1:0] kbd_mouse_type;
-	wire  [2:0] mouse_buttons;
+//	wire  [2:0] mouse_buttons;
 	wire [63:0] RTC;
 
 	wire        io_strobe;
@@ -631,6 +632,26 @@ amiga_clk amiga_clk
 	reg rs;
 	reg [1:0] kbd_mouse_type_reg;
 
+wire signed [15:0]  mouse_pointer_x = {cont4_joy[7:0], cont4_joy[15:8]};
+wire signed [15:0]  mouse_pointer_y = {cont4_trig[7:0], cont4_trig[15:8]};
+wire signed [15:0]  mouse_pointer_x_s;
+wire signed [15:0]  mouse_pointer_y_s;
+    wire    [7:0]   mouse_buttons_s;
+    wire    [7:0]   cont3_joy_s;
+	 wire    [7:0]   mouse_buttons;
+synch_3 #(.WIDTH(8)) s24(cont3_joy[31:24], cont3_joy_s, video_rgb_clock);
+synch_3 #(.WIDTH(8)) s25(mouse_buttons, mouse_buttons_s, video_rgb_clock);
+synch_3 #(.WIDTH(16)) s26(mouse_pointer_x, mouse_pointer_x_s, video_rgb_clock);
+synch_3 #(.WIDTH(16)) s27(mouse_pointer_y, mouse_pointer_y_s, video_rgb_clock);
+
+wire [7:0] amiga_keyboard;
+amiga_keyboard_convert amiga_keyboard_convert (
+.clk					(clk_sys),
+.input_keyboard	(cont3_joy_s),
+.output_keyboard	(amiga_keyboard)
+);
+
+
 always @(posedge clk_sys) begin
 
 	if(~pll_core_locked) begin
@@ -646,7 +667,7 @@ always @(posedge clk_sys) begin
 		case (kbd_mouse_type_reg)
 			1: begin
 				kbd_mouse_type <= 2;
-				kbd_mouse_data <= cont3_joy[31:24];
+				kbd_mouse_data <= amiga_keyboard;
 			end
 			2: begin
 				kbd_mouse_type <= 3;
@@ -654,11 +675,11 @@ always @(posedge clk_sys) begin
 			end
 			3: begin
 				kbd_mouse_type <= 0;
-				kbd_mouse_data <= cont4_joy[7:0];
+				kbd_mouse_data <= mouse_pointer_x_s;
 			end
 			default: begin
 				kbd_mouse_type <= 1;
-				kbd_mouse_data <= cont4_trig[7:0];
+				kbd_mouse_data <= mouse_pointer_y_s;
 			end
 		endcase
 	end
@@ -750,7 +771,7 @@ fastchip fastchip
 
 wire reset_mpu_l;
 substitute_mcu_apf_mister substitute_mcu_apf_mister(
-		.clk_sys									( clk_sys), 
+		.clk_sys								( clk_sys), 
 		.reset_n								( reset_n),
 		.reset_out							(reset_mpu_l),
 		.clk_74a								( clk_74a ),
@@ -803,6 +824,7 @@ wire  [1:0] res;
 
 wire  [1:0] cpu_state;
 wire  [3:0] cpu_cacr;
+wire  [14:0] ldata, rdata;
 
 minimig minimig
 (
@@ -898,8 +920,8 @@ minimig minimig
 	.res          (res              ),
 
 	//audio
-//	.ldata        (ldata            ), // left DAC data
-//	.rdata        (rdata            ), // right DAC data
+	.ldata        (ldata            ), // left DAC data
+	.rdata        (rdata            ), // right DAC data
 //	.ldata_okk    (ldata_okk        ), // 9bit
 //	.rdata_okk    (rdata_okk        ), // 9bit
 //
@@ -1035,6 +1057,7 @@ cpu_wrapper cpu_wrapper
 
 
 reg hs_reg, vs_reg, hblank_i_reg;
+reg hs_delay0, hs_delay1, hs_delay2, hs_delay3;
 
 //assign video_rgb_clock = clk7_en_vga;
 //assign video_rgb_clock_90 = clk7n_vga_en90;
@@ -1043,21 +1066,26 @@ always @(posedge video_rgb_clock) begin
 	video_de 	<= 'b0;
 	video_skip 	<= 'b0;
 	video_vs 	<= 'b0;
-	video_hs 	<= 'b0;
+	hs_delay0 	<= 'b0;
 	hblank_i_reg <= hblank_i;
+	hs_delay1 <= hs_delay0;
+	hs_delay2 <= hs_delay1;
+	hs_delay3 <= hs_delay2;
+	video_hs <= hs_delay3;
+	
 	
 	hs_reg <= hs;
 	
-	if (~hs && hs_reg)  video_hs 	<= 'b1;
+	if (~hs && hs_reg)  hs_delay0 	<= 'b1;
 	
 	vs_reg <= vs;
 	
 	if (~vs && vs_reg) begin
 		video_vs 	<= 'b1;
-		video_rgb 	<= {21'd0, 1'b0, field1 && lace, lace, 1'b0}; // This is the interlace part for the core.
+		video_rgb 	<= {21'd0, 1'b0, ~field1 && lace, lace, 1'b0}; // This is the interlace part for the core.
 	end
 	
-	else if (~hblank_i && ~hblank_i) begin
+	else if (~hblank_i && ~vblank_i) begin
 		video_rgb 	<= {r, g, b};
 		video_de 	<= 'b1;
 	end
@@ -1072,5 +1100,16 @@ always @(posedge video_rgb_clock) begin
 	end
 	
 end
+
+i2s i2s (
+.clk_74a			(clk_74a),
+.left_audio		({ldata, 1'b0}),
+.right_audio	({rdata, 1'b0}),
+
+.audio_mclk		(audio_mclk),
+.audio_dac		(audio_dac),
+.audio_lrck		(audio_lrck)
+
+);
     
 endmodule

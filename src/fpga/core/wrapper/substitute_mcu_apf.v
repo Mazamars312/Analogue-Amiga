@@ -130,7 +130,8 @@ simple_uart simple_uart (
 assign rom_wr = ~|cpu_addr[31:16] && cpu_wr;  
 reg	littlenden;  
 controller_rom 
-#(.top_address(16'h8000) // This sets the location on the APF bus to watch out for
+#(.top_address(16'h8000), // This sets the location on the APF bus to watch out for
+  .address_size (5'd12) //Address lines for the memory array
 )
 controller_rom(
 	// CPU Bus
@@ -517,6 +518,8 @@ end
     
 endmodule
 
+// This is a switching reg over two clock domains
+
 module interupt_clock (
 	input          clk,        // the system clock
 	input          int_clk,    // the interupt clock domain
@@ -550,6 +553,8 @@ always @(posedge clk or negedge reset_n) begin
 end
 
 endmodule
+
+// This is a reg over two clock domains
 
 module clock_reg_latch #(parameter data_size=32 )(
 	input                          write_clk,        // the APF clock

@@ -75,19 +75,24 @@ void mainloop()
 		if(DATASLOT_UPDATE_REG(0)){
 				// This subprogram is for the program to check what dataslots are updated
 			minimig_fdd_update();
+      // printf("updated fdd\r\n");
 		}
 		// Im waiting to introduce a delay in floppy drive changes in the APF framwork
 		// THis will read the timer and will wait to mount the disk. the value is in seconds
 		minimig_timer_update();
+
+    // printf("updated timer_update\r\n");
 		// This does the polling of the core and will then run the processes required for it
 		minimig_poll_io();
+
+    // printf("updated poll_io\r\n");
 	};
 }
 
 int main()
 {
 	usleep(2000);
-	printf ("\r\n%d\r\n",CheckTimer(0));
+	// printf ("\r\n%d\r\n",CheckTimer(0));
   minigmig_reset(0);
 	init();
 	mainloop();

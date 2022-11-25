@@ -53,6 +53,287 @@ unsigned char Error;
 
 #define B2W(a,b) (((((uint16_t)(a))<<8) & 0xFF00) | ((uint16_t)(b) & 0x00FF))
 
+unsigned char GetData(void)
+{
+	unsigned char c, c1, c2, c3, c4;
+	unsigned char i;
+	unsigned char *p;
+	unsigned short n;
+	unsigned char checksum[4];
+	uint16_t tmp;
+
+	Error = 0;
+	while (1)
+	{
+		mister_EnableFpga();
+		c1 = (uint8_t)(spi_w(0) >> 8); // write request signal, track number (cylinder & head)
+		if (!(c1 & CMD_WRTRK))
+			break;
+		spi_w(0);
+		tmp = spi_w(0); // mfm words to transfer
+
+		n = tmp & 0x3FFF;
+
+		if (n >= 0x204)
+		{
+			tmp = (spi_w(0) & 0x5555) << 1;
+			c1 = (uint8_t)(tmp >> 8);
+			c2 = (uint8_t)tmp & 0x55;
+			tmp = (spi_w(0) & 0x5555) << 1;
+			c3 = (uint8_t)(tmp >> 8);
+			c4 = (uint8_t)tmp;
+
+			tmp = spi_w(0) & 0x5555;
+			c1 |= (uint8_t)(tmp >> 8);
+			c2 |= (uint8_t)tmp;
+			tmp = spi_w(0) & 0x5555;
+			c3 |= (uint8_t)(tmp >> 8);
+			c4 |= (uint8_t)tmp;
+
+			checksum[0] = 0;
+			checksum[1] = 0;
+			checksum[2] = 0;
+			checksum[3] = 0;
+
+			// odd bits of data field
+			i = 128;
+			p = sector_buffer;
+			do
+			{
+				tmp = spi_w(0);
+				c = (uint8_t)(tmp >> 8);
+				checksum[0] ^= c;
+				*p++ = (c & 0x55) << 1;
+				c = (uint8_t)tmp;
+				checksum[1] ^= c;
+				*p++ = (c & 0x55) << 1;
+				tmp = spi_w(0);
+				c = (uint8_t)(tmp >> 8);
+				checksum[2] ^= c;
+				*p++ = (c & 0x55) << 1;
+				c = (uint8_t)tmp;
+				checksum[3] ^= c;
+				*p++ = (c & 0x55) << 1;
+			} while (--i);
+
+			// even bits of data field
+			i = 128;
+			p = sector_buffer;
+			do
+			{
+				tmp = spi_w(0);
+				c = (uint8_t)(tmp >> 8);
+				checksum[0] ^= c;
+				*p++ |= c & 0x55;
+				c = (uint8_t)tmp;
+				checksum[1] ^= c;
+				*p++ |= c & 0x55;
+				tmp = spi_w(0);
+				c = (uint8_t)(tmp >> 8);
+				checksum[2] ^= c;
+				*p++ |= c & 0x55;
+				c = (uint8_t)tmp;
+				checksum[3] ^= c;
+				*p++ |= c & 0x55;
+			} while (--i);
+
+			checksum[0] &= 0x55;
+			checksum[1] &= 0x55;
+			checksum[2] &= 0x55;
+			checksum[3] &= 0x55;
+
+			if (c1 != checksum[0] || c2 != checksum[1] || c3 != checksum[2] || c4 != checksum[3])
+			{
+				Error = 29;
+				break;
+			}
+
+			mister_DisableFpga();
+			return 1;
+		}
+		else if ((tmp & 0x8000) == 0) // not enough data in fifo and write dma is not active
+		{
+			Error = 28;
+			break;
+		}
+
+		mister_DisableFpga();
+	}
+	mister_DisableFpga();
+	return 0;
+}
+
+
+
+unsigned char FindSync(adfTYPE *drive)
+// reads data from fifo till it finds sync word or fifo is empty and dma inactive (so no more data is expected)
+{
+	unsigned char  c1, c2;
+	unsigned short n;
+	uint16_t tmp;
+
+	while (1)
+	{
+		mister_EnableFpga();
+		tmp = spi_w(0);
+		c1 = (uint8_t)(tmp >> 8); // write request signal
+		c2 = (uint8_t)tmp; // track number (cylinder & head)
+		if (!(c1 & CMD_WRTRK))
+			break;
+		if (c2 != drive->track)
+			break;
+		spi_w(0); //disk sync word
+
+		n = spi_w(0) & 0xBFFF; // mfm words to transfer
+
+		if (n == 0)
+			break;
+
+		n &= 0x3FFF;
+
+		while (n--)
+		{
+			if (spi_w(0) == 0x4489)
+			{
+				mister_DisableFpga();
+				return 1;
+			}
+		}
+		mister_DisableFpga();
+	}
+	mister_DisableFpga();
+	return 0;
+}
+
+unsigned char GetHeader(unsigned char *pTrack, unsigned char *pSector)
+// this function reads data from fifo till it finds sync word or dma is inactive
+{
+	unsigned char c, c1, c2, c3, c4;
+	unsigned char i;
+	unsigned char checksum[4];
+	uint16_t tmp;
+
+	Error = 0;
+	while (1)
+	{
+		mister_EnableFpga();
+		c1 = (uint8_t)(spi_w(0)>>8); // write request signal, track number (cylinder & head)
+		if (!(c1 & CMD_WRTRK))
+			break;
+		spi_w(0); //disk sync word
+		tmp = spi_w(0); // mfm words to transfer
+
+		if ((tmp & 0x3F00) != 0 || (tmp & 0xFF) > 24)// remaining header data is 25 mfm words
+		{
+			tmp = spi_w(0); // second sync
+			if (tmp != 0x4489)
+			{
+				Error = 21;
+				printf("\nSecond sync word missing...\n");
+				break;
+			}
+
+			tmp = spi_w(0);
+			c = (uint8_t)(tmp >> 8);
+			checksum[0] = c;
+			c1 = (c & 0x55) << 1;
+			c = (uint8_t)tmp;
+			checksum[1] = c;
+			c2 = (c & 0x55) << 1;
+
+			tmp = spi_w(0);
+			c = (uint8_t)(tmp >> 8);
+			checksum[2] = c;
+			c3 = (c & 0x55) << 1;
+			c = (uint8_t)tmp;
+			checksum[3] = c;
+			c4 = (c & 0x55) << 1;
+
+			tmp = spi_w(0);
+			c = (uint8_t)(tmp >> 8);
+			checksum[0] ^= c;
+			c1 |= c & 0x55;
+			c = (uint8_t)tmp;
+			checksum[1] ^= c;
+			c2 |= c & 0x55;
+
+			tmp = spi_w(0);
+			c = (uint8_t)(tmp >> 8);
+			checksum[2] ^= c;
+			c3 |= c & 0x55;
+			c = (uint8_t)tmp;
+			checksum[3] ^= c;
+			c4 |= c & 0x55;
+
+			if (c1 != 0xFF) // always 0xFF
+				Error = 22;
+			else if (c2 > 159) // Track number (0-159)
+				Error = 23;
+			else if (c3 > 10) // Sector number (0-10)
+				Error = 24;
+			else if (c4 > 11 || c4 == 0) // Number of sectors to gap (1-11)
+				Error = 25;
+
+			if (Error)
+			{
+				printf("\nWrong header: %u.%u.%u.%u\n", c1, c2, c3, c4);
+				break;
+			}
+
+			*pTrack = c2;
+			*pSector = c3;
+
+			for (i = 0; i < 8; i++)
+			{
+				tmp = spi_w(0);
+				checksum[0] ^= (uint8_t)(tmp >> 8);
+				checksum[1] ^= (uint8_t)tmp;
+				tmp = spi_w(0);
+				checksum[2] ^= (uint8_t)(tmp >> 8);
+				checksum[3] ^= (uint8_t)tmp;
+			}
+
+			checksum[0] &= 0x55;
+			checksum[1] &= 0x55;
+			checksum[2] &= 0x55;
+			checksum[3] &= 0x55;
+
+			tmp = (spi_w(0) & 0x5555) << 1;
+			c1 = (uint8_t)(tmp >> 8);
+			c2 = (uint8_t)tmp;
+			tmp = (spi_w(0) & 0x5555) << 1;
+			c3 = (uint8_t)(tmp >> 8);
+			c4 = (uint8_t)tmp;
+
+			tmp = spi_w(0) & 0x5555;
+			c1 |= (uint8_t)(tmp >> 8);
+			c2 |= (uint8_t)tmp;
+			tmp = spi_w(0) & 0x5555;
+			c3 |= (uint8_t)(tmp >> 8);
+			c4 |= (uint8_t)tmp;
+
+			if (c1 != checksum[0] || c2 != checksum[1] || c3 != checksum[2] || c4 != checksum[3])
+			{
+				Error = 26;
+				break;
+			}
+
+			mister_DisableFpga();
+			return 1;
+		}
+		else if ((tmp & 0x8000) == 0) // not enough data for header and write dma is not active
+		{
+			Error = 20;
+			break;
+		}
+
+		mister_DisableFpga();
+	}
+
+	mister_DisableFpga();
+	return 0;
+}
+
 void SendSector(unsigned char *pData, unsigned char sector, unsigned char track, unsigned char dsksynch, unsigned char dsksyncl)
 {
 	unsigned char checksum[4];
@@ -157,6 +438,54 @@ void SendGap(void)
 	unsigned short i = GAP_SIZE/2;
 	while (i--) spi_w(0xAAAA);
 }
+
+void WriteTrack(adfTYPE *drive)
+{
+	unsigned char Track;
+	unsigned char Sector;
+  uint32_t foo;
+	unsigned long lba = drive->track * SECTOR_COUNT;
+
+	//    drive->track_prev = drive->track + 1; // This causes a read that directly follows a write to the previous track to return bad data.
+	drive->track_prev = -1; // just to force next read from the start of current track
+
+	while (FindSync(drive))
+	{
+		if (GetHeader(&Track, &Sector))
+		{
+			if (Track == drive->track)
+			{
+				foo = (uint32_t) &sector_buffer;
+				if (dataslot_write_lba_set(drive->dataslot, foo, lba+Sector))
+				{
+					return;
+				}
+
+				if (GetData())
+				{
+					if (drive->status & DSK_WRITABLE)
+					{
+						dataslot_write_lba(512);
+					}
+					else
+					{
+						Error = 30;
+						printf("Write attempt to protected disk!\n");
+					}
+				}
+			}
+			else
+				Error = 27; //track number reported in sector header is not the same as current drive track
+		}
+		if (Error)
+		{
+			printf("WriteTrack: error %u\n", Error);
+			printf("Write error");
+		}
+	}
+}
+
+
 
 // read a track from disk
 void ReadTrack(adfTYPE *drive)
@@ -281,19 +610,14 @@ void ReadTrack(adfTYPE *drive)
 	}
 }
 
-void UpdateDriveStatus(void)
+void UpdateDriveStatus()
 {
-	uint16_t i = 0x1000;
 	mister_EnableFpga();
-	spi_w(i);
-	mister_DisableFpga();
-	usleep(300);
-	i = 0x1000 | df[0].status | (df[1].status << 1) | (df[2].status << 2) | (df[3].status << 3);
-	mister_EnableFpga();
-	spi_w(i);
+	spi_w(0x1000 | df[0].status | (df[1].status << 1) | (df[2].status << 2) | (df[3].status << 3));
 	mister_DisableFpga();
 
 }
+
 
 void HandleFDD(unsigned char c1, unsigned char c2)
 {
@@ -308,12 +632,12 @@ void HandleFDD(unsigned char c1, unsigned char c2)
 		printf("selected drive %d\r\n", sel);
 		ReadTrack(&df[sel]);
 	}
-	// else if (c1 & CMD_WRTRK)
-	// {
-	// 	sel = (c1 >> 6) & 0x03;
-	// 	df[sel].track = c2;
-	// 	WriteTrack(&df[sel]);
-	// }
+	else if (c1 & CMD_WRTRK)
+	{
+		sel = (c1 >> 6) & 0x03;
+		df[sel].track = c2;
+		WriteTrack(&df[sel]);
+	}
 }
 
 // insert floppy image pointed to to by global <file> into <drive>

@@ -33,7 +33,7 @@
 #include "hardware.h"
 #include "apf.h"
 #include "spi.h"
-#define DATASLOT_FDD_BASE 320
+#define DATASLOT_FDD_BASE 320 // These are just made up numbers that make sure that these data slots are used for FDD's and HDD's
 #define DATASLOT_HDD_BASE 310
 void minigmig_reset(int reset){
     RESET_CORE(0) = reset;

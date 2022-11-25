@@ -144,6 +144,7 @@ uint32_t dataslot_read_lba(uint32_t length)
 {
   READ_TARGET_DATASLOT_LENGTH(0) = length;
   READ_TARGET_DATASLOT_CONTROL(0) = TARGET_DATASLOT_READ_REG;
+  printf("READ_TARGET_DATASLOT_LENGTH Sent %.4x\r\n", WRITE_TARGET_DATASLOT_LENGTH(0));
   int apf_codes;
 	do
 	{
