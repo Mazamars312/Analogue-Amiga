@@ -309,7 +309,8 @@ assign aux_scl = 1'bZ;
 assign vpll_feed = 1'bZ;
 
 wire [31:0] fpga_bridge_rd_data;
-wire [31:0] substitute_mcu_bridge_rd_data;
+wire [31:0] mpu_reg_bridge_rd_data; 
+wire [31:0] mpu_ram_bridge_rd_data;
 reg  [31:0] vga_bridge_rd_data;
 
 
@@ -329,7 +330,10 @@ always @(*) begin
         bridge_rd_data <= vga_bridge_rd_data;
     end
 	 32'h8000xxxx: begin
-        bridge_rd_data <= substitute_mcu_bridge_rd_data;
+        bridge_rd_data <= mpu_ram_bridge_rd_data;
+    end
+	 32'h810000xx: begin
+        bridge_rd_data <= mpu_reg_bridge_rd_data;
     end
     32'hF8xxxxxx: begin
         bridge_rd_data <= cmd_bridge_rd_data;
@@ -571,9 +575,9 @@ wire        ide_f_led;
 wire  [5:0] ide_f_req;
 wire [15:0] ide_f_readdata;
 wire [15:0] joystick_enable;
-	wire [15:0] JOY0;// = {16{joystick_enable[0]}} & {cont1_key[7], cont1_key[6], cont1_key[4], cont1_key[5], cont1_key[0], cont1_key[1], cont1_key[2], cont1_key[3]};
+	wire [15:0] JOY0  =  {cont1_key[14],cont1_key[9],cont1_key[8],cont1_key[7], cont1_key[6], cont1_key[4], cont1_key[5], cont1_key[0], cont1_key[1], cont1_key[2], cont1_key[3]};
 	// joystick 2 [fire4,fire3,fire2,fire,up,down,left,right] (default joystick port)
-	wire [15:0] JOY1;// = {16{joystick_enable[1]}} & {cont1_key[7], cont1_key[6], cont1_key[4], cont1_key[5], cont1_key[0], cont1_key[1], cont1_key[2], cont1_key[3]};
+	wire [15:0] JOY1 = {cont2_key[14],cont2_key[9],cont2_key[8],cont2_key[7], cont2_key[6], cont2_key[4], cont2_key[5], cont2_key[0], cont2_key[1], cont2_key[2], cont2_key[3]};
 	wire [15:0] JOY2;// = {16{joystick_enable[2]}} & {cont1_key[7], cont1_key[6], cont1_key[4], cont1_key[5], cont1_key[0], cont1_key[1], cont1_key[2], cont1_key[3]};
 	wire [15:0] JOY3;// = {16{joystick_enable[3]}} & {cont1_key[7], cont1_key[6], cont1_key[4], cont1_key[5], cont1_key[0], cont1_key[1], cont1_key[2], cont1_key[3]};
 	wire [15:0] JOYA0;
@@ -780,7 +784,8 @@ substitute_mcu_apf_mister substitute_mcu_apf_mister(
 		.clk_74a								( clk_74a ),
 		.bridge_addr            		( bridge_addr ),
 		.bridge_rd              		( bridge_rd ),
-		.bridge_rd_data         		( substitute_mcu_bridge_rd_data ),
+		.mpu_reg_bridge_rd_data         		( mpu_reg_bridge_rd_data ),
+		.mpu_ram_bridge_rd_data         		( mpu_ram_bridge_rd_data ),
 		.bridge_wr              		( bridge_wr ),
 		.bridge_wr_data         		( bridge_wr_data ),
 	  
@@ -884,8 +889,8 @@ minimig minimig
 	._joy2        (~JOY1            ), // joystick 2 [fire4,fire3,fire2,fire,up,down,left,right] (default joystick port)
 	._joy3        (~JOY2            ), // joystick 1 [fire4,fire3,fire2,fire,up,down,left,right]
 	._joy4        (~JOY3            ), // joystick 2 [fire4,fire3,fire2,fire,up,down,left,right]
-	.joya1        (JOYA0            ),
-	.joya2        (JOYA1            ),
+	.joya1        (cont1_joy[15:0]  ),
+	.joya2        (cont2_joy[15:0]  ),
 	.mouse_btn    (cont4_joy[31:16] ), // mouse buttons
 	.kbd_mouse_data (kbd_mouse_data ), // mouse direction data, keycodes
 	.kbd_mouse_type (kbd_mouse_type ), // type of data
@@ -1129,7 +1134,7 @@ always @(posedge video_rgb_clock) begin
 	if (~vs && vs_reg) begin
 		y_offset_vga <= y_offset_s;
 		video_vs 	<= 'b1;
-		video_rgb 	<= {21'd0, 1'b0, ~field1 && lace, lace, 1'b0}; // This is the interlace part for the core.
+		video_rgb 	<= {21'd0, 1'b0, field1 && lace, lace, 1'b0}; // This is the interlace part for the core.
 	end
 	
 	else if (~hblank_i && ~vblank_i) begin

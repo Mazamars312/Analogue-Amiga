@@ -7,32 +7,37 @@
               "mappings": [
                     {
                         "id": 0,
-                        "name": "Sample Image 1",
+                        "name": "Pad 1 Button B",
                         "key": "pad_btn_a"
                     },
                     {
                         "id": 1,
-                        "name": "Sample Image 2",
+                        "name": "Pad 1 Button A",
                         "key": "pad_btn_b"
                     },
                     {
                         "id": 2,
-                        "name": "Sample Image 3",
+                        "name": "Pad 1 Button D",
                         "key": "pad_btn_x"
                     },
                     {
                         "id": 3,
-                        "name": "Sample Image 4",
+                        "name": "Pad 1 Button B",
                         "key": "pad_btn_y"
                     },
                     {
                         "id": 4,
-                        "name": "Save Framebuffer",
-                        "key": "pad_btn_select"
+                        "name": "Pad 1 Left Trigger",
+                        "key": "pad_trig_l"
                     },
                     {
                         "id": 5,
-                        "name": "Load Framebuffer",
+                        "name": "Pad 1 Right Trigger",
+                        "key": "pad_trig_r"
+                    },
+                    {
+                        "id": 6,
+                        "name": "Pad 1 Start",
                         "key": "pad_btn_start"
                     }
                 ]

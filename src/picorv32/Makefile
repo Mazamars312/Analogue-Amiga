@@ -49,6 +49,7 @@ OBJECTS := main.o \
            apf.o \
            minimig.o \
            minimig_fdd.o \
+           minimig_config.o \
            startup.o
 
 mpu-stripped.elf: Makefile mpu.elf
@@ -70,10 +71,11 @@ apf.o: apf.cpp Makefile
 printf.o: printf.cpp Makefile
 minimig.o: minimig.cpp Makefile
 minimig_fdd.o: minimig_fdd.cpp Makefile
+minimig_config.o: minimig_config.cpp Makefile
 
 main-emulated.o: main.cpp Makefile
 	g++ -g -c -o main-emulated.o -std=c++14 -Wall main.cpp -DEMULATE_TARGET -Wno-narrowing
-	
+
 emulated: main-emulated.o Makefile
 	g++ -g -o emulated -std=c++14 -Wall main-emulated.o -static
 

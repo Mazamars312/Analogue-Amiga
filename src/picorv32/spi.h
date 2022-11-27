@@ -26,8 +26,6 @@
 
 #include <inttypes.h>
 #include "hardware.h"
-// #include "apf.h"
-// #include "spi.h"
 /* FPGA functions */
 
 
@@ -45,5 +43,23 @@ uint16_t inline spi_w(uint16_t word)
 {
 	return mister_fpga_spi(word);
 };
+
+uint8_t  inline spi_b(uint8_t parm)
+{
+	return (uint8_t)mister_fpga_spi(parm);
+}
+
+void mister_spi_read(uint8_t *addr, uint32_t len, int wide);
+void mister_spi_write(const uint8_t *addr, uint32_t len, int wide);
+void mister_spi_block_read(uint8_t *addr, int wide, int sz = 512);
+void mister_spi_block_write(const uint8_t *addr, int wide, int sz = 512);
+
+uint16_t mister_spi_uio_cmd_cont(uint16_t cmd);
+uint16_t mister_spi_uio_cmd(uint16_t cmd);
+uint8_t mister_spi_uio_cmd8_cont(uint8_t cmd, uint8_t parm);
+uint8_t mister_spi_uio_cmd8(uint8_t cmd, uint8_t parm);
+uint16_t mister_spi_uio_cmd16(uint8_t cmd, uint16_t parm);
+void mister_spi_uio_cmd32(uint8_t cmd, uint32_t parm, int wide);
+void mister_spi_uio_cmd32_cont(uint8_t cmd, uint32_t parm);
 
 #endif // SPI_H

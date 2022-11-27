@@ -27,16 +27,24 @@
 #include <inttypes.h>
 #include <stdio.h>
 
-#define SPI_RST_USR         0x1
-#define SPI_RST_CPU         0x2
-#define SPI_CPU_HLT         0x4
+// Add your operating regs here from the bus
+#define UIO_STATUS      0x00
+#define UIO_BUT_SW      0x01
 
-#define INTERRUPTBASE             0xffffffb0
+// ao486 direct memory access
+#define UIO_DMA_WRITE   0x61
+#define UIO_DMA_READ    0x62
+#define UIO_DMA_SDIO    0x63
+
+#define RESTARTBASE 0xFFFFFFA4
+#define AFP_REGISTOR_BASE         0xffffff00
 #define MISTERGPOHARDWAREBASE     0xffffffd0
 #define MISTERGPIHARDWAREBASE     0xffffffd4
 
 #define RESTARTBASE 0xFFFFFFA4
 #define RESET_CORE(x) *(volatile unsigned int *)(RESTARTBASE+x)
+
+#define AFP_REGISTOR(x) *(volatile unsigned int *)(AFP_REGISTOR_BASE+(x<<2))
 
 #endif // SPI_H
 /***********************************************************

@@ -26,7 +26,8 @@ module substitute_mcu_apf_mister(
 	input 	     		   clk_74a,
 	input [31:0]  		   bridge_addr,
 	input 	     		   bridge_rd,
-	output [31:0]  	       bridge_rd_data,
+	output [31:0]  	   mpu_ram_bridge_rd_data,
+	output reg [31:0]  	mpu_reg_bridge_rd_data,
 	input 	     		   bridge_wr,
 	input  [31:0]   	   bridge_wr_data,
 		 
@@ -147,7 +148,7 @@ controller_rom(
     .clk_74a           (clk_74a),
 	.bridge_addr       (bridge_addr),
 	.bridge_rd         (bridge_rd),
-	.bridge_rd_data    (bridge_rd_data),
+	.bridge_rd_data    (mpu_ram_bridge_rd_data),
 	.bridge_wr         (bridge_wr),
 	.bridge_wr_data    (bridge_wr_data)
 );
@@ -275,6 +276,150 @@ reg        	io_ss2;
 
 assign datatable_addr = cpu_addr[11:2];
 
+/*
+
+	This code is for the status system for the MPU fof the interactions
+	
+	8 regs so the interact.json or <instance.json> can communicate directly to the MPU for settings and setup
+
+*/
+
+// regs on the 74mh clock before MPU reg
+reg [31:0] mpu_reg_0 = 0;
+reg [31:0] mpu_reg_1 = 0;
+reg [31:0] mpu_reg_2 = 0;
+reg [31:0] mpu_reg_3 = 0;
+reg [31:0] mpu_reg_4 = 0;
+reg [31:0] mpu_reg_5 = 0;
+reg [31:0] mpu_reg_6 = 0;
+reg [31:0] mpu_reg_7 = 0;
+
+// wires on the cpu clock after the sync to that clock
+wire [31:0] mpu_reg_0_s;
+wire [31:0] mpu_reg_1_s;
+wire [31:0] mpu_reg_2_s;
+wire [31:0] mpu_reg_3_s;
+wire [31:0] mpu_reg_4_s;
+wire [31:0] mpu_reg_5_s;
+wire [31:0] mpu_reg_6_s;
+wire [31:0] mpu_reg_7_s;
+
+// Read for the APF bus
+reg [31:0] mpu_reg_bridge_rd_data_reg;
+
+wire [31:0] mpu_sync_addr;
+wire [31:0] mpu_sync_data;
+wire 			mpu_sync_wr;
+
+synch_3 #(.WIDTH(32)) CPU_TO_APF_ADDRESS	(cpu_addr, mpu_sync_addr, clk_74a);
+synch_3 #(.WIDTH(32)) CPU_TO_APF_DATA		(from_cpu, mpu_sync_data, clk_74a);
+synch_3 #(.WIDTH(1))  CPU_TO_APF_WRITE		(.i(cpu_wr && cpu_req), .clk(clk_74a), .fall(mpu_sync_wr)); // we want this on the fall
+
+// Write side of the regs
+always @(posedge clk_74a) begin
+	if (bridge_wr && bridge_addr[31:8] == 24'h810000) begin
+		case (bridge_addr[7:0])
+			8'h00 : begin
+				mpu_reg_0 <= bridge_wr_data;
+			end
+			8'h04 : begin
+				mpu_reg_1 <= bridge_wr_data;
+			end
+			8'h08 : begin
+				mpu_reg_2 <= bridge_wr_data;
+			end
+			8'h0C : begin
+				mpu_reg_3 <= bridge_wr_data;
+			end
+			8'h10 : begin
+				mpu_reg_4 <= bridge_wr_data;
+			end
+			8'h14 : begin
+				mpu_reg_5 <= bridge_wr_data;
+			end
+			8'h18 : begin
+				mpu_reg_6 <= bridge_wr_data;
+			end
+			8'h1C : begin
+				mpu_reg_7 <= bridge_wr_data;
+			end
+		endcase
+	end
+	else if (mpu_sync_wr && mpu_sync_addr[31:8] == 24'hFFFFFF ) begin
+		case (mpu_sync_addr[7:0])
+			8'h00 : begin
+				mpu_reg_0 <= mpu_sync_data;
+			end
+			8'h04 : begin
+				mpu_reg_1 <= mpu_sync_data;
+			end
+			8'h08 : begin
+				mpu_reg_2 <= mpu_sync_data;
+			end
+			8'h0C : begin
+				mpu_reg_3 <= mpu_sync_data;
+			end
+			8'h10 : begin
+				mpu_reg_4 <= mpu_sync_data;
+			end
+			8'h14 : begin
+				mpu_reg_5 <= mpu_sync_data;
+			end
+			8'h18 : begin
+				mpu_reg_6 <= mpu_sync_data;
+			end
+			8'h1C : begin
+				mpu_reg_7 <= mpu_sync_data;
+			end
+		endcase
+	end
+end
+
+
+// read side of the regs
+
+always @(posedge clk_74a) begin
+	if (bridge_rd) begin
+		case (bridge_addr[7:0])
+			8'h00 : begin
+				mpu_reg_bridge_rd_data_reg <= mpu_reg_0;
+			end
+			8'h04 : begin
+				mpu_reg_bridge_rd_data_reg <= mpu_reg_1;
+			end
+			8'h08 : begin
+				mpu_reg_bridge_rd_data_reg <= mpu_reg_2;
+			end
+			8'h0C : begin
+				mpu_reg_bridge_rd_data_reg <= mpu_reg_3;
+			end
+			8'h10 : begin
+				mpu_reg_bridge_rd_data_reg <= mpu_reg_4;
+			end
+			8'h14 : begin
+				mpu_reg_bridge_rd_data_reg <= mpu_reg_5;
+			end
+			8'h18 : begin
+				mpu_reg_bridge_rd_data_reg <= mpu_reg_6;
+			end
+			8'h1C : begin
+				mpu_reg_bridge_rd_data_reg <= mpu_reg_7;
+			end
+		endcase
+	end
+	mpu_reg_bridge_rd_data <= mpu_reg_bridge_rd_data_reg;
+end
+
+synch_3 #(.WIDTH(32)) mpu_reg_0_sync(mpu_reg_0, mpu_reg_0_s, clk_sys);
+synch_3 #(.WIDTH(32)) mpu_reg_1_sync(mpu_reg_1, mpu_reg_1_s, clk_sys);
+synch_3 #(.WIDTH(32)) mpu_reg_2_sync(mpu_reg_2, mpu_reg_2_s, clk_sys);
+synch_3 #(.WIDTH(32)) mpu_reg_3_sync(mpu_reg_3, mpu_reg_3_s, clk_sys);
+synch_3 #(.WIDTH(32)) mpu_reg_4_sync(mpu_reg_4, mpu_reg_4_s, clk_sys);
+synch_3 #(.WIDTH(32)) mpu_reg_5_sync(mpu_reg_5, mpu_reg_5_s, clk_sys);
+synch_3 #(.WIDTH(32)) mpu_reg_6_sync(mpu_reg_6, mpu_reg_6_s, clk_sys);
+synch_3 #(.WIDTH(32)) mpu_reg_7_sync(mpu_reg_7, mpu_reg_7_s, clk_sys);
+
+
 /***********************************************************
 	Memory map for the 832 CPU 
 	
@@ -357,6 +502,38 @@ always @(posedge clk_sys) begin
                     16'h0zzz : begin // target_dataslot_id read
                         ext_data_out <= datatable_q;
                         mem_busy <= ~data_slot_ram_ack_1;
+                    end
+						  16'hff00 : begin // mpu_reg_0_s read
+                        ext_data_out <= mpu_reg_0_s;
+                        mem_busy <= 0;
+                    end
+						  16'hff04 : begin // mpu_reg_1_s read
+                        ext_data_out <= mpu_reg_1_s;
+                        mem_busy <= 0;
+                    end
+						  16'hff08 : begin // mpu_reg_2_s read
+                        ext_data_out <= mpu_reg_2_s;
+                        mem_busy <= 0;
+                    end
+						  16'hff0C : begin // mpu_reg_3_s read
+                        ext_data_out <= mpu_reg_3_s;
+                        mem_busy <= 0;
+                    end
+						  16'hff10 : begin // mpu_reg_4_s read
+                        ext_data_out <= mpu_reg_4_s;
+                        mem_busy <= 0;
+                    end
+						  16'hff14 : begin // mpu_reg_5_s read
+                        ext_data_out <= mpu_reg_5_s;
+                        mem_busy <= 0;
+                    end
+						  16'hff18 : begin // mpu_reg_6_s read
+                        ext_data_out <= mpu_reg_6_s;
+                        mem_busy <= 0;
+                    end
+						  16'hff1C : begin // mpu_reg_7_s read
+                        ext_data_out <= mpu_reg_7_s;
+                        mem_busy <= 0;
                     end
                     16'hff80 : begin // target_dataslot_id read
                         ext_data_out <= target_dataslot_id;

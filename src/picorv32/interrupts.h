@@ -20,6 +20,9 @@
 #define INTERRUPTS_H
 
 #include "hardware.h"
+
+#define INTERRUPTBASE 0xFFFFFFBC
+
 #define HW_INTERRUPT(x) *(volatile unsigned int *)(INTERRUPTBASE+x)
 
 // Interrupt control register

@@ -47,15 +47,16 @@ uint32_t uart_rate = 1152; // This is the UART Rate shifted right by 2
 
 void init()
 {
+  minigmig_reset(2);
 	// This setups the timers and the CPU clock rate on the system.
   DisableInterrupts();
 	SetTimer(sys_clock);
 	SetUART(sys_clock, uart_rate);
 	ResetTimer();
-
+  minimig_restart_first(); // we want the core ready to go :-) but with no restarts
 	// This is where you setup the core startup dataslots that the APT loads up for your core.
   minimig_fdd_update();
-
+  usleep(100);
 	return;
 }
 
@@ -67,7 +68,7 @@ void mainloop()
   printf("Created By Mazamars312\r\n");
   printf("Make in 2022\r\n");
 	usleep(5000);
-	minigmig_reset(1);
+	minigmig_reset(0);
 	// I do enjoy reseting this timer.
 
 	// This loop is what keeps the checking of the core interface
@@ -85,16 +86,31 @@ void mainloop()
 		// This does the polling of the core and will then run the processes required for it
 		minimig_poll_io();
 
+    // Get the JOY setup updated
+    minimig_joystick_update();
+
+    if (AFP_REGISTOR(0) & 0x3) { // This has 2 bits for reseting the core
+      printf("started the reset");
+      minigmig_reset(AFP_REGISTOR(0));
+      usleep(200);
+      AFP_REGISTOR(0) = 0;
+      minimig_restart_running_core(); // we now do a reset of the core and update the regs if changed
+      usleep(2000);
+      minigmig_reset(0);
+      usleep(500);
+      RemoveDriveStatus();
+      usleep(500);
+      UpdateDriveStatus();
+    }
     // printf("updated poll_io\r\n");
 	};
 }
 
 int main()
 {
-	usleep(2000);
-	// printf ("\r\n%d\r\n",CheckTimer(0));
-  minigmig_reset(0);
+
 	init();
+  usleep(5000); // I want the core to wait a bit.
 	mainloop();
 
 	return(0);

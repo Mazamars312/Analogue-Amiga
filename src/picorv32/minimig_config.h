@@ -25,43 +25,29 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // 2010-01-09   - support for variable number of tracks
 // 2022-11-25   - Added Pocket APF access
 
-#ifndef MINIMIG_FDD_H
-#define MINIMIG_FDD_H
+#ifndef MINIMIG_CONFIG_H
+#define MINIMIG_CONFIG_H
 #include <stdint.h>
 #ifdef __cplusplus
 extern "C" {
 #endif
-// floppy disk interface defs
-#define CMD_RDTRK 0x01
-#define CMD_WRTRK 0x02
 
-// floppy status
-#define DSK_INSERTED 0x01 /*disk is inserted*/
-#define DSK_WRITABLE 0x10 /*disk is writable*/
+// ---- Minimig v2 constants -------
+#define UIO_MM2_RST     0xF0
+#define UIO_MM2_AUD     0xF1
+#define UIO_MM2_CHIP    0xF2
+#define UIO_MM2_CPU     0xF3
+#define UIO_MM2_MEM     0xF4
+#define UIO_MM2_VID     0xF5
+#define UIO_MM2_FLP     0xF6
+#define UIO_MM2_HDD     0xF7
+#define UIO_MM2_JOY     0xF8
+#define UIO_MM2_MIR     0xF9
 
-#define MAX_TRACKS (83*2)
+void minimig_restart_first();
+void minimig_restart_running_core();
+void minimig_joystick_update();
 
-typedef struct adfTYPE
-{
-	uint32_t      dataslot;
-	uint32_t      size; // Size of the image
-	int      update; // True = this dataslot has been updated and is not loaded. False = is loaded
-	int      updatetimer; // This is wait value using the timer value + the wanted delay.
-	unsigned char status; /*status of floppy*/
-	unsigned char tracks; /*number of tracks*/
-	unsigned char sector_offset; /*sector offset to handle tricky loaders*/
-	unsigned char track; /*current track*/
-	unsigned char track_prev; /*previous track*/
-} adfTYPE;
-
-extern unsigned char drives;
-extern adfTYPE df[4];
-
-void UpdateDriveStatus(void);
-void RemoveDriveStatus();
-void HandleFDD(unsigned char c1, unsigned char c2);
-void UnsertFloppy(adfTYPE *df);
-void InsertFloppy(adfTYPE *df, uint32_t fsize, uint32_t drive_dataslot);
 #ifdef __cplusplus
 }
 #endif

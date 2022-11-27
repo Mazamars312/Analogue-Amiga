@@ -56,19 +56,19 @@ module userio
 	input             kms_level,
 	input       [1:0] kbd_mouse_type,
 	input       [7:0] kbd_mouse_data,
-	output reg  [1:0] aud_mix,
-
+	
+	// APF Interface
 	input       [31:0]  bridge_addr,
 	input               bridge_rd,
 	output reg  [31:0]  bridge_rd_data,
 	input               bridge_wr,
 	input       [31:0]  bridge_wr_data,
-	
+	// MISTER SPI Interface
 	input               IO_ENA,
 	input               IO_STROBE,
 	output reg          IO_WAIT,
 	input      [15:0]   IO_DIN,
-	
+	// System setup
 	output reg  [7:0] memory_config,
 	output reg  [4:0] chipset_config,
 	output reg  [3:0] floppy_config,
@@ -82,7 +82,8 @@ module userio
 	output reg        usrrst,     // user reset from osd module
 	output reg        cpurst,
 	output reg        cpuhlt,
-	// host
+	output reg  [1:0] aud_mix,
+	// Data upload to the amiga addressing
 	output reg        host_cs,
 	output reg [23:0] host_adr,
 	output reg        host_we,
@@ -171,7 +172,7 @@ always @ (posedge clk) begin
       potcnt <= 4'b1111;
     end
     else if (pot_cnt_en) begin
-		if (joy_ana_en & joy1enable) begin
+		if (joy_ana_en & ~joy1enable) begin
         if (potcnt[0] && {~ajoy1[ 7],ajoy1[ 6:0]} != pot1y) pot0y <= pot0y + 1'd1; else potcnt[0] <= 0;
         if (potcnt[1] && {~ajoy1[15],ajoy1[14:8]} != pot1x) pot0x <= pot0x + 1'd1; else potcnt[1] <= 0;
       end else begin
@@ -205,7 +206,7 @@ always @ (posedge clk) begin
 		end
 		potcap[2] <= joy2_pin5;
 
-		if(joy1enable & cd32pad & ~joy1_pin5) begin
+		if(~joy1enable & cd32pad & ~joy1_pin5) begin
 			potcap[1] <= cd32pad1_reg[7];
 		end else begin
 			potcap[1] <= _mright & _djoy1[5] & ~(potreg[11] & ~potreg[10]);
@@ -260,9 +261,9 @@ end
 // port 1 automatic mouse/joystick switch
 always @ (posedge clk) begin
 	//when left mouse button pushed, switch to mouse (default)
-	if (!_mleft || reset) joy1enable = 0;
+//	if (!_mleft || reset) joy1enable = 0;
 	//when joystick 1 fire pushed, switch to joystick
-	else if (!_sjoy1[4]) joy1enable = 1;
+//	else if (!_sjoy1[4]) joy1enable = 1;
 end
 
 // Port 1
@@ -324,7 +325,7 @@ end
 
 // data output multiplexer
 always @(*) begin
-	if ((reg_address_in[8:1]==JOY0DAT[8:1]) && joy1enable)//read port 1 joystick
+	if ((reg_address_in[8:1]==JOY0DAT[8:1]) && ~joy1enable)//read port 1 joystick
 		data_out[15:0] = {mouse0dat[15:10] + dmouse0dat[15:10],dmouse0dat[9:8],mouse0dat[7:2] + dmouse0dat[7:2],dmouse0dat[1:0]};
 	else if (reg_address_in[8:1]==JOY0DAT[8:1])//read port 1 mouse
 		data_out[15:0] = {mouse0dat[15:8] + dmouse0dat[15:8],mouse0dat[7:0] + dmouse0dat[7:0]};
@@ -382,12 +383,12 @@ always @(posedge clk) begin
 	end else if (old_level ^ kms_level) begin
 		if(kbd_mouse_type == 0) begin
 			wheel <= 0;
-			xcount[7:0] <= xcount[7:0] + kbd_mouse_data;
+			xcount[7:0] <= kbd_mouse_data;
 		end
 		if(kbd_mouse_type == 1) begin
 			wheel <= 1;
 			if(wheel) mouse0scr <= mouse0scr + kbd_mouse_data;
-			else ycount[7:0] <= ycount[7:0] + kbd_mouse_data;
+			else ycount[7:0] <= kbd_mouse_data;
 		end
 	end
 end
@@ -399,6 +400,9 @@ assign mouse0dat = {ycount, xcount};
 assign _mleft  = ~mouse_btn[0];
 assign _mright = ~mouse_btn[1];
 assign _mthird = ~mouse_btn[2];
+
+// -------------------------------------------------------------------------------------
+//				THis is the controller side of the amiga
 
 
 //--------------------------------------------------------------------------------------
@@ -435,67 +439,57 @@ end
 
 reg [7:0] cmd;
 
-// reg selects
-//wire mem_write_sel    = (bridge_addr[6:2] == 0); // A_A_A_A B,B,... || write system memory, A - 32 bit memory address, B - variable number of bytes
-//wire reset_ctrl_sel   = (bridge_addr[7:0] == 'h00); // XXXXHRBC || reset control   | H - CPU halt, R - reset, B - reset to bootloader, C - reset control block
-//wire aud_sel          = (bridge_addr[7:0] == 'h04);
-//wire chip_cfg_sel     = (bridge_addr[7:0] == 'h08); // XXXGEANT || chipset config  | G - AGA, E - ECS, A - OCS A1000, N - NTSC, T - turbo
-//wire cpu_cfg_sel      = (bridge_addr[7:0] == 'h0c); // XXXXKCTT || cpu config      | K - fast kickstart enable, C - CPU cache enable, TT - CPU type (00=68k, 01=68k10, 10=68k20)
-//wire memory_cfg_sel   = (bridge_addr[7:0] == 'h10); // XHFFSSCC || memory config   | H - HRTmon, FF - fast, SS - slow, CC - chip
-//wire video_cfg_sel    = (bridge_addr[7:0] == 'h14); // DDHHLLSS || video config    | DD - dither, HH - hires interp. filter, LL - lowres interp. filter, SS - scanline mode
-//wire floppy_cfg_sel   = (bridge_addr[7:0] == 'h18); // XXXXXFFS || floppy config   | FF - drive number, S - floppy speed
-//wire harddisk_cfg_sel = (bridge_addr[7:0] == 'h1c); // XXXXXSMC || harddisk config | S - enable slave HDD, M - enable master HDD, C - enable HDD controler
-//wire joystick_cfg_sel = (bridge_addr[7:0] == 'h20); // XXXXSMMX || joystick config | S - swap joysticks, MM - dig/analog/cd32
-//wire mirror_sel 		 = (bridge_addr[7:0] == 'h24); // XXXXXXXM || Mirror Bios	  | 1 = Not Mirrored 0 = Mirrored
+	reg       has_cmd;
+	reg       btoggle;
+	reg [2:0] bcnt;
+	reg       bootrom_r;
 
-always @(posedge clk_74a) begin
-	
-	if (bridge_wr) begin
-		if(bridge_addr[31:8] == 24'h100000) begin
-				case (bridge_addr[7:0])
-					8'h00 :  {cpurst, usrrst} <= bridge_wr_data[1:0];
-					8'h04 :  aud_mix <= bridge_wr_data[1:0];
-					8'h08 :  t_chipset_config <= bridge_wr_data[4:0];
-					8'h0c :  t_cpu_config <= bridge_wr_data[4:0];
-					8'h10 :  t_memory_config <= bridge_wr_data[7:0];
-					8'h14 :  {blver, ar, scanline} <= {bridge_wr_data[11:8],bridge_wr_data[2:0]};
-					8'h18 :  floppy_config <= bridge_wr_data[3:0];
-					8'h1c :  t_ide_config <= bridge_wr_data[5:0];
-					8'h20 :  {joy_swap, cd32pad, joy_ana_en} <= bridge_wr_data[2:0];
-					8'h24 :  bootrom <= bridge_wr_data[0];
-				endcase
+// reg selects
+wire reset_ctrl_sel   = (cmd[3:0] == 0); 		// XXXXHRBC || reset control   | H - CPU halt, R - reset, B - reset to bootloader, C - reset control block
+wire aud_sel          = (cmd[3:0] == 1);
+wire chip_cfg_sel     = (cmd[3:0] == 2); 		// XXXGEANT || chipset config  | G - AGA, E - ECS, A - OCS A1000, N - NTSC, T - turbo
+wire cpu_cfg_sel      = (cmd[3:0] == 3); 		// XXXXKCTT || cpu config      | K - fast kickstart enable, C - CPU cache enable, TT - CPU type (00=68k, 01=68k10, 10=68k20)
+wire memory_cfg_sel   = (cmd[3:0] == 4); 		// XHFFSSCC || memory config   | H - HRTmon, FF - fast, SS - slow, CC - chip
+wire video_cfg_sel    = (cmd[3:0] == 5); 		// DDHHLLSS || video config    | DD - dither, HH - hires interp. filter, LL - lowres interp. filter, SS - scanline mode
+wire floppy_cfg_sel   = (cmd[3:0] == 6); 		// XXXXXFFS || floppy config   | FF - drive number, S - floppy speed
+wire harddisk_cfg_sel = (cmd[3:0] == 7); 		// XXXXXSMC || harddisk config | S - enable slave HDD, M - enable master HDD, C - enable HDD controler
+wire joystick_cfg_sel = (cmd[3:0] == 8); 	 	// XXXXSMMX || joystick config | S - swap joysticks, MM - dig/analog/cd32
+wire mirror_sel 		 = (cmd[3:0] == 9);  	// XXXXXXXM || Mirror Bios	  | 1 = Not Mirrored 0 = Mirrored
+always @(posedge clk) begin
+
+
+	if(~IO_ENA) begin
+		IO_WAIT <= 0;
+		has_cmd <= 0;
+		bcnt    <= 0;
+      btoggle <= 0;
+	end
+	else if(IO_STROBE) begin
+		has_cmd <= 1;
+		if(~has_cmd) cmd <= IO_DIN[7:0];
+		else if(&cmd[7:4]) begin
+			if(~bcnt[2]) bcnt <= bcnt + 1'd1;
+
+			if(!bcnt) begin
+				if (reset_ctrl_sel)   {cpurst, usrrst} 					<= IO_DIN[1:0];
+				if (chip_cfg_sel)     t_chipset_config 					<= IO_DIN[4:0];
+				if (cpu_cfg_sel)      t_cpu_config 							<= IO_DIN[4:0];
+				if (memory_cfg_sel)   t_memory_config 						<= IO_DIN[7:0];
+				if (video_cfg_sel)    {blver, ar, scanline} 				<= {IO_DIN[11:8],IO_DIN[2:0]};
+				if (floppy_cfg_sel)   floppy_config 						<= IO_DIN[3:0];
+				if (harddisk_cfg_sel) t_ide_config 							<= IO_DIN[5:0];
+				if (joystick_cfg_sel) {joy1enable, joy_swap, cd32pad, joy_ana_en} <= {IO_DIN[3], IO_DIN[2], IO_DIN[1] , IO_DIN[0]};
+				if (aud_sel)          aud_mix 								<= IO_DIN[1:0];
+				if (mirror_sel)       bootrom_r 								<= IO_DIN[0];
+			end
 		end
 	end
-end
 
-always @(posedge clk_74a) begin
-	if (bridge_rd) begin
-		case (bridge_addr[7:0])
-			8'h00 : bridge_rd_data_reg <= {cpuhlt, cpurst, usrrst};
-			8'h04 : bridge_rd_data_reg <= aud_mix;
-			8'h08 : bridge_rd_data_reg <= t_chipset_config;
-			8'h0c : bridge_rd_data_reg <= t_cpu_config;
-			8'h10 : bridge_rd_data_reg <= t_memory_config;
-			8'h14 : bridge_rd_data_reg <= {blver, ar, scanline};
-			8'h18 : bridge_rd_data_reg <= floppy_config;
-			8'h1c : bridge_rd_data_reg <= t_ide_config;
-			8'h20 : bridge_rd_data_reg <= {joy_swap, cd32pad, joy_ana_en};
-			8'h24 : bridge_rd_data_reg <= bootrom;
-		endcase
-		
-	end
-	bridge_rd_data <= bridge_rd_data_reg;
+	bootrom <= bootrom_r;
 end
 
 
-	// host
-//	output reg        host_cs,
-//	output reg [23:0] host_adr,
-//	output reg        host_we,
-//	output      [1:0] host_bs,
-//	output reg [15:0] host_wdat,
-//	input      [15:0] host_rdat,
-//	input             host_ack
+// Bios Upload from the APF bus
 
 wire 			fifo_wr;
 reg 			fifo_ack;

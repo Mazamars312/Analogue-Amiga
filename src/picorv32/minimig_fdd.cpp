@@ -614,8 +614,19 @@ void UpdateDriveStatus()
 {
 	mister_EnableFpga();
 	spi_w(0x1000 | df[0].status | (df[1].status << 1) | (df[2].status << 2) | (df[3].status << 3));
+	printf("States disk 0: %0.4x\r\n", (df[0].status));
+	printf("States disk 1: %0.4x\r\n", (df[1].status));
+	printf("States disk 2: %0.4x\r\n", (df[2].status));
+	printf("States disk 3: %0.4x\r\n", (df[3].status));
+	printf("States of disks: %0.4x\r\n", (0x1000 | df[0].status | (df[1].status << 1) | (df[2].status << 2) | (df[3].status << 3)));
 	mister_DisableFpga();
+}
 
+void RemoveDriveStatus()
+{
+	mister_EnableFpga();
+	spi_w(0x1000);
+	mister_DisableFpga();
 }
 
 
@@ -638,6 +649,22 @@ void HandleFDD(unsigned char c1, unsigned char c2)
 		df[sel].track = c2;
 		WriteTrack(&df[sel]);
 	}
+}
+
+
+void UnsertFloppy(adfTYPE *drive)
+{
+
+	drive->dataslot = 0;
+  drive->size = 0;
+	drive->tracks = 0;
+	drive->status = 0;
+	drive->sector_offset = 0;
+	drive->track = 0;
+	drive->track_prev = 0;
+
+	UpdateDriveStatus();
+	return;
 }
 
 // insert floppy image pointed to to by global <file> into <drive>
