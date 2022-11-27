@@ -1,0 +1,58 @@
+	
+	
+	{
+        "name": "CPU Type",
+        "id": 129,
+        "type": "list",
+        "enabled": true,
+        "persist": true,
+        "address": "0x8100000c",
+        "defaultval": 0,
+        "mask": "0xFFFFfff8",
+        "options": [
+		{
+			"value": "0x0000",
+			"name": "68K CPU"
+		},
+		{
+			"value": "0x0002",
+			"name": "68010K CPU"
+		},
+		{
+			"value": "0x0003",
+			"name": "68020K CPU - No Cache"
+		},
+		{
+			"value": "0x0007",
+			"name": "68020K CPU - Cache"
+		}
+        ]
+	},
+	{
+        "name": "memory - fast -Not Working",
+        "id": 132,
+        "type": "list",
+        "enabled": true,
+        "persist": true,
+        "address": "0x81000010",
+        "defaultval": 0,
+        "mask": "0xFFFFffcf",
+        "options": [
+			{
+				"value": "0x0000",
+				"name": "Zero Fast Memory"
+			},
+			{
+				"value": "0x0010",
+				"name": "2Mbytes Fast Memory"
+			},
+			{
+				"value": "0x0020",
+				"name": "4Mbytes Fast Memory"
+			},
+			{
+				"value": "0x0030",
+				"name": "8Mbytes Fast Memory"
+			}
+        ]
+      }

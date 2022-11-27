@@ -29,37 +29,37 @@
 /* FPGA functions */
 
 
-#define mister_spi_write_fpga(x) *(volatile unsigned int *)(MISTERGPOHARDWAREBASE)
-#define mister_spi_read_fpga(x) *(volatile unsigned int *)(MISTERGPIHARDWAREBASE)
+#define HPS_spi_write_fpga(x) *(volatile unsigned int *)(MISTERGPOHARDWAREBASE)
+#define HPS_spi_read_fpga(x) *(volatile unsigned int *)(MISTERGPIHARDWAREBASE)
 
-void mister_EnableIO();
-void mister_DisableIO();
-void mister_EnableFpga();
-void mister_DisableFpga();
+void HPS_EnableIO();
+void HPS_DisableIO();
+void HPS_EnableFpga();
+void HPS_DisableFpga();
 
-uint16_t mister_fpga_spi(uint16_t word);
+uint16_t HPS_fpga_spi(uint16_t word);
 
 uint16_t inline spi_w(uint16_t word)
 {
-	return mister_fpga_spi(word);
+	return HPS_fpga_spi(word);
 };
 
 uint8_t  inline spi_b(uint8_t parm)
 {
-	return (uint8_t)mister_fpga_spi(parm);
+	return (uint8_t)HPS_fpga_spi(parm);
 }
 
-void mister_spi_read(uint8_t *addr, uint32_t len, int wide);
-void mister_spi_write(const uint8_t *addr, uint32_t len, int wide);
-void mister_spi_block_read(uint8_t *addr, int wide, int sz = 512);
-void mister_spi_block_write(const uint8_t *addr, int wide, int sz = 512);
+void HPS_spi_read(uint8_t *addr, uint32_t len, int wide);
+void HPS_spi_write(const uint8_t *addr, uint32_t len, int wide);
+void HPS_spi_block_read(uint8_t *addr, int wide, int sz = 512);
+void HPS_spi_block_write(const uint8_t *addr, int wide, int sz = 512);
 
-uint16_t mister_spi_uio_cmd_cont(uint16_t cmd);
-uint16_t mister_spi_uio_cmd(uint16_t cmd);
-uint8_t mister_spi_uio_cmd8_cont(uint8_t cmd, uint8_t parm);
-uint8_t mister_spi_uio_cmd8(uint8_t cmd, uint8_t parm);
-uint16_t mister_spi_uio_cmd16(uint8_t cmd, uint16_t parm);
-void mister_spi_uio_cmd32(uint8_t cmd, uint32_t parm, int wide);
-void mister_spi_uio_cmd32_cont(uint8_t cmd, uint32_t parm);
+uint16_t HPS_spi_uio_cmd_cont(uint16_t cmd);
+uint16_t HPS_spi_uio_cmd(uint16_t cmd);
+uint8_t HPS_spi_uio_cmd8_cont(uint8_t cmd, uint8_t parm);
+uint8_t HPS_spi_uio_cmd8(uint8_t cmd, uint8_t parm);
+uint16_t HPS_spi_uio_cmd16(uint8_t cmd, uint16_t parm);
+void HPS_spi_uio_cmd32(uint8_t cmd, uint32_t parm, int wide);
+void HPS_spi_uio_cmd32_cont(uint8_t cmd, uint32_t parm);
 
 #endif // SPI_H

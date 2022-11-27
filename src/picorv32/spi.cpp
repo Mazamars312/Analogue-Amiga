@@ -34,69 +34,69 @@
 #define SWAPW(a) ((((a)<<8)&0xff00)|(((a)>>8)&0x00ff))
 
 
-// These will emulated the Mister
-void mister_fpga_gpo_write(uint32_t value){
- 	mister_spi_write_fpga(0) = value;
+// These will emulated the HPS
+void HPS_fpga_gpo_write(uint32_t value){
+ 	HPS_spi_write_fpga(0) = value;
 };
 
-uint32_t mister_fpga_gpo_read(){
- 	return (mister_spi_write_fpga(0));
+uint32_t HPS_fpga_gpo_read(){
+ 	return (HPS_spi_write_fpga(0));
 };
 
-uint32_t mister_fpga_gpi_read(){
- 	return (mister_spi_read_fpga(0));
+uint32_t HPS_fpga_gpi_read(){
+ 	return (HPS_spi_read_fpga(0));
 };
 
-void mister_fpga_spi_en(uint32_t mask, uint32_t en)
+void HPS_fpga_spi_en(uint32_t mask, uint32_t en)
 {
-	uint32_t gpo = mister_fpga_gpo_read() | 0x80000000;
-	mister_fpga_gpo_write(en ? gpo | mask : gpo & ~mask);
+	uint32_t gpo = HPS_fpga_gpo_read() | 0x80000000;
+	HPS_fpga_gpo_write(en ? gpo | mask : gpo & ~mask);
 }
 
-void mister_EnableFpga()
+void HPS_EnableFpga()
 {
-	mister_fpga_spi_en(SSPI_FPGA_EN, 1);
+	HPS_fpga_spi_en(SSPI_FPGA_EN, 1);
 }
 
-void mister_DisableFpga()
+void HPS_DisableFpga()
 {
-	mister_fpga_spi_en(SSPI_FPGA_EN, 0);
+	HPS_fpga_spi_en(SSPI_FPGA_EN, 0);
 }
 
-void mister_EnableIO()
+void HPS_EnableIO()
 {
-	mister_fpga_spi_en(SSPI_IO_EN, 1);
+	HPS_fpga_spi_en(SSPI_IO_EN, 1);
 }
 
-void mister_DisableIO()
+void HPS_DisableIO()
 {
-	mister_fpga_spi_en(SSPI_IO_EN, 0);
+	HPS_fpga_spi_en(SSPI_IO_EN, 0);
 }
 
-uint16_t mister_fpga_spi(uint16_t word)
+uint16_t HPS_fpga_spi(uint16_t word)
 {
-	uint32_t gpo = (mister_fpga_gpo_read() & ~(0xFFFF | SSPI_STROBE)) | word;
+	uint32_t gpo = (HPS_fpga_gpo_read() & ~(0xFFFF | SSPI_STROBE)) | word;
 
-	mister_fpga_gpo_write(gpo);
-	mister_fpga_gpo_write(gpo | SSPI_STROBE);
+	HPS_fpga_gpo_write(gpo);
+	HPS_fpga_gpo_write(gpo | SSPI_STROBE);
 
 	int gpi;
 	do
 	{
-		gpi = mister_fpga_gpi_read();
+		gpi = HPS_fpga_gpi_read();
 	} while (!(gpi & SSPI_ACK));
 
-	mister_fpga_gpo_write(gpo);
+	HPS_fpga_gpo_write(gpo);
 
 	do
 	{
-		gpi = mister_fpga_gpi_read();
+		gpi = HPS_fpga_gpi_read();
 	} while (gpi & SSPI_ACK);
 
 	return (uint16_t)gpi;
 }
 
-void mister_spi_read(uint8_t *addr, uint32_t len, int wide)
+void HPS_spi_read(uint8_t *addr, uint32_t len, int wide)
 {
 	if (wide)
 	{
@@ -111,7 +111,7 @@ void mister_spi_read(uint8_t *addr, uint32_t len, int wide)
 	}
 }
 
-void mister_spi_write(const uint8_t *addr, uint32_t len, int wide)
+void HPS_spi_write(const uint8_t *addr, uint32_t len, int wide)
 {
 	if (wide)
 	{
@@ -126,13 +126,13 @@ void mister_spi_write(const uint8_t *addr, uint32_t len, int wide)
 	}
 }
 
-void mister_spi_block_read(uint8_t *addr, int wide, int sz)
+void HPS_spi_block_read(uint8_t *addr, int wide, int sz)
 {
 	// if (wide) fpga_spi_fast_block_read((uint16_t*)addr, sz/2);
 	// else fpga_spi_fast_block_read_8(addr, sz);
 }
 
-void mister_spi_block_write(const uint8_t *addr, int wide, int sz)
+void HPS_spi_block_write(const uint8_t *addr, int wide, int sz)
 {
 	// if (wide) fpga_spi_fast_block_write((const uint16_t*)addr, sz/2);
 	// else fpga_spi_fast_block_write_8(addr, sz);
@@ -140,44 +140,44 @@ void mister_spi_block_write(const uint8_t *addr, int wide, int sz)
 
 
 /* User_io related SPI functions */
-uint16_t mister_spi_uio_cmd_cont(uint16_t cmd)
+uint16_t HPS_spi_uio_cmd_cont(uint16_t cmd)
 {
-	mister_EnableIO();
+	HPS_EnableIO();
 	return spi_w(cmd);
 }
 
-uint16_t mister_spi_uio_cmd(uint16_t cmd)
+uint16_t HPS_spi_uio_cmd(uint16_t cmd)
 {
-	uint16_t res = mister_spi_uio_cmd_cont(cmd);
-	mister_DisableIO();
+	uint16_t res = HPS_spi_uio_cmd_cont(cmd);
+	HPS_DisableIO();
 	return res;
 }
 
-uint8_t mister_spi_uio_cmd8_cont(uint8_t cmd, uint8_t parm)
+uint8_t HPS_spi_uio_cmd8_cont(uint8_t cmd, uint8_t parm)
 {
-	mister_EnableIO();
+	HPS_EnableIO();
 	spi_b(cmd);
 	return spi_b(parm);
 }
 
-uint8_t mister_spi_uio_cmd8(uint8_t cmd, uint8_t parm)
+uint8_t HPS_spi_uio_cmd8(uint8_t cmd, uint8_t parm)
 {
-	uint8_t res = mister_spi_uio_cmd8_cont(cmd, parm);
-	mister_DisableIO();
+	uint8_t res = HPS_spi_uio_cmd8_cont(cmd, parm);
+	HPS_DisableIO();
 	return res;
 }
 
-uint16_t mister_spi_uio_cmd16(uint8_t cmd, uint16_t parm)
+uint16_t HPS_spi_uio_cmd16(uint8_t cmd, uint16_t parm)
 {
-	mister_spi_uio_cmd_cont(cmd);
+	HPS_spi_uio_cmd_cont(cmd);
 	uint16_t res = spi_w(parm);
-	mister_DisableIO();
+	HPS_DisableIO();
 	return res;
 }
 
-void mister_spi_uio_cmd32(uint8_t cmd, uint32_t parm, int wide)
+void HPS_spi_uio_cmd32(uint8_t cmd, uint32_t parm, int wide)
 {
-	mister_EnableIO();
+	HPS_EnableIO();
 	spi_b(cmd);
 	if (wide)
 	{
@@ -191,5 +191,5 @@ void mister_spi_uio_cmd32(uint8_t cmd, uint32_t parm, int wide)
 		spi_b(parm >> 16);
 		spi_b(parm >> 24);
 	}
-	mister_DisableIO();
+	HPS_DisableIO();
 }

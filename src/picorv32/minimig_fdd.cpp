@@ -65,7 +65,7 @@ unsigned char GetData(void)
 	Error = 0;
 	while (1)
 	{
-		mister_EnableFpga();
+		HPS_EnableFpga();
 		c1 = (uint8_t)(spi_w(0) >> 8); // write request signal, track number (cylinder & head)
 		if (!(c1 & CMD_WRTRK))
 			break;
@@ -148,7 +148,7 @@ unsigned char GetData(void)
 				break;
 			}
 
-			mister_DisableFpga();
+			HPS_DisableFpga();
 			return 1;
 		}
 		else if ((tmp & 0x8000) == 0) // not enough data in fifo and write dma is not active
@@ -157,9 +157,9 @@ unsigned char GetData(void)
 			break;
 		}
 
-		mister_DisableFpga();
+		HPS_DisableFpga();
 	}
-	mister_DisableFpga();
+	HPS_DisableFpga();
 	return 0;
 }
 
@@ -174,7 +174,7 @@ unsigned char FindSync(adfTYPE *drive)
 
 	while (1)
 	{
-		mister_EnableFpga();
+		HPS_EnableFpga();
 		tmp = spi_w(0);
 		c1 = (uint8_t)(tmp >> 8); // write request signal
 		c2 = (uint8_t)tmp; // track number (cylinder & head)
@@ -195,13 +195,13 @@ unsigned char FindSync(adfTYPE *drive)
 		{
 			if (spi_w(0) == 0x4489)
 			{
-				mister_DisableFpga();
+				HPS_DisableFpga();
 				return 1;
 			}
 		}
-		mister_DisableFpga();
+		HPS_DisableFpga();
 	}
-	mister_DisableFpga();
+	HPS_DisableFpga();
 	return 0;
 }
 
@@ -216,7 +216,7 @@ unsigned char GetHeader(unsigned char *pTrack, unsigned char *pSector)
 	Error = 0;
 	while (1)
 	{
-		mister_EnableFpga();
+		HPS_EnableFpga();
 		c1 = (uint8_t)(spi_w(0)>>8); // write request signal, track number (cylinder & head)
 		if (!(c1 & CMD_WRTRK))
 			break;
@@ -318,7 +318,7 @@ unsigned char GetHeader(unsigned char *pTrack, unsigned char *pSector)
 				break;
 			}
 
-			mister_DisableFpga();
+			HPS_DisableFpga();
 			return 1;
 		}
 		else if ((tmp & 0x8000) == 0) // not enough data for header and write dma is not active
@@ -327,10 +327,10 @@ unsigned char GetHeader(unsigned char *pTrack, unsigned char *pSector)
 			break;
 		}
 
-		mister_DisableFpga();
+		HPS_DisableFpga();
 	}
 
-	mister_DisableFpga();
+	HPS_DisableFpga();
 	return 0;
 }
 
@@ -523,13 +523,13 @@ void ReadTrack(adfTYPE *drive)
 	{
 		return;
 	}
-	mister_EnableFpga();
+	HPS_EnableFpga();
 	tmp = spi_w(0);
 	status = (uint8_t)(tmp>>8); // read request signal
 	track = (uint8_t)tmp; // track number (cylinder & head)
 	dsksync = spi_w(0); // disk sync
 	spi_w(0); // mfm words to transfer
-	mister_DisableFpga();
+	HPS_DisableFpga();
 
 	if (track >= drive->tracks)
 		track = drive->tracks - 1;
@@ -542,7 +542,7 @@ void ReadTrack(adfTYPE *drive)
 		// RAMENDEN(0) = 0;
 		// FileReadSec(&drive->file, sector_buffer);
 
-		mister_EnableFpga();
+		HPS_EnableFpga();
 
 		// check if FPGA is still asking for data
 		tmp = spi_w(0);
@@ -582,7 +582,7 @@ void ReadTrack(adfTYPE *drive)
 		}
 
 		// we are done accessing FPGA
-		mister_DisableFpga();
+		HPS_DisableFpga();
 
 		// track has changed
 		if (track != drive->track)
@@ -612,21 +612,21 @@ void ReadTrack(adfTYPE *drive)
 
 void UpdateDriveStatus()
 {
-	mister_EnableFpga();
+	HPS_EnableFpga();
 	spi_w(0x1000 | df[0].status | (df[1].status << 1) | (df[2].status << 2) | (df[3].status << 3));
 	printf("States disk 0: %0.4x\r\n", (df[0].status));
 	printf("States disk 1: %0.4x\r\n", (df[1].status));
 	printf("States disk 2: %0.4x\r\n", (df[2].status));
 	printf("States disk 3: %0.4x\r\n", (df[3].status));
 	printf("States of disks: %0.4x\r\n", (0x1000 | df[0].status | (df[1].status << 1) | (df[2].status << 2) | (df[3].status << 3)));
-	mister_DisableFpga();
+	HPS_DisableFpga();
 }
 
 void RemoveDriveStatus()
 {
-	mister_EnableFpga();
+	HPS_EnableFpga();
 	spi_w(0x1000);
-	mister_DisableFpga();
+	HPS_DisableFpga();
 }
 
 

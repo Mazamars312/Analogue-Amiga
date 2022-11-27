@@ -23,26 +23,18 @@ module substitute_mcu_apf_mister(
 	input                  reset_n,
 	output reg             reset_out,
 		
-	input 	     		   clk_74a,
-	input [31:0]  		   bridge_addr,
-	input 	     		   bridge_rd,
-	output [31:0]  	   mpu_ram_bridge_rd_data,
-	output reg [31:0]  	mpu_reg_bridge_rd_data,
-	input 	     		   bridge_wr,
-	input  [31:0]   	   bridge_wr_data,
+	input 	     		     clk_74a,
+	input [31:0]  		     bridge_addr,
+	input 	     		     bridge_rd,
+	output [31:0]  	     mpu_ram_bridge_rd_data,
+	output reg [31:0]  	  mpu_reg_bridge_rd_data,
+	input 	     		     bridge_wr,
+	input  [31:0]   	     bridge_wr_data,
 		 
-	//Mister HPS Bus via the 32bit bus
-	output 	     	   	IO_UIO,
-	output    		   	IO_FPGA,
-	output    		   	IO_STROBE,
-	input 	     		   IO_WAIT,
-	input  [15:0] 		   IO_DIN,
-	output reg [15:0] 	IO_DOUT,
-	input 					IO_WIDE, // 1 = 16bit, 0 = 8bit;
-	
-    input 	     	       dataslot_update,
-    input 	     	[15:0] dataslot_update_id,
-    input 	     	[31:0] dataslot_update_size,
+
+    input 	     	        dataslot_update,
+    input 	     	[15:0]  dataslot_update_id,
+    input 	     	[31:0]  dataslot_update_size,
 
 	output reg             target_dataslot_read,       // rising edge triggered
 	output reg             target_dataslot_write,
@@ -63,7 +55,30 @@ module substitute_mcu_apf_mister(
 	
 	// UART
 	output                 txd,
-	input                  rxd
+	input                  rxd,
+	
+	input    	[31:0]  cont1_key,
+	input    	[31:0]  cont2_key,
+	input    	[31:0]  cont3_key,
+	input    	[31:0]  cont4_key,
+	input    	[31:0]  cont1_joy,
+	input    	[31:0]  cont2_joy,
+	input    	[31:0]  cont3_joy,
+	input    	[31:0]  cont4_joy,
+	input    	[15:0]  cont1_trig,
+	input    	[15:0]  cont2_trig,
+	input    	[15:0]  cont3_trig,
+	input    	[15:0]  cont4_trig,
+	
+	//Mister HPS Bus via the 32bit bus
+	output 	     	   	  IO_UIO,
+	output    		   	  IO_FPGA,
+	output    		   	  IO_STROBE,
+	input 	     		     IO_WAIT,
+	input  [15:0] 		     IO_DIN,
+	output reg [15:0] 	  IO_DOUT,
+	input 					  IO_WIDE, // 1 = 16bit, 0 = 8bit;
+	
     );
 
 	parameter false = 0;

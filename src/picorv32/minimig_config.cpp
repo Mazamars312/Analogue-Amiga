@@ -35,32 +35,32 @@
 
 void minimig_restart_first() {
   // Get the Floppy Controllers sorted
-  mister_spi_uio_cmd8(UIO_MM2_FLP , AFP_REGISTOR(1));
+  HPS_spi_uio_cmd8(UIO_MM2_FLP , AFP_REGISTOR(1));
   // Get the chip setup sorted
-  mister_spi_uio_cmd8(UIO_MM2_CHIP, AFP_REGISTOR(2));
+  HPS_spi_uio_cmd8(UIO_MM2_CHIP, AFP_REGISTOR(2));
   // Get the Cpu setup sorted
-  mister_spi_uio_cmd8(UIO_MM2_CPU , AFP_REGISTOR(3));
+  HPS_spi_uio_cmd8(UIO_MM2_CPU , AFP_REGISTOR(3));
   // Get the MEM setup sorted
-  mister_spi_uio_cmd8(UIO_MM2_MEM , AFP_REGISTOR(4));
+  HPS_spi_uio_cmd8(UIO_MM2_MEM , AFP_REGISTOR(4));
   // Get the JOY setup sorted
-  mister_spi_uio_cmd8(UIO_MM2_JOY , AFP_REGISTOR(5));
+  HPS_spi_uio_cmd8(UIO_MM2_JOY , AFP_REGISTOR(5));
 };
 
 void minimig_restart_running_core() {
   // Get the Floppy Controllers sorted
-  mister_spi_uio_cmd8(UIO_MM2_FLP , AFP_REGISTOR(1));
+  HPS_spi_uio_cmd8(UIO_MM2_FLP , AFP_REGISTOR(1));
   // Get the chip setup sorted
-  mister_spi_uio_cmd8(UIO_MM2_CHIP, AFP_REGISTOR(2));
+  HPS_spi_uio_cmd8(UIO_MM2_CHIP, AFP_REGISTOR(2));
   // Get the Cpu setup sorted
-  mister_spi_uio_cmd8(UIO_MM2_CPU , AFP_REGISTOR(3));
+  HPS_spi_uio_cmd8(UIO_MM2_CPU , AFP_REGISTOR(3));
   // Get the MEM setup sorted
-  mister_spi_uio_cmd8(UIO_MM2_MEM , AFP_REGISTOR(4));
+  HPS_spi_uio_cmd8(UIO_MM2_MEM , AFP_REGISTOR(4));
   // Get the JOY setup sorted
-  mister_spi_uio_cmd8(UIO_MM2_JOY , AFP_REGISTOR(5));
+  HPS_spi_uio_cmd8(UIO_MM2_JOY , AFP_REGISTOR(5));
 };
 
 void minimig_joystick_update(){
 
   // Get the JOY setup sorted
-  mister_spi_uio_cmd8(UIO_MM2_JOY , AFP_REGISTOR(5));
+  HPS_spi_uio_cmd8(UIO_MM2_JOY , AFP_REGISTOR(5));
 }

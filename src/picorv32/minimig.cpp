@@ -42,7 +42,7 @@ uint8_t rstval;
 
 void minigmig_reset(int reset){
     rstval = (reset);
-		mister_spi_uio_cmd8(UIO_MM2_RST, rstval);
+		HPS_spi_uio_cmd8(UIO_MM2_RST, rstval);
 };
 // here is the floppy Drive
 
@@ -65,12 +65,12 @@ void minimig_timer_update(){
 };
 void minimig_poll_io(){
       unsigned char  c1, c2;
-  		mister_EnableFpga();
+  		HPS_EnableFpga();
   		uint16_t tmp = spi_w(0);
   		c1 = (uint8_t)(tmp >> 8); // cmd request and drive number
   		c2 = (uint8_t)tmp;      // track number
   		spi_w(0);
   		spi_w(0);
-  		mister_DisableFpga();
+  		HPS_DisableFpga();
       HandleFDD(c1, c2);
 };

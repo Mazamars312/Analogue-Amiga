@@ -778,26 +778,40 @@ fastchip fastchip
 
 wire reset_mpu_l;
 substitute_mcu_apf_mister substitute_mcu_apf_mister(
-		.clk_sys								( clk_sys), 
-		.reset_n								( reset_n),
-		.reset_out							(reset_mpu_l),
-		.clk_74a								( clk_74a ),
+		// Controls for the MPU
+		.clk_sys								( clk_sys ), 							// Clock of the MPU itself
+		.clk_74a								( clk_74a ),							// Clock of the APF Bus
+		.reset_n								( reset_n ),							// Reset from the APF System
+		.reset_out							( reset_mpu_l ),						// Able to restart the core from the MPU if required
+		
+		// APF Bus controll
 		.bridge_addr            		( bridge_addr ),
 		.bridge_rd              		( bridge_rd ),
-		.mpu_reg_bridge_rd_data         		( mpu_reg_bridge_rd_data ),
-		.mpu_ram_bridge_rd_data         		( mpu_ram_bridge_rd_data ),
+		.mpu_reg_bridge_rd_data       ( mpu_reg_bridge_rd_data ),		// Used for interactions
+		.mpu_ram_bridge_rd_data       ( mpu_ram_bridge_rd_data ),		// Used for ram up/download
 		.bridge_wr              		( bridge_wr ),
 		.bridge_wr_data         		( bridge_wr_data ),
 	  
-	  	.IO_UIO       						( io_uio ),
-		.IO_FPGA      						( io_fpga ),
-		.IO_STROBE    						( io_strobe ),
-		.IO_WAIT      						( io_wait ),
-		.IO_DIN       						( io_dout ),
-		.IO_DOUT      						( io_din ),
-		.IO_WIDE								( 1'b1 ),
+	   // Debugging to the Cart	
 		.rxd									( RXDATA ),
 		.txd									( TXDATA ),
+		
+		// APF Controller access if required
+		
+		.cont1_key          				( cont1_key ),
+		.cont2_key          				( cont2_key ),
+		.cont3_key          				( cont3_key ),
+		.cont4_key          				( cont4_key ),
+		.cont1_joy          				( cont1_joy ),
+		.cont2_joy          				( cont2_joy ),
+		.cont3_joy          				( cont3_joy ),
+		.cont4_joy          				( cont4_joy ),
+		.cont1_trig         				( cont1_trig ),
+		.cont2_trig         				( cont2_trig ),
+		.cont3_trig         				( cont3_trig ),
+		.cont4_trig         				( cont4_trig ),
+		
+		// MPU Controlls to the APF
 		
 		.dataslot_update            	( dataslot_update ),
 		.dataslot_update_id         	( dataslot_update_id ),
@@ -818,7 +832,16 @@ substitute_mcu_apf_mister substitute_mcu_apf_mister(
 		.datatable_addr         		( datatable_addr ),
 		.datatable_wren         		( datatable_wren ),
 		.datatable_data         		( datatable_data ),
-		.datatable_q            		( datatable_q )
+		.datatable_q            		( datatable_q ),
+		
+		// Core interactions
+		.IO_UIO       						( io_uio ),
+		.IO_FPGA      						( io_fpga ),
+		.IO_STROBE    						( io_strobe ),
+		.IO_WAIT      						( io_wait ),
+		.IO_DIN       						( io_dout ),
+		.IO_DOUT      						( io_din ),
+		.IO_WIDE								( 1'b1 )
 	 
 	 );
 

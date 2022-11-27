@@ -3,6 +3,17 @@
     "magic": "APF_VER_1",
     "variables": [
 	{
+        "name": "CPU Reset",
+        "id": 121,
+        "type": "check",
+        "enabled": true,
+        "address": "0x81000000",
+        "defaultval": 0,
+        "value": 1,
+		"value_off" : 0,
+        "mask": "0xFFFFFFFE"
+	},
+	{
         "name": "Installed Floppy Drives",
         "id": 120,
         "type": "list",
@@ -47,95 +58,6 @@
         ]
 	},
 	{
-        "name": "CPU Reset",
-        "id": 121,
-        "type": "check",
-        "enabled": true,
-        "address": "0x81000000",
-        "defaultval": 0,
-        "value": 1,
-		"value_off" : 0,
-        "mask": "0xFFFFFFFE"
-	},
-	{
-        "name": "user reset",
-        "id": 122,
-        "type": "check",
-        "enabled": true,
-        "address": "0x81000000",
-        "defaultval": 0,
-        "value": 2,
-        "mask": "0xFFFFFFFD"
-	},
-	{
-		"name": "Screen X Position",
-		"id": 123,
-		"type": "slider_u32",
-		"enabled": true,
-		"persist": true,
-		"address": "0x20000000",
-		"mask": "0x00000000",
-		"graphical": {
-			"defaultval": "0",
-			"signed": false,
-			"min": 0,
-			"max": 300,
-			"adjust_small": 1,
-			"adjust_large": 2
-		}
-	},
-	{
-		"name": "Screen Y Position",
-		"id": 124,
-		"type": "slider_u32",
-		"enabled": true,
-		"persist": true,
-		"address": "0x20000004",
-		"mask": "0x00000000",
-		"graphical": {
-			"defaultval": "0",
-			"signed": false,
-			"min": 0,
-			"max": 300,
-			"adjust_small": 1,
-			"adjust_large": 1
-		}
-	},
-	
-	{
-        "name": "NTSC",
-        "id": 125,
-        "type": "check",
-        "enabled": true,
-        "persist": true,
-        "address": "0x81000008",
-        "defaultval": 0,
-        "value": 2,
-        "mask": "0xFFFFFFFD"
-	},
-	{
-        "name": "AGA",
-        "id": 126,
-        "type": "check",
-        "enabled": true,
-        "persist": true,
-        "address": "0x81000008",
-        "defaultval": 0,
-        "value": "0x10",
-        "mask": "0xFFFFffef"
-	},
-	{
-        "name": "Turbo",
-        "id": 127,
-        "type": "check",
-        "enabled": true,
-        "persist": true,
-        "address": "0x81000008",
-        "defaultval": 0,
-        "value": 1,
-        "mask": "0xFFFFfffe"
-	},
-	{
         "name": "Port 1/Port 2",
         "id": 128,
         "type": "list",
@@ -172,33 +94,94 @@
         ]
 	},
 	{
-        "name": "CPU Type",
-        "id": 129,
+        "name": "user reset",
+        "id": 122,
+        "type": "check",
+        "enabled": true,
+        "address": "0x81000000",
+        "defaultval": 0,
+        "value": 2,
+        "mask": "0xFFFFFFFD"
+	},
+	{
+		"name": "Screen X Position",
+		"id": 123,
+		"type": "slider_u32",
+		"enabled": true,
+		"persist": true,
+		"address": "0x20000000",
+		"mask": "0x00000000",
+		"graphical": {
+			"defaultval": "39",
+			"signed": false,
+			"min": 0,
+			"max": 300,
+			"adjust_small": 1,
+			"adjust_large": 2
+		}
+	},
+	{
+		"name": "Screen Y Position",
+		"id": 124,
+		"type": "slider_u32",
+		"enabled": true,
+		"persist": true,
+		"address": "0x20000004",
+		"mask": "0x00000000",
+		"graphical": {
+			"defaultval": "40",
+			"signed": false,
+			"min": 0,
+			"max": 300,
+			"adjust_small": 1,
+			"adjust_large": 1
+		}
+	},
+	{
+        "name": "System Config",
+        "id": 125,
         "type": "list",
         "enabled": true,
         "persist": true,
-        "address": "0x8100000c",
+        "address": "0x81000008",
         "defaultval": 0,
-        "mask": "0xFFFFfff8",
+        "mask": "0xFFFFFFEC",
         "options": [
 		{
 			"value": "0x0000",
-			"name": "68K CPU"
+			"name": "OG/Standard/PAL"
 		},
 		{
 			"value": "0x0002",
-			"name": "68010K CPU"
+			"name": "OG/Standard/NTSC"
+		},
+		{
+			"value": "0x0001",
+			"name": "OG/Turbo/PAL"
 		},
 		{
 			"value": "0x0003",
-			"name": "68020K CPU - No Cache"
+			"name": "OG/Turbo/NTSC"
 		},
 		{
-			"value": "0x0007",
-			"name": "68020K CPU - Cache"
+			"value": "0x0010",
+			"name": "AGA/Standard/PAL"
+		},
+		{
+			"value": "0x0012",
+			"name": "AGA/Standard/NTSC"
+		},
+		{
+			"value": "0x0011",
+			"name": "AGA/Turbo/PAL"
+		},
+		{
+			"value": "0x0013",
+			"name": "AGA/Turbo/NTSC"
 		}
         ]
 	},
+
 	{
         "name": "memory - chip",
         "id": 130,
@@ -256,7 +239,7 @@
         ]
 	},
 	{
-        "name": "memory - fast -Not Working",
+        "name": "memory - fast",
         "id": 132,
         "type": "list",
         "enabled": true,
@@ -283,6 +266,7 @@
 			}
         ]
       }
+	
     ]
   }
 }
