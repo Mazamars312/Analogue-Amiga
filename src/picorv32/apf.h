@@ -53,7 +53,7 @@
 
 #define DATASLOT_RAM_ACCESS(x) *(volatile unsigned int *)(DATASLOT_ID_BASE+(x))
 
-#define DATASLOT_UPDATE_REG(x) *(volatile unsigned int *)(DATASLOT_UPDATE_FLAG_REG+(x))
+#define DATASLOT_UPDATE_REG(x) *(volatile unsigned int *)(DATASLOT_UPDATE_FLAG_REG+(x<<2))
 
 #define WRITE_TARGET_DATASLOT_ID(x) *(volatile unsigned int *)(TARGET_DATASLOT_ID+(x))
 #define WRITE_TARGET_DATASLOT_BRIDGE_ADD(x) *(volatile unsigned int *)(TARGET_DATASLOT_BRIDGE_ADD+(x))

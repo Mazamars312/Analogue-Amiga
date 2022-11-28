@@ -50,6 +50,7 @@ OBJECTS := main.o \
            minimig.o \
            minimig_fdd.o \
            minimig_config.o \
+           minimig_inputs.o \
            startup.o
 
 mpu-stripped.elf: Makefile mpu.elf
@@ -71,6 +72,7 @@ apf.o: apf.cpp Makefile
 printf.o: printf.cpp Makefile
 minimig.o: minimig.cpp Makefile
 minimig_fdd.o: minimig_fdd.cpp Makefile
+minimig_fdd.o: minimig_inputs.cpp Makefile
 minimig_config.o: minimig_config.cpp Makefile
 
 main-emulated.o: main.cpp Makefile

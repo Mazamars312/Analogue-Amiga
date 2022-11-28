@@ -37,14 +37,28 @@
 #include "spi.h"
 #define DATASLOT_FDD_BASE 320 // These are just made up numbers that make sure that these data slots are used for FDD's and HDD's
 #define DATASLOT_HDD_BASE 310
+#define DATASLOT_BIOS_BASE 210 // BIOS Update
 
 uint8_t rstval;
 
 void minigmig_reset(int reset){
-    rstval = (reset);
-		HPS_spi_uio_cmd8(UIO_MM2_RST, rstval);
+		HPS_spi_uio_cmd8(UIO_MM2_RST, reset);
 };
-// here is the floppy Drive
+// Update dataslots
+
+void minimig_update_dataslots(){
+	int i = 0;
+  int tmp = DATASLOT_UPDATE_REG(1);
+	if (tmp == DATASLOT_BIOS_BASE){
+		minigmig_reset(7);
+		usleep(200);
+		minimig_restart_first();
+		usleep(200);
+		minigmig_reset(0);
+	} else if (tmp >= DATASLOT_FDD_BASE && tmp <= DATASLOT_FDD_BASE + 3 ) {
+		minimig_fdd_update();
+	}
+};
 
 void minimig_fdd_update(){
   int i = 0;
@@ -58,12 +72,16 @@ void minimig_fdd_update(){
     i++;
   }
   UpdateDriveStatus();
-};
+}
 
-void minimig_timer_update(){
-
-};
 void minimig_poll_io(){
+			// Get the mouse port updated
+
+			minimig_input_update();
+
+			// Get the keyboard port updated
+			// minimig_keyboard_update();
+
       unsigned char  c1, c2;
   		HPS_EnableFpga();
   		uint16_t tmp = spi_w(0);
@@ -73,4 +91,6 @@ void minimig_poll_io(){
   		spi_w(0);
   		HPS_DisableFpga();
       HandleFDD(c1, c2);
+
+
 };

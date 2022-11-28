@@ -188,37 +188,37 @@ wire        lds_p;
 wire        reset_out_p;
 wire        longword;
 
-//TG68KdotC_Kernel
-//#(
-//	.sr_read(2),        // 0=>user,   1=>privileged,    2=>switchable with CPU(0)
-//	.vbr_stackframe(2), // 0=>no,     1=>yes/extended,  2=>switchable with CPU(0)
-//	.extaddr_mode(2),   // 0=>no,     1=>yes,           2=>switchable with CPU(1)
-//	.mul_mode(2),       // 0=>16Bit,  1=>32Bit,         2=>switchable with CPU(1),  3=>no MUL,
-//	.div_mode(2),       // 0=>16Bit,  1=>32Bit,         2=>switchable with CPU(1),  3=>no DIV,
-//	.bitfield(2)        // 0=>no,     1=>yes,           2=>switchable with CPU(1)
-//)
-//cpu_inst_p
-//(
-//  .clk(clk),
-//  .nreset(reset),
-//  .clkena_in(~cpu_req | chipready | ramready | fastchip_ready),
-//  .data_in(cpu_din),
-//  .ipl(cpu_ipl),
-//  .ipl_autovector(1),
-//  .regin_out(),
-//  .addr_out(cpu_addr_p),
-//  .data_write(cpu_dout_p),
-//  .nwr(wr_p),
-//  .nuds(uds_p),
-//  .nlds(lds_p),
-//  .nresetout(reset_out_p),
-//  .longword(longword),
-//  
-//  .cpu(cpucfg),
-//  .busstate(cpustate_p),		// 0: fetch code, 1: no memaccess, 2: read data, 3: write data
-//  .cacr_out(cacr_p),
-//  .vbr_out(vbr_p)
-//);
+TG68KdotC_Kernel
+#(
+	.sr_read(2),        // 0=>user,   1=>privileged,    2=>switchable with CPU(0)
+	.vbr_stackframe(2), // 0=>no,     1=>yes/extended,  2=>switchable with CPU(0)
+	.extaddr_mode(2),   // 0=>no,     1=>yes,           2=>switchable with CPU(1)
+	.mul_mode(2),       // 0=>16Bit,  1=>32Bit,         2=>switchable with CPU(1),  3=>no MUL,
+	.div_mode(2),       // 0=>16Bit,  1=>32Bit,         2=>switchable with CPU(1),  3=>no DIV,
+	.bitfield(2)        // 0=>no,     1=>yes,           2=>switchable with CPU(1)
+)
+cpu_inst_p
+(
+  .clk(clk),
+  .nreset(reset),
+  .clkena_in(~cpu_req | chipready | ramready | fastchip_ready),
+  .data_in(cpu_din),
+  .ipl(cpu_ipl),
+  .ipl_autovector(1),
+  .regin_out(),
+  .addr_out(cpu_addr_p),
+  .data_write(cpu_dout_p),
+  .nwr(wr_p),
+  .nuds(uds_p),
+  .nlds(lds_p),
+  .nresetout(reset_out_p),
+  .longword(longword),
+  
+  .cpu(cpucfg),
+  .busstate(cpustate_p),		// 0: fetch code, 1: no memaccess, 2: read data, 3: write data
+  .cacr_out(cacr_p),
+  .vbr_out(vbr_p)
+);
 
 wire [15:0] cpu_dout_o;
 wire [23:1] cpu_addr_o;

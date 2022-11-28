@@ -19,7 +19,8 @@
 // This runs a Mister interface and other interfaces can be built for this for other projects :-)
 
 module substitute_mcu_apf_mister(
-	input                  clk_sys,
+	input                  clk_mpu,
+	input 					  clk_sys,
 	input                  reset_n,
 	output reg             reset_out,
 		
@@ -77,22 +78,22 @@ module substitute_mcu_apf_mister(
 	input 	     		     IO_WAIT,
 	input  [15:0] 		     IO_DIN,
 	output reg [15:0] 	  IO_DOUT,
-	input 					  IO_WIDE, // 1 = 16bit, 0 = 8bit;
+	input 					  IO_WIDE // 1 = 16bit, 0 = 8bit;
 	
     );
 
 	parameter false = 0;
 	parameter true = 1;
 
-	parameter [ 0:0] ENABLE_COUNTERS = 1;
-	parameter [ 0:0] ENABLE_COUNTERS64 = 1;
+	parameter [ 0:0] ENABLE_COUNTERS = 0;
+	parameter [ 0:0] ENABLE_COUNTERS64 = 0;
 	parameter [ 0:0] ENABLE_REGS_16_31 = 1;
 	parameter [ 0:0] ENABLE_REGS_DUALPORT = 1;
-	parameter [ 0:0] LATCHED_MEM_RDATA = 1;
+	parameter [ 0:0] LATCHED_MEM_RDATA = 0;
 	parameter [ 0:0] TWO_STAGE_SHIFT = 1;
 	parameter [ 0:0] BARREL_SHIFTER = 1;
-	parameter [ 0:0] TWO_CYCLE_COMPARE = 0;
-	parameter [ 0:0] TWO_CYCLE_ALU = 0;
+	parameter [ 0:0] TWO_CYCLE_COMPARE = 1;
+	parameter [ 0:0] TWO_CYCLE_ALU = 1;
 	parameter [ 0:0] COMPRESSED_ISA = 0;
 	parameter [ 0:0] CATCH_MISALIGN = 0;
 	parameter [ 0:0] CATCH_ILLINSN = 0;
@@ -100,11 +101,11 @@ module substitute_mcu_apf_mister(
 	parameter [ 0:0] ENABLE_MUL = 1;
 	parameter [ 0:0] ENABLE_FAST_MUL = 0;
 	parameter [ 0:0] ENABLE_DIV = 1;
-	parameter [ 0:0] ENABLE_IRQ = 1;
-	parameter [ 0:0] ENABLE_IRQ_QREGS = 1;
-	parameter [ 0:0] ENABLE_IRQ_TIMER = 1;
-	parameter [ 0:0] ENABLE_TRACE = 1;
-	parameter [ 0:0] REGS_INIT_ZERO = 1;
+	parameter [ 0:0] ENABLE_IRQ = 0;
+	parameter [ 0:0] ENABLE_IRQ_QREGS = 0;
+	parameter [ 0:0] ENABLE_IRQ_TIMER = 0;
+	parameter [ 0:0] ENABLE_TRACE = 0;
+	parameter [ 0:0] REGS_INIT_ZERO = 0;
 	parameter [31:0] MASKED_IRQ = 32'h 0000_0000;
 	parameter [31:0] LATCHED_IRQ = 32'h ffff_ffff;
 	parameter [31:0] PROGADDR_RESET = 32'h 0000_0000;
@@ -130,7 +131,7 @@ reg         ser_txgo;
 
 // We need to see what is happening right? this is sent via the UART on the Cart port
 simple_uart simple_uart (
-.clk        (clk_sys),
+.clk        (clk_mpu),
 .reset      (reset_n),
 .txdata     (ser_txdata),
 .txready    (ser_txready),
@@ -151,7 +152,7 @@ controller_rom
 )
 controller_rom(
 	// CPU Bus
-    .clk               (clk_sys),
+    .clk               (clk_mpu),
     .addr              (cpu_addr[15:2]),
     .d                 (from_cpu),
     .q                 (from_rom),
@@ -200,7 +201,7 @@ picorv32 #(
 		.PROGADDR_IRQ        (PROGADDR_IRQ        ),
 		.STACKADDR           (STACKADDR           )
 	) picorv32_core (
-		.clk      (clk_sys   ),
+		.clk      (clk_mpu   ),
 		.resetn   (reset_n),
 		.trap     (trap  ),
 		.irq		 (cpu_int),
@@ -216,38 +217,32 @@ picorv32 #(
 	assign cpu_wr = |{cpu_bytesel};
     
 // Timer for the cpu to make sure things are in time
+wire [31:0] millisecond_counter_1;
+wire [31:0] millisecond_counter_2;
+reg 		  	millisecond_counter_reset_1;
+reg 		  	millisecond_counter_reset_2;
+reg [31:0] 	sysclk_frequency;
 
-reg [31:0] millisecond_counter;
-reg [19:0] millisecond_tick;
-reg        timer_tick;
-reg 		  millisecond_counter_reset;
-reg [31:0] sysclk_frequency;
+timer_core timer_1_core(
+	.clk_sys								(clk_mpu),
+	.millisecond_counter_reset		(millisecond_counter_reset_1),
+	.millisecond_counter				(millisecond_counter_1),
+	.sysclk_frequency					(sysclk_frequency)
+);
 
-always @(posedge clk_sys or posedge millisecond_counter_reset) begin
-    if (millisecond_counter_reset) begin
-		millisecond_tick <= 'd0;
-		millisecond_counter <= 'd0;
-		timer_tick	<= 'd0;
-	 end
-	 else begin
-		 timer_tick <= 0;
-		 millisecond_tick <= millisecond_tick + 1;
-		 if (millisecond_tick == sysclk_frequency) begin
-			  if (millisecond_counter[3:0] == 'h0) begin
-					timer_tick <= 1;
-			  end
-			  millisecond_counter <= millisecond_counter + 1;
-			  millisecond_tick <= 'h00000;
-		 end
-	 end
-end
+timer_core timer_2_core(
+	.clk_sys								(clk_mpu),
+	.millisecond_counter_reset		(millisecond_counter_reset_2),
+	.millisecond_counter				(millisecond_counter_2),
+	.sysclk_frequency					(sysclk_frequency)
+);
 
 // Interupt core for the data slot updates
 reg int_ack;
 wire dataslot_update_true;
 
-interupt_clock interupt_clock (
-	.clk       (clk_sys),        // the system clock
+switching_latch dataslot_update_latch (
+	.clk       (clk_mpu),        // the system clock
 	.int_clk   (clk_74a),    // the interupt clock domain
 	.reset_n   (reset_n),
 	.trigger   (dataslot_update),
@@ -259,7 +254,7 @@ wire [15:0] dataslot_update_id_latched;
 
 clock_reg_latch #(.data_size(16) ) dataslot_update_id_latch(
 	.write_clk             (clk_74a),        // the APF clock
-	.read_clk              (clk_sys),        // the system clock
+	.read_clk              (clk_mpu),        // the system clock
 	.reset_n               (reset_n),
 	.write_trigger         (dataslot_update),
 	.write_data_in         (dataslot_update_id),
@@ -270,7 +265,7 @@ wire [31:0] dataslot_update_size_latched;
 
 clock_reg_latch #(.data_size(32) ) dataslot_update_size_latch(
 	.write_clk             (clk_74a),        // the APF clock
-	.read_clk              (clk_sys),        // the system clock
+	.read_clk              (clk_mpu),        // the system clock
 	.reset_n               (reset_n),
 	.write_trigger         (dataslot_update),
 	.write_data_in         (dataslot_update_size),
@@ -326,9 +321,9 @@ wire [31:0] mpu_sync_addr;
 wire [31:0] mpu_sync_data;
 wire 			mpu_sync_wr;
 
-synch_3 #(.WIDTH(32)) CPU_TO_APF_ADDRESS	(cpu_addr, mpu_sync_addr, clk_74a);
-synch_3 #(.WIDTH(32)) CPU_TO_APF_DATA		(from_cpu, mpu_sync_data, clk_74a);
-synch_3 #(.WIDTH(1))  CPU_TO_APF_WRITE		(.i(cpu_wr && cpu_req), .clk(clk_74a), .fall(mpu_sync_wr)); // we want this on the fall
+synch_2 #(.WIDTH(32)) CPU_TO_APF_ADDRESS	(cpu_addr, mpu_sync_addr, clk_74a);
+synch_2 #(.WIDTH(32)) CPU_TO_APF_DATA		(from_cpu, mpu_sync_data, clk_74a);
+synch_2 #(.WIDTH(1))  CPU_TO_APF_WRITE		(.i(cpu_wr && cpu_req), .clk(clk_74a), .fall(mpu_sync_wr)); // we want this on the fall
 
 // Write side of the regs
 always @(posedge clk_74a) begin
@@ -425,15 +420,48 @@ always @(posedge clk_74a) begin
 	mpu_reg_bridge_rd_data <= mpu_reg_bridge_rd_data_reg;
 end
 
-synch_3 #(.WIDTH(32)) mpu_reg_0_sync(mpu_reg_0, mpu_reg_0_s, clk_sys);
-synch_3 #(.WIDTH(32)) mpu_reg_1_sync(mpu_reg_1, mpu_reg_1_s, clk_sys);
-synch_3 #(.WIDTH(32)) mpu_reg_2_sync(mpu_reg_2, mpu_reg_2_s, clk_sys);
-synch_3 #(.WIDTH(32)) mpu_reg_3_sync(mpu_reg_3, mpu_reg_3_s, clk_sys);
-synch_3 #(.WIDTH(32)) mpu_reg_4_sync(mpu_reg_4, mpu_reg_4_s, clk_sys);
-synch_3 #(.WIDTH(32)) mpu_reg_5_sync(mpu_reg_5, mpu_reg_5_s, clk_sys);
-synch_3 #(.WIDTH(32)) mpu_reg_6_sync(mpu_reg_6, mpu_reg_6_s, clk_sys);
-synch_3 #(.WIDTH(32)) mpu_reg_7_sync(mpu_reg_7, mpu_reg_7_s, clk_sys);
+synch_2 #(.WIDTH(32)) mpu_reg_0_sync(mpu_reg_0, mpu_reg_0_s, clk_mpu);
+synch_2 #(.WIDTH(32)) mpu_reg_1_sync(mpu_reg_1, mpu_reg_1_s, clk_mpu);
+synch_2 #(.WIDTH(32)) mpu_reg_2_sync(mpu_reg_2, mpu_reg_2_s, clk_mpu);
+synch_2 #(.WIDTH(32)) mpu_reg_3_sync(mpu_reg_3, mpu_reg_3_s, clk_mpu);
+synch_2 #(.WIDTH(32)) mpu_reg_4_sync(mpu_reg_4, mpu_reg_4_s, clk_mpu);
+synch_2 #(.WIDTH(32)) mpu_reg_5_sync(mpu_reg_5, mpu_reg_5_s, clk_mpu);
+synch_2 #(.WIDTH(32)) mpu_reg_6_sync(mpu_reg_6, mpu_reg_6_s, clk_mpu);
+synch_2 #(.WIDTH(32)) mpu_reg_7_sync(mpu_reg_7, mpu_reg_7_s, clk_mpu);
 
+
+/***********************************************************
+
+		Controller access
+
+
+***********************************************************/
+
+	wire    	[31:0]  cont1_key_s;
+	wire    	[31:0]  cont2_key_s;
+	wire    	[31:0]  cont3_key_s;
+	wire    	[31:0]  cont4_key_s;
+	wire    	[31:0]  cont1_joy_s;
+	wire    	[31:0]  cont2_joy_s;
+	wire    	[31:0]  cont3_joy_s;
+	wire    	[31:0]  cont4_joy_s;
+	wire    	[15:0]  cont1_trig_s;
+	wire    	[15:0]  cont2_trig_s;
+	wire    	[15:0]  cont3_trig_s;
+	wire    	[15:0]  cont4_trig_s;
+
+synch_2 #(.WIDTH(32)) controller_0_sync(cont1_key,  cont1_key_s,  clk_mpu);
+synch_2 #(.WIDTH(32)) controller_1_sync(cont2_key,  cont2_key_s,  clk_mpu);
+synch_2 #(.WIDTH(32)) controller_2_sync(cont3_key,  cont3_key_s,  clk_mpu);
+synch_2 #(.WIDTH(32)) controller_3_sync(cont4_key,  cont4_key_s,  clk_mpu);
+synch_2 #(.WIDTH(32)) controller_4_sync(cont1_joy,  cont1_joy_s,  clk_mpu);
+synch_2 #(.WIDTH(32)) controller_5_sync(cont2_joy,  cont2_joy_s,  clk_mpu);
+synch_2 #(.WIDTH(32)) controller_6_sync(cont3_joy,  cont3_joy_s,  clk_mpu);
+synch_2 #(.WIDTH(32)) controller_7_sync(cont4_joy,  cont4_joy_s,  clk_mpu);
+synch_2 #(.WIDTH(32)) controller_8_sync(cont1_trig, cont1_trig_s, clk_mpu);
+synch_2 #(.WIDTH(32)) controller_9_sync(cont2_trig, cont2_trig_s, clk_mpu);
+synch_2 #(.WIDTH(32)) controller_a_sync(cont3_trig, cont3_trig_s, clk_mpu);
+synch_2 #(.WIDTH(32)) controller_b_sync(cont4_trig, cont4_trig_s, clk_mpu);
 
 /***********************************************************
 	Memory map for the 832 CPU 
@@ -496,7 +524,8 @@ synch_3 #(.WIDTH(32)) mpu_reg_7_sync(mpu_reg_7, mpu_reg_7_s, clk_sys);
 
 ***********************************************************/
 
-always @(posedge clk_sys) begin
+reg [31:0] gp_out;
+always @(posedge clk_mpu) begin
     mem_busy <= 1'b1;
     rom_ack <= 0;
     ser_txgo <= 0;
@@ -506,7 +535,8 @@ always @(posedge clk_sys) begin
     data_slot_ram_ack <= &{cpu_addr[31:16] == 16'hffff, cpu_addr[15:12] == 4'h0, cpu_req};
     data_slot_ram_ack_1 <= data_slot_ram_ack;
     datatable_wren <= 'b0;
-	 millisecond_counter_reset <= 1'b0;
+	 millisecond_counter_reset_1 <= 1'b0;
+	 millisecond_counter_reset_2 <= 1'b0;
     // UART Received signal
     if (ser_rxint) ser_rxrecv <= 1;
 	 
@@ -514,10 +544,13 @@ always @(posedge clk_sys) begin
         if (cpu_addr[31:16] == 16'hffff) begin
             if (~cpu_wr) begin
                 casez (cpu_addr[15:0])
-                    16'h0zzz : begin // target_dataslot_id read
+						  // Dataslot Ram access - Needs a 3 clock delay due to the dataslot ram is doubled regged in the code
+                    16'h0zzz : begin 
                         ext_data_out <= datatable_q;
                         mem_busy <= ~data_slot_ram_ack_1;
                     end
+						  
+						  // Interaction Access
 						  16'hff00 : begin // mpu_reg_0_s read
                         ext_data_out <= mpu_reg_0_s;
                         mem_busy <= 0;
@@ -550,6 +583,59 @@ always @(posedge clk_sys) begin
                         ext_data_out <= mpu_reg_7_s;
                         mem_busy <= 0;
                     end
+						  
+						  // Controller inputs
+
+						  16'hff20 : begin // cont1_key_s read
+                        ext_data_out <= cont1_key_s;
+                        mem_busy <= 0;
+                    end
+						  16'hff24 : begin // cont2_key_s read
+                        ext_data_out <= cont2_key_s;
+                        mem_busy <= 0;
+                    end
+						  16'hff28 : begin // cont3_key_s read
+                        ext_data_out <= cont3_key_s;
+                        mem_busy <= 0;
+                    end
+						  16'hff2C : begin // cont4_key_s read
+                        ext_data_out <= cont4_key_s;
+                        mem_busy <= 0;
+                    end
+						  16'hff30 : begin // cont1_joy_s read
+                        ext_data_out <= cont1_joy_s;
+                        mem_busy <= 0;
+                    end
+						  16'hff34 : begin // cont2_joy_s read
+                        ext_data_out <= cont2_joy_s;
+                        mem_busy <= 0;
+                    end
+						  16'hff38 : begin // cont3_joy_s read
+                        ext_data_out <= cont3_joy_s;
+                        mem_busy <= 0;
+                    end
+						  16'hff3C : begin // cont4_joy_s read
+                        ext_data_out <= cont4_joy_s;
+                        mem_busy <= 0;
+                    end
+						  16'hff40 : begin // cont1_joy_s read
+                        ext_data_out <= cont1_trig_s;
+                        mem_busy <= 0;
+                    end
+						  16'hff44 : begin // cont2_joy_s read
+                        ext_data_out <= cont2_trig_s;
+                        mem_busy <= 0;
+                    end
+						  16'hff48 : begin // cont3_joy_s read
+                        ext_data_out <= cont3_trig_s;
+                        mem_busy <= 0;
+                    end
+						  16'hff4C : begin // cont4_joy_s read
+                        ext_data_out <= cont4_trig_s;
+                        mem_busy <= 0;
+                    end
+						  
+						  // Target Dataslot inputs
                     16'hff80 : begin // target_dataslot_id read
                         ext_data_out <= target_dataslot_id;
                         mem_busy <= 0;
@@ -561,8 +647,8 @@ always @(posedge clk_sys) begin
                     16'hff88 : begin // target_dataslot_length read
 							ext_data_out <= target_dataslot_length;
 							mem_busy<= 0;
-						end
-						 16'hff8C : begin // target_dataslot_slotoffset read
+						  end
+						  16'hff8C : begin // target_dataslot_slotoffset read
                         ext_data_out <= target_dataslot_slotoffset;
                         mem_busy <= 0;
                     end
@@ -570,18 +656,22 @@ always @(posedge clk_sys) begin
                         ext_data_out <= {target_dataslot_ack, target_dataslot_done, target_dataslot_err[2:0]};
                         mem_busy <= 0;
                     end
+						  // UART Data rate
                     16'hff94 : begin // uart_divisor set
                         ext_data_out <= uart_divisor;
                         mem_busy <= 0;
                     end
+						  // System Clock rate
 						  16'hff98 : begin // System clock set
                         ext_data_out <= sysclk_frequency;
                         mem_busy <= 0;
                     end
+						  // Core reset from the MPU if required
                     16'hffA4 : begin // The reset the core function incase the system wants to make sure it is in sync
                         ext_data_out[0] <= reset_out;
                         mem_busy <= 0;
                     end
+						  // Dataslot ram access
                     16'hffB0 : begin // dataslot update
 								ext_data_out <= dataslot_update_true;
 								if (dataslot_update_true) int_ack <= 1;
@@ -595,24 +685,32 @@ always @(posedge clk_sys) begin
                         ext_data_out <= dataslot_update_size_latched;
                         mem_busy <= 0;
                     end
-                    16'hffC0 : begin // UART access
+						   // UART access
+                    16'hffC0 : begin
                         ext_data_out <= {ser_rxrecv,ser_txready,ser_rxdata};
                         if (ser_rxrecv) ser_rxrecv<= 0;
                         mem_busy <= 0;
                     end
-                    16'hffC8 : begin // Timer
-                        ext_data_out <= millisecond_counter;
+						  // Timer_1
+                    16'hffC4 : begin 
+                        ext_data_out <= millisecond_counter_1;
                         mem_busy <= 0;
                     end
-						  16'hffD0 : begin // This is GPO setup for the SPI interface
+						  // Timer_2
+                    16'hffC8 : begin 
+                        ext_data_out <= millisecond_counter_2;
+                        mem_busy <= 0;
+                    end
+						  // HPS Interface
+						  16'hffD0 : begin // This is GPO setup for the HPS interface
                         ext_data_out <= {io_ss2, io_ss1,io_ss0,io_clk,1'b0,IO_DOUT[15:0]};
                         mem_busy <= 0;
                     end
-						  16'hffD4 : begin // This is GPI setup for the SPI interface
+						  16'hffD4 : begin // This is GPI setup for the HPS interface
                         ext_data_out <= {io_ack, IO_WIDE, IO_DIN};
                         mem_busy <= 0;
                     end
-						  16'hfff0 : begin // This is GPI setup for the SPI interface
+						  16'hfff0 : begin // This is GPI setup for the HPS interface
                         ext_data_out <= littlenden;
                         mem_busy <= 0;
                     end
@@ -622,11 +720,19 @@ always @(posedge clk_sys) begin
             end
             else begin
                 casez (cpu_addr[15:0])
-                    16'h0zzz : begin // target_dataslot_id read
+                    16'h0zzz : begin // RAM access
                         datatable_wren <= 1'b1;
                         datatable_data <= from_cpu;
                         mem_busy <= 1'b0;
                     end
+						  // Interaction reg writes - done over the Clock sync system
+						  16'hff0z : begin
+								mem_busy <= 0;
+						  end
+						  16'hff1z : begin
+								mem_busy <= 0;
+						  end
+						  // Target interface to APF
                     16'hff80 : begin // target_dataslot_id read
                         target_dataslot_id <= from_cpu;
                         mem_busy <= 0;
@@ -647,36 +753,44 @@ always @(posedge clk_sys) begin
                         {target_dataslot_write, target_dataslot_read} <= from_cpu;
                         mem_busy <= 0;
                     end
-                    16'hff94 : begin // uart_divisor set
+						  // uart_divisor set
+                    16'hff94 : begin 
                         uart_divisor <= from_cpu;
                         mem_busy <= 0;
                     end
-						  16'hff98 : begin // System clock set
+						  // System clock set
+						  16'hff98 : begin 
                         sysclk_frequency <= from_cpu;
                         mem_busy <= 0;
                     end
-                    16'hffA4 : begin // The reset the core function incase the system wants to make sure it is in sync
+						  // The reset the core function incase the system wants to make sure it is in sync
+                    16'hffA4 : begin 
                         reset_out <= from_cpu[0];
                         mem_busy <= 0;
                     end
-                    16'hffC0 : begin // UART Data
+						  // UART Data
+                    16'hffC0 : begin 
                         ser_txdata <= from_cpu[7:0];
                         ser_txgo <= 1;
                         mem_busy <= 0;
                     end
-						  16'hffC8 : begin // Timer
-                        millisecond_counter_reset <= from_cpu[0];
+						  // Timer_1
+						  16'hffC4 : begin 
+                        millisecond_counter_reset_1 <= from_cpu[0];
                         mem_busy <= 0;
                     end
-							16'hffD0 : begin // This is setup for the SPI interface
-								io_clk = from_cpu[17];
-								io_ss0 = from_cpu[18];
-								io_ss1 = from_cpu[19];
-								io_ss2 = from_cpu[20];
-                        IO_DOUT <= from_cpu[15:0];
+						  // Timer_2
+						  16'hffC8 : begin 
+                        millisecond_counter_reset_2 <= from_cpu[0];
                         mem_busy <= 0;
                     end
-						  16'hfff0 : begin // This is GPI setup for the SPI interface
+						  // This is setup for the HPS interface
+						  16'hffD0 : begin 
+								gp_out <= from_cpu;
+                        mem_busy <= 0;
+                    end
+						  // This will change the Enden of the BRAM between the AFP and the BRAM for the CPU if required
+						  16'hfff0 : begin 
                         littlenden <= from_cpu[0];
                         mem_busy <= 0;
                     end
@@ -696,6 +810,8 @@ always @(posedge clk_sys) begin
     to_cpu <= ext_data_en ? ext_data_out : from_rom;
 end
 
+// Here is the Wait system for the MPU to the HPS bus
+
 assign IO_FPGA     = ~io_ss1 & io_ss0;
 assign IO_UIO      = ~io_ss1 & io_ss2;
 reg  io_ack;
@@ -707,12 +823,25 @@ always @(posedge clk_sys) begin
 		io_ack <= rack;
 	end
 end
+
+reg [31:0] gp_outr;
+reg [31:0] gp_outd;
+always @(posedge clk_sys) begin
+	reg [31:0] gp_outd;
+	gp_outr <= gp_outd;
+	gp_outd <= gp_out;
+	io_clk = gp_outr[17];
+	io_ss0 = gp_outr[18];
+	io_ss1 = gp_outr[19];
+	io_ss2 = gp_outr[20];
+	IO_DOUT <= gp_outr[15:0];
+end
     
 endmodule
 
 // This is a switching reg over two clock domains
 
-module interupt_clock (
+module switching_latch (
 	input          clk,        // the system clock
 	input          int_clk,    // the interupt clock domain
 	input          reset_n,
@@ -781,6 +910,40 @@ always @(posedge read_clk or negedge reset_n) begin
         read_data_clocked_2 <= read_data_clocked_1;
         read_data_out <= read_data_clocked_2;
     end
+end
+
+endmodule
+
+module timer_core(
+	input 				clk_sys,
+	input 				millisecond_counter_reset,
+	output reg [31:0] millisecond_counter,
+	input 	  [31:0] sysclk_frequency
+);
+
+// Timer for the cpu to make sure things are in time
+
+
+reg [19:0] millisecond_tick;
+reg        timer_tick;
+
+always @(posedge clk_sys or posedge millisecond_counter_reset) begin
+    if (millisecond_counter_reset) begin
+		millisecond_tick <= 'd0;
+		millisecond_counter <= 'd0;
+		timer_tick	<= 'd0;
+	 end
+	 else begin
+		 timer_tick <= 0;
+		 millisecond_tick <= millisecond_tick + 1;
+		 if (millisecond_tick == sysclk_frequency) begin
+			  if (millisecond_counter[3:0] == 'h0) begin
+					timer_tick <= 1;
+			  end
+			  millisecond_counter <= millisecond_counter + 1;
+			  millisecond_tick <= 'h00000;
+		 end
+	 end
 end
 
 endmodule

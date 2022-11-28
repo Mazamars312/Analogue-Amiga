@@ -21,29 +21,31 @@
  *
  */
 
-#ifndef MINIMIG_H
-#define MINIMIG_H
-extern uint8_t rstval;
-#include "minimig_fdd.h"
-#include "minimig_config.h"
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <inttypes.h>
 #include "minimig_inputs.h"
 
-// Add your operating regs here from the bus
-#define UIO_STATUS      0x00
-#define UIO_BUT_SW      0x01
+unsigned int mouse_counter={0};
+signed short x_count = 0;
+signed short y_count = 0;
 
-#define UIO_MOUSE_X	    0x03
-#define UIO_MOUSE_Y	    0x04
-#define UIO_KEYBOARD    0x05
+void minimig_input_update() {
 
-// ao486 direct memory access
-#define UIO_DMA_WRITE   0x61
-#define UIO_DMA_READ    0x62
-#define UIO_DMA_SDIO    0x63
-
-void minigmig_reset(int reset);
-void minimig_update_dataslots();
-void minimig_fdd_update();
-void minimig_poll_io();
-
-#endif
+  if (((CONTROLLER_KEY_REG(4)>>28) == 0x5) && CheckTimer1(10) && (mouse_counter != (CONTROLLER_KEY_REG(4) & 0x0000FFFF))){
+    signed short x = (short)((CONTROLLER_JOY_REG(4) & 0x0000FFFF))>>8;
+    signed short y = (short)((CONTROLLER_TRIG_REG(4) & 0x0000FFFF))>>8;
+    x_count = x_count + ((x < -127) ? -127 : (x > 127) ? 127 : x);
+    y_count = y_count + ((y < -127) ? -127 : (y > 127) ? 127 :y);
+    HPS_spi_uio_cmd8(UIO_MOUSE_X, x_count);
+    HPS_spi_uio_cmd8(UIO_MOUSE_Y, y_count);
+    ResetTimer1();
+    // printf("x_count %0.4x y_count %0.4x\r\n",x_count,y_count);
+    mouse_counter = (CONTROLLER_KEY_REG(4) & 0x0000FFFF);
+  } else if (((CONTROLLER_KEY_REG(4)>>28) == 0x5) && CheckTimer1(50)){
+    ResetTimer1();
+  }
+}

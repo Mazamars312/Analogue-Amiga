@@ -30,6 +30,10 @@ module hps_ext
 	input      [15:0] io_din,
 	output     [15:0] io_dout,
 	input      [15:0] fpga_dout,
+	
+	output reg        kbd_mouse_level,
+	output reg  [1:0] kbd_mouse_type,
+	output reg  [7:0] kbd_mouse_data,
 
 	input      [15:0] ide_din,
 	output reg [15:0] ide_dout,
@@ -40,27 +44,26 @@ module hps_ext
 
 
 assign io_dout = io_fpga ? fpga_dout : io_dout_reg;
-localparam EXT_CMD_MIN  = UIO_GET_VMODE;
-localparam EXT_CMD_MAX  = UIO_SET_VPOS;
+
 localparam EXT_CMD_MIN2 = 'h61;
 localparam EXT_CMD_MAX2 = 'h63;
 
-localparam UIO_MOUSE     = 'h04;
+localparam UIO_MOUSE_X   = 'h03;
+localparam UIO_MOUSE_Y   = 'h04;
 localparam UIO_KEYBOARD  = 'h05;
-localparam UIO_KBD_OSD   = 'h06;
-localparam UIO_GET_VMODE = 'h2C;
-localparam UIO_SET_VPOS  = 'h2D;
 
+localparam UIO_DMA_WRITE = 'h61;
+localparam UIO_DMA_READ  = 'h62;
+localparam UIO_DMA_SDIO  = 'h63;
 
-reg [15:0] io_dout_reg;
-reg        dout_en;
-reg  [4:0] byte_cnt;
+	
+reg [15:0] 	io_dout_reg;
+reg        	dout_en;
+reg  [4:0] 	byte_cnt;
+reg [15:0] 	cmd;
+reg 			ide_cs = 0;
 
 always@(posedge clk_sys) begin
-	reg [15:0] cmd;
-	reg ide_cs = 0;
-
-
 	{ide_rd, ide_wr} <= 0;
 	if((ide_rd | ide_wr) & ~&ide_addr[3:0]) ide_addr <= ide_addr + 1'd1;
 
@@ -83,15 +86,37 @@ always@(posedge clk_sys) begin
 
 		if(byte_cnt == 0) begin
 			cmd <= io_din;
-			dout_en <= (io_din >= EXT_CMD_MIN2 && io_din <= EXT_CMD_MAX2);
+			dout_en <= (io_din >= UIO_DMA_WRITE && io_din <= UIO_DMA_SDIO || io_din >= UIO_MOUSE_X && io_din <= UIO_KEYBOARD );
 			if(io_din == 'h63) io_dout_reg <= {4'hE, 2'b00, 2'b00, 2'b00, ide_req};
-		end else begin
-			case(cmd)		
-				'h61: if(byte_cnt >= 3 && ide_cs) begin
+		end 
+		else begin
+			case(cmd)	
+				UIO_MOUSE_X: begin
+					if(byte_cnt == 1) begin
+						kbd_mouse_data <= io_din[7:0];
+						kbd_mouse_type <= 0;
+						kbd_mouse_level <= ~kbd_mouse_level;
+					end
+				end
+				UIO_MOUSE_Y: begin
+					if(byte_cnt == 1) begin
+						kbd_mouse_data <= io_din[7:0];
+						kbd_mouse_type <= 1;
+						kbd_mouse_level <= ~kbd_mouse_level; 
+					end
+				end
+
+				UIO_KEYBOARD:
+					if(byte_cnt == 1) begin
+						kbd_mouse_data <= io_din[7:0];
+						kbd_mouse_type <= 2;
+						kbd_mouse_level <= ~kbd_mouse_level;
+					end
+				UIO_DMA_WRITE: if(byte_cnt >= 3 && ide_cs) begin
 							ide_wr <= 1;
 						end
 
-				'h62: if(byte_cnt >= 3 && ide_cs) begin
+				UIO_DMA_READ: if(byte_cnt >= 3 && ide_cs) begin
 							io_dout_reg <= ide_din;
 							ide_rd <= 1;
 						end

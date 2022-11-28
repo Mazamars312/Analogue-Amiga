@@ -38,7 +38,7 @@ unsigned char drives = 0; // number of active drives reported by FPGA (may chang
 adfTYPE *pdfx;            // drive select pointer
 adfTYPE df[4] = {};    // drive information structure
 
-static uint8_t sector_buffer[512];
+static uint8_t sector_buffer[516];
 
 unsigned char Error;
 
@@ -671,7 +671,7 @@ void UnsertFloppy(adfTYPE *drive)
 // We will change this for the inputerup so this gets updated by the APF interface
 void InsertFloppy(adfTYPE *drive, uint32_t fsize, uint32_t drive_dataslot)
 {
-	int writable = 1;
+	int writable = 0;
 
 	unsigned long tracks;
 	drive->dataslot = drive_dataslot;

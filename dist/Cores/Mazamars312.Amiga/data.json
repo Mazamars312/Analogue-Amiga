@@ -6,39 +6,25 @@
         "name": "BIOS",
         "id": "210",
         "required": true,
-        "parameters": 136,
+		"deferload": true,
+        "parameters": 9,
 		"size_maximum": 1048576,
         "filename": "kickstart.rom",
         "address": "0x00f00000"
       },
 	  {
-        "name": "BIOS",
-        "id": "211",
+        "name": "MPU Bios",
+        "id": "200",
         "required": true,
-        "parameters": 136,
-		"size_maximum": 1048576,
-        "filename": "kickstart.rom",
-        "address": "0x00f40000"
-      },
-	  {
-        "name": "BIOS",
-        "id": "212",
-        "required": true,
-        "parameters": 136,
-		"size_maximum": 1048576,
-        "filename": "kickstart.rom",
-        "address": "0x00f80000"
-      },
-	  {
-        "name": "BIOS",
-        "id": "213",
-        "required": true,
-        "parameters": 136,
-		"size_maximum": 1048576,
-        "filename": "kickstart.rom",
-        "address": "0x00fc0000"
-      },
-	  
+        "parameters": 2,
+        "filename": "mpu.bin",
+        "extensions": [
+		"bin"
+		],
+        "size_exact": 0,
+        "size_maximum": 65536,
+        "address": "0x80000000"
+      },	  
 	  {
         "name": "harddrive - Slow 1",
         "id": "312",
@@ -60,7 +46,7 @@
         "id": "320",
         "required": false,
 		"deferload": true,
-        "parameters": 1,
+        "parameters": 9,
         "extensions": [
 		"adf"
 		],
@@ -73,7 +59,7 @@
         "id": "321",
         "required": false,
 		"deferload": true,
-        "parameters": 1,
+        "parameters": 9,
         "extensions": [
 		"adf"
 		],
@@ -86,7 +72,7 @@
         "id": "322",
         "required": false,
 		"deferload": true,
-        "parameters": 1,
+        "parameters": 9,
         "extensions": [
 		"adf"
 		],
@@ -99,25 +85,12 @@
         "id": "323",
         "required": false,
 		"deferload": true,
-        "parameters": 1,
+        "parameters": 9,
         "extensions": [
 		"adf"
 		],
         "size_exact": 0,
         "size_maximum": 1572864,
-        "address": "0x80000000"
-      },
-	  {
-        "name": "MPU Bios",
-        "id": "200",
-        "required": true,
-        "parameters": 2,
-        "filename": "mpu.bin",
-        "extensions": [
-		"bin"
-		],
-        "size_exact": 0,
-        "size_maximum": 65536,
         "address": "0x80000000"
       }
     ]

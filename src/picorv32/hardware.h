@@ -27,24 +27,23 @@
 #include <inttypes.h>
 #include <stdio.h>
 
-// Add your operating regs here from the bus
-#define UIO_STATUS      0x00
-#define UIO_BUT_SW      0x01
-
-// ao486 direct memory access
-#define UIO_DMA_WRITE   0x61
-#define UIO_DMA_READ    0x62
-#define UIO_DMA_SDIO    0x63
-
-#define RESTARTBASE 0xFFFFFFA4
+#define RESTARTBASE               0xFFFFFFA4
 #define AFP_REGISTOR_BASE         0xffffff00
+#define CONTROLLER_KEY_BASE       0xffffff20
+#define CONTROLLER_JOY_BASE       0xffffff30
+#define CONTROLLER_TRIG_BASE      0xffffff40
 #define MISTERGPOHARDWAREBASE     0xffffffd0
 #define MISTERGPIHARDWAREBASE     0xffffffd4
 
 #define RESTARTBASE 0xFFFFFFA4
+
 #define RESET_CORE(x) *(volatile unsigned int *)(RESTARTBASE+x)
 
 #define AFP_REGISTOR(x) *(volatile unsigned int *)(AFP_REGISTOR_BASE+(x<<2))
+
+#define CONTROLLER_KEY_REG(x)  *(volatile unsigned int *)(CONTROLLER_KEY_BASE +((x-1)<<2))
+#define CONTROLLER_JOY_REG(x)  *(volatile unsigned int *)(CONTROLLER_JOY_BASE +((x-1)<<2))
+#define CONTROLLER_TRIG_REG(x) *(volatile unsigned int *)(CONTROLLER_TRIG_BASE+((x-1)<<2))
 
 #endif // SPI_H
 /***********************************************************
