@@ -471,7 +471,7 @@ always @(posedge clk) begin
 			if(~bcnt[2]) bcnt <= bcnt + 1'd1;
 
 			if(!bcnt) begin
-				if (reset_ctrl_sel)   {cpurst, usrrst} 					<= IO_DIN[1:0];
+				if (reset_ctrl_sel)   {cpuhlt, cpurst, usrrst} 			<= IO_DIN[2:0];
 				if (chip_cfg_sel)     t_chipset_config 					<= IO_DIN[4:0];
 				if (cpu_cfg_sel)      t_cpu_config 							<= IO_DIN[4:0];
 				if (memory_cfg_sel)   t_memory_config 						<= IO_DIN[7:0];
@@ -525,7 +525,6 @@ reg mrx;
 always @(posedge clk) begin
 	fifo_ack <= 'b0;
 	mrx <= 1'b0;
-	cpuhlt <= ~reset_n;
 	case (memory_state)
 		memory_idle : begin
 			if (fifo_wr) begin

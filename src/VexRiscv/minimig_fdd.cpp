@@ -37,9 +37,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 unsigned char drives = 0; // number of active drives reported by FPGA (may change only during reset)
 adfTYPE *pdfx;            // drive select pointer
 adfTYPE df[4] = {};    // drive information structure
-
-static uint8_t sector_buffer[512];
-
+static uint8_t sector_buffer0[512] __attribute__((section("ram"))) ;
+static uint8_t sector_buffer1[512] __attribute__((section("ram"))) ;
 unsigned char Error;
 
 #define TRACK_SIZE 12668
@@ -49,7 +48,6 @@ unsigned char Error;
 #define SECTOR_COUNT 11
 #define LAST_SECTOR (SECTOR_COUNT - 1)
 #define GAP_SIZE (TRACK_SIZE - SECTOR_COUNT * SECTOR_SIZE)
-#define RAMENDEN(x) *(volatile unsigned int *)(0xFFFFFFF0+(x))
 
 #define B2W(a,b) (((((uint16_t)(a))<<8) & 0xFF00) | ((uint16_t)(b) & 0x00FF))
 
@@ -97,7 +95,7 @@ unsigned char GetData(void)
 
 			// odd bits of data field
 			i = 128;
-			p = sector_buffer;
+			p = sector_buffer0;
 			do
 			{
 				tmp = spi_w(0);
@@ -118,7 +116,7 @@ unsigned char GetData(void)
 
 			// even bits of data field
 			i = 128;
-			p = sector_buffer;
+			p = sector_buffer0;
 			do
 			{
 				tmp = spi_w(0);
@@ -443,7 +441,8 @@ void WriteTrack(adfTYPE *drive)
 {
 	unsigned char Track;
 	unsigned char Sector;
-  uint32_t foo;
+  uint32_t foo0;
+  uint32_t foo1;
 	unsigned long lba = drive->track * SECTOR_COUNT;
 
 	//    drive->track_prev = drive->track + 1; // This causes a read that directly follows a write to the previous track to return bad data.
@@ -455,8 +454,9 @@ void WriteTrack(adfTYPE *drive)
 		{
 			if (Track == drive->track)
 			{
-				foo = (uint32_t) &sector_buffer;
-				if (dataslot_write_lba_set(drive->dataslot, foo, lba+Sector))
+				foo0 = (uint32_t) &sector_buffer0;
+				foo1 = (uint32_t) &sector_buffer1;
+				if (dataslot_write_lba_set(drive->dataslot, foo0, lba+Sector))
 				{
 					return;
 				}
@@ -491,7 +491,8 @@ void WriteTrack(adfTYPE *drive)
 void ReadTrack(adfTYPE *drive)
 {
 	// track number is updated in drive struct before calling this function
-  uint32_t foo;
+  uint32_t foo0;
+	uint32_t foo1;
 	unsigned char sector;
 	unsigned char status;
 	unsigned char track;
@@ -518,8 +519,9 @@ void ReadTrack(adfTYPE *drive)
 		lba = (drive->track * SECTOR_COUNT) + sector;
 	}
   //uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length
-	foo = (uint32_t) &sector_buffer;
-	if (dataslot_read_lba_set(drive->dataslot, foo, lba))
+	foo0 = (uint32_t) &sector_buffer0;
+	foo1 = (uint32_t) &sector_buffer1;
+	if (dataslot_read_lba_set(drive->dataslot, foo0, lba))
 	{
 		return;
 	}
@@ -533,15 +535,16 @@ void ReadTrack(adfTYPE *drive)
 
 	if (track >= drive->tracks)
 		track = drive->tracks - 1;
-
+	int tmp_count = 0;
 	while (1)
 	{
-		foo = (uint32_t) &sector_buffer;
-		// RAMENDEN(0) = 1;
+		foo0 = (uint32_t) &sector_buffer0;
+		foo1 = (uint32_t) &sector_buffer1;
 		dataslot_read_lba(512);
-		// RAMENDEN(0) = 0;
-		// FileReadSec(&drive->file, sector_buffer);
-
+		// dataslot_read_lba_fast(512);
+		// FileReadSec(&drive->file, sector_buffer0);
+		// printf("sector send %d\r\n", tmp_count);
+		tmp_count++;
 		HPS_EnableFpga();
 
 		// check if FPGA is still asking for data
@@ -572,9 +575,8 @@ void ReadTrack(adfTYPE *drive)
 			// send sector if fpga is still asking for data
 			if (status & CMD_RDTRK)
 			{
-				//GenerateHeader(sector_header, sector_buffer, sector, track, dsksync);
-				//SendSector(sector_header, sector_buffer);
-				SendSector(sector_buffer, sector, track, (unsigned char)(dsksync >> 8), (unsigned char)dsksync);
+
+				SendSector(sector_buffer0, sector, track, (unsigned char)(dsksync >> 8), (unsigned char)dsksync);
 
 				if (sector == LAST_SECTOR)
 					SendGap();
@@ -585,21 +587,27 @@ void ReadTrack(adfTYPE *drive)
 		HPS_DisableFpga();
 
 		// track has changed
-		if (track != drive->track)
+		if (track != drive->track){
+			// printf("track has changed\r\n");
 			break;
+		}
 
 		// read dma request
-		if (!(status & CMD_RDTRK))
+		if (!(status & CMD_RDTRK)){
+			// printf("CMD_RDTRK \r\n");
 			break;
+		}
+
 
 		sector++;
 		if (sector >= SECTOR_COUNT)
 		{
+			// printf("SECTOR_COUNT \r\n");
 			// go to the start of current track
 			sector = 0;
 			lba = drive->track * SECTOR_COUNT;
-			foo = (uint32_t) &sector_buffer;
-			if (dataslot_read_lba_set(drive->dataslot, foo, lba))
+			foo0 = (uint32_t) &sector_buffer0;
+			if (dataslot_read_lba_set(drive->dataslot, foo0, lba))
 			{
 				return;
 			}
@@ -640,7 +648,7 @@ void HandleFDD(unsigned char c1, unsigned char c2)
 	{
 		sel = (c1 >> 6) & 0x03;
 		df[sel].track = c2;
-		printf("selected drive %d\r\n", sel);
+		// printf("Selected drive %d\r\nSelected track %d\r\n", sel, c2);
 		ReadTrack(&df[sel]);
 	}
 	else if (c1 & CMD_WRTRK)
@@ -671,7 +679,7 @@ void UnsertFloppy(adfTYPE *drive)
 // We will change this for the inputerup so this gets updated by the APF interface
 void InsertFloppy(adfTYPE *drive, uint32_t fsize, uint32_t drive_dataslot)
 {
-	int writable = 1;
+	int writable = 0;
 
 	unsigned long tracks;
 	drive->dataslot = drive_dataslot;
@@ -691,11 +699,11 @@ void InsertFloppy(adfTYPE *drive, uint32_t fsize, uint32_t drive_dataslot)
 	drive->sector_offset = 0;
 	drive->track = 0;
 	drive->track_prev = -1;
-	printf("file writable: %d\r\n", writable);
-	printf("file size: %lu (%lu KB)\r\n", drive->size, drive->size >> 10);
-	printf("drive tracks: %u\r\n", drive->tracks);
-	printf("drive track_prev: %u\r\n", drive->track_prev);
-	printf("drive track_prev: %u\r\n", drive->track_prev);
-	printf("drive status: 0x%02X\r\n", drive->status);
+	// printf("file writable: %d\r\n", writable);
+	// printf("file size: %lu (%lu KB)\r\n", drive->size, drive->size >> 10);
+	// printf("drive tracks: %u\r\n", drive->tracks);
+	// printf("drive track_prev: %u\r\n", drive->track_prev);
+	// printf("drive track_prev: %u\r\n", drive->track_prev);
+	// printf("drive status: 0x%02X\r\n", drive->status);
 	return;
 }

@@ -225,6 +225,20 @@ input   wire    [15:0]  cont4_trig
     
 );
 
+wire    [31:0]  cont1_key_s;
+wire    [31:0]  cont2_key_s;
+wire    [31:0]  cont1_joy_s;
+wire    [31:0]  cont2_joy_s;
+wire    [31:0]  cont3_joy_s;
+wire    [31:0]  cont4_joy_s;
+
+synch_3 #(.WIDTH(32)) controller_key1_sync(cont1_key, cont1_key_s, clk_sys);
+synch_3 #(.WIDTH(32)) controller_key2_sync(cont2_key, cont2_key_s, clk_sys);
+synch_3 #(.WIDTH(32)) controller_joy1_sync(cont1_joy, cont1_joy_s, clk_sys);
+synch_3 #(.WIDTH(32)) controller_joy2_sync(cont2_joy, cont2_joy_s, clk_sys);
+synch_3 #(.WIDTH(32)) controller_joy3_sync(cont3_joy, cont3_joy_s, clk_sys);
+synch_3 #(.WIDTH(32)) controller_joy4_sync(cont4_joy, cont4_joy_s, clk_sys);
+
 // not using the IR port, so turn off both the LED, and
 // disable the receive circuit to save power
 assign port_ir_tx = 0;
@@ -312,6 +326,8 @@ wire [31:0] fpga_bridge_rd_data;
 wire [31:0] mpu_reg_bridge_rd_data; 
 wire [31:0] mpu_ram_bridge_rd_data;
 reg  [31:0] vga_bridge_rd_data;
+
+wire clk_mpu;
 
 
 // for bridge write data, we just broadcast it to all bus devices
@@ -415,6 +431,7 @@ end
 
     wire    [9:0]   datatable_addr;
     wire            datatable_wren;
+    wire            datatable_rden;
     wire    [31:0]  datatable_data;
     wire    [31:0]  datatable_q;
 
@@ -422,7 +439,7 @@ core_bridge_cmd icb (
 
     .clk                    ( clk_74a ),
     .reset_n                ( reset_n ),
-	 .clk_sys					 (clk_sys),
+	 .clk_sys					 ( clk_mpu ),
 
     .bridge_endian_little   ( bridge_endian_little ),
     .bridge_addr            ( bridge_addr ),
@@ -490,6 +507,7 @@ core_bridge_cmd icb (
 
     .datatable_addr         ( datatable_addr ),
     .datatable_wren         ( datatable_wren ),
+    .datatable_rden         ( datatable_rden ),
     .datatable_data         ( datatable_data ),
     .datatable_q            ( datatable_q )
 
@@ -575,16 +593,18 @@ wire        ide_f_led;
 wire  [5:0] ide_f_req;
 wire [15:0] ide_f_readdata;
 wire [15:0] joystick_enable;
-	wire [15:0] JOY0  =  {cont1_key[14],cont1_key[9],cont1_key[8],cont1_key[7], cont1_key[6], cont1_key[4], cont1_key[5], cont1_key[0], cont1_key[1], cont1_key[2], cont1_key[3]};
+	wire [15:0] JOY0  =  {cont1_key_s[14], cont1_key_s[9], cont1_key_s[8], cont1_key_s[7], cont1_key_s[6], 
+								 cont1_key_s[5],  cont1_key_s[4], cont1_key_s[0], cont1_key_s[1], cont1_key_s[2], cont1_key_s[3]};
 	// joystick 2 [fire4,fire3,fire2,fire,up,down,left,right] (default joystick port)
-	wire [15:0] JOY1 = {cont2_key[14],cont2_key[9],cont2_key[8],cont2_key[7], cont2_key[6], cont2_key[4], cont2_key[5], cont2_key[0], cont2_key[1], cont2_key[2], cont2_key[3]};
+	wire [15:0] JOY1 = 	{cont2_key_s[14], cont2_key_s[9], cont2_key_s[8], cont2_key_s[7], cont2_key_s[6], 
+								 cont2_key_s[5],  cont2_key_s[4], cont2_key_s[0], cont2_key_s[1], cont2_key_s[2], cont2_key_s[3]};
 	wire [15:0] JOY2;// = {16{joystick_enable[2]}} & {cont1_key[7], cont1_key[6], cont1_key[4], cont1_key[5], cont1_key[0], cont1_key[1], cont1_key[2], cont1_key[3]};
 	wire [15:0] JOY3;// = {16{joystick_enable[3]}} & {cont1_key[7], cont1_key[6], cont1_key[4], cont1_key[5], cont1_key[0], cont1_key[1], cont1_key[2], cont1_key[3]};
 	wire [15:0] JOYA0;
 	wire [15:0] JOYA1;
-	reg   [7:0] kbd_mouse_data;
-	reg         kbd_mouse_level;
-	reg   [1:0] kbd_mouse_type;
+	wire   [7:0] kbd_mouse_data;
+	wire         kbd_mouse_level;
+	wire   [1:0] kbd_mouse_type;
 //	wire  [2:0] mouse_buttons;
 	wire [63:0] RTC;
 
@@ -618,8 +638,11 @@ pll pll
 	.outclk_1(clk_sys),
 	.outclk_2(video_rgb_clock),
 	.outclk_3(video_rgb_clock_90),
+//	.outclk_4(clk_mpu),
 	.locked(pll_core_locked)
 );
+
+assign clk_mpu = clk_74a;
 
 amiga_clk amiga_clk
 (
@@ -637,60 +660,25 @@ amiga_clk amiga_clk
 
 	reg [7:0] reset_s;
 	reg rs;
-	reg [1:0] kbd_mouse_type_reg;
 
-wire signed [15:0]  mouse_pointer_x = {cont4_joy[7:0], cont4_joy[15:8]};
-wire signed [15:0]  mouse_pointer_y = {cont4_trig[7:0], cont4_trig[15:8]};
-wire signed [15:0]  mouse_pointer_x_s;
-wire signed [15:0]  mouse_pointer_y_s;
     wire    [7:0]   mouse_buttons_s;
-    wire    [7:0]   cont3_joy_s;
+//    wire    [7:0]   cont3_joy_s;
 	 wire    [7:0]   mouse_buttons;
-synch_3 #(.WIDTH(8)) s24(cont3_joy[31:24], cont3_joy_s, video_rgb_clock);
-synch_3 #(.WIDTH(8)) s25(mouse_buttons, mouse_buttons_s, video_rgb_clock);
-synch_3 #(.WIDTH(16)) s26(mouse_pointer_x, mouse_pointer_x_s, video_rgb_clock);
-synch_3 #(.WIDTH(16)) s27(mouse_pointer_y, mouse_pointer_y_s, video_rgb_clock);
+synch_3 #(.WIDTH(8)) s25(mouse_buttons, mouse_buttons_s, clk_sys);
 
-wire [7:0] amiga_keyboard;
-amiga_keyboard_convert amiga_keyboard_convert (
-.clk					(clk_sys),
-.input_keyboard	(cont3_joy_s),
-.output_keyboard	(amiga_keyboard)
-);
+
 
 
 always @(posedge clk_sys) begin
 
 	if(~pll_core_locked) begin
 		reset_s <= 'd1;
-		kbd_mouse_type <= 2'b0;
-		kbd_mouse_level <= 1'b0;
 	end
 	else begin
 		reset_s <= reset_s << 1;
 		rs <= reset_s[7];
 		reset_d <= rs;
-		kbd_mouse_level <= ~kbd_mouse_level;
-		case (kbd_mouse_type_reg)
-			1: begin
-				kbd_mouse_type <= 2;
-				kbd_mouse_data <= amiga_keyboard;
-			end
-			2: begin
-				kbd_mouse_type <= 3;
-				kbd_mouse_data <= cont3_key[7:0];
-			end
-			3: begin
-				kbd_mouse_type <= 0;
-				kbd_mouse_data <= mouse_pointer_x_s;
-			end
-			default: begin
-				kbd_mouse_type <= 1;
-				kbd_mouse_data <= mouse_pointer_y_s;
-			end
-		endcase
 	end
-	kbd_mouse_type_reg <= kbd_mouse_type;
 end
 
 
@@ -779,7 +767,8 @@ fastchip fastchip
 wire reset_mpu_l;
 substitute_mcu_apf_mister substitute_mcu_apf_mister(
 		// Controls for the MPU
-		.clk_sys								( clk_sys ), 							// Clock of the MPU itself
+		.clk_mpu								( clk_mpu ), 							// Clock of the MPU itself
+		.clk_sys								( clk_sys ),
 		.clk_74a								( clk_74a ),							// Clock of the APF Bus
 		.reset_n								( reset_n ),							// Reset from the APF System
 		.reset_out							( reset_mpu_l ),						// Able to restart the core from the MPU if required
@@ -831,6 +820,7 @@ substitute_mcu_apf_mister substitute_mcu_apf_mister(
 
 		.datatable_addr         		( datatable_addr ),
 		.datatable_wren         		( datatable_wren ),
+		.datatable_rden         		( datatable_rden ),
 		.datatable_data         		( datatable_data ),
 		.datatable_q            		( datatable_q ),
 		
@@ -859,138 +849,132 @@ wire  [14:0] ldata, rdata;
 
 minimig minimig
 (
-	.reset_n		  (reset_n),
-	.clk_74a		  (clk_74a			  ),
-	.reset_mpu_l	(reset_mpu_l),
+	.reset_n		  				(reset_n),
+	.clk_74a		  				(clk_74a			  ),
+	.reset_mpu_l				(reset_mpu_l),
 	//m68k pins
-	.cpu_address  (chip_addr        ), // M68K address bus
-	.cpu_data     (chip_dout        ), // M68K data bus
-	.cpudata_in   (chip_din         ), // M68K data in
-	._cpu_ipl     (chip_ipl         ), // M68K interrupt request
-	._cpu_as      (chip_as          ), // M68K address strobe
-	._cpu_uds     (chip_uds         ), // M68K upper data strobe
-	._cpu_lds     (chip_lds         ), // M68K lower data strobe
-	.cpu_r_w      (chip_rw          ), // M68K read / write
-	._cpu_dtack   (chip_dtack       ), // M68K data acknowledge
-	._cpu_reset   (cpu_rst          ), // M68K reset
-	._cpu_reset_in(cpu_nrst_out     ), // M68K reset out
-	.nmi_addr     (cpu_nmi_addr    ), // M68K NMI address
+	.cpu_address  				(chip_addr        ), // M68K address bus
+	.cpu_data     				(chip_dout        ), // M68K data bus
+	.cpudata_in   				(chip_din         ), // M68K data in
+	._cpu_ipl     				(chip_ipl         ), // M68K interrupt request
+	._cpu_as      				(chip_as          ), // M68K address strobe
+	._cpu_uds     				(chip_uds         ), // M68K upper data strobe
+	._cpu_lds     				(chip_lds         ), // M68K lower data strobe
+	.cpu_r_w      				(chip_rw          ), // M68K read / write
+	._cpu_dtack   				(chip_dtack       ), // M68K data acknowledge
+	._cpu_reset   				(cpu_rst          ), // M68K reset
+	._cpu_reset_in				(cpu_nrst_out     ), // M68K reset out
+	.nmi_addr     				(cpu_nmi_addr    ), // M68K NMI address
 
 	//sram pins
-	.ram_data     (ram_data         ), // SRAM data bus
-	.ramdata_in   (ramdata_in       ), // SRAM data bus in
-	.ram_address  (ram_address      ), // SRAM address bus
-	._ram_bhe     (_ram_bhe         ), // SRAM upper byte select
-	._ram_ble     (_ram_ble         ), // SRAM lower byte select
-	._ram_we      (_ram_we          ), // SRAM write enable
-	._ram_oe      (_ram_oe          ), // SRAM output enable
-	.chip48       (chip48           ), // big chipram read
+	.ram_data     				(ram_data         ), // SRAM data bus
+	.ramdata_in   				(ramdata_in       ), // SRAM data bus in
+	.ram_address  				(ram_address      ), // SRAM address bus
+	._ram_bhe     				(_ram_bhe         ), // SRAM upper byte select
+	._ram_ble     				(_ram_ble         ), // SRAM lower byte select
+	._ram_we      				(_ram_we          ), // SRAM write enable
+	._ram_oe      				(_ram_oe          ), // SRAM output enable
+	.chip48       				(chip48           ), // big chipram read
 
 	//system  pins
-	.rst_ext      (reset_d          ), // reset from ctrl block
-	.rst_out      (                 ), // minimig reset status
-	.clk          (clk_sys          ), // output clock c1 ( 28.687500MHz)
-	.clk7_en      (clk7_en          ), // 7MHz clock enable
-	.clk7n_en     (clk7n_en         ), // 7MHz negedge clock enable
-	.c1           (c1               ), // clk28m clock domain signal synchronous with clk signal
-	.c3           (c3               ), // clk28m clock domain signal synchronous with clk signal delayed by 90 degrees
-	.cck          (cck              ), // colour clock output (3.54 MHz)
-	.eclk         (eclk             ), // 0.709379 MHz clock enable output (clk domain pulse)
-
-	//rs232 pins
-//	.rxd          (uart_rx          ), // RS232 receive
-//	.txd          (uart_tx          ), // RS232 send
-//	.cts          (uart_cts         ), // RS232 clear to send
-//	.rts          (uart_rts         ), // RS232 request to send
-//	.dtr          (uart_dtr         ), // RS232 Data Terminal Ready
-//	.dsr          (uart_dsr         ), // RS232 Data Set Ready
-//	.cd           (uart_dsr         ), // RS232 Carrier Detect
-//	.ri           (1                ), // RS232 Ring Indicator
+	.rst_ext      				(reset_d          ), // reset from ctrl block
+	.rst_out      				(                 ), // minimig reset status
+	.clk          				(clk_sys          ), // output clock c1 ( 28.687500MHz)
+	.clk7_en      				(clk7_en          ), // 7MHz clock enable
+	.clk7n_en     				(clk7n_en         ), // 7MHz negedge clock enable
+	.c1           				(c1               ), // clk28m clock domain signal synchronous with clk signal
+	.c3           				(c3               ), // clk28m clock domain signal synchronous with clk signal delayed by 90 degrees
+	.cck          				(cck              ), // colour clock output (3.54 MHz)
+	.eclk         				(eclk             ), // 0.709379 MHz clock enable output (clk domain pulse)
 
 	//I/O
-	._joy1        (~JOY0            ), // joystick 1 [fire4,fire3,fire2,fire,up,down,left,right] (default mouse port)
-	._joy2        (~JOY1            ), // joystick 2 [fire4,fire3,fire2,fire,up,down,left,right] (default joystick port)
-	._joy3        (~JOY2            ), // joystick 1 [fire4,fire3,fire2,fire,up,down,left,right]
-	._joy4        (~JOY3            ), // joystick 2 [fire4,fire3,fire2,fire,up,down,left,right]
-	.joya1        (cont1_joy[15:0]  ),
-	.joya2        (cont2_joy[15:0]  ),
-	.mouse_btn    (cont4_joy[31:16] ), // mouse buttons
-	.kbd_mouse_data (kbd_mouse_data ), // mouse direction data, keycodes
-	.kbd_mouse_type (kbd_mouse_type ), // type of data
-	.kms_level    (kbd_mouse_level  ),
-//	.pwr_led      (pwr_led          ), // power led
-	.fdd_led      (LED         ),
-//	.hdd_led      (ide_c_led        ),
-	.rtc          (RTC              ),
+	._joy1        				(~JOY0            ), // joystick 1 [fire4,fire3,fire2,fire,up,down,left,right] (default mouse port)
+	._joy2        				(~JOY1            ), // joystick 2 [fire4,fire3,fire2,fire,up,down,left,right] (default joystick port)
+	._joy3        				(~JOY2            ), // joystick 1 [fire4,fire3,fire2,fire,up,down,left,right]
+	._joy4        				(~JOY3            ), // joystick 2 [fire4,fire3,fire2,fire,up,down,left,right]
+	.joya1        				(cont1_joy_s[15:0]  ),
+	.joya2        				(cont2_joy_s[15:0]  ),
+	.mouse_btn    				(cont4_joy_s[31:16] ), // mouse buttons
+	.kbd_mouse_data 			(kbd_mouse_data ), // mouse direction data, keycodes
+	.kbd_mouse_type 			(kbd_mouse_type ), // type of data
+	.kms_level    				(kbd_mouse_level  ),
+//	.pwr_led      				(pwr_led          ), // power led
+	.fdd_led      				(LED         ),
+//	.hdd_led      				(ide_c_led        ),
+	.rtc          				(RTC              ),
 
 	//host controller interface (SPI)
-	.IO_UIO       (io_uio           ),
-	.IO_FPGA      (io_fpga          ),
-	.IO_STROBE    (io_strobe        ),
-	.IO_WAIT      (io_wait          ),
-	.IO_DIN       (io_din           ),
-	.IO_DOUT      (fpga_dout        ),
+	.IO_UIO       				(io_uio           ),
+	.IO_FPGA      				(io_fpga          ),
+	.IO_STROBE    				(io_strobe        ),
+	.IO_WAIT      				(io_wait          ),
+	.IO_DIN       				(io_din           ),
+	.IO_DOUT      				(fpga_dout        ),
 	.bridge_addr            ( bridge_addr ),
 	.bridge_rd              ( bridge_rd ),
 	.bridge_rd_data         ( fpga_bridge_rd_data ),
 	.bridge_wr              ( bridge_wr ),
 	.bridge_wr_data         ( bridge_wr_data ),
 	//video
-	._hsync       (hs               ), // horizontal sync
-	._vsync       (vs               ), // vertical sync
-	.field1       (field1           ),
-	.lace         (lace             ),
-	.red          (r                ), // red
-	.green        (g                ), // green
-	.blue         (b                ), // blue
-	.hblank       (hblank_i           ),
-	.vblank       (vblank_i            ),
-	.ar           (ar               ),
-	.scanline     (fx               ),
-	//.ce_pix     (ce_pix           ),
-	.res          (res              ),
+	._hsync       				(hs               ), // horizontal sync
+	._vsync       				(vs               ), // vertical sync
+	.field1       				(field1           ),
+	.lace         				(lace             ),
+	.red          				(r                ), // red
+	.green        				(g                ), // green
+	.blue         				(b                ), // blue
+	.hblank       				(hblank_i           ),
+	.vblank       				(vblank_i            ),
+	.ar           				(ar               ),
+	.scanline     				(fx               ),
+	//.ce_pix     				(ce_pix           ),
+	.res          				(res              ),
 
 	//audio
-	.ldata        (ldata            ), // left DAC data
-	.rdata        (rdata            ), // right DAC data
-//	.ldata_okk    (ldata_okk        ), // 9bit
-//	.rdata_okk    (rdata_okk        ), // 9bit
+	.ldata        				(ldata            ), // left DAC data
+	.rdata        				(rdata            ), // right DAC data
+//	.ldata_okk    				(ldata_okk        ), // 9bit
+//	.rdata_okk    				(rdata_okk        ), // 9bit
 //
-//	.aud_mix      (AUDIO_MIX        ),
+//	.aud_mix      				(AUDIO_MIX        ),
 
 	//user i/o
-	.cpucfg       (cpucfg           ), // CPU config
-	.cachecfg     (cachecfg         ), // Cache config
-	.memcfg       (memcfg           ), // memory config
-	.bootrom      (bootrom          ), // bootrom mode. Needed here to tell tg68k to also mirror the 256k Kickstart 
+	.cpucfg       				(cpucfg           ), // CPU config
+	.cachecfg     				(cachecfg         ), // Cache config
+	.memcfg       				(memcfg           ), // memory config
+	.bootrom      				(bootrom          ), // bootrom mode. Needed here to tell tg68k to also mirror the 256k Kickstart 
 
-	.ide_fast     (ide_fast         ),
-	.ide_ext_irq  (ide_f_irq        		),
-	.ide_ena      (ide_ena          ),
-	.ide_req      (ide_c_req        ),
-	.ide_address  (ide_addr         ),
-	.ide_write    (ide_wr           ),
-	.ide_writedata(ide_dout         ),
-	.ide_read     (ide_rd           ),
-	.ide_readdata (ide_c_readdata   )
+	.ide_fast     				(ide_fast         ),
+	.ide_ext_irq  				(ide_f_irq        		),
+	.ide_ena      				(ide_ena          ),
+	.ide_req      				(ide_c_req        ),
+	.ide_address  				(ide_addr         ),
+	.ide_write    				(ide_wr           ),
+	.ide_writedata				(ide_dout         ),
+	.ide_read     				(ide_rd           ),
+	.ide_readdata 				(ide_c_readdata   )
 );
 
 hps_ext hps_ext(
+.clk_sys				(clk_sys),
+.io_uio       		(io_uio),
+.io_fpga      		(io_fpga),
+.io_strobe    		(io_strobe),
+.io_din       		(io_din),
+.fpga_dout     	(fpga_dout),
+.io_dout      		(io_dout),
 
+.kbd_mouse_level	(kbd_mouse_level),
+.kbd_mouse_type	(kbd_mouse_type),
+.kbd_mouse_data	(kbd_mouse_data),
 
-.io_uio       	(io_uio),
-.io_fpga      	(io_fpga),
-.io_strobe    	(io_strobe),
-.io_din       	(io_din),
-.fpga_dout     (fpga_dout),
-.io_dout      	(io_dout),
-
-.ide_dout		(ide_dout),
-.ide_addr		(ide_addr),
-.ide_rd			(ide_rd),
-.ide_wr			(ide_wr),
-.ide_req			(ide_fast ? ide_f_req : ide_c_req),  
-.ide_din			(ide_fast ? ide_f_readdata : ide_c_readdata));
+.ide_dout			(ide_dout),
+.ide_addr			(ide_addr),
+.ide_rd				(ide_rd),
+.ide_wr				(ide_wr),
+.ide_req				(ide_fast ? ide_f_req : ide_c_req),  
+.ide_din				(ide_fast ? ide_f_readdata : ide_c_readdata)
+);
 
 wire cpu_type = cpucfg[1];
 reg  cpu_ph1;
@@ -1130,6 +1114,7 @@ synch_3 #(.WIDTH(8)) y_offset_sync(y_offset, y_offset_s, video_rgb_clock);
 
 reg [7:0] x_offset_vga; // these are the counters for the offset when the DE or each HS wit DE happens
 reg [7:0] y_offset_vga;
+reg [1:0] res_reg;
 
 always @(posedge video_rgb_clock) begin
 	video_rgb 	<= 'b0;
@@ -1155,6 +1140,7 @@ always @(posedge video_rgb_clock) begin
 	vs_reg <= vs;
 	
 	if (~vs && vs_reg) begin
+		res_reg <= {res[1], res[0] && lace};
 		y_offset_vga <= y_offset_s;
 		video_vs 	<= 'b1;
 		video_rgb 	<= {21'd0, 1'b0, field1 && lace, lace, 1'b0}; // This is the interlace part for the core.
@@ -1167,7 +1153,7 @@ always @(posedge video_rgb_clock) begin
 	end
 	
 	else if (hblank_i && ~hblank_i_reg) begin
-		case (res)
+		case (res_reg)
 			2'b11		: video_rgb 	<= {10'd0, 3'h3, 13'd0};
 			2'b10		: video_rgb 	<= {10'd0, 3'h2, 13'd0};
 			2'b01		: video_rgb 	<= {10'd0, 3'h1, 13'd0};

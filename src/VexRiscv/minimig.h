@@ -21,19 +21,29 @@
  *
  */
 
-#ifndef TIMER_H
+#ifndef MINIMIG_H
+#define MINIMIG_H
+extern uint8_t rstval;
+#include "minimig_fdd.h"
+#include "minimig_config.h"
+#include "minimig_inputs.h"
 
-#define TIMERBASE 0xffffffc8
-#define SYSCLOCKBASE 0xffffff98
-#define HW_TIMER(x) *(volatile unsigned int *)(TIMERBASE+x)
-#define HW_SYSCLOCK(x) *(volatile unsigned int *)(SYSCLOCKBASE+x)
-#define REG_MILLISECONDS 0
+// Add your operating regs here from the bus
+#define UIO_STATUS      0x00
+#define UIO_BUT_SW      0x01
 
-unsigned int GetTimer();
-unsigned int CheckTimer(unsigned int time);
-// Will reset the timer
-void ResetTimer();
-void SetTimer(unsigned int time);
-void usleep(unsigned int time);
+#define UIO_MOUSE_X	    0x03
+#define UIO_MOUSE_Y	    0x04
+#define UIO_KEYBOARD    0x05
+
+// ao486 direct memory access
+#define UIO_DMA_WRITE   0x61
+#define UIO_DMA_READ    0x62
+#define UIO_DMA_SDIO    0x63
+
+void minigmig_reset(int reset);
+void minimig_update_dataslots();
+void minimig_fdd_update();
+void minimig_poll_io();
 
 #endif

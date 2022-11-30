@@ -187,7 +187,7 @@ wire        uds_p;
 wire        lds_p;
 wire        reset_out_p;
 wire        longword;
-
+//
 //TG68KdotC_Kernel
 //#(
 //	.sr_read(2),        // 0=>user,   1=>privileged,    2=>switchable with CPU(0)

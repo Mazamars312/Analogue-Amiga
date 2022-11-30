@@ -21,44 +21,27 @@
  *
  */
 
-#include "timer.h"
-#include "hardware.h"
+#ifndef TIMER_H
 
-// this will get the clock timer and respone back with a millisecond_counter
-unsigned int GetTimer()
-{
-    unsigned int systimer = HW_TIMER(REG_MILLISECONDS);
-    return (systimer);
-}
+// We have two timers one for User use and the other for the Keyboard and mouse checks
+#define TIMERBASE1 0xffffffc4
+#define TIMERBASE2 0xffffffc8
+#define SYSCLOCKBASE 0xffffff98
+#define HW_TIMER1(x) *(volatile unsigned int *)(TIMERBASE1+x)
+#define HW_TIMER2(x) *(volatile unsigned int *)(TIMERBASE2+x)
+#define HW_SYSCLOCK(x) *(volatile unsigned int *)(SYSCLOCKBASE+x)
+#define REG_MILLISECONDS 0
 
-// A true or false condition. place the millisecond_counter required and this will test it
-unsigned int CheckTimer(unsigned int time)
-{
-    unsigned int systimer = HW_TIMER(REG_MILLISECONDS);
-    time -= systimer;
-    return(time > (1UL << 31));
-}
+unsigned int GetTimer();
+unsigned int CheckTimer(unsigned int time);
+// Will reset the timer
+void ResetTimer();
+void SetTimer(unsigned int time);
+void usleep(unsigned int time);
 
+unsigned int GetTimer1();
+unsigned int CheckTimer1(unsigned int time);
+// Will reset the timer
+void ResetTimer1();
 
-// will reset the counter THere is a wait of about 10 clocks to make sure this happens
-void ResetTimer()
-{
-  int i = 0;
-  HW_TIMER(0) = 1;
-  while (i <= 10){
-    i++;
-  }
-  HW_TIMER(0) = 0;
-};
-
-void SetTimer(unsigned int time)
-{
-  HW_SYSCLOCK(0) = time * 100;
-};
-
-void usleep(unsigned int time)
-{
-  ResetTimer();
-  while (!CheckTimer(time)){};
-  return;
-};
+#endif

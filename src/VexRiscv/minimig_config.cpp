@@ -33,7 +33,33 @@
 #include "apf.h"
 #include "spi.h"
 
+void minimig_bios (){
+  int tmp;
+  tmp = dataslot_size(210);
+  if (tmp == 0x100000) {
+    printf("\r\n1M Rom\r\n");
+    dataslot_read(210, 0x00F00000, 0, 0x100000);
+
+  }
+  else if (tmp == 0x80000){
+    printf("\r\n512M Rom\r\n");
+    dataslot_read(210, 0x00F00000, 0, 0x80000);
+    dataslot_read(210, 0x00F80000, 0, 0x80000);
+
+  }
+  else if (tmp ==  0x40000){
+    printf("\r\n256M Rom\r\n");
+    dataslot_read(210, 0x00f00000, 0, 0x40000);
+    dataslot_read(210, 0x00f40000, 0, 0x40000);
+    dataslot_read(210, 0x00f80000, 0, 0x40000);
+    dataslot_read(210, 0x00fc0000, 0, 0x40000);
+  }
+  printf("DONE\r\n");
+};
+
 void minimig_restart_first() {
+  // Bios size
+  minimig_bios();
   // Get the Floppy Controllers sorted
   HPS_spi_uio_cmd8(UIO_MM2_FLP , AFP_REGISTOR(1));
   // Get the chip setup sorted
@@ -44,6 +70,8 @@ void minimig_restart_first() {
   HPS_spi_uio_cmd8(UIO_MM2_MEM , AFP_REGISTOR(4));
   // Get the JOY setup sorted
   HPS_spi_uio_cmd8(UIO_MM2_JOY , AFP_REGISTOR(5));
+  // Update the Floppy controller
+  minimig_fdd_update();
 };
 
 void minimig_restart_running_core() {
@@ -59,8 +87,7 @@ void minimig_restart_running_core() {
   HPS_spi_uio_cmd8(UIO_MM2_JOY , AFP_REGISTOR(5));
 };
 
-void minimig_joystick_update(){
-
+void minimig_joystick_reg_update(){
   // Get the JOY setup sorted
   HPS_spi_uio_cmd8(UIO_MM2_JOY , AFP_REGISTOR(5));
 }

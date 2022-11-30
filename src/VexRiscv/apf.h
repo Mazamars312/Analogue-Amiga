@@ -53,7 +53,7 @@
 
 #define DATASLOT_RAM_ACCESS(x) *(volatile unsigned int *)(DATASLOT_ID_BASE+(x))
 
-#define DATASLOT_UPDATE_REG(x) *(volatile unsigned int *)(DATASLOT_UPDATE_FLAG_REG+(x))
+#define DATASLOT_UPDATE_REG(x) *(volatile unsigned int *)(DATASLOT_UPDATE_FLAG_REG+(x<<2))
 
 #define WRITE_TARGET_DATASLOT_ID(x) *(volatile unsigned int *)(TARGET_DATASLOT_ID+(x))
 #define WRITE_TARGET_DATASLOT_BRIDGE_ADD(x) *(volatile unsigned int *)(TARGET_DATASLOT_BRIDGE_ADD+(x))
@@ -74,6 +74,8 @@ void dataslot_search_active(uint16_t value);
 // bool dataslot_updated();
 uint32_t dataslot_read(uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length);
 uint32_t dataslot_write(uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length);
+uint32_t dataslot_read_lba_set_fast(uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length);
+uint32_t dataslot_read_lba_fast(uint32_t address, uint32_t length);
 uint32_t dataslot_read_lba_set(uint16_t dataslot, uint32_t address, uint32_t offset);
 uint32_t dataslot_read_lba(uint32_t length);
 uint32_t dataslot_write_lba_set(uint16_t dataslot, uint32_t address, uint32_t offset);

@@ -42,55 +42,53 @@
 
 
 // these values help with both the UART and System clock setups
-uint32_t sys_clock = 284; // This is the CPU clock speed in a int size 28.6mhz
-uint32_t uart_rate = 1152; // This is the UART Rate shifted right by 2
+#define sys_clock  742 // This is the CPU clock speed in a int size 74.2mhz
+#define uart_rate  1152 // This is the UART Rate shifted right by 2
 
 void init()
 {
-  minigmig_reset(2);
+  // this makes the core go in to the reset state and halts the bus so we can upload the bios if required
+  minigmig_reset(7);
 	// This setups the timers and the CPU clock rate on the system.
-  DisableInterrupts();
+  // DisableInterrupts();
+  // Setup the core to know what MHZ the CPU is running at.
 	SetTimer(sys_clock);
 	SetUART(sys_clock, uart_rate);
 	ResetTimer();
-  minimig_restart_first(); // we want the core ready to go :-) but with no restarts
-	// This is where you setup the core startup dataslots that the APT loads up for your core.
-  minimig_fdd_update();
-  usleep(100);
-	return;
+  usleep(50000);
+  printf("test");
+  // This is where you setup the core startup dataslots that the APT loads up for your core.
+  minimig_restart_first(); // we want to setup the core now :-) but with no startup yet
 }
 
 void mainloop()
 {
   // We like to see over the UART that hey I did something :-)
-	usleep(100);
+	usleep(200);
 	printf("RISC MPU Startup core\r\n");
   printf("Created By Mazamars312\r\n");
   printf("Make in 2022\r\n");
-	usleep(5000);
-	minigmig_reset(0);
+	usleep(200);
+	minigmig_reset(0); // Turns off all the resets
 	// I do enjoy reseting this timer.
 
 	// This loop is what keeps the checking of the core interface
 	while(true){
 		if(DATASLOT_UPDATE_REG(0)){
 				// This subprogram is for the program to check what dataslots are updated
-			minimig_fdd_update();
-      // printf("updated fdd\r\n");
+			minimig_update_dataslots();
 		}
-		// Im waiting to introduce a delay in floppy drive changes in the APF framwork
-		// THis will read the timer and will wait to mount the disk. the value is in seconds
-		minimig_timer_update();
 
-    // printf("updated timer_update\r\n");
+    // Get the JOY setup updated from the interact menu
+    minimig_joystick_reg_update();
+
 		// This does the polling of the core and will then run the processes required for it
 		minimig_poll_io();
 
-    // Get the JOY setup updated
-    minimig_joystick_update();
 
+    // This checks if we are wanting to do a reboot of the core from the interaction menu. We want to do this last so nothing is held in the buffers
     if (AFP_REGISTOR(0) & 0x3) { // This has 2 bits for reseting the core
-      printf("started the reset");
+      printf("starting the reset\r\n");
       minigmig_reset(AFP_REGISTOR(0));
       usleep(200);
       AFP_REGISTOR(0) = 0;
@@ -99,10 +97,10 @@ void mainloop()
       minigmig_reset(0);
       usleep(500);
       RemoveDriveStatus();
-      usleep(500);
+      usleep(50000);
       UpdateDriveStatus();
+      printf("Completed the reset\r\n");
     }
-    // printf("updated poll_io\r\n");
 	};
 }
 
@@ -110,7 +108,7 @@ int main()
 {
 
 	init();
-  usleep(5000); // I want the core to wait a bit.
+  usleep(2000000); // I want the core to wait a bit.
 	mainloop();
 
 	return(0);

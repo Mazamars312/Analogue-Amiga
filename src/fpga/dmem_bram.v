@@ -4,7 +4,7 @@
 // MODULE: altsyncram 
 
 // ============================================================
-// File Name: mf_datatable.v
+// File Name: dmem_bram.v
 // Megafunction Name(s):
 // 			altsyncram
 //
@@ -37,9 +37,10 @@
 // synopsys translate_off
 `timescale 1 ps / 1 ps
 // synopsys translate_on
-module mf_datatable (
+module dmem_bram (
 	address_a,
 	address_b,
+	byteena_a,
 	clock_a,
 	clock_b,
 	data_a,
@@ -51,8 +52,9 @@ module mf_datatable (
 	q_a,
 	q_b);
 
-	input	[7:0]  address_a;
-	input	[7:0]  address_b;
+	input	[8:0]  address_a;
+	input	[8:0]  address_b;
+	input	[3:0]  byteena_a;
 	input	  clock_a;
 	input	  clock_b;
 	input	[31:0]  data_a;
@@ -66,6 +68,7 @@ module mf_datatable (
 `ifndef ALTERA_RESERVED_QIS
 // synopsys translate_off
 `endif
+	tri1	[3:0]  byteena_a;
 	tri1	  clock_a;
 	tri1	  rden_a;
 	tri1	  rden_b;
@@ -83,6 +86,7 @@ module mf_datatable (
 	altsyncram	altsyncram_component (
 				.address_a (address_a),
 				.address_b (address_b),
+				.byteena_a (byteena_a),
 				.clock0 (clock_a),
 				.clock1 (clock_b),
 				.data_a (data_a),
@@ -97,7 +101,6 @@ module mf_datatable (
 				.aclr1 (1'b0),
 				.addressstall_a (1'b0),
 				.addressstall_b (1'b0),
-				.byteena_a (1'b1),
 				.byteena_b (1'b1),
 				.clocken0 (1'b1),
 				.clocken1 (1'b1),
@@ -106,16 +109,16 @@ module mf_datatable (
 				.eccstatus ());
 	defparam
 		altsyncram_component.address_reg_b = "CLOCK1",
+		altsyncram_component.byte_size = 8,
 		altsyncram_component.clock_enable_input_a = "BYPASS",
 		altsyncram_component.clock_enable_input_b = "BYPASS",
 		altsyncram_component.clock_enable_output_a = "BYPASS",
 		altsyncram_component.clock_enable_output_b = "BYPASS",
 		altsyncram_component.indata_reg_b = "CLOCK1",
-		altsyncram_component.init_file = "./apf/build_id.mif",
 		altsyncram_component.intended_device_family = "Cyclone V",
 		altsyncram_component.lpm_type = "altsyncram",
-		altsyncram_component.numwords_a = 256,
-		altsyncram_component.numwords_b = 256,
+		altsyncram_component.numwords_a = 512,
+		altsyncram_component.numwords_b = 512,
 		altsyncram_component.operation_mode = "BIDIR_DUAL_PORT",
 		altsyncram_component.outdata_aclr_a = "NONE",
 		altsyncram_component.outdata_aclr_b = "NONE",
@@ -124,11 +127,11 @@ module mf_datatable (
 		altsyncram_component.power_up_uninitialized = "FALSE",
 		altsyncram_component.read_during_write_mode_port_a = "NEW_DATA_NO_NBE_READ",
 		altsyncram_component.read_during_write_mode_port_b = "NEW_DATA_NO_NBE_READ",
-		altsyncram_component.widthad_a = 8,
-		altsyncram_component.widthad_b = 8,
+		altsyncram_component.widthad_a = 9,
+		altsyncram_component.widthad_b = 9,
 		altsyncram_component.width_a = 32,
 		altsyncram_component.width_b = 32,
-		altsyncram_component.width_byteena_a = 1,
+		altsyncram_component.width_byteena_a = 4,
 		altsyncram_component.width_byteena_b = 1,
 		altsyncram_component.wrcontrol_wraddress_reg_b = "CLOCK1";
 
@@ -142,10 +145,10 @@ endmodule
 // Retrieval info: PRIVATE: ADDRESSSTALL_B NUMERIC "0"
 // Retrieval info: PRIVATE: BYTEENA_ACLR_A NUMERIC "0"
 // Retrieval info: PRIVATE: BYTEENA_ACLR_B NUMERIC "0"
-// Retrieval info: PRIVATE: BYTE_ENABLE_A NUMERIC "0"
+// Retrieval info: PRIVATE: BYTE_ENABLE_A NUMERIC "1"
 // Retrieval info: PRIVATE: BYTE_ENABLE_B NUMERIC "0"
 // Retrieval info: PRIVATE: BYTE_SIZE NUMERIC "8"
-// Retrieval info: PRIVATE: BlankMemory NUMERIC "0"
+// Retrieval info: PRIVATE: BlankMemory NUMERIC "1"
 // Retrieval info: PRIVATE: CLOCK_ENABLE_INPUT_A NUMERIC "0"
 // Retrieval info: PRIVATE: CLOCK_ENABLE_INPUT_B NUMERIC "0"
 // Retrieval info: PRIVATE: CLOCK_ENABLE_OUTPUT_A NUMERIC "0"
@@ -168,9 +171,9 @@ endmodule
 // Retrieval info: PRIVATE: JTAG_ENABLED NUMERIC "0"
 // Retrieval info: PRIVATE: JTAG_ID STRING "NONE"
 // Retrieval info: PRIVATE: MAXIMUM_DEPTH NUMERIC "0"
-// Retrieval info: PRIVATE: MEMSIZE NUMERIC "8192"
+// Retrieval info: PRIVATE: MEMSIZE NUMERIC "16384"
 // Retrieval info: PRIVATE: MEM_IN_BITS NUMERIC "0"
-// Retrieval info: PRIVATE: MIFfilename STRING "./apf/build_id.mif"
+// Retrieval info: PRIVATE: MIFfilename STRING ""
 // Retrieval info: PRIVATE: OPERATION_MODE NUMERIC "3"
 // Retrieval info: PRIVATE: OUTDATA_ACLR_B NUMERIC "0"
 // Retrieval info: PRIVATE: OUTDATA_REG_B NUMERIC "0"
@@ -199,16 +202,16 @@ endmodule
 // Retrieval info: PRIVATE: rden NUMERIC "1"
 // Retrieval info: LIBRARY: altera_mf altera_mf.altera_mf_components.all
 // Retrieval info: CONSTANT: ADDRESS_REG_B STRING "CLOCK1"
+// Retrieval info: CONSTANT: BYTE_SIZE NUMERIC "8"
 // Retrieval info: CONSTANT: CLOCK_ENABLE_INPUT_A STRING "BYPASS"
 // Retrieval info: CONSTANT: CLOCK_ENABLE_INPUT_B STRING "BYPASS"
 // Retrieval info: CONSTANT: CLOCK_ENABLE_OUTPUT_A STRING "BYPASS"
 // Retrieval info: CONSTANT: CLOCK_ENABLE_OUTPUT_B STRING "BYPASS"
 // Retrieval info: CONSTANT: INDATA_REG_B STRING "CLOCK1"
-// Retrieval info: CONSTANT: INIT_FILE STRING "./apf/build_id.mif"
 // Retrieval info: CONSTANT: INTENDED_DEVICE_FAMILY STRING "Cyclone V"
 // Retrieval info: CONSTANT: LPM_TYPE STRING "altsyncram"
-// Retrieval info: CONSTANT: NUMWORDS_A NUMERIC "256"
-// Retrieval info: CONSTANT: NUMWORDS_B NUMERIC "256"
+// Retrieval info: CONSTANT: NUMWORDS_A NUMERIC "512"
+// Retrieval info: CONSTANT: NUMWORDS_B NUMERIC "512"
 // Retrieval info: CONSTANT: OPERATION_MODE STRING "BIDIR_DUAL_PORT"
 // Retrieval info: CONSTANT: OUTDATA_ACLR_A STRING "NONE"
 // Retrieval info: CONSTANT: OUTDATA_ACLR_B STRING "NONE"
@@ -217,15 +220,16 @@ endmodule
 // Retrieval info: CONSTANT: POWER_UP_UNINITIALIZED STRING "FALSE"
 // Retrieval info: CONSTANT: READ_DURING_WRITE_MODE_PORT_A STRING "NEW_DATA_NO_NBE_READ"
 // Retrieval info: CONSTANT: READ_DURING_WRITE_MODE_PORT_B STRING "NEW_DATA_NO_NBE_READ"
-// Retrieval info: CONSTANT: WIDTHAD_A NUMERIC "8"
-// Retrieval info: CONSTANT: WIDTHAD_B NUMERIC "8"
+// Retrieval info: CONSTANT: WIDTHAD_A NUMERIC "9"
+// Retrieval info: CONSTANT: WIDTHAD_B NUMERIC "9"
 // Retrieval info: CONSTANT: WIDTH_A NUMERIC "32"
 // Retrieval info: CONSTANT: WIDTH_B NUMERIC "32"
-// Retrieval info: CONSTANT: WIDTH_BYTEENA_A NUMERIC "1"
+// Retrieval info: CONSTANT: WIDTH_BYTEENA_A NUMERIC "4"
 // Retrieval info: CONSTANT: WIDTH_BYTEENA_B NUMERIC "1"
 // Retrieval info: CONSTANT: WRCONTROL_WRADDRESS_REG_B STRING "CLOCK1"
-// Retrieval info: USED_PORT: address_a 0 0 8 0 INPUT NODEFVAL "address_a[7..0]"
-// Retrieval info: USED_PORT: address_b 0 0 8 0 INPUT NODEFVAL "address_b[7..0]"
+// Retrieval info: USED_PORT: address_a 0 0 9 0 INPUT NODEFVAL "address_a[8..0]"
+// Retrieval info: USED_PORT: address_b 0 0 9 0 INPUT NODEFVAL "address_b[8..0]"
+// Retrieval info: USED_PORT: byteena_a 0 0 4 0 INPUT VCC "byteena_a[3..0]"
 // Retrieval info: USED_PORT: clock_a 0 0 0 0 INPUT VCC "clock_a"
 // Retrieval info: USED_PORT: clock_b 0 0 0 0 INPUT NODEFVAL "clock_b"
 // Retrieval info: USED_PORT: data_a 0 0 32 0 INPUT NODEFVAL "data_a[31..0]"
@@ -236,8 +240,9 @@ endmodule
 // Retrieval info: USED_PORT: rden_b 0 0 0 0 INPUT VCC "rden_b"
 // Retrieval info: USED_PORT: wren_a 0 0 0 0 INPUT GND "wren_a"
 // Retrieval info: USED_PORT: wren_b 0 0 0 0 INPUT GND "wren_b"
-// Retrieval info: CONNECT: @address_a 0 0 8 0 address_a 0 0 8 0
-// Retrieval info: CONNECT: @address_b 0 0 8 0 address_b 0 0 8 0
+// Retrieval info: CONNECT: @address_a 0 0 9 0 address_a 0 0 9 0
+// Retrieval info: CONNECT: @address_b 0 0 9 0 address_b 0 0 9 0
+// Retrieval info: CONNECT: @byteena_a 0 0 4 0 byteena_a 0 0 4 0
 // Retrieval info: CONNECT: @clock0 0 0 0 0 clock_a 0 0 0 0
 // Retrieval info: CONNECT: @clock1 0 0 0 0 clock_b 0 0 0 0
 // Retrieval info: CONNECT: @data_a 0 0 32 0 data_a 0 0 32 0
@@ -248,10 +253,10 @@ endmodule
 // Retrieval info: CONNECT: @wren_b 0 0 0 0 wren_b 0 0 0 0
 // Retrieval info: CONNECT: q_a 0 0 32 0 @q_a 0 0 32 0
 // Retrieval info: CONNECT: q_b 0 0 32 0 @q_b 0 0 32 0
-// Retrieval info: GEN_FILE: TYPE_NORMAL mf_datatable.v TRUE
-// Retrieval info: GEN_FILE: TYPE_NORMAL mf_datatable.inc FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL mf_datatable.cmp FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL mf_datatable.bsf FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL mf_datatable_inst.v FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL mf_datatable_bb.v FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL dmem_bram.v TRUE
+// Retrieval info: GEN_FILE: TYPE_NORMAL dmem_bram.inc FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL dmem_bram.cmp FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL dmem_bram.bsf FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL dmem_bram_inst.v FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL dmem_bram_bb.v TRUE
 // Retrieval info: LIB_FILE: altera_mf
