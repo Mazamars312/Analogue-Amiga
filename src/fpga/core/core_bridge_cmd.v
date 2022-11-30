@@ -89,6 +89,7 @@ input   wire    [31:0]  target_dataslot_length,
 
 input   wire    [9:0]   datatable_addr,
 input   wire            datatable_wren,
+input   wire            datatable_rden,
 input   wire    [31:0]  datatable_data,
 output  wire    [31:0]  datatable_q
 
@@ -522,7 +523,8 @@ always @(posedge clk) begin
 
 end
 
-    wire    [31:0]  b_datatable_q;
+    reg    [31:0]  b_datatable_q;
+	 wire    [31:0]  b_datatable_q_wire;
     reg     [9:0]   b_datatable_addr;
     reg             b_datatable_wren;
 
@@ -533,11 +535,14 @@ mf_datatable idt (
     .clock_b        ( clk ),
     .data_a         ( datatable_data ),
     .data_b         ( bridge_wr_data_in ),
+    .rden_a         ( datatable_rden ),
+    .rden_b         ( 1'b1 ),
     .wren_a         ( datatable_wren ),
     .wren_b         ( b_datatable_wren ),
     .q_a            ( datatable_q ),
-    .q_b            ( b_datatable_q )
+    .q_b            ( b_datatable_q_wire )
 );
 
+always @(posedge clk) b_datatable_q <= b_datatable_q_wire;
 
 endmodule

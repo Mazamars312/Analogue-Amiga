@@ -45,7 +45,7 @@ void ResetTimer()
 {
   int i = 0;
   HW_TIMER2(0) = 1;
-  while (i <= 10){
+  while (i <= 100){
     i++;
   }
   HW_TIMER2(0) = 0;
@@ -58,9 +58,10 @@ void SetTimer(unsigned int time)
 
 void usleep(unsigned int time)
 {
-  ResetTimer();
-  while (!CheckTimer(time)){};
-  return;
+  uint32_t i = 0;
+  while (i <= time){
+    i++;
+  }
 };
 
 unsigned int GetTimer1()

@@ -74,6 +74,8 @@ void dataslot_search_active(uint16_t value);
 // bool dataslot_updated();
 uint32_t dataslot_read(uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length);
 uint32_t dataslot_write(uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length);
+uint32_t dataslot_read_lba_set_fast(uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length);
+uint32_t dataslot_read_lba_fast(uint32_t address, uint32_t length);
 uint32_t dataslot_read_lba_set(uint16_t dataslot, uint32_t address, uint32_t offset);
 uint32_t dataslot_read_lba(uint32_t length);
 uint32_t dataslot_write_lba_set(uint16_t dataslot, uint32_t address, uint32_t offset);

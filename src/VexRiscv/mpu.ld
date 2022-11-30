@@ -20,20 +20,37 @@
  * SOFTWARE.
  *
  */
+
+ MEMORY {
+   rom (rwx) : ORIGIN = 0x00000000, LENGTH = 0x00008000
+   ram (rw) : ORIGIN  = 0x00008000, LENGTH = 0x00001000
+ }
+
 SECTIONS
 {
-    . = 0x0000;
-    .ram : {
+    . = 0x00000000;
+    .rom : {
         *(.startup)
         *(.text*)
-        __global_pointer$ = . + 0x8000;
+
         *(.sdata*)
         *(.sbss*)
         *(.data*)
+        *(.rela*)
         *(.rodata*)
         *(.bss*)
+        __global_pointer$ =  0x7000;
     }
-    /DISCARD/ : {
-        *(.comment)
-    }
+
+
+
+    .ram : {
+     __ram_start = .;
+     *(ram*)
+     __ram_end = .;
+     } > ram
+
+     /DISCARD/ : {
+         *(.comment)
+     }
 }

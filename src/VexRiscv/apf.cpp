@@ -117,29 +117,86 @@ uint32_t dataslot_write(uint16_t dataslot, uint32_t address, uint32_t offset, ui
 }
 
 // THis will set the pointers read to go on the APF regs
-uint32_t dataslot_read_lba_set(uint16_t dataslot, uint32_t address, uint32_t offset)
+uint32_t dataslot_read_lba_set_fast(uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length)
 {
   READ_TARGET_DATASLOT_ID(0) = dataslot;
   READ_TARGET_DATASLOT_BRIDGE_ADD(0) = APF_ADDRESS_OFFSET | address;
   READ_TARGET_DATASLOT_OFFSET(0) = offset << 9;
-  READ_TARGET_DATASLOT_LENGTH(0) = 1;
+  READ_TARGET_DATASLOT_LENGTH(0) = length;
   READ_TARGET_DATASLOT_CONTROL(0) = TARGET_DATASLOT_READ_REG;
+  // READ_TARGET_DATASLOT_CONTROL(0) = TARGET_DATASLOT_READ_REG;
   // printf("READ_TARGET_DATASLOT_ID %.4x\r\n", WRITE_TARGET_DATASLOT_ID(0));
   // printf("READ_TARGET_DATASLOT_BRIDGE_ADD %.4x\r\n", WRITE_TARGET_DATASLOT_BRIDGE_ADD(0));
   // printf("READ_TARGET_DATASLOT_LENGTH %.4x\r\n", WRITE_TARGET_DATASLOT_LENGTH(0));
   // printf("READ_TARGET_DATASLOT_OFFSET %.4x\r\n", WRITE_TARGET_DATASLOT_OFFSET(0));
 
+  // int apf_codes;
+	// do
+	// {
+	// 	apf_codes = READ_TARGET_DATASLOT_CONTROL(0);
+  //   if ((apf_codes & APF_ERROR) > 0)
+	// 	{
+	// 		printf("APF FAILD?\r\n", apf_codes & APF_DONE);
+	// 		return (apf_codes & APF_ERROR);
+	// 	}
+  //   minimig_input_update();
+	// } while (!(apf_codes & APF_DONE));
+  return(0);
+}
+
+// This will read the data from where the file pointer is (This is set by dataslot_read_lba_set) and does the next batch of data
+uint32_t dataslot_read_lba_fast(uint32_t address, uint32_t length)
+{
+  int i = 0;
   int apf_codes;
-	do
+  do
 	{
-		apf_codes = READ_TARGET_DATASLOT_CONTROL(0);
+    apf_codes = READ_TARGET_DATASLOT_CONTROL(0);
     if ((apf_codes & APF_ERROR) > 0)
 		{
 			printf("APF FAILD?\r\n", apf_codes & APF_DONE);
 			return (apf_codes & APF_ERROR);
 		}
-    minimig_input_update();
-	} while (!(apf_codes & APF_DONE));
+    i++;
+  } while (!(apf_codes & APF_ACK) | (i <= 1000));
+
+
+  READ_TARGET_DATASLOT_BRIDGE_ADD(0) = APF_ADDRESS_OFFSET | address;
+  READ_TARGET_DATASLOT_LENGTH(0) = length;
+  READ_TARGET_DATASLOT_CONTROL(0) = TARGET_DATASLOT_READ_REG;
+  // printf("READ_TARGET_DATASLOT_LENGTH Sent %.4x\r\n", WRITE_TARGET_DATASLOT_LENGTH(0));
+  do
+	{
+    apf_codes = READ_TARGET_DATASLOT_CONTROL(0);
+  } while (apf_codes & APF_ACK);
+  int tmp = WRITE_TARGET_DATASLOT_OFFSET(0);
+  WRITE_TARGET_DATASLOT_OFFSET(0) = tmp + length;
+  return(0);
+}
+
+// THis will set the pointers read to go on the APF regs
+uint32_t dataslot_read_lba_set(uint16_t dataslot, uint32_t address, uint32_t offset)
+{
+  READ_TARGET_DATASLOT_ID(0) = dataslot;
+  READ_TARGET_DATASLOT_BRIDGE_ADD(0) = APF_ADDRESS_OFFSET | address;
+  READ_TARGET_DATASLOT_OFFSET(0) = offset << 9;
+  // READ_TARGET_DATASLOT_CONTROL(0) = TARGET_DATASLOT_READ_REG;
+  // printf("READ_TARGET_DATASLOT_ID %.4x\r\n", WRITE_TARGET_DATASLOT_ID(0));
+  // printf("READ_TARGET_DATASLOT_BRIDGE_ADD %.4x\r\n", WRITE_TARGET_DATASLOT_BRIDGE_ADD(0));
+  // printf("READ_TARGET_DATASLOT_LENGTH %.4x\r\n", WRITE_TARGET_DATASLOT_LENGTH(0));
+  // printf("READ_TARGET_DATASLOT_OFFSET %.4x\r\n", WRITE_TARGET_DATASLOT_OFFSET(0));
+
+  // int apf_codes;
+	// do
+	// {
+	// 	apf_codes = READ_TARGET_DATASLOT_CONTROL(0);
+  //   if ((apf_codes & APF_ERROR) > 0)
+	// 	{
+	// 		printf("APF FAILD?\r\n", apf_codes & APF_DONE);
+	// 		return (apf_codes & APF_ERROR);
+	// 	}
+  //   minimig_input_update();
+	// } while (!(apf_codes & APF_DONE));
   return(0);
 }
 
@@ -149,7 +206,19 @@ uint32_t dataslot_read_lba(uint32_t length)
   READ_TARGET_DATASLOT_LENGTH(0) = length;
   READ_TARGET_DATASLOT_CONTROL(0) = TARGET_DATASLOT_READ_REG;
   // printf("READ_TARGET_DATASLOT_LENGTH Sent %.4x\r\n", WRITE_TARGET_DATASLOT_LENGTH(0));
+  int i = 0;
   int apf_codes;
+  do
+	{
+    apf_codes = READ_TARGET_DATASLOT_CONTROL(0);
+    if ((apf_codes & APF_ERROR) > 0)
+		{
+			printf("APF FAILD?\r\n", apf_codes & APF_DONE);
+			return (apf_codes & APF_ERROR);
+		}
+    i++;
+  } while (!(apf_codes & APF_ACK) | (i <= 1000));
+
 	do
 	{
 		apf_codes = READ_TARGET_DATASLOT_CONTROL(0);

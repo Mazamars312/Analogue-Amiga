@@ -43,11 +43,11 @@ uint8_t rstval;
 
 void minigmig_reset(int reset){
 		HPS_spi_uio_cmd8(UIO_MM2_RST, reset);
+		printf("reset %d\r\n",reset);
 };
 // Update dataslots
 
 void minimig_update_dataslots(){
-	int i = 0;
   int tmp = DATASLOT_UPDATE_REG(1);
 	if (tmp == DATASLOT_BIOS_BASE){
 		minigmig_reset(7);
@@ -66,7 +66,7 @@ void minimig_fdd_update(){
   {
     if (dataslot_size(i+DATASLOT_FDD_BASE) != 0){
       UnsertFloppy(&df[i]);
-      usleep(300);
+      usleep(300000);
       InsertFloppy(&df[i], dataslot_size(i+DATASLOT_FDD_BASE), i+DATASLOT_FDD_BASE);
     }
     i++;

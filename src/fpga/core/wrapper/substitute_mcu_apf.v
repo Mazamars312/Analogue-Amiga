@@ -50,8 +50,9 @@ module substitute_mcu_apf_mister(
 	output reg   [31:0]    target_dataslot_length,
 
 	output       [9:0]     datatable_addr,
-	output reg             datatable_wren,
-	output reg   [31:0]    datatable_data,
+	output              		datatable_wren,
+	output              		datatable_rden,
+	output    	 [31:0]    datatable_data,
 	input      	 [31:0]    datatable_q,
 	
 	// UART
@@ -82,60 +83,49 @@ module substitute_mcu_apf_mister(
 	
     );
 
-	parameter false = 0;
-	parameter true = 1;
-
-	parameter [ 0:0] ENABLE_COUNTERS = 0;
-	parameter [ 0:0] ENABLE_COUNTERS64 = 0;
-	parameter [ 0:0] ENABLE_REGS_16_31 = 1;
-	parameter [ 0:0] ENABLE_REGS_DUALPORT = 1;
-	parameter [ 0:0] LATCHED_MEM_RDATA = 0;
-	parameter [ 0:0] TWO_STAGE_SHIFT = 1;
-	parameter [ 0:0] BARREL_SHIFTER = 1;
-	parameter [ 0:0] TWO_CYCLE_COMPARE = 1;
-	parameter [ 0:0] TWO_CYCLE_ALU = 1;
-	parameter [ 0:0] COMPRESSED_ISA = 0;
-	parameter [ 0:0] CATCH_MISALIGN = 0;
-	parameter [ 0:0] CATCH_ILLINSN = 0;
-	parameter [ 0:0] ENABLE_PCPI = 0;
-	parameter [ 0:0] ENABLE_MUL = 1;
-	parameter [ 0:0] ENABLE_FAST_MUL = 0;
-	parameter [ 0:0] ENABLE_DIV = 1;
-	parameter [ 0:0] ENABLE_IRQ = 0;
-	parameter [ 0:0] ENABLE_IRQ_QREGS = 0;
-	parameter [ 0:0] ENABLE_IRQ_TIMER = 0;
-	parameter [ 0:0] ENABLE_TRACE = 0;
-	parameter [ 0:0] REGS_INIT_ZERO = 0;
-	parameter [31:0] MASKED_IRQ = 32'h 0000_0000;
-	parameter [31:0] LATCHED_IRQ = 32'h ffff_ffff;
-	parameter [31:0] PROGADDR_RESET = 32'h 0000_0000;
-	parameter [31:0] PROGADDR_IRQ = 32'h 0000_0010;
-	parameter [31:0] STACKADDR = 32'h 0000_3000;
 
 // some timing for the UART and timer cores
 reg [31:0] uart_divisor;
 
 // CPU Wires
 wire [31:0] cpu_addr;
-wire [31:0] from_cpu, from_rom;
+wire [31:0] dBus_cmd_payload_data, from_rom;
 wire [3:0]  cpu_bytesel;
-reg  [31:0] to_cpu;
-reg         cpu_ack;
+reg  [31:0] dBus_rsp_data;
+reg         dBus_rsp_ready;
 wire        rom_wr;
 
 // UART
 
 reg  [7:0]  ser_txdata; 
+wire [7:0]  ser_txdata_wire;
 wire [7:0]  ser_rxdata;
 reg         ser_txgo;
+wire        ser_txgo_wire;
+
+wire 			fifo_full;
+wire			fifo_empty;
 
 // We need to see what is happening right? this is sent via the UART on the Cart port
+uart_fifo uart_fifo_tx (
+	.aclr		(~reset_n),
+	.clock	(clk_mpu),
+	.data		(ser_txdata),
+	.rdreq	(ser_txgo_wire),
+	.wrreq	(ser_txgo),
+	.empty	(fifo_empty),
+	.full		(fifo_full),
+	.q			(ser_txdata_wire)
+);
+
+assign ser_txgo_wire = ~fifo_empty && ser_txready_wire;
+
 simple_uart simple_uart (
 .clk        (clk_mpu),
 .reset      (reset_n),
-.txdata     (ser_txdata),
-.txready    (ser_txready),
-.txgo       (ser_txgo),
+.txdata     (ser_txdata_wire),
+.txready    (ser_txready_wire),
+.txgo       (ser_txgo_wire),
 .rxdata     (ser_rxdata),
 .rxint      (ser_rxint),
 .txint      (open),
@@ -144,90 +134,115 @@ simple_uart simple_uart (
 .txd        (txd));
     
 // Ram controller that is duel ported so one side is on the APF bus and is addressable
-assign rom_wr = ~|cpu_addr[31:16] && cpu_wr;  
 reg	littlenden;  
+wire [31:0] 		iBus_cmd_payload_pc;
+wire [31:0] 		iBus_rsp_payload_inst;
+wire iBus_cmd_ready, iBus_cmd_valid;
+
 controller_rom 
 #(.top_address(16'h8000), // This sets the location on the APF bus to watch out for
   .address_size (5'd12) //Address lines for the memory array
 )
 controller_rom(
-	// CPU Bus
-    .clk               (clk_mpu),
-    .addr              (cpu_addr[15:2]),
-    .d                 (from_cpu),
-    .q                 (from_rom),
-    .we                (rom_wr),
-    .bytesel           (cpu_bytesel),
-	 .little_enden		  (littlenden), // THe compiled code is in little enden on the APF bus. So we need to make a reg on the CPU to change this.
-	// APF Bus
-	
-    .clk_74a           (clk_74a),
-	.bridge_addr       (bridge_addr),
-	.bridge_rd         (bridge_rd),
-	.bridge_rd_data    (mpu_ram_bridge_rd_data),
-	.bridge_wr         (bridge_wr),
-	.bridge_wr_data    (bridge_wr_data)
+	.clk					(clk_mpu),
+	.reset_n				(reset_n),
+	// Instruction Side
+	.instruction_addr	(iBus_cmd_payload_pc),
+	.instruction_q		(iBus_rsp_payload_inst),
+	.iBus_cmd_valid	(iBus_cmd_valid),
+	// Data Side
+	.data_addr			(cpu_addr),
+	.data_d				(dBus_cmd_payload_data),
+	.data_q				(from_rom),
+	.data_we				((~|cpu_addr[31:16] && mem_la_write)),
+	.dBus_cmd_valid	(dBus_cmd_valid),
+	.data_bytesel		(dBus_cmd_payload_size),
+	// APF Side
+	.little_enden		(littlenden),
+	.clk_74a				(clk_74a),
+	.bridge_addr		(bridge_addr),
+	.bridge_rd			(bridge_rd),
+	.bridge_rd_data	(mpu_ram_bridge_rd_data),
+	.bridge_wr			(bridge_wr),
+	.bridge_wr_data	(bridge_wr_data)
 );
 
 
-// The CPU picorv32
+// The CPU VexRisc
 
-wire cpu_req;
-   
-picorv32 #(
-		.ENABLE_COUNTERS     (ENABLE_COUNTERS     ),
-		.ENABLE_COUNTERS64   (ENABLE_COUNTERS64   ),
-		.ENABLE_REGS_16_31   (ENABLE_REGS_16_31   ),
-		.ENABLE_REGS_DUALPORT(ENABLE_REGS_DUALPORT),
-		.TWO_STAGE_SHIFT     (TWO_STAGE_SHIFT     ),
-		.BARREL_SHIFTER      (BARREL_SHIFTER      ),
-		.TWO_CYCLE_COMPARE   (TWO_CYCLE_COMPARE   ),
-		.TWO_CYCLE_ALU       (TWO_CYCLE_ALU       ),
-		.COMPRESSED_ISA      (COMPRESSED_ISA      ),
-		.CATCH_MISALIGN      (CATCH_MISALIGN      ),
-		.CATCH_ILLINSN       (CATCH_ILLINSN       ),
-		.ENABLE_PCPI         (ENABLE_PCPI         ),
-		.ENABLE_MUL          (ENABLE_MUL          ),
-		.ENABLE_FAST_MUL     (ENABLE_FAST_MUL     ),
-		.ENABLE_DIV          (ENABLE_DIV          ),
-		.ENABLE_IRQ          (ENABLE_IRQ          ),
-		.ENABLE_IRQ_QREGS    (ENABLE_IRQ_QREGS    ),
-		.ENABLE_IRQ_TIMER    (ENABLE_IRQ_TIMER    ),
-		.ENABLE_TRACE        (ENABLE_TRACE        ),
-		.REGS_INIT_ZERO      (REGS_INIT_ZERO      ),
-		.MASKED_IRQ          (MASKED_IRQ          ),
-		.LATCHED_IRQ         (LATCHED_IRQ         ),
-		.PROGADDR_RESET      (PROGADDR_RESET      ),
-		.PROGADDR_IRQ        (PROGADDR_IRQ        ),
-		.STACKADDR           (STACKADDR           )
-	) picorv32_core (
-		.clk      (clk_mpu   ),
-		.resetn   (reset_n),
-		.trap     (trap  ),
-		.irq		 (cpu_int),
-		.mem_valid(cpu_req),
-		.mem_addr (cpu_addr ),
-		.mem_wdata(from_cpu),
-		.mem_wstrb(cpu_bytesel),
-		.mem_instr(mem_instr),
-		.mem_ready(cpu_ack),
-		.mem_rdata(to_cpu)
-	);
+wire 			cpu_req;
+wire 			mem_la_read, mem_la_write; 
+wire 			dBus_cmd_valid;
+wire [1:0] 	dBus_cmd_payload_size;
+wire 			dBus_cmd_payload_wr;
+reg 			ibus_ready;
+reg 			ibus_valid;
+reg			externalInterrupt;
+reg			interupt_output_1_reg;
+
+assign mem_la_read 	= dBus_cmd_valid && ~dBus_cmd_payload_wr;
+assign mem_la_write	= dBus_cmd_valid &&  dBus_cmd_payload_wr;
+
+// Imem Controller
+
+	always @(posedge clk_mpu) begin
+		if (~reset_n) begin
+			ibus_valid <= 1'b0;
+			ibus_ready <= 1'b0;
+		end 
+		else if(iBus_cmd_valid && ibus_ready) begin
+			// Can read without stall
+			ibus_valid <= 1'b1;
+			ibus_ready <= 1'b1;
+		end 
+		else begin
+			ibus_valid <= 1'b0;
+			ibus_ready <= 1'b1;
+		end
+	end
+
+// CPU Core
 	
-	assign cpu_wr = |{cpu_bytesel};
+   VexRiscv cpu(
+		.clk(clk_mpu), 
+		.reset(~reset_n),
+		.iBus_cmd_valid(iBus_cmd_valid),
+		.iBus_cmd_ready(ibus_ready),
+		.iBus_cmd_payload_pc(iBus_cmd_payload_pc),
+		.iBus_rsp_valid(ibus_valid),
+		.iBus_rsp_payload_error(1'b0),
+		.iBus_rsp_payload_inst(iBus_rsp_payload_inst),
+		.timerInterrupt(interupt_output_1_reg),
+		.externalInterrupt(externalInterrupt),
+		.softwareInterrupt(1'b0),
+		.dBus_cmd_valid(dBus_cmd_valid),
+		.dBus_cmd_ready(1'b1),
+		.dBus_cmd_payload_wr(dBus_cmd_payload_wr),
+		.dBus_cmd_payload_address(cpu_addr),
+		.dBus_cmd_payload_data(dBus_cmd_payload_data),
+		.dBus_cmd_payload_size(dBus_cmd_payload_size),
+		.dBus_rsp_ready(dBus_rsp_ready),
+		.dBus_rsp_error(1'b0),
+		.dBus_rsp_data(dBus_rsp_data)
+		);
     
 // Timer for the cpu to make sure things are in time
+
 wire [31:0] millisecond_counter_1;
 wire [31:0] millisecond_counter_2;
 reg 		  	millisecond_counter_reset_1;
 reg 		  	millisecond_counter_reset_2;
 reg [31:0] 	sysclk_frequency;
+reg [31:0]	interupt_counter_1;
+wire			interupt_output_1;
 
 timer_core timer_1_core(
 	.clk_sys								(clk_mpu),
 	.millisecond_counter_reset		(millisecond_counter_reset_1),
 	.millisecond_counter				(millisecond_counter_1),
-	.sysclk_frequency					(sysclk_frequency)
+	.sysclk_frequency					(sysclk_frequency),
+	.interupt_counter					(interupt_counter_1),
+	.interupt_output					(interupt_output_1)
 );
 
 timer_core timer_2_core(
@@ -238,7 +253,7 @@ timer_core timer_2_core(
 );
 
 // Interupt core for the data slot updates
-reg int_ack;
+reg dataslot_update_ack;
 wire dataslot_update_true;
 
 switching_latch dataslot_update_latch (
@@ -246,7 +261,7 @@ switching_latch dataslot_update_latch (
 	.int_clk   (clk_74a),    // the interupt clock domain
 	.reset_n   (reset_n),
 	.trigger   (dataslot_update),
-	.ack       (int_ack),
+	.ack       (dataslot_update_ack),
 	.out       (dataslot_update_true)
 );
 
@@ -276,15 +291,17 @@ clock_reg_latch #(.data_size(32) ) dataslot_update_size_latch(
 reg [31:0]  ext_data_out;
 reg         ext_data_en;
 reg         ser_rxrecv;
-reg         mem_busy, rom_ack;
-reg         data_slot_ram_ack, data_slot_ram_ack_1;
 
 reg        	io_clk;
 reg        	io_ss0;
 reg        	io_ss1;
 reg        	io_ss2;
 
+// Dataslot ram access
+
 assign datatable_addr = cpu_addr[11:2];
+assign datatable_wren = cpu_addr[31:12] == 'hffff0 && mem_la_write;
+assign datatable_rden = mem_la_read;
 
 /*
 
@@ -304,26 +321,9 @@ reg [31:0] mpu_reg_5 = 0;
 reg [31:0] mpu_reg_6 = 0;
 reg [31:0] mpu_reg_7 = 0;
 
-// wires on the cpu clock after the sync to that clock
-wire [31:0] mpu_reg_0_s;
-wire [31:0] mpu_reg_1_s;
-wire [31:0] mpu_reg_2_s;
-wire [31:0] mpu_reg_3_s;
-wire [31:0] mpu_reg_4_s;
-wire [31:0] mpu_reg_5_s;
-wire [31:0] mpu_reg_6_s;
-wire [31:0] mpu_reg_7_s;
 
 // Read for the APF bus
 reg [31:0] mpu_reg_bridge_rd_data_reg;
-
-wire [31:0] mpu_sync_addr;
-wire [31:0] mpu_sync_data;
-wire 			mpu_sync_wr;
-
-synch_2 #(.WIDTH(32)) CPU_TO_APF_ADDRESS	(cpu_addr, mpu_sync_addr, clk_74a);
-synch_2 #(.WIDTH(32)) CPU_TO_APF_DATA		(from_cpu, mpu_sync_data, clk_74a);
-synch_2 #(.WIDTH(1))  CPU_TO_APF_WRITE		(.i(cpu_wr && cpu_req), .clk(clk_74a), .fall(mpu_sync_wr)); // we want this on the fall
 
 // Write side of the regs
 always @(posedge clk_74a) begin
@@ -355,31 +355,31 @@ always @(posedge clk_74a) begin
 			end
 		endcase
 	end
-	else if (mpu_sync_wr && mpu_sync_addr[31:8] == 24'hFFFFFF ) begin
-		case (mpu_sync_addr[7:0])
+	else if (mem_la_write && cpu_addr[31:8] == 24'hFFFFFF ) begin
+		case (cpu_addr[7:0])
 			8'h00 : begin
-				mpu_reg_0 <= mpu_sync_data;
+				mpu_reg_0 <= dBus_cmd_payload_data;
 			end
 			8'h04 : begin
-				mpu_reg_1 <= mpu_sync_data;
+				mpu_reg_1 <= dBus_cmd_payload_data;
 			end
 			8'h08 : begin
-				mpu_reg_2 <= mpu_sync_data;
+				mpu_reg_2 <= dBus_cmd_payload_data;
 			end
 			8'h0C : begin
-				mpu_reg_3 <= mpu_sync_data;
+				mpu_reg_3 <= dBus_cmd_payload_data;
 			end
 			8'h10 : begin
-				mpu_reg_4 <= mpu_sync_data;
+				mpu_reg_4 <= dBus_cmd_payload_data;
 			end
 			8'h14 : begin
-				mpu_reg_5 <= mpu_sync_data;
+				mpu_reg_5 <= dBus_cmd_payload_data;
 			end
 			8'h18 : begin
-				mpu_reg_6 <= mpu_sync_data;
+				mpu_reg_6 <= dBus_cmd_payload_data;
 			end
 			8'h1C : begin
-				mpu_reg_7 <= mpu_sync_data;
+				mpu_reg_7 <= dBus_cmd_payload_data;
 			end
 		endcase
 	end
@@ -420,48 +420,6 @@ always @(posedge clk_74a) begin
 	mpu_reg_bridge_rd_data <= mpu_reg_bridge_rd_data_reg;
 end
 
-synch_2 #(.WIDTH(32)) mpu_reg_0_sync(mpu_reg_0, mpu_reg_0_s, clk_mpu);
-synch_2 #(.WIDTH(32)) mpu_reg_1_sync(mpu_reg_1, mpu_reg_1_s, clk_mpu);
-synch_2 #(.WIDTH(32)) mpu_reg_2_sync(mpu_reg_2, mpu_reg_2_s, clk_mpu);
-synch_2 #(.WIDTH(32)) mpu_reg_3_sync(mpu_reg_3, mpu_reg_3_s, clk_mpu);
-synch_2 #(.WIDTH(32)) mpu_reg_4_sync(mpu_reg_4, mpu_reg_4_s, clk_mpu);
-synch_2 #(.WIDTH(32)) mpu_reg_5_sync(mpu_reg_5, mpu_reg_5_s, clk_mpu);
-synch_2 #(.WIDTH(32)) mpu_reg_6_sync(mpu_reg_6, mpu_reg_6_s, clk_mpu);
-synch_2 #(.WIDTH(32)) mpu_reg_7_sync(mpu_reg_7, mpu_reg_7_s, clk_mpu);
-
-
-/***********************************************************
-
-		Controller access
-
-
-***********************************************************/
-
-	wire    	[31:0]  cont1_key_s;
-	wire    	[31:0]  cont2_key_s;
-	wire    	[31:0]  cont3_key_s;
-	wire    	[31:0]  cont4_key_s;
-	wire    	[31:0]  cont1_joy_s;
-	wire    	[31:0]  cont2_joy_s;
-	wire    	[31:0]  cont3_joy_s;
-	wire    	[31:0]  cont4_joy_s;
-	wire    	[15:0]  cont1_trig_s;
-	wire    	[15:0]  cont2_trig_s;
-	wire    	[15:0]  cont3_trig_s;
-	wire    	[15:0]  cont4_trig_s;
-
-synch_2 #(.WIDTH(32)) controller_0_sync(cont1_key,  cont1_key_s,  clk_mpu);
-synch_2 #(.WIDTH(32)) controller_1_sync(cont2_key,  cont2_key_s,  clk_mpu);
-synch_2 #(.WIDTH(32)) controller_2_sync(cont3_key,  cont3_key_s,  clk_mpu);
-synch_2 #(.WIDTH(32)) controller_3_sync(cont4_key,  cont4_key_s,  clk_mpu);
-synch_2 #(.WIDTH(32)) controller_4_sync(cont1_joy,  cont1_joy_s,  clk_mpu);
-synch_2 #(.WIDTH(32)) controller_5_sync(cont2_joy,  cont2_joy_s,  clk_mpu);
-synch_2 #(.WIDTH(32)) controller_6_sync(cont3_joy,  cont3_joy_s,  clk_mpu);
-synch_2 #(.WIDTH(32)) controller_7_sync(cont4_joy,  cont4_joy_s,  clk_mpu);
-synch_2 #(.WIDTH(32)) controller_8_sync(cont1_trig, cont1_trig_s, clk_mpu);
-synch_2 #(.WIDTH(32)) controller_9_sync(cont2_trig, cont2_trig_s, clk_mpu);
-synch_2 #(.WIDTH(32)) controller_a_sync(cont3_trig, cont3_trig_s, clk_mpu);
-synch_2 #(.WIDTH(32)) controller_b_sync(cont4_trig, cont4_trig_s, clk_mpu);
 
 /***********************************************************
 	Memory map for the 832 CPU 
@@ -525,289 +483,251 @@ synch_2 #(.WIDTH(32)) controller_b_sync(cont4_trig, cont4_trig_s, clk_mpu);
 ***********************************************************/
 
 reg [31:0] gp_out;
-always @(posedge clk_mpu) begin
-    mem_busy <= 1'b1;
-    rom_ack <= 0;
-    ser_txgo <= 0;
-    int_ack <= 'b0;
-    target_dataslot_write <= 'b0;
-    target_dataslot_read <= 'b0;
-    data_slot_ram_ack <= &{cpu_addr[31:16] == 16'hffff, cpu_addr[15:12] == 4'h0, cpu_req};
-    data_slot_ram_ack_1 <= data_slot_ram_ack;
-    datatable_wren <= 'b0;
-	 millisecond_counter_reset_1 <= 1'b0;
-	 millisecond_counter_reset_2 <= 1'b0;
-    // UART Received signal
-    if (ser_rxint) ser_rxrecv <= 1;
-	 
-    if (cpu_req)begin
-        if (cpu_addr[31:16] == 16'hffff) begin
-            if (~cpu_wr) begin
-                casez (cpu_addr[15:0])
-						  // Dataslot Ram access - Needs a 3 clock delay due to the dataslot ram is doubled regged in the code
-                    16'h0zzz : begin 
-                        ext_data_out <= datatable_q;
-                        mem_busy <= ~data_slot_ram_ack_1;
-                    end
-						  
-						  // Interaction Access
-						  16'hff00 : begin // mpu_reg_0_s read
-                        ext_data_out <= mpu_reg_0_s;
-                        mem_busy <= 0;
-                    end
-						  16'hff04 : begin // mpu_reg_1_s read
-                        ext_data_out <= mpu_reg_1_s;
-                        mem_busy <= 0;
-                    end
-						  16'hff08 : begin // mpu_reg_2_s read
-                        ext_data_out <= mpu_reg_2_s;
-                        mem_busy <= 0;
-                    end
-						  16'hff0C : begin // mpu_reg_3_s read
-                        ext_data_out <= mpu_reg_3_s;
-                        mem_busy <= 0;
-                    end
-						  16'hff10 : begin // mpu_reg_4_s read
-                        ext_data_out <= mpu_reg_4_s;
-                        mem_busy <= 0;
-                    end
-						  16'hff14 : begin // mpu_reg_5_s read
-                        ext_data_out <= mpu_reg_5_s;
-                        mem_busy <= 0;
-                    end
-						  16'hff18 : begin // mpu_reg_6_s read
-                        ext_data_out <= mpu_reg_6_s;
-                        mem_busy <= 0;
-                    end
-						  16'hff1C : begin // mpu_reg_7_s read
-                        ext_data_out <= mpu_reg_7_s;
-                        mem_busy <= 0;
-                    end
-						  
-						  // Controller inputs
+reg dataslot_data_access;
+reg target_dataslot_done_reg;
+reg externalInterrupt_enabled;
+reg timerenabled;
 
-						  16'hff20 : begin // cont1_key_s read
-                        ext_data_out <= cont1_key_s;
-                        mem_busy <= 0;
-                    end
-						  16'hff24 : begin // cont2_key_s read
-                        ext_data_out <= cont2_key_s;
-                        mem_busy <= 0;
-                    end
-						  16'hff28 : begin // cont3_key_s read
-                        ext_data_out <= cont3_key_s;
-                        mem_busy <= 0;
-                    end
-						  16'hff2C : begin // cont4_key_s read
-                        ext_data_out <= cont4_key_s;
-                        mem_busy <= 0;
-                    end
-						  16'hff30 : begin // cont1_joy_s read
-                        ext_data_out <= cont1_joy_s;
-                        mem_busy <= 0;
-                    end
-						  16'hff34 : begin // cont2_joy_s read
-                        ext_data_out <= cont2_joy_s;
-                        mem_busy <= 0;
-                    end
-						  16'hff38 : begin // cont3_joy_s read
-                        ext_data_out <= cont3_joy_s;
-                        mem_busy <= 0;
-                    end
-						  16'hff3C : begin // cont4_joy_s read
-                        ext_data_out <= cont4_joy_s;
-                        mem_busy <= 0;
-                    end
-						  16'hff40 : begin // cont1_joy_s read
-                        ext_data_out <= cont1_trig_s;
-                        mem_busy <= 0;
-                    end
-						  16'hff44 : begin // cont2_joy_s read
-                        ext_data_out <= cont2_trig_s;
-                        mem_busy <= 0;
-                    end
-						  16'hff48 : begin // cont3_joy_s read
-                        ext_data_out <= cont3_trig_s;
-                        mem_busy <= 0;
-                    end
-						  16'hff4C : begin // cont4_joy_s read
-                        ext_data_out <= cont4_trig_s;
-                        mem_busy <= 0;
-                    end
-						  
-						  // Target Dataslot inputs
-                    16'hff80 : begin // target_dataslot_id read
-                        ext_data_out <= target_dataslot_id;
-                        mem_busy <= 0;
-                    end
-                    16'hff84 : begin // target_dataslot_bridgeaddr read
-                        ext_data_out <= target_dataslot_bridgeaddr;
-                        mem_busy <= 0;
-                    end
-                    16'hff88 : begin // target_dataslot_length read
-							ext_data_out <= target_dataslot_length;
-							mem_busy<= 0;
-						  end
-						  16'hff8C : begin // target_dataslot_slotoffset read
-                        ext_data_out <= target_dataslot_slotoffset;
-                        mem_busy <= 0;
-                    end
-                    16'hff90 : begin // target_dataslot_slotoffset read
-                        ext_data_out <= {target_dataslot_ack, target_dataslot_done, target_dataslot_err[2:0]};
-                        mem_busy <= 0;
-                    end
-						  // UART Data rate
-                    16'hff94 : begin // uart_divisor set
-                        ext_data_out <= uart_divisor;
-                        mem_busy <= 0;
-                    end
-						  // System Clock rate
-						  16'hff98 : begin // System clock set
-                        ext_data_out <= sysclk_frequency;
-                        mem_busy <= 0;
-                    end
-						  // Core reset from the MPU if required
-                    16'hffA4 : begin // The reset the core function incase the system wants to make sure it is in sync
-                        ext_data_out[0] <= reset_out;
-                        mem_busy <= 0;
-                    end
-						  // Dataslot ram access
-                    16'hffB0 : begin // dataslot update
-								ext_data_out <= dataslot_update_true;
-								if (dataslot_update_true) int_ack <= 1;
-								mem_busy<= 0;
-							end
-							16'hffB4 : begin // dataslot_update_id ID
-                        ext_data_out <= dataslot_update_id_latched;
-                        mem_busy <= 0;
-                    end
-                    16'hffB8 : begin // dataslot_update_size ID
-                        ext_data_out <= dataslot_update_size_latched;
-                        mem_busy <= 0;
-                    end
-						   // UART access
-                    16'hffC0 : begin
-                        ext_data_out <= {ser_rxrecv,ser_txready,ser_rxdata};
-                        if (ser_rxrecv) ser_rxrecv<= 0;
-                        mem_busy <= 0;
-                    end
-						  // Timer_1
-                    16'hffC4 : begin 
-                        ext_data_out <= millisecond_counter_1;
-                        mem_busy <= 0;
-                    end
-						  // Timer_2
-                    16'hffC8 : begin 
-                        ext_data_out <= millisecond_counter_2;
-                        mem_busy <= 0;
-                    end
-						  // HPS Interface
-						  16'hffD0 : begin // This is GPO setup for the HPS interface
-                        ext_data_out <= {io_ss2, io_ss1,io_ss0,io_clk,1'b0,IO_DOUT[15:0]};
-                        mem_busy <= 0;
-                    end
-						  16'hffD4 : begin // This is GPI setup for the HPS interface
-                        ext_data_out <= {io_ack, IO_WIDE, IO_DIN};
-                        mem_busy <= 0;
-                    end
-						  16'hfff0 : begin // This is GPI setup for the HPS interface
-                        ext_data_out <= littlenden;
-                        mem_busy <= 0;
-                    end
-                    default : mem_busy <= 0;
-                endcase
-                ext_data_en <= 1;
-            end
-            else begin
-                casez (cpu_addr[15:0])
-                    16'h0zzz : begin // RAM access
-                        datatable_wren <= 1'b1;
-                        datatable_data <= from_cpu;
-                        mem_busy <= 1'b0;
-                    end
-						  // Interaction reg writes - done over the Clock sync system
-						  16'hff0z : begin
-								mem_busy <= 0;
-						  end
-						  16'hff1z : begin
-								mem_busy <= 0;
-						  end
-						  // Target interface to APF
-                    16'hff80 : begin // target_dataslot_id read
-                        target_dataslot_id <= from_cpu;
-                        mem_busy <= 0;
-                    end
-                    16'hff84 : begin // target_dataslot_bridgeaddr read
-                        target_dataslot_bridgeaddr <= from_cpu;
-                        mem_busy <= 0;
-                    end
-                    16'hff88 : begin // target_dataslot_length read
-								target_dataslot_length <= from_cpu;
-								mem_busy<= 0;
-							end
-							16'hff8C : begin // target_dataslot_slotoffset read
-                        target_dataslot_slotoffset <= from_cpu;
-                        mem_busy <= 0;
-                    end
-                    16'hff90 : begin // target_dataslot_slotoffset read
-                        {target_dataslot_write, target_dataslot_read} <= from_cpu;
-                        mem_busy <= 0;
-                    end
-						  // uart_divisor set
-                    16'hff94 : begin 
-                        uart_divisor <= from_cpu;
-                        mem_busy <= 0;
-                    end
-						  // System clock set
-						  16'hff98 : begin 
-                        sysclk_frequency <= from_cpu;
-                        mem_busy <= 0;
-                    end
-						  // The reset the core function incase the system wants to make sure it is in sync
-                    16'hffA4 : begin 
-                        reset_out <= from_cpu[0];
-                        mem_busy <= 0;
-                    end
-						  // UART Data
-                    16'hffC0 : begin 
-                        ser_txdata <= from_cpu[7:0];
-                        ser_txgo <= 1;
-                        mem_busy <= 0;
-                    end
-						  // Timer_1
-						  16'hffC4 : begin 
-                        millisecond_counter_reset_1 <= from_cpu[0];
-                        mem_busy <= 0;
-                    end
-						  // Timer_2
-						  16'hffC8 : begin 
-                        millisecond_counter_reset_2 <= from_cpu[0];
-                        mem_busy <= 0;
-                    end
-						  // This is setup for the HPS interface
-						  16'hffD0 : begin 
-								gp_out <= from_cpu;
-                        mem_busy <= 0;
-                    end
-						  // This will change the Enden of the BRAM between the AFP and the BRAM for the CPU if required
-						  16'hfff0 : begin 
-                        littlenden <= from_cpu[0];
-                        mem_busy <= 0;
-                    end
-                    default : mem_busy <= 0;
-                endcase
-                ext_data_en <= 1;
-            end
-        end
-        else begin 
-            ext_data_en <= 0;
-            rom_ack <= 1;
-        end
-    end
-    
-    if (|{~mem_busy, rom_ack} && ~cpu_ack && cpu_req) cpu_ack <= 1 ;
-    else cpu_ack <= 0 ;
-    to_cpu <= ext_data_en ? ext_data_out : from_rom;
+always @(posedge clk_mpu) begin
+	dBus_rsp_ready <= 0;
+	ser_txgo <= 0;
+	dataslot_update_ack <= 'b0;
+	target_dataslot_write <= 'b0;
+	target_dataslot_read <= 'b0;
+	target_dataslot_done_reg <= target_dataslot_done;
+	if (target_dataslot_done && ~target_dataslot_done_reg && externalInterrupt_enabled) externalInterrupt <= 1'b1;
+	else  externalInterrupt <= 1'b0;
+	if (timerenabled) interupt_output_1_reg <= interupt_output_1;
+	else  interupt_output_1_reg <= 0;
+	millisecond_counter_reset_1 <= 1'b0;
+	millisecond_counter_reset_2 <= 1'b0;
+	// UART Received signal
+	if (ser_rxint) ser_rxrecv <= 1;
+
+	if (dBus_cmd_valid)begin
+		if (cpu_addr[31:12] == 'hffff0) begin
+			dBus_rsp_ready <= 1;
+			dataslot_data_access <= 1;
+			ext_data_en <= 0;
+		end
+		else if (cpu_addr[31:16] == 16'hffff) begin
+			dBus_rsp_ready <= 1;
+			dataslot_data_access <= 0;
+			ext_data_en <= 1;
+			if (~dBus_cmd_payload_wr) begin
+				casez (cpu_addr[7:0])
+
+					// Interaction Access
+					'h00 : begin // mpu_reg_0 read
+					ext_data_out <= mpu_reg_0;
+					end
+					'h04 : begin // mpu_reg_1 read
+					ext_data_out <= mpu_reg_1;
+					end
+					'h08 : begin // mpu_reg_2 read
+					ext_data_out <= mpu_reg_2;
+					end
+					'h0C : begin // mpu_reg_3 read
+					ext_data_out <= mpu_reg_3;
+					end
+					'h10 : begin // mpu_reg_4 read
+					ext_data_out <= mpu_reg_4;
+					end
+					'h14 : begin // mpu_reg_5 read
+					ext_data_out <= mpu_reg_5;
+					end
+					'h18 : begin // mpu_reg_6 read
+					ext_data_out <= mpu_reg_6;
+					end
+					'h1C : begin // mpu_reg_7 read
+					ext_data_out <= mpu_reg_7;
+					end
+
+					// Controller inputs
+
+					'h20 : begin // cont1_key read
+					ext_data_out <= cont1_key;
+					end
+					'h24 : begin // cont2_key read
+					ext_data_out <= cont2_key;
+					end
+					'h28 : begin // cont3_key read
+					ext_data_out <= cont3_key;
+					end
+					'h2C : begin // cont4_key read
+					ext_data_out <= cont4_key;
+					end
+					'h30 : begin // cont1_joy read
+					ext_data_out <= cont1_joy;
+					end
+					'h34 : begin // cont2_joy read
+					ext_data_out <= cont2_joy;
+					end
+					'h38 : begin // cont3_joy read
+					ext_data_out <= cont3_joy;
+					end
+					'h3C : begin // cont4_joy read
+					ext_data_out <= cont4_joy;
+					end
+					'h40 : begin // cont1_joy read
+					ext_data_out <= cont1_trig;
+					end
+					'h44 : begin // cont2_joy read
+					ext_data_out <= cont2_trig;
+					end
+					'h48 : begin // cont3_joy read
+					ext_data_out <= cont3_trig;
+					end
+					'h4C : begin // cont4_joy read
+					ext_data_out <= cont4_trig;
+					end
+
+					// Target Dataslot inputs
+					'h80 : begin // target_dataslot_id read
+					ext_data_out <= target_dataslot_id;
+					end
+					'h84 : begin // target_dataslot_bridgeaddr read
+					ext_data_out <= target_dataslot_bridgeaddr;
+					end
+					'h88 : begin // target_dataslot_length read
+					ext_data_out <= target_dataslot_length;
+					end
+					'h8C : begin // target_dataslot_slotoffset read
+					ext_data_out <= target_dataslot_slotoffset;
+					end
+					'h90 : begin // target_dataslot_slotoffset read
+					ext_data_out <= {target_dataslot_ack, target_dataslot_done, target_dataslot_err[2:0]};
+					externalInterrupt <= 0;
+					end
+					// UART Data rate
+					'h94 : begin // uart_divisor set
+					ext_data_out <= uart_divisor;
+					end
+					// System Clock rate
+					'h98 : begin // System clock set
+					ext_data_out <= sysclk_frequency;
+					end
+					
+					// Core reset from the MPU if required
+					'hA4 : begin // The reset the core function incase the system wants to make sure it is in sync
+					ext_data_out[0] <= reset_out;
+					end
+					// Dataslot ram access
+					'hB0 : begin // dataslot update
+					ext_data_out <= dataslot_update_true;
+					if (dataslot_update_true) dataslot_update_ack <= 1;
+					end
+					'hB4 : begin // dataslot_update_id ID
+					ext_data_out <= dataslot_update_id_latched;
+					end
+					'hB8 : begin // dataslot_update_size ID
+					ext_data_out <= dataslot_update_size_latched;
+					end
+					// UART access
+					'hC0 : begin
+					ext_data_out <= {ser_rxrecv,~fifo_full,ser_rxdata};
+					if (ser_rxrecv) ser_rxrecv<= 0;
+					end
+					// Timer_1
+					'hC4 : begin 
+					ext_data_out <= millisecond_counter_1;
+					end
+					// Timer_1 interupt
+					'hc8 : begin // System clock set
+					ext_data_out <= interupt_counter_1;
+					end
+					// Timer_2
+					'hCc : begin 
+					ext_data_out <= millisecond_counter_2;
+					end
+					// HPS Interface
+					'hD0 : begin // This is GPO setup for the HPS interface
+					ext_data_out <= {io_ss2, io_ss1,io_ss0,io_clk,1'b0,IO_DOUT[15:0]};
+					end
+					'hD4 : begin // This is GPI setup for the HPS interface
+					ext_data_out <= {io_ack, IO_WIDE, IO_DIN};
+					end
+					'hf0 : begin // This is GPI setup for the HPS interface
+					ext_data_out <= littlenden;
+					end
+					default : ext_data_out <= 0;
+				endcase
+			end
+			else begin
+				casez (cpu_addr[7:0])
+					// Target interface to APF
+					'h80 : begin // target_dataslot_id read
+					target_dataslot_id <= dBus_cmd_payload_data;
+					end
+					'h84 : begin // target_dataslot_bridgeaddr read
+					target_dataslot_bridgeaddr <= dBus_cmd_payload_data;
+					end
+					'h88 : begin // target_dataslot_length read
+					target_dataslot_length <= dBus_cmd_payload_data;
+					end
+					'h8C : begin // target_dataslot_slotoffset read
+					target_dataslot_slotoffset <= dBus_cmd_payload_data;
+					end
+					'h90 : begin // target_dataslot_slotoffset read
+					{externalInterrupt_enabled, target_dataslot_write, target_dataslot_read} <= dBus_cmd_payload_data;
+					end
+					// uart_divisor set
+					'h94 : begin 
+					uart_divisor <= dBus_cmd_payload_data;
+					end
+					// System clock set
+					'h98 : begin 
+					sysclk_frequency <= dBus_cmd_payload_data;
+					end
+					// The reset the core function incase the system wants to make sure it is in sync
+					'hA4 : begin 
+					reset_out <= dBus_cmd_payload_data[0];
+					end
+					// UART Data
+					'hC0 : begin 
+					ser_txdata <= dBus_cmd_payload_data[7:0];
+					ser_txgo <= 1;
+					end
+					// Timer_1 and disabled interrupt flag
+					'hC4 : begin 
+					millisecond_counter_reset_1 <= dBus_cmd_payload_data[1:0];
+					timerenabled <= 0;
+					end
+					// Timer_1  and enabled interrupt flag
+					'hc8 : begin // System clock set
+					interupt_counter_1 <= dBus_cmd_payload_data;
+					timerenabled <= 1;
+					end
+					// Timer_2
+					'hCC : begin 
+					millisecond_counter_reset_2 <= dBus_cmd_payload_data[0];
+					end
+					// This is setup for the HPS interface
+					'hD0 : begin 
+					gp_out <= dBus_cmd_payload_data;
+					end
+					// This will change the Enden of the BRAM between the AFP and the BRAM for the CPU if required
+					'hf0 : begin 
+					littlenden <= dBus_cmd_payload_data[0];
+					end
+				endcase
+			end
+		end
+		else begin 
+			dataslot_data_access <= 0;
+			ext_data_en <= 0;
+			dBus_rsp_ready <= 1;
+		end
+	end
+end
+ 
+
+always @* begin
+	casez({ext_data_en, dataslot_data_access})
+		'b1z		: dBus_rsp_data <= ext_data_out;
+		'b01		: dBus_rsp_data <= datatable_q;
+		default 	: dBus_rsp_data <= from_rom;
+	endcase
 end
 
 // Here is the Wait system for the MPU to the HPS bus
@@ -918,7 +838,9 @@ module timer_core(
 	input 				clk_sys,
 	input 				millisecond_counter_reset,
 	output reg [31:0] millisecond_counter,
-	input 	  [31:0] sysclk_frequency
+	input 	  [31:0] sysclk_frequency,
+	input 	  [31:0] interupt_counter,
+	output reg 			interupt_output
 );
 
 // Timer for the cpu to make sure things are in time
@@ -931,14 +853,13 @@ always @(posedge clk_sys or posedge millisecond_counter_reset) begin
     if (millisecond_counter_reset) begin
 		millisecond_tick <= 'd0;
 		millisecond_counter <= 'd0;
-		timer_tick	<= 'd0;
+		interupt_output	<= 'd0;
 	 end
 	 else begin
-		 timer_tick <= 0;
 		 millisecond_tick <= millisecond_tick + 1;
 		 if (millisecond_tick == sysclk_frequency) begin
-			  if (millisecond_counter[3:0] == 'h0) begin
-					timer_tick <= 1;
+			  if (millisecond_counter == interupt_counter) begin
+					interupt_output <= |{interupt_counter};
 			  end
 			  millisecond_counter <= millisecond_counter + 1;
 			  millisecond_tick <= 'h00000;

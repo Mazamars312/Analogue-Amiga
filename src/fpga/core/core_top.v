@@ -431,6 +431,7 @@ end
 
     wire    [9:0]   datatable_addr;
     wire            datatable_wren;
+    wire            datatable_rden;
     wire    [31:0]  datatable_data;
     wire    [31:0]  datatable_q;
 
@@ -506,6 +507,7 @@ core_bridge_cmd icb (
 
     .datatable_addr         ( datatable_addr ),
     .datatable_wren         ( datatable_wren ),
+    .datatable_rden         ( datatable_rden ),
     .datatable_data         ( datatable_data ),
     .datatable_q            ( datatable_q )
 
@@ -636,9 +638,11 @@ pll pll
 	.outclk_1(clk_sys),
 	.outclk_2(video_rgb_clock),
 	.outclk_3(video_rgb_clock_90),
-	.outclk_4(clk_mpu),
+//	.outclk_4(clk_mpu),
 	.locked(pll_core_locked)
 );
+
+assign clk_mpu = clk_74a;
 
 amiga_clk amiga_clk
 (
@@ -763,7 +767,7 @@ fastchip fastchip
 wire reset_mpu_l;
 substitute_mcu_apf_mister substitute_mcu_apf_mister(
 		// Controls for the MPU
-		.clk_mpu								( clk_74a ), 							// Clock of the MPU itself
+		.clk_mpu								( clk_mpu ), 							// Clock of the MPU itself
 		.clk_sys								( clk_sys ),
 		.clk_74a								( clk_74a ),							// Clock of the APF Bus
 		.reset_n								( reset_n ),							// Reset from the APF System
@@ -816,6 +820,7 @@ substitute_mcu_apf_mister substitute_mcu_apf_mister(
 
 		.datatable_addr         		( datatable_addr ),
 		.datatable_wren         		( datatable_wren ),
+		.datatable_rden         		( datatable_rden ),
 		.datatable_data         		( datatable_data ),
 		.datatable_q            		( datatable_q ),
 		

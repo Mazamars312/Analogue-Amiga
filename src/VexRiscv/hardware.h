@@ -35,6 +35,8 @@
 #define MISTERGPOHARDWAREBASE     0xffffffd0
 #define MISTERGPIHARDWAREBASE     0xffffffd4
 
+#define RAMBUFFER_BASE            0x00008000
+
 #define RESTARTBASE 0xFFFFFFA4
 
 #define RESET_CORE(x) *(volatile unsigned int *)(RESTARTBASE+x)
@@ -44,6 +46,8 @@
 #define CONTROLLER_KEY_REG(x)  *(volatile unsigned int *)(CONTROLLER_KEY_BASE +((x-1)<<2))
 #define CONTROLLER_JOY_REG(x)  *(volatile unsigned int *)(CONTROLLER_JOY_BASE +((x-1)<<2))
 #define CONTROLLER_TRIG_REG(x) *(volatile unsigned int *)(CONTROLLER_TRIG_BASE+((x-1)<<2))
+
+#define RAMBUFFER(x) *(volatile unsigned int *)(RAMBUFFER_BASE+x)
 
 #endif // SPI_H
 /***********************************************************

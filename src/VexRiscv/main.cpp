@@ -42,20 +42,21 @@
 
 
 // these values help with both the UART and System clock setups
-uint32_t sys_clock = 567; // This is the CPU clock speed in a int size 56.7mhz
-uint32_t uart_rate = 1152; // This is the UART Rate shifted right by 2
+#define sys_clock  742 // This is the CPU clock speed in a int size 74.2mhz
+#define uart_rate  1152 // This is the UART Rate shifted right by 2
 
 void init()
 {
   // this makes the core go in to the reset state and halts the bus so we can upload the bios if required
   minigmig_reset(7);
 	// This setups the timers and the CPU clock rate on the system.
-  DisableInterrupts();
+  // DisableInterrupts();
   // Setup the core to know what MHZ the CPU is running at.
 	SetTimer(sys_clock);
 	SetUART(sys_clock, uart_rate);
 	ResetTimer();
-
+  usleep(50000);
+  printf("test");
   // This is where you setup the core startup dataslots that the APT loads up for your core.
   minimig_restart_first(); // we want to setup the core now :-) but with no startup yet
 }
@@ -96,7 +97,7 @@ void mainloop()
       minigmig_reset(0);
       usleep(500);
       RemoveDriveStatus();
-      usleep(500);
+      usleep(50000);
       UpdateDriveStatus();
       printf("Completed the reset\r\n");
     }
@@ -105,9 +106,9 @@ void mainloop()
 
 int main()
 {
-  usleep(200);
+
 	init();
-  usleep(2000); // I want the core to wait a bit.
+  usleep(2000000); // I want the core to wait a bit.
 	mainloop();
 
 	return(0);

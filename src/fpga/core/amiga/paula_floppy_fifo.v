@@ -7,16 +7,16 @@
 
 module paula_floppy_fifo
 (
-	input 	clk,		    	//bus clock
-  input clk7_en,
-	input 	reset,			   	//reset 
-	input	[15:0] in,			//data in
-	output	reg [15:0] out,	//data out
-	input	rd,					//read from fifo
-	input	wr,					//write to fifo
-	output	reg empty,			//fifo is empty
-	output	full,				//fifo is full
-	output	[11:0] cnt       // number of entries in FIFO
+	input 				clk,		    	//bus clock
+   input 				clk7_en,
+	input 				reset,			   	//reset 
+	input	[15:0] 		in,			//data in
+	output reg [15:0] out,	//data out
+	input					rd,					//read from fifo
+	input					wr,					//write to fifo
+	output reg 			empty,			//fifo is empty
+	output				full,				//fifo is full
+	output [11:0] 		cnt       // number of entries in FIFO
 );
 
 //local signals and registers
