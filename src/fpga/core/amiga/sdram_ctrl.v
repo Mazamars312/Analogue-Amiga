@@ -310,7 +310,7 @@ always @ (posedge sysclk) begin
 				// (this includes anything on the "motherboard" - chip RAM, slow RAM and Kickstart, turbo modes notwithstanding)
 				if(~chipDMA | ~chipRW) begin
 					slot_type    <= CHIP;
-					{sd_ba,sd_addr,casaddr[8:0]} <= chipAddr;
+					{sd_ba,sd_addr, casaddr} <= chipAddr;
 					sd_ras       <= 0;
 					cas_dqm      <= {chipU,chipL};
 					cas_sd_cas   <= 0;
@@ -320,7 +320,7 @@ always @ (posedge sysclk) begin
 				end
 				else if(write_req) begin
 					slot_type    <= CPU_WRITECACHE;
-					{sd_ba,sd_addr,casaddr[8:0]} <= writeAddr;
+					{sd_ba,sd_addr,casaddr} <= writeAddr;
 					sd_ras       <= 0;
 					cas_dqm      <= write_dqm;
 					cas_sd_we    <= 0;
@@ -331,7 +331,7 @@ always @ (posedge sysclk) begin
 				// request from read cache
 				else if(cache_req) begin
 					slot_type    <= CPU_READCACHE;
-					{sd_ba,sd_addr,casaddr[8:0]} <= cpuAddr;
+					{sd_ba,sd_addr,casaddr} <= cpuAddr;
 					sd_ras       <= 0;
 					cas_sd_cas   <= 0;
 				end

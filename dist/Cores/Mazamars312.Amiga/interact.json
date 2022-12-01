@@ -65,54 +65,62 @@
         "persist": true,
         "address": "0x81000014",
         "defaultval": 0,
-        "mask": "0xFFFFFFF0",
+        "mask": "0x0FFFFFFF",
         "options": [
 		{
 			"value": "0x0000",
 			"name": "JOYSTICK 1/JOYSTICK 2"
 		},
 		{
-			"value": "0x0004",
+			"value": "0x40000000",
 			"name": "JOYSTICK 2/JOYSTICK 1"
 		},
 		{
-			"value": "0x0008",
+			"value": "0x80000000",
 			"name": "MOUSE/JOYSTICK 1"
 		},
 		{
-			"value": "0x0002",
+			"value": "0x20000000",
 			"name": "CD32PAD 1/CD32PAD 2"
 		},
 		{
-			"value": "0x0003",
+			"value": "0x30000000",
 			"name": "CD32PAD 2/CD32PAD 1"
 		},
 		{
-			"value": "0x000a",
+			"value": "0xa0000000",
 			"name": "MOUSE/CD32PAD 1"
 		}
         ]
 	},
 	{
-        "name": "user reset",
-        "id": 122,
-        "type": "check",
+        "name": "Mouse Speed",
+        "id": 133,
+        "type": "slider_u32",
+		"defaultval": "10",
         "enabled": true,
-        "address": "0x81000000",
-        "defaultval": 0,
-        "value": 2,
-        "mask": "0xFFFFFFFD"
+        "persist": true,
+        "address": "0x81000014",
+        "mask": "0xFFFFFF00",
+		"graphical": {
+			"signed": false,
+			"min": 1,
+			"max": 32,
+			"adjust_small": 1,
+			"adjust_large": 1
+		}
+                
 	},
 	{
 		"name": "Screen X Position",
 		"id": 123,
 		"type": "slider_u32",
 		"enabled": true,
+		"defaultval": "39",
 		"persist": true,
 		"address": "0x20000000",
 		"mask": "0x00000000",
 		"graphical": {
-			"defaultval": "39",
 			"signed": false,
 			"min": 0,
 			"max": 300,
@@ -126,10 +134,10 @@
 		"type": "slider_u32",
 		"enabled": true,
 		"persist": true,
+		"defaultval": "40",
 		"address": "0x20000004",
 		"mask": "0x00000000",
 		"graphical": {
-			"defaultval": "40",
 			"signed": false,
 			"min": 0,
 			"max": 300,

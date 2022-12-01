@@ -97,7 +97,7 @@ void mainloop()
       minigmig_reset(0);
       usleep(500);
       RemoveDriveStatus();
-      usleep(50000);
+      usleep(3000000);
       UpdateDriveStatus();
       printf("Completed the reset\r\n");
     }

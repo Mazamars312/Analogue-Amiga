@@ -86,8 +86,3 @@ void minimig_restart_running_core() {
   // Get the JOY setup sorted
   HPS_spi_uio_cmd8(UIO_MM2_JOY , AFP_REGISTOR(5));
 };
-
-void minimig_joystick_reg_update(){
-  // Get the JOY setup sorted
-  HPS_spi_uio_cmd8(UIO_MM2_JOY , AFP_REGISTOR(5));
-}

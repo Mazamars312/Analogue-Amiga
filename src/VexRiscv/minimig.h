@@ -31,7 +31,7 @@ extern uint8_t rstval;
 // Add your operating regs here from the bus
 #define UIO_STATUS      0x00
 #define UIO_BUT_SW      0x01
-
+#define UIO_MOUSE_BTN   0x02
 #define UIO_MOUSE_X	    0x03
 #define UIO_MOUSE_Y	    0x04
 #define UIO_KEYBOARD    0x05

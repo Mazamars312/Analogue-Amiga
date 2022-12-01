@@ -32,7 +32,6 @@ SECTIONS
     .rom : {
         *(.startup)
         *(.text*)
-
         *(.sdata*)
         *(.sbss*)
         *(.data*)

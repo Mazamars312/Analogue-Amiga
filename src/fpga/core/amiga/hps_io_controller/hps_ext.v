@@ -34,6 +34,7 @@ module hps_ext
 	output reg        kbd_mouse_level,
 	output reg  [1:0] kbd_mouse_type,
 	output reg  [7:0] kbd_mouse_data,
+	output reg 	[2:0] mouse_buttons,
 
 	input      [15:0] ide_din,
 	output reg [15:0] ide_dout,
@@ -48,9 +49,10 @@ assign io_dout = io_fpga ? fpga_dout : io_dout_reg;
 localparam EXT_CMD_MIN2 = 'h61;
 localparam EXT_CMD_MAX2 = 'h63;
 
-localparam UIO_MOUSE_X   = 'h03;
-localparam UIO_MOUSE_Y   = 'h04;
-localparam UIO_KEYBOARD  = 'h05;
+localparam UIO_MOUSE_BUTTONS  = 'h02;
+localparam UIO_MOUSE_X   		= 'h03;
+localparam UIO_MOUSE_Y   		= 'h04;
+localparam UIO_KEYBOARD  		= 'h05;
 
 localparam UIO_DMA_WRITE = 'h61;
 localparam UIO_DMA_READ  = 'h62;
@@ -91,6 +93,11 @@ always@(posedge clk_sys) begin
 		end 
 		else begin
 			case(cmd)	
+				UIO_MOUSE_BUTTONS: begin
+					if(byte_cnt == 1) begin
+						mouse_buttons <= io_din[2:0];
+					end
+				end
 				UIO_MOUSE_X: begin
 					if(byte_cnt == 1) begin
 						kbd_mouse_data <= io_din[7:0];

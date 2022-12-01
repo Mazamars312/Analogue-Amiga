@@ -605,7 +605,7 @@ wire [15:0] joystick_enable;
 	wire   [7:0] kbd_mouse_data;
 	wire         kbd_mouse_level;
 	wire   [1:0] kbd_mouse_type;
-//	wire  [2:0] mouse_buttons;
+	wire  [2:0] mouse_buttons;
 	wire [63:0] RTC;
 
 	wire        io_strobe;
@@ -663,7 +663,7 @@ amiga_clk amiga_clk
 
     wire    [7:0]   mouse_buttons_s;
 //    wire    [7:0]   cont3_joy_s;
-	 wire    [7:0]   mouse_buttons;
+//	 wire    [7:0]   mouse_buttons;
 synch_3 #(.WIDTH(8)) s25(mouse_buttons, mouse_buttons_s, clk_sys);
 
 
@@ -703,7 +703,7 @@ sdram_ctrl ram1
 	.sd_clk       (dram_clk       ),
 
 	.cpuWR        (ram_din         ),
-	.cpuAddr      (ram_addr[22:1]  ),
+	.cpuAddr      ({zram_sel, ram_addr[24:1]}),
 	.cpuU         (ram_uds         ),
 	.cpuL         (ram_lds         ),
 	.cpustate     (cpu_state       ),
@@ -846,7 +846,7 @@ wire  [1:0] res;
 wire  [1:0] cpu_state;
 wire  [3:0] cpu_cacr;
 wire  [14:0] ldata, rdata;
-
+wire ide_c_led;
 minimig minimig
 (
 	.reset_n		  				(reset_n),
@@ -894,13 +894,13 @@ minimig minimig
 	._joy4        				(~JOY3            ), // joystick 2 [fire4,fire3,fire2,fire,up,down,left,right]
 	.joya1        				(cont1_joy_s[15:0]  ),
 	.joya2        				(cont2_joy_s[15:0]  ),
-	.mouse_btn    				(cont4_joy_s[31:16] ), // mouse buttons
+	.mouse_btn    				(mouse_buttons ), // mouse buttons
 	.kbd_mouse_data 			(kbd_mouse_data ), // mouse direction data, keycodes
 	.kbd_mouse_type 			(kbd_mouse_type ), // type of data
 	.kms_level    				(kbd_mouse_level  ),
 //	.pwr_led      				(pwr_led          ), // power led
 	.fdd_led      				(LED         ),
-//	.hdd_led      				(ide_c_led        ),
+	.hdd_led      				(ide_c_led        ),
 	.rtc          				(RTC              ),
 
 	//host controller interface (SPI)
@@ -967,7 +967,7 @@ hps_ext hps_ext(
 .kbd_mouse_level	(kbd_mouse_level),
 .kbd_mouse_type	(kbd_mouse_type),
 .kbd_mouse_data	(kbd_mouse_data),
-
+.mouse_buttons    (mouse_buttons ), // mouse buttons
 .ide_dout			(ide_dout),
 .ide_addr			(ide_addr),
 .ide_rd				(ide_rd),
@@ -1116,6 +1116,10 @@ reg [7:0] x_offset_vga; // these are the counters for the offset when the DE or 
 reg [7:0] y_offset_vga;
 reg [1:0] res_reg;
 
+reg [9:0] x_counter_vga;
+reg [9:0] y_counter_vga;
+reg 		 video_de_reg;
+
 always @(posedge video_rgb_clock) begin
 	video_rgb 	<= 'b0;
 	video_de 	<= 'b0;
@@ -1127,12 +1131,15 @@ always @(posedge video_rgb_clock) begin
 	hs_delay2 <= hs_delay1;
 	hs_delay3 <= hs_delay2;
 	video_hs <= hs_delay3;
-	
+	video_de_reg <= video_de;
+	if (video_de) x_counter_vga <= x_counter_vga + 1;
+	if (video_de && ~video_de_reg) y_counter_vga <= y_counter_vga + 1;
 	
 	hs_reg <= hs;
 	
 	if (~hs && hs_reg)  begin
 		hs_delay0 	<= 'b1;
+		x_counter_vga <= 0;
 		x_offset_vga <= x_offset_s;
 		if (y_offset_vga != 0) y_offset_vga <= y_offset_vga - 1;
 	end
@@ -1142,12 +1149,20 @@ always @(posedge video_rgb_clock) begin
 	if (~vs && vs_reg) begin
 		res_reg <= {res[1], res[0] && lace};
 		y_offset_vga <= y_offset_s;
+		y_counter_vga <= 0;
 		video_vs 	<= 'b1;
 		video_rgb 	<= {21'd0, 1'b0, field1 && lace, lace, 1'b0}; // This is the interlace part for the core.
 	end
 	
+	
+	
 	else if (~hblank_i && ~vblank_i) begin
-		video_rgb 	<= {r, g, b};
+		if ((y_counter_vga <= 15 && y_counter_vga >= 5) && (x_counter_vga <= 15 && x_counter_vga >= 5) && LED) 
+			video_rgb 	<= {8'h0, 8'hF0, 8'h0};
+		else if ((y_counter_vga <= 15 && y_counter_vga >= 5) && (x_counter_vga <= 35 && x_counter_vga >= 20) && |{ide_c_led, ide_f_led}) 
+			video_rgb 	<= {8'hF0, 8'h0, 8'h0};
+		else video_rgb 	<= {r, g, b};
+		
 		if (y_offset_vga == 0 && x_offset_vga == 0 ) video_de 	<= 'b1;
 		if (x_offset_vga != 0) x_offset_vga <= x_offset_vga - 1;
 	end
