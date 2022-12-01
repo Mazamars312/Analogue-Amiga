@@ -48,6 +48,7 @@ extern signed short x_count;
 extern signed short y_count;
 
 void minimig_input_update();
+void minimig_joystick_reg_update();
 
 static int ev2amiga[] =
 {
