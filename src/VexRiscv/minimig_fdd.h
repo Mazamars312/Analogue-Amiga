@@ -58,9 +58,7 @@ extern unsigned char drives;
 extern adfTYPE df[4];
 
 void UpdateDriveStatus(void);
-void RemoveDriveStatus();
 void HandleFDD(unsigned char c1, unsigned char c2);
-void UnsertFloppy(adfTYPE *df);
 void InsertFloppy(adfTYPE *df, uint32_t fsize, uint32_t drive_dataslot);
 #ifdef __cplusplus
 }

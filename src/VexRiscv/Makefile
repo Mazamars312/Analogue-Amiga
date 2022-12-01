@@ -56,7 +56,7 @@ mpu.elf: $(OBJECTS) Makefile mpu.ld
 	riscv32-unknown-elf-ld -o mpu.elf $(OBJECTS) -static -T mpu.ld -L$(LIBGCC_DIR) -Map firmware.map -L/opt/riscv/riscv32-unknown-elf/lib -lgcc
 
 startup.o: startup.S Makefile
-	riscv32-unknown-elf-g++ -c -o startup.o startup.S -march=rv32imac  -mabi=ilp32
+	riscv32-unknown-elf-g++ -c -o startup.o startup.S -march=rv32i  -mabi=ilp32
 
 %.o: %.cpp Makefile
 

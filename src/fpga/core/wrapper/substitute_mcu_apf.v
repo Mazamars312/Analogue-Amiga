@@ -88,7 +88,7 @@ module substitute_mcu_apf_mister(
 reg [31:0] uart_divisor;
 
 // CPU Wires
-wire [31:0] cpu_addr;
+wire [31:0] dBus_cmd_payload_address;
 wire [31:0] dBus_cmd_payload_data, from_rom;
 wire [3:0]  cpu_bytesel;
 reg  [31:0] dBus_rsp_data;
@@ -151,10 +151,10 @@ controller_rom(
 	.instruction_q		(iBus_rsp_payload_inst),
 	.iBus_cmd_valid	(iBus_cmd_valid),
 	// Data Side
-	.data_addr			(cpu_addr),
+	.data_addr			(dBus_cmd_payload_address),
 	.data_d				(dBus_cmd_payload_data),
 	.data_q				(from_rom),
-	.data_we				((~|cpu_addr[31:16] && mem_la_write)),
+	.data_we				((~|dBus_cmd_payload_address[31:16] && mem_la_write)),
 	.dBus_cmd_valid	(dBus_cmd_valid),
 	.data_bytesel		(dBus_cmd_payload_size),
 	// APF Side
@@ -218,7 +218,7 @@ assign mem_la_write	= dBus_cmd_valid &&  dBus_cmd_payload_wr;
 		.dBus_cmd_valid(dBus_cmd_valid),
 		.dBus_cmd_ready(1'b1),
 		.dBus_cmd_payload_wr(dBus_cmd_payload_wr),
-		.dBus_cmd_payload_address(cpu_addr),
+		.dBus_cmd_payload_address(dBus_cmd_payload_address),
 		.dBus_cmd_payload_data(dBus_cmd_payload_data),
 		.dBus_cmd_payload_size(dBus_cmd_payload_size),
 		.dBus_rsp_ready(dBus_rsp_ready),
@@ -299,8 +299,8 @@ reg        	io_ss2;
 
 // Dataslot ram access
 
-assign datatable_addr = cpu_addr[11:2];
-assign datatable_wren = cpu_addr[31:12] == 'hffff0 && mem_la_write;
+assign datatable_addr = dBus_cmd_payload_address[11:2];
+assign datatable_wren = dBus_cmd_payload_address[31:12] == 'hffff0 && mem_la_write;
 assign datatable_rden = mem_la_read;
 
 /*
@@ -355,8 +355,8 @@ always @(posedge clk_74a) begin
 			end
 		endcase
 	end
-	else if (mem_la_write && cpu_addr[31:8] == 24'hFFFFFF ) begin
-		case (cpu_addr[7:0])
+	else if (mem_la_write && dBus_cmd_payload_address[31:8] == 24'hFFFFFF ) begin
+		case (dBus_cmd_payload_address[7:0])
 			8'h00 : begin
 				mpu_reg_0 <= dBus_cmd_payload_data;
 			end
@@ -505,17 +505,17 @@ always @(posedge clk_mpu) begin
 	if (ser_rxint) ser_rxrecv <= 1;
 
 	if (dBus_cmd_valid)begin
-		if (cpu_addr[31:12] == 'hffff0) begin
+		if (dBus_cmd_payload_address[31:12] == 'hffff0) begin
 			dBus_rsp_ready <= 1;
 			dataslot_data_access <= 1;
 			ext_data_en <= 0;
 		end
-		else if (cpu_addr[31:16] == 16'hffff) begin
+		else if (dBus_cmd_payload_address[31:16] == 16'hffff) begin
 			dBus_rsp_ready <= 1;
 			dataslot_data_access <= 0;
 			ext_data_en <= 1;
 			if (~dBus_cmd_payload_wr) begin
-				casez (cpu_addr[7:0])
+				casez (dBus_cmd_payload_address[7:0])
 
 					// Interaction Access
 					'h00 : begin // mpu_reg_0 read
@@ -654,7 +654,7 @@ always @(posedge clk_mpu) begin
 				endcase
 			end
 			else begin
-				casez (cpu_addr[7:0])
+				casez (dBus_cmd_payload_address[7:0])
 					// Target interface to APF
 					'h80 : begin // target_dataslot_id read
 					target_dataslot_id <= dBus_cmd_payload_data;

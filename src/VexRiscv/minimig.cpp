@@ -39,7 +39,6 @@
 #define DATASLOT_HDD_BASE 310
 #define DATASLOT_BIOS_BASE 210 // BIOS Update
 
-uint8_t rstval;
 
 void minigmig_reset(int reset){
 		HPS_spi_uio_cmd8(UIO_MM2_RST, reset);
@@ -49,6 +48,7 @@ void minigmig_reset(int reset){
 
 void minimig_update_dataslots(){
   int tmp = DATASLOT_UPDATE_REG(1);
+	printf("dataslot Update %d\r\n", tmp);
 	if (tmp == DATASLOT_BIOS_BASE){
 		minigmig_reset(7);
 		usleep(200);
@@ -65,8 +65,6 @@ void minimig_fdd_update(){
   while (i != 4)
   {
     if (dataslot_size(i+DATASLOT_FDD_BASE) != 0){
-      UnsertFloppy(&df[i]);
-      usleep(300000);
       InsertFloppy(&df[i], dataslot_size(i+DATASLOT_FDD_BASE), i+DATASLOT_FDD_BASE);
     }
     i++;

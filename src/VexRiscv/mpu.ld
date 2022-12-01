@@ -33,12 +33,12 @@ SECTIONS
         *(.startup)
         *(.text*)
         *(.sdata*)
+        __global_pointer$ = . + 0x800;
         *(.sbss*)
         *(.data*)
         *(.rela*)
         *(.rodata*)
         *(.bss*)
-        __global_pointer$ =  0x7000;
     }
 
 

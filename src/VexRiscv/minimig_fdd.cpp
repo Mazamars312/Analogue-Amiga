@@ -37,8 +37,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 unsigned char drives = 0; // number of active drives reported by FPGA (may change only during reset)
 adfTYPE *pdfx;            // drive select pointer
 adfTYPE df[4] = {};    // drive information structure
-static uint8_t sector_buffer0[512] __attribute__((section("ram"))) ;
-static uint8_t sector_buffer1[512] __attribute__((section("ram"))) ;
+uint8_t sector_buffer0[512] __attribute__((section("ram"))) ;
+uint8_t sector_buffer1[512] __attribute__((section("ram"))) ;
 unsigned char Error;
 
 #define TRACK_SIZE 12668
@@ -630,12 +630,6 @@ void UpdateDriveStatus()
 	HPS_DisableFpga();
 }
 
-void RemoveDriveStatus()
-{
-	HPS_EnableFpga();
-	spi_w(0x1000);
-	HPS_DisableFpga();
-}
 
 
 void HandleFDD(unsigned char c1, unsigned char c2)
@@ -659,21 +653,6 @@ void HandleFDD(unsigned char c1, unsigned char c2)
 	}
 }
 
-
-void UnsertFloppy(adfTYPE *drive)
-{
-
-	drive->dataslot = 0;
-  drive->size = 0;
-	drive->tracks = 0;
-	drive->status = 0;
-	drive->sector_offset = 0;
-	drive->track = 0;
-	drive->track_prev = 0;
-
-	UpdateDriveStatus();
-	return;
-}
 
 // insert floppy image pointed to to by global <file> into <drive>
 // We will change this for the inputerup so this gets updated by the APF interface

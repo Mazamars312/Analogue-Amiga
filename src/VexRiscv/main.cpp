@@ -95,8 +95,6 @@ void mainloop()
       minimig_restart_running_core(); // we now do a reset of the core and update the regs if changed
       usleep(2000);
       minigmig_reset(0);
-      usleep(500);
-      RemoveDriveStatus();
       usleep(3000000);
       UpdateDriveStatus();
       printf("Completed the reset\r\n");

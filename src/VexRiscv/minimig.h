@@ -23,7 +23,6 @@
 
 #ifndef MINIMIG_H
 #define MINIMIG_H
-extern uint8_t rstval;
 #include "minimig_fdd.h"
 #include "minimig_config.h"
 #include "minimig_inputs.h"

@@ -33,8 +33,8 @@ unsigned int mouse_counter={0};
 signed short x_count = 0;
 signed short y_count = 0;
 
-static uint8_t keyboard_buffer[6];
-static uint8_t timing_delay;
+uint8_t keyboard_buffer[6];
+// static uint8_t timing_delay;
 
 void update_mouse_inputs (){
   // the normal mouse access via the dock
@@ -62,28 +62,93 @@ void update_mouse_inputs (){
   return;
 };
 
-void update_keyboard_inputs (uint8_t number){
-  printf("%0.4x %0.4x %0.4x \r\n", CONTROLLER_KEY_REG(3), CONTROLLER_TRIG_REG(3), CONTROLLER_JOY_REG(3));
+void update_keyboard_inputs (){
+  // printf("%0.4x %0.4x %0.4x \r\n", CONTROLLER_KEY_REG(3), CONTROLLER_TRIG_REG(3), CONTROLLER_JOY_REG(3));
+  uint32_t i = 0;
+  uint32_t j = 0;
+  uint32_t old_buf_len = 6;
+  uint32_t tmp;
+
+  uint8_t keyboard_buffer_updated[6]={0};
+  uint8_t keyboard_buffer_input[6]={0};
+  bool failed_key;
+  caps_trap = false;
+  for (i = 0; i < old_buf_len; i++) {
+    keyboard_buffer_updated[i] = 0;
+    keyboard_buffer_input[i] = 0;
+  };
+  // For we check for pressed down and currently pressed keys
+  do {
+  keyboard_buffer_input[0] = ((CONTROLLER_JOY_REG(3)>>24) & 0xff);
+  keyboard_buffer_input[1] = ((CONTROLLER_JOY_REG(3)>>16) & 0xff);
+  keyboard_buffer_input[2] = ((CONTROLLER_JOY_REG(3)>>8) & 0xff);
+  keyboard_buffer_input[3] = (CONTROLLER_JOY_REG(3) & 0xff);
+  keyboard_buffer_input[4] = ((CONTROLLER_TRIG_REG(3)>>8) & 0xff);
+  keyboard_buffer_input[5] = (CONTROLLER_TRIG_REG(3) & 0xff);
+
+    i = 0;
+    do {
+      failed_key = true;
+      // check if a key is new to the buffer
+      if ((keyboard_buffer_input[j] == keyboard_buffer[i]) && (keyboard_buffer_input[j] != 0)) {
+        failed_key = false;
+        break;
+      } else if (keyboard_buffer_input[j] == 0){
+        failed_key = false;
+        break;
+      }
+      i++;
+    } while (i < old_buf_len);
+    keyboard_buffer_updated[j] = keyboard_buffer_input[j];
+    if (failed_key) {
+      tmp = mapHidToAmiga[keyboard_buffer_input[j]];
+      printf("Down %0.4x\r\n", tmp);
+      HPS_spi_uio_cmd8(UIO_KEYBOARD, tmp);
+    }
+
+    j++;
+  } while (j < old_buf_len);
 
 
+  j = 0;
+  do {
+    i = 0;
+    do {
+      failed_key = true;
+      // check if a key is new to the buffer
+      if ((keyboard_buffer[j] == keyboard_buffer_updated[j]) && (keyboard_buffer[j] != 0)) {
+        failed_key = false;
+        break;
+      } else if (keyboard_buffer[j] == 0){
+        failed_key = false;
+        break;
+      }
+      i++;
+    } while (i < old_buf_len);
+    if (failed_key) {
+      tmp = mapHidToAmiga[keyboard_buffer[j]];
+
+      tmp = 0x80 | tmp;
+      printf("up %0.4x\r\n", tmp);
+      HPS_spi_uio_cmd8(UIO_KEYBOARD, tmp);
+    }
+
+    j++;
+  } while (j < old_buf_len);
+  for (i = 0; i < old_buf_len; i++) keyboard_buffer[i] = keyboard_buffer_updated[i];
 
   return;
-};
+}
 
 // THis is the placeholder for the IO updates and makes sure we are polling every 50 milliseconds
 void minimig_input_update() {
-  if (CheckTimer1(10)){
-    timing_delay++;
-    if (((CONTROLLER_KEY_REG(3)>>28) == 0x4))update_keyboard_inputs(timing_delay); // We want to update the keyboard 6 time every
-    if (timing_delay == 5){
-      timing_delay = 0;
-      if ((((AFP_REGISTOR(5)>>24)) == 0x80) | ((AFP_REGISTOR(5)>>24) == 0xa0)) {
-        update_mouse_inputs();
-      }
-      ResetTimer1();
+  if (CheckTimer1(50)){
+    // timing_delay++;
+    // if (((CONTROLLER_KEY_REG(3)>>28) == 0x4)) update_keyboard_inputs(); // We want to update the keyboard 6 time every
+    if ((((AFP_REGISTOR(5)>>24)) == 0x80) | ((AFP_REGISTOR(5)>>24) == 0xa0)) update_mouse_inputs();
+    ResetTimer1();
     }
   }
-};
 
 void minimig_joystick_reg_update(){
   // Get the JOY setup sorted
