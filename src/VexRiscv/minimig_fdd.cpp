@@ -38,7 +38,7 @@ unsigned char drives = 0; // number of active drives reported by FPGA (may chang
 adfTYPE *pdfx;            // drive select pointer
 adfTYPE df[4] = {};    // drive information structure
 uint8_t sector_buffer0[512] __attribute__((section("ram"))) ;
-uint8_t sector_buffer1[512] __attribute__((section("ram"))) ;
+// uint8_t sector_buffer1[512] __attribute__((section("ram"))) ;
 unsigned char Error;
 
 #define TRACK_SIZE 12668
@@ -442,7 +442,7 @@ void WriteTrack(adfTYPE *drive)
 	unsigned char Track;
 	unsigned char Sector;
   uint32_t foo0;
-  uint32_t foo1;
+  // uint32_t foo1;
 	unsigned long lba = drive->track * SECTOR_COUNT;
 
 	//    drive->track_prev = drive->track + 1; // This causes a read that directly follows a write to the previous track to return bad data.
@@ -455,7 +455,7 @@ void WriteTrack(adfTYPE *drive)
 			if (Track == drive->track)
 			{
 				foo0 = (uint32_t) &sector_buffer0;
-				foo1 = (uint32_t) &sector_buffer1;
+				// foo1 = (uint32_t) &sector_buffer1;
 				if (dataslot_write_lba_set(drive->dataslot, foo0, lba+Sector))
 				{
 					return;
@@ -492,7 +492,7 @@ void ReadTrack(adfTYPE *drive)
 {
 	// track number is updated in drive struct before calling this function
   uint32_t foo0;
-	uint32_t foo1;
+	// uint32_t foo1;
 	unsigned char sector;
 	unsigned char status;
 	unsigned char track;
@@ -520,7 +520,7 @@ void ReadTrack(adfTYPE *drive)
 	}
   //uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length
 	foo0 = (uint32_t) &sector_buffer0;
-	foo1 = (uint32_t) &sector_buffer1;
+	// foo1 = (uint32_t) &sector_buffer1;
 	if (dataslot_read_lba_set(drive->dataslot, foo0, lba))
 	{
 		return;
@@ -539,7 +539,7 @@ void ReadTrack(adfTYPE *drive)
 	while (1)
 	{
 		foo0 = (uint32_t) &sector_buffer0;
-		foo1 = (uint32_t) &sector_buffer1;
+		// foo1 = (uint32_t) &sector_buffer1;
 		dataslot_read_lba(512);
 		// dataslot_read_lba_fast(512);
 		// FileReadSec(&drive->file, sector_buffer0);

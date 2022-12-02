@@ -214,13 +214,12 @@ LOAD startup.o
  .bss           0x0000000000002ecc        0x0 startup.o
  .bss           0x0000000000002ecc        0x0 /opt/riscv32i/lib/gcc/riscv32-unknown-elf/8.2.0//libgcc.a(div.o)
 
-.ram            0x0000000000008000      0x400
+.ram            0x0000000000008000      0x200
                 0x0000000000008000                __ram_start = .
  *(ram*)
- ram            0x0000000000008000      0x400 minimig_fdd.o
+ ram            0x0000000000008000      0x200 minimig_fdd.o
                 0x0000000000008000                sector_buffer0
-                0x0000000000008200                sector_buffer1
-                0x0000000000008400                __ram_end = .
+                0x0000000000008200                __ram_end = .
 
 /DISCARD/
  *(.comment)

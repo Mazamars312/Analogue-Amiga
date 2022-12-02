@@ -72,7 +72,6 @@ void update_keyboard_inputs (){
   uint8_t keyboard_buffer_updated[6]={0};
   uint8_t keyboard_buffer_input[6]={0};
   bool failed_key;
-  caps_trap = false;
   for (i = 0; i < old_buf_len; i++) {
     keyboard_buffer_updated[i] = 0;
     keyboard_buffer_input[i] = 0;
