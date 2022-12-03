@@ -65,6 +65,8 @@ void minimig_fdd_update(){
   while (i != 4)
   {
     if (dataslot_size(i+DATASLOT_FDD_BASE) != 0){
+			UnsertFloppy(&df[i]);
+      usleep(300000);
       InsertFloppy(&df[i], dataslot_size(i+DATASLOT_FDD_BASE), i+DATASLOT_FDD_BASE);
     }
     i++;

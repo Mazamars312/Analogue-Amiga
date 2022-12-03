@@ -204,26 +204,26 @@ assign mem_la_write	= dBus_cmd_valid &&  dBus_cmd_payload_wr;
 // CPU Core
 	
    VexRiscv cpu(
-		.clk(clk_mpu), 
-		.reset(~reset_n),
-		.iBus_cmd_valid(iBus_cmd_valid),
-		.iBus_cmd_ready(ibus_ready),
-		.iBus_cmd_payload_pc(iBus_cmd_payload_pc),
-		.iBus_rsp_valid(ibus_valid),
-		.iBus_rsp_payload_error(1'b0),
-		.iBus_rsp_payload_inst(iBus_rsp_payload_inst),
-		.timerInterrupt(interupt_output_1_reg),
-		.externalInterrupt(externalInterrupt),
-		.softwareInterrupt(1'b0),
-		.dBus_cmd_valid(dBus_cmd_valid),
-		.dBus_cmd_ready(1'b1),
-		.dBus_cmd_payload_wr(dBus_cmd_payload_wr),
-		.dBus_cmd_payload_address(dBus_cmd_payload_address),
-		.dBus_cmd_payload_data(dBus_cmd_payload_data),
-		.dBus_cmd_payload_size(dBus_cmd_payload_size),
-		.dBus_rsp_ready(dBus_rsp_ready),
-		.dBus_rsp_error(1'b0),
-		.dBus_rsp_data(dBus_rsp_data)
+		.clk								(clk_mpu), 
+		.reset							(~reset_n),
+		.iBus_cmd_valid				(iBus_cmd_valid),
+		.iBus_cmd_ready				(ibus_ready),
+		.iBus_cmd_payload_pc			(iBus_cmd_payload_pc),
+		.iBus_rsp_valid				(ibus_valid),
+		.iBus_rsp_payload_error		(1'b0),
+		.iBus_rsp_payload_inst		(iBus_rsp_payload_inst),
+		.timerInterrupt				(interupt_output_1_reg),
+		.externalInterrupt			(externalInterrupt),
+		.softwareInterrupt			(1'b0),
+		.dBus_cmd_valid				(dBus_cmd_valid),
+		.dBus_cmd_ready				(1'b1),
+		.dBus_cmd_payload_wr			(dBus_cmd_payload_wr),
+		.dBus_cmd_payload_address	(dBus_cmd_payload_address),
+		.dBus_cmd_payload_data		(dBus_cmd_payload_data),
+		.dBus_cmd_payload_size		(dBus_cmd_payload_size),
+		.dBus_rsp_ready				(dBus_rsp_ready),
+		.dBus_rsp_error				(1'b0),
+		.dBus_rsp_data					(dBus_rsp_data)
 		);
     
 // Timer for the cpu to make sure things are in time
@@ -650,6 +650,9 @@ always @(posedge clk_mpu) begin
 					'hf0 : begin // This is GPI setup for the HPS interface
 					ext_data_out <= littlenden;
 					end
+					'hf4 : begin // This is GPI setup for the HPS interface
+					ext_data_out <= {interupt_output_1_reg, timerenabled};
+					end
 					default : ext_data_out <= 0;
 				endcase
 			end
@@ -690,7 +693,7 @@ always @(posedge clk_mpu) begin
 					end
 					// Timer_1 and disabled interrupt flag
 					'hC4 : begin 
-					millisecond_counter_reset_1 <= dBus_cmd_payload_data[1:0];
+					millisecond_counter_reset_1 <= dBus_cmd_payload_data[0];
 					timerenabled <= 0;
 					end
 					// Timer_1  and enabled interrupt flag

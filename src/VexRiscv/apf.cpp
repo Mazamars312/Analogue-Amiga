@@ -99,7 +99,7 @@ uint32_t dataslot_read(uint16_t dataslot, uint32_t address, uint32_t offset, uin
 			printf("APF FAILD?\r\n", apf_codes & APF_DONE);
 			return (apf_codes & APF_ERROR);
 		}
-    minimig_input_update();
+    // minimig_input_update();
 	} while (!(apf_codes & APF_DONE));
   return(0);
 }
@@ -123,7 +123,7 @@ uint32_t dataslot_write(uint16_t dataslot, uint32_t address, uint32_t offset, ui
 			printf("APF FAILD?\r\n", apf_codes & APF_DONE);
 			return (apf_codes & APF_ERROR);
 		}
-    minimig_input_update();
+    // minimig_input_update();
 	} while (!(apf_codes & APF_DONE));
   return(0);
 }
@@ -193,11 +193,11 @@ uint32_t dataslot_read_lba(uint32_t length)
     apf_codes = READ_TARGET_DATASLOT_CONTROL(0);
     if ((apf_codes & APF_ERROR) > 0)
 		{
-			printf("APF FAILD?\r\n", apf_codes & APF_DONE);
+			printf("no act APF FAILD?\r\n", apf_codes & APF_DONE);
 			return (apf_codes & APF_ERROR);
 		}
     i++;
-  } while (!(apf_codes & APF_ACK) | (i <= 1000));
+  } while (!(apf_codes & APF_ACK) | (i <=10000));
 
 	do
 	{
@@ -207,7 +207,7 @@ uint32_t dataslot_read_lba(uint32_t length)
 			printf("APF FAILD?\r\n", apf_codes & APF_DONE);
 			return (apf_codes & APF_ERROR);
 		}
-    minimig_input_update();
+    // minimig_input_update();
 	} while (!(apf_codes & APF_DONE));
   int tmp = WRITE_TARGET_DATASLOT_OFFSET(0);
   WRITE_TARGET_DATASLOT_OFFSET(0) = tmp + length;
@@ -254,7 +254,7 @@ uint32_t dataslot_write_lba(uint32_t length)
 			printf("APF FAILD?\r\n", apf_codes & APF_DONE);
 			return (apf_codes & APF_ERROR);
 		}
-    minimig_input_update();
+    // minimig_input_update();
 	} while (!(apf_codes & APF_DONE));
   int tmp = WRITE_TARGET_DATASLOT_OFFSET(0);
   WRITE_TARGET_DATASLOT_OFFSET(0) = tmp + length;

@@ -5,26 +5,14 @@ Archive member included to satisfy reference by file (symbol)
 
 Discarded input sections
 
- .comment       0x0000000000000000       0x12 main.o
- .comment       0x0000000000000000       0x12 interrupts.o
- .comment       0x0000000000000000       0x12 timer.o
- .comment       0x0000000000000000       0x12 start.o
  .group         0x0000000000000000        0xc spi.o
- .comment       0x0000000000000000       0x12 spi.o
- .comment       0x0000000000000000       0x12 printf.o
- .comment       0x0000000000000000       0x12 uart.o
- .comment       0x0000000000000000       0x12 apf.o
- .comment       0x0000000000000000       0x12 minimig.o
  .group         0x0000000000000000        0xc minimig_fdd.o
- .comment       0x0000000000000000       0x12 minimig_fdd.o
- .comment       0x0000000000000000       0x12 minimig_config.o
- .comment       0x0000000000000000       0x12 minimig_inputs.o
 
 Memory Configuration
 
 Name             Origin             Length             Attributes
-rom              0x0000000000000000 0x0000000000008000 xrw
-ram              0x0000000000008000 0x0000000000001000 rw
+RAM              0x0000000000000000 0x0000000000008000 xrw
+SRAM             0x0000000000008000 0x0000000000001000 rw
 *default*        0x0000000000000000 0xffffffffffffffff
 
 Linker script and memory map
@@ -42,189 +30,287 @@ LOAD minimig_fdd.o
 LOAD minimig_config.o
 LOAD minimig_inputs.o
 LOAD startup.o
-                0x0000000000000000                . = 0x0
+                0x0000000000000400                _stack_size = DEFINED (_stack_size)?_stack_size:0x400
+                0x0000000000000000                _heap_size = DEFINED (_heap_size)?_heap_size:0x0
 
-.rom            0x0000000000000000     0x2ecc
- *(.startup)
- .startup       0x0000000000000000       0xc4 startup.o
- *(.text*)
- .text          0x00000000000000c4      0x114 main.o
-                0x00000000000000c4                init()
-                0x0000000000000110                mainloop()
- .text.startup  0x00000000000001d8       0x1c main.o
-                0x00000000000001d8                main
- .text          0x00000000000001f4       0x44 interrupts.o
-                0x00000000000001f4                SetIntHandler(void (*)())
-                0x000000000000021c                GetInterrupts()
-                0x0000000000000224                EnableInterrupts()
-                0x0000000000000230                DisableInterrupts()
- .text          0x0000000000000238       0x9c timer.o
-                0x0000000000000238                GetTimer()
-                0x0000000000000240                CheckTimer(unsigned int)
-                0x000000000000025c                ResetTimer()
-                0x0000000000000270                SetTimer(unsigned int)
-                0x000000000000028c                usleep(unsigned int)
-                0x000000000000029c                GetTimer1()
-                0x00000000000002a4                CheckTimer1(unsigned int)
-                0x00000000000002c0                ResetTimer1()
- .text          0x00000000000002d4       0x20 start.o
-                0x00000000000002d4                _start
- .text          0x00000000000002f4      0x324 spi.o
-                0x00000000000002f4                HPS_fpga_gpo_write(unsigned long)
-                0x00000000000002fc                HPS_fpga_gpo_read()
-                0x0000000000000304                HPS_fpga_gpi_read()
-                0x000000000000030c                HPS_fpga_spi_en(unsigned long, unsigned long)
-                0x0000000000000334                HPS_EnableFpga()
-                0x0000000000000340                HPS_DisableFpga()
-                0x000000000000034c                HPS_EnableIO()
-                0x0000000000000358                HPS_DisableIO()
-                0x0000000000000364                HPS_fpga_spi(unsigned short)
-                0x00000000000003ac                HPS_spi_read(unsigned char*, unsigned long, int)
-                0x0000000000000430                HPS_spi_write(unsigned char const*, unsigned long, int)
-                0x00000000000004b8                HPS_spi_block_read(unsigned char*, int, int)
-                0x00000000000004bc                HPS_spi_block_write(unsigned char const*, int, int)
-                0x00000000000004c0                HPS_spi_uio_cmd_cont(unsigned short)
-                0x00000000000004e0                HPS_spi_uio_cmd(unsigned short)
-                0x0000000000000504                HPS_spi_uio_cmd8_cont(unsigned char, unsigned char)
-                0x000000000000053c                HPS_spi_uio_cmd8(unsigned char, unsigned char)
-                0x0000000000000560                HPS_spi_uio_cmd16(unsigned char, unsigned short)
-                0x0000000000000594                HPS_spi_uio_cmd32(unsigned char, unsigned long, int)
- .text._Z5spi_bh
-                0x0000000000000618       0x1c spi.o
-                0x0000000000000618                spi_b(unsigned char)
- .text          0x0000000000000634      0x990 printf.o
-                0x0000000000000980                printf_
- .text          0x0000000000000fc4       0x8c uart.o
-                0x0000000000000fc4                putchar
-                0x0000000000000fd8                puts
-                0x0000000000001020                SetUART
- .text          0x0000000000001050      0x3ec apf.o
-                0x0000000000001050                dataslot_search_id(unsigned short)
-                0x0000000000001084                dataslot_size(unsigned short)
-                0x00000000000010cc                dataslot_updated()
-                0x00000000000010d8                dataslot_read(unsigned short, unsigned long, unsigned long, unsigned long)
-                0x0000000000001170                dataslot_write(unsigned short, unsigned long, unsigned long, unsigned long)
-                0x00000000000011dc                dataslot_read_lba_set_fast(unsigned short, unsigned long, unsigned long, unsigned long)
-                0x0000000000001208                dataslot_read_lba_fast(unsigned long, unsigned long)
-                0x0000000000001298                dataslot_read_lba_set(unsigned short, unsigned long, unsigned long)
-                0x00000000000012b8                dataslot_read_lba(unsigned long)
-                0x0000000000001358                dataslot_write_lba_set(unsigned short, unsigned long, unsigned long)
-                0x00000000000013c8                dataslot_write_lba(unsigned long)
- .text          0x000000000000143c      0x198 minimig.o
-                0x000000000000143c                minigmig_reset(int)
-                0x0000000000001474                minimig_fdd_update()
-                0x0000000000001500                minimig_update_dataslots()
-                0x0000000000001584                minimig_poll_io()
- .text          0x00000000000015d4      0xe9c minimig_fdd.o
-                0x00000000000015d4                GetData()
-                0x0000000000001890                FindSync(adfTYPE*)
-                0x000000000000197c                GetHeader(unsigned char*, unsigned char*)
-                0x0000000000001cbc                SendSector(unsigned char*, unsigned char, unsigned char, unsigned char, unsigned char)
-                0x0000000000001f64                SendGap()
-                0x0000000000001fb0                WriteTrack(adfTYPE*)
-                0x00000000000020d0                ReadTrack(adfTYPE*)
-                0x00000000000022bc                UpdateDriveStatus
-                0x0000000000002390                HandleFDD
-                0x00000000000023f4                InsertFloppy
- .text._Z5spi_wt
-                0x0000000000002470        0x4 minimig_fdd.o
-                0x0000000000002470                spi_w(unsigned short)
- .text          0x0000000000002474      0x1ac minimig_config.o
-                0x0000000000002474                minimig_bios()
-                0x0000000000002558                minimig_restart_first
-                0x00000000000025c0                minimig_restart_running_core
- .text          0x0000000000002620      0x414 minimig_inputs.o
-                0x0000000000002620                update_mouse_inputs()
-                0x0000000000002814                update_keyboard_inputs()
-                0x00000000000029d4                minimig_input_update()
-                0x0000000000002a24                minimig_joystick_reg_update()
- .text          0x0000000000002a34        0x0 startup.o
- .text          0x0000000000002a34       0xb4 /opt/riscv32i/lib/gcc/riscv32-unknown-elf/8.2.0//libgcc.a(div.o)
-                0x0000000000002a34                __divsi3
-                0x0000000000002a3c                __udivsi3
-                0x0000000000002a84                __umodsi3
-                0x0000000000002ab8                __modsi3
- *(.sdata*)
- .sdata         0x0000000000002ae8        0x8 start.o
-                0x00000000000032f0                __global_pointer$ = (. + 0x800)
+._vector        0x0000000000000000       0xf0
+ *startup.o(.start_jump)
+ .start_jump    0x0000000000000000        0xe startup.o
+                0x0000000000000000                crtStart
+ *startup.o(.text)
+ *fill*         0x000000000000000e       0x12 
+ .text          0x0000000000000020       0xd0 startup.o
+                0x0000000000000020                trap_entry
+
+.data           0x00000000000000f0      0x410
+ *(.rdata)
+ *(.rodata .rodata.*)
+ .rodata.str1.4
+                0x00000000000000f0       0x7a main.o
+ *fill*         0x000000000000016a        0x2 
+ .rodata.str1.4
+                0x000000000000016c        0xc interrupts.o
+ .rodata.str1.4
+                0x0000000000000178       0x38 apf.o
+ .rodata.str1.4
+                0x00000000000001b0       0x21 minimig.o
+ *fill*         0x00000000000001d1        0x3 
+ .rodata.str1.4
+                0x00000000000001d4      0x1ef minimig_fdd.o
+ *fill*         0x00000000000003c3        0x1 
+ .rodata.str1.4
+                0x00000000000003c4       0x34 minimig_config.o
+                                         0x33 (size before relaxing)
+ .rodata        0x00000000000003f8      0x100 minimig_inputs.o
+ *(.gnu.linkonce.r.*)
+ *(.data .data.*)
+ .data          0x00000000000004f8        0x0 main.o
+ .data          0x00000000000004f8        0x0 interrupts.o
+ .data          0x00000000000004f8        0x0 timer.o
+ .data          0x00000000000004f8        0x0 start.o
+ .data          0x00000000000004f8        0x0 spi.o
+ .data          0x00000000000004f8        0x0 printf.o
+ .data          0x00000000000004f8        0x0 uart.o
+ .data          0x00000000000004f8        0x0 apf.o
+ .data          0x00000000000004f8        0x0 minimig.o
+ .data          0x00000000000004f8        0x0 minimig_fdd.o
+ .data          0x00000000000004f8        0x0 minimig_config.o
+ .data          0x00000000000004f8        0x0 minimig_inputs.o
+ .data          0x00000000000004f8        0x0 startup.o
+ .data          0x00000000000004f8        0x0 /opt/riscv32i/lib/gcc/riscv32-unknown-elf/8.2.0//libgcc.a(div.o)
+ *(.gnu.linkonce.d.*)
+                0x00000000000004f8                . = ALIGN (0x8)
+                0x0000000000000cf8                PROVIDE (__global_pointer$ = (. + 0x800))
+ *(.sdata .sdata.*)
+ .sdata         0x00000000000004f8        0x8 start.o
+ *(.gnu.linkonce.s.*)
+                0x0000000000000500                . = ALIGN (0x8)
+ *(.srodata.cst16)
+ *(.srodata.cst8)
+ *(.srodata.cst4)
+ *(.srodata.cst2)
+ *(.srodata .srodata.*)
+
+.bss            0x0000000000000500       0x78
+                0x0000000000000500                . = ALIGN (0x4)
+                0x0000000000000500                _bss_start = .
  *(.sbss*)
- .sbss          0x0000000000002af0        0x1 start.o
- *fill*         0x0000000000002af1        0x3 
- .sbss          0x0000000000002af4        0x9 minimig_fdd.o
-                0x0000000000002af4                Error
-                0x0000000000002af8                pdfx
-                0x0000000000002afc                drives
- *fill*         0x0000000000002afd        0x3 
- .sbss          0x0000000000002b00       0x10 minimig_inputs.o
-                0x0000000000002b00                keyboard_buffer
-                0x0000000000002b06                y_count
-                0x0000000000002b08                x_count
-                0x0000000000002b0c                mouse_counter
- *(.data*)
- .data          0x0000000000002b10        0x0 main.o
- .data          0x0000000000002b10        0x0 interrupts.o
- .data          0x0000000000002b10        0x0 timer.o
- .data          0x0000000000002b10        0x0 start.o
- .data          0x0000000000002b10        0x0 spi.o
- .data          0x0000000000002b10        0x0 printf.o
- .data          0x0000000000002b10        0x0 uart.o
- .data          0x0000000000002b10        0x0 apf.o
- .data          0x0000000000002b10        0x0 minimig.o
- .data          0x0000000000002b10        0x0 minimig_fdd.o
- .data          0x0000000000002b10        0x0 minimig_config.o
- .data          0x0000000000002b10        0x0 minimig_inputs.o
- .data          0x0000000000002b10        0x0 startup.o
- .data          0x0000000000002b10        0x0 /opt/riscv32i/lib/gcc/riscv32-unknown-elf/8.2.0//libgcc.a(div.o)
- *(.rela*)
- .rela.text     0x0000000000002b10        0x0 main.o
- *(.rodata*)
- .rodata.str1.4
-                0x0000000000002b10       0x7a main.o
- *fill*         0x0000000000002b8a        0x2 
- .rodata.str1.4
-                0x0000000000002b8c       0x21 apf.o
- *fill*         0x0000000000002bad        0x3 
- .rodata.str1.4
-                0x0000000000002bb0       0x21 minimig.o
- *fill*         0x0000000000002bd1        0x3 
- .rodata.str1.4
-                0x0000000000002bd4      0x146 minimig_fdd.o
- *fill*         0x0000000000002d1a        0x2 
- .rodata.str1.4
-                0x0000000000002d1c       0x33 minimig_config.o
- *fill*         0x0000000000002d4f        0x1 
- .rodata        0x0000000000002d50      0x100 minimig_inputs.o
- .rodata.str1.4
-                0x0000000000002e50       0x1c minimig_inputs.o
-                                         0x1b (size before relaxing)
- *(.bss*)
- .bss           0x0000000000002e6c        0x0 main.o
- .bss           0x0000000000002e6c        0x0 interrupts.o
- .bss           0x0000000000002e6c        0x0 timer.o
- .bss           0x0000000000002e6c        0x0 start.o
- .bss           0x0000000000002e6c        0x0 spi.o
- .bss           0x0000000000002e6c        0x0 printf.o
- .bss           0x0000000000002e6c        0x0 uart.o
- .bss           0x0000000000002e6c        0x0 apf.o
- .bss           0x0000000000002e6c        0x0 minimig.o
- .bss           0x0000000000002e6c       0x60 minimig_fdd.o
-                0x0000000000002e6c                df
- .bss           0x0000000000002ecc        0x0 minimig_config.o
- .bss           0x0000000000002ecc        0x0 minimig_inputs.o
- .bss           0x0000000000002ecc        0x0 startup.o
- .bss           0x0000000000002ecc        0x0 /opt/riscv32i/lib/gcc/riscv32-unknown-elf/8.2.0//libgcc.a(div.o)
+ .sbss          0x0000000000000500        0x1 start.o
+ *fill*         0x0000000000000501        0x3 
+ .sbss          0x0000000000000504        0x9 minimig_fdd.o
+                0x0000000000000504                Error
+                0x0000000000000508                pdfx
+                0x000000000000050c                drives
+ *fill*         0x000000000000050d        0x3 
+ .sbss          0x0000000000000510       0x18 minimig_inputs.o
+                0x0000000000000510                MOD_CAPS_LOCK
+                0x0000000000000511                MOD_CTRL
+                0x0000000000000512                MOD_LWIN
+                0x0000000000000513                MOD_RSHIFT
+                0x0000000000000514                MOD_LSHIFT
+                0x0000000000000515                MOD_RALT
+                0x0000000000000516                MOD_LALT
+                0x0000000000000518                keyboard_buffer
+                0x000000000000051e                y_count
+                0x0000000000000520                x_count
+                0x0000000000000524                mouse_counter
+ *(.gnu.linkonce.sb.*)
+ *(.bss .bss.*)
+ .bss           0x0000000000000528        0x0 main.o
+ .bss           0x0000000000000528        0x0 interrupts.o
+ .bss           0x0000000000000528        0x0 timer.o
+ .bss           0x0000000000000528        0x0 start.o
+ .bss           0x0000000000000528        0x0 spi.o
+ .bss           0x0000000000000528        0x0 printf.o
+ .bss           0x0000000000000528        0x0 uart.o
+ .bss           0x0000000000000528        0x0 apf.o
+ .bss           0x0000000000000528        0x0 minimig.o
+ .bss           0x0000000000000528       0x50 minimig_fdd.o
+                0x0000000000000528                df
+ .bss           0x0000000000000578        0x0 minimig_config.o
+ .bss           0x0000000000000578        0x0 minimig_inputs.o
+ .bss           0x0000000000000578        0x0 startup.o
+ .bss           0x0000000000000578        0x0 /opt/riscv32i/lib/gcc/riscv32-unknown-elf/8.2.0//libgcc.a(div.o)
+ *(.gnu.linkonce.b.*)
+ *(COMMON)
+                0x0000000000000578                . = ALIGN (0x4)
+                0x0000000000000578                _bss_end = .
 
-.ram            0x0000000000008000      0x200
+.rodata
+ *(.rdata)
+ *(.rodata .rodata.*)
+ *(.gnu.linkonce.r.*)
+
+.noinit         0x0000000000000578        0x0
+                0x0000000000000578                . = ALIGN (0x4)
+ *(.noinit .noinit.*)
+                0x0000000000000578                . = ALIGN (0x4)
+
+.memory         0x0000000000000578     0x2038
+ *(.text)
+ .text          0x0000000000000578       0xe0 main.o
+                0x0000000000000578                init()
+                0x00000000000005b0                mainloop()
+                0x0000000000000656                irqCallback()
+ .text          0x0000000000000658       0x16 interrupts.o
+                0x0000000000000658                _handle_trap
+ .text          0x000000000000066e       0x70 timer.o
+                0x000000000000066e                GetTimer()
+                0x0000000000000674                CheckTimer(unsigned int)
+                0x000000000000068a                ResetTimer()
+                0x0000000000000698                SetTimer(unsigned int)
+                0x00000000000006aa                usleep(unsigned int)
+                0x00000000000006b4                GetTimer1()
+                0x00000000000006ba                CheckTimer1(unsigned int)
+                0x00000000000006d0                ResetTimer1()
+ .text          0x00000000000006de       0x14 start.o
+                0x00000000000006de                _start
+ .text          0x00000000000006f2      0x1fa spi.o
+                0x00000000000006f2                HPS_fpga_gpo_write(unsigned long)
+                0x00000000000006f8                HPS_fpga_gpo_read()
+                0x00000000000006fe                HPS_fpga_gpi_read()
+                0x0000000000000704                HPS_fpga_spi_en(unsigned long, unsigned long)
+                0x0000000000000720                HPS_EnableFpga()
+                0x0000000000000728                HPS_DisableFpga()
+                0x0000000000000730                HPS_EnableIO()
+                0x0000000000000738                HPS_DisableIO()
+                0x0000000000000740                HPS_fpga_spi(unsigned short)
+                0x000000000000077c                HPS_spi_read(unsigned char*, unsigned long, int)
+                0x00000000000007cc                HPS_spi_write(unsigned char const*, unsigned long, int)
+                0x0000000000000820                HPS_spi_block_read(unsigned char*, int, int)
+                0x0000000000000822                HPS_spi_block_write(unsigned char const*, int, int)
+                0x0000000000000824                HPS_spi_uio_cmd_cont(unsigned short)
+                0x0000000000000834                HPS_spi_uio_cmd(unsigned short)
+                0x0000000000000846                HPS_spi_uio_cmd8_cont(unsigned char, unsigned char)
+                0x0000000000000866                HPS_spi_uio_cmd8(unsigned char, unsigned char)
+                0x0000000000000878                HPS_spi_uio_cmd16(unsigned char, unsigned short)
+                0x0000000000000892                HPS_spi_uio_cmd32(unsigned char, unsigned long, int)
+ .text          0x00000000000008ec      0x6d4 printf.o
+                0x0000000000000b20                printf_
+ .text          0x0000000000000fc0       0x56 uart.o
+                0x0000000000000fc0                putchar
+                0x0000000000000fd0                puts
+                0x0000000000000ff8                SetUART
+ .text          0x0000000000001016      0x28e apf.o
+                0x0000000000001016                dataslot_search_id(unsigned short)
+                0x0000000000001038                dataslot_size(unsigned short)
+                0x0000000000001060                dataslot_updated()
+                0x000000000000106a                dataslot_read(unsigned short, unsigned long, unsigned long, unsigned long)
+                0x00000000000010ca                dataslot_write(unsigned short, unsigned long, unsigned long, unsigned long)
+                0x000000000000110c                dataslot_read_lba_set_fast(unsigned short, unsigned long, unsigned long, unsigned long)
+                0x000000000000112e                dataslot_read_lba_fast(unsigned long, unsigned long)
+                0x0000000000001190                dataslot_read_lba_set(unsigned short, unsigned long, unsigned long)
+                0x00000000000011a8                dataslot_read_lba(unsigned long)
+                0x0000000000001214                dataslot_write_lba_set(unsigned short, unsigned long, unsigned long)
+                0x0000000000001262                dataslot_write_lba(unsigned long)
+ .text          0x00000000000012a4      0x134 minimig.o
+                0x00000000000012a4                minigmig_reset(int)
+                0x00000000000012cc                minimig_fdd_update()
+                0x0000000000001340                minimig_update_dataslots()
+                0x000000000000139c                minimig_poll_io()
+ .text          0x00000000000013d8      0xb92 minimig_fdd.o
+                0x00000000000013d8                GetData()
+                0x00000000000015f0                FindSync(adfTYPE*)
+                0x000000000000168a                GetHeader(unsigned char*, unsigned char*)
+                0x000000000000190c                SendSector(unsigned char*, unsigned char, unsigned char, unsigned char, unsigned char)
+                0x0000000000001b10                SendGap()
+                0x0000000000001b3c                WriteTrack(adfTYPE*)
+                0x0000000000001c00                ReadTrack(adfTYPE*)
+                0x0000000000001d6c                UpdateDriveStatus
+                0x0000000000001e14                UnsertFloppy
+                0x0000000000001e48                RemoveDriveStatus
+                0x0000000000001e5e                HandleFDD
+                0x0000000000001ec4                InsertFloppy
+ .text          0x0000000000001f6a      0x180 minimig_config.o
+                0x0000000000001f6a                minimig_bios()
+                0x0000000000002034                minimig_restart_first
+                0x0000000000002092                minimig_restart_running_core
+ .text          0x00000000000020ea      0x410 minimig_inputs.o
+                0x00000000000020ea                update_mouse_inputs()
+                0x000000000000224c                update_keyboard_inputs()
+                0x00000000000024aa                minimig_input_update()
+                0x00000000000024ec                minimig_joystick_reg_update()
+ *fill*         0x00000000000024fa        0x2 
+ .text          0x00000000000024fc       0xb4 /opt/riscv32i/lib/gcc/riscv32-unknown-elf/8.2.0//libgcc.a(div.o)
+                0x00000000000024fc                __divsi3
+                0x0000000000002504                __udivsi3
+                0x000000000000254c                __umodsi3
+                0x0000000000002580                __modsi3
+                0x00000000000025b0                end = .
+
+.text.startup   0x00000000000025b0       0x18
+ .text.startup  0x00000000000025b0       0x18 main.o
+                0x00000000000025b0                main
+
+.text._Z5spi_bh
+                0x00000000000025c8       0x12
+ .text._Z5spi_bh
+                0x00000000000025c8       0x12 spi.o
+                0x00000000000025c8                spi_b(unsigned char)
+
+.text._Z5spi_wt
+                0x00000000000025da        0x4
+ .text._Z5spi_wt
+                0x00000000000025da        0x4 minimig_fdd.o
+                0x00000000000025da                spi_w(unsigned short)
+
+.rela.dyn       0x00000000000025e0        0x0
+ .rela.text     0x00000000000025e0        0x0 main.o
+
+.ctors          0x00000000000025de        0x2
+                0x00000000000025e0                . = ALIGN (0x4)
+ *fill*         0x00000000000025de        0x2 
+                0x00000000000025e0                _ctors_start = .
+ *(.init_array*)
+ *(SORT_BY_NAME(.ctors.*))
+ *(.ctors)
+                0x00000000000025e0                . = ALIGN (0x4)
+                0x00000000000025e0                _ctors_end = .
+                [!provide]                        PROVIDE (END_OF_SW_IMAGE = .)
+
+._user_heap     0x00000000000025e0        0x0
+                0x00000000000025e0                . = ALIGN (0x8)
+ *fill*         0x00000000000025e0        0x0 
+                [!provide]                        PROVIDE (end = .)
+                [!provide]                        PROVIDE (_end = .)
+                [!provide]                        PROVIDE (_heap_start = .)
+                0x00000000000025e0                . = (. + _heap_size)
+                0x00000000000025e0                . = ALIGN (0x8)
+                [!provide]                        PROVIDE (_heap_end = .)
+
+._stack         0x00000000000025e0      0x400
+                0x00000000000025e0                . = ALIGN (0x10)
+ *fill*         0x00000000000025e0        0x0 
+                [!provide]                        PROVIDE (_stack_end = .)
+                0x00000000000029e0                . = (. + _stack_size)
+ *fill*         0x00000000000025e0      0x400 
+                0x00000000000029e0                . = ALIGN (0x10)
+                0x00000000000029e0                PROVIDE (_stack_start = .)
+
+.SRAM           0x0000000000008000      0x400
                 0x0000000000008000                __ram_start = .
- *(ram*)
- ram            0x0000000000008000      0x200 minimig_fdd.o
+ *(SRAM*)
+ SRAM           0x0000000000008000      0x400 minimig_fdd.o
                 0x0000000000008000                sector_buffer0
-                0x0000000000008200                __ram_end = .
-
-/DISCARD/
- *(.comment)
+                0x0000000000008200                sector_buffer1
+                0x0000000000008400                __ram_end = .
 LOAD /opt/riscv32i/lib/gcc/riscv32-unknown-elf/8.2.0//libgcc.a
 OUTPUT(mpu.elf elf32-littleriscv)
+
+.comment        0x0000000000000000       0x11
+ .comment       0x0000000000000000       0x11 main.o
+                                         0x12 (size before relaxing)
+ .comment       0x0000000000000011       0x12 interrupts.o
+ .comment       0x0000000000000011       0x12 timer.o
+ .comment       0x0000000000000011       0x12 start.o
+ .comment       0x0000000000000011       0x12 spi.o
+ .comment       0x0000000000000011       0x12 printf.o
+ .comment       0x0000000000000011       0x12 uart.o
+ .comment       0x0000000000000011       0x12 apf.o
+ .comment       0x0000000000000011       0x12 minimig.o
+ .comment       0x0000000000000011       0x12 minimig_fdd.o
+ .comment       0x0000000000000011       0x12 minimig_config.o
+ .comment       0x0000000000000011       0x12 minimig_inputs.o
 
 .debug_line     0x0000000000000000      0x169
  .debug_line    0x0000000000000000      0x169 /opt/riscv32i/lib/gcc/riscv32-unknown-elf/8.2.0//libgcc.a(div.o)

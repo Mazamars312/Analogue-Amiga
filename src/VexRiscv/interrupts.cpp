@@ -18,43 +18,50 @@
 
 #include <stdio.h>
 #include "interrupts.h"
-
-#if 0
-static void dummy_handler()
-{
-	GetInterrupts();
-}
-#endif
-
-void SetIntHandler(void(*handler)())
-{
-	HW_INTERRUPT(REG_INTERRUPT_CTRL)=0;
-	*(void **)13=(void *)handler;
-//	puts("Set handler\n");
-}
-
-#if 0
-__constructor(100.interrupts) void intconstructor()
-{
-//	puts("In interrupt constructor\n");
-	SetIntHandler(dummy_handler);
-}
-#endif
-
-volatile int GetInterrupts()
-{
-	return(HW_INTERRUPT(REG_INTERRUPT_CTRL));
-}
+#include "minimig_inputs.h"
+#include "printf.h"
 
 
-void EnableInterrupts()
-{
-	HW_INTERRUPT(REG_INTERRUPT_CTRL)=1;
-}
+extern "C" void _handle_trap(){
+	minimig_input_update();
+	printf("interrupt\r\n");
+};
 
-
-void DisableInterrupts()
-{
-	HW_INTERRUPT(REG_INTERRUPT_CTRL)=0;
-}
-
+// #if 0
+// static void dummy_handler()
+// {
+// 	GetInterrupts();
+// }
+// #endif
+//
+// void SetIntHandler(void(*handler)())
+// {
+// 	HW_INTERRUPT(REG_INTERRUPT_CTRL)=0;
+// 	*(void **)13=(void *)handler;
+// //	puts("Set handler\n");
+// }
+//
+// #if 0
+// __constructor(100.interrupts) void intconstructor()
+// {
+// //	puts("In interrupt constructor\n");
+// 	SetIntHandler(dummy_handler);
+// }
+// #endif
+//
+// volatile int GetInterrupts()
+// {
+// 	return(HW_INTERRUPT(REG_INTERRUPT_CTRL));
+// }
+//
+//
+// void EnableInterrupts()
+// {
+// 	HW_INTERRUPT(REG_INTERRUPT_CTRL)=1;
+// }
+//
+//
+// void DisableInterrupts()
+// {
+// 	HW_INTERRUPT(REG_INTERRUPT_CTRL)=0;
+// }
