@@ -8,24 +8,46 @@ This is powered from the Mister line of the Amiga Mist project (Also known as th
 * Both 68K and 68020 CPUs added
 * Chip memory 512k, 1m, 1.5m and 2m
 * Slow memory none, 512k, 1m, 1.5m
-* Fast memory will be added later on
+* Fast memory of none/2/4/8Mbyte for the 68000K CPU
+* Fast memory of 16/32Mbyte for the 68020K CPU setup
 * AGA Chipset
 * Turbo boot
-* Watch the pritty colors
-* Right now it can only access ADF disk images (Floppy disks) and joystick access. (Harddrive, Mouse and Keyboard access is being built)
+* Right now it can only read ADF disk images (Floppy disks). Writes will come soon.
 
 ## How to setup
 * Place your adf floppy images in the \asset\amiga\common folder
 * Place the kickstart rom in the \asset\amiga\common folder (Im using the 1.2 for now but any 256K rom will work). name it to kickstart.rom to autoload it
 * Make sure that the \asset\amiga\Mazamars312.amiga\ Folder has the mpu.bin file
 
-## Why does it take some time to boot when first starting?
-This is due to the MPU doing its setup of the core. After that the Restart in the menu does this much quicker.
+## Can I use a emulated mouse while not connected to the dock?
+
+* Yes, Press both the left and right triggers and the dpad becomes the movement and the buttons are emulated on buttons A,B,X. However they are the opersite way (So Right to left) It just felt better for the B button to be the Left button. 
+* Please note that you have to have the Port1/Port2 setup as Mouse/Joystick1 or Mouse/CD32 for the mouse to work
+
+## Can we write to disks at this moment?
+
+* No I have the code in there ready, but I want to check it before releasing it.
+
+## When is writable disks and Harddrives going to be working?
+
+* Now that the framework for the MPU is sorted, this is a matter of getting the C++ code working with the MPU and APF interface now. So this is easier to sort out and create faster access as well
+
+## Wait you have another CPU in the FPGA???
+
+* Yes the MPU is a VexRISCV CPU that has been configured with a small footprint to interface with the APF interface to the HPS bus that is currently in the Amiga core.
+* This will help with 
+
+Specs:
+* Running at 74.2mhz (Same as the APF bus)
+* Has the HPS Bus interface 
+* Two timers - one for interrupts and the other for user access.
+* Currently 32K of memory/ram for the MPU's program (This will be dropped to 16K for size)
+* A 2Kbyte swap buffer for the both the APF and MPU to do transfers 
 
 ## I have selected a disk and now its taking some time to load?
 
-* So It could be due to the game being loaded still or the game has crashed.
-* To check you can use the Analogue debug cart on the back if you have one to see the LED light to show Disk access 
+* So It could be due to the game being loaded still or the game has crashed. Try another bios or the ADF image you are using is not usable at this moment.
+* Try only using one disk drive - I have found that some games dont like having more then one drive controller.
 * Or you can use the UART interface on the Cart (Bard rate of 115200) to see what the MPU is doing with the debug logs.
 
 ## Credits
