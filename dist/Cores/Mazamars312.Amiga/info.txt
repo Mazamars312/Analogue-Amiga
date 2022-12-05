@@ -1,16 +1,11 @@
-The Amiga 500 Core - Alpha core 0.0.1
+The Amiga 500 Core - Alpha core 0.0.5
 
 The Amiga 500, also known as the A500, is the first low-end version of the Amiga home computer. It contains the same Motorola 68000 as the Amiga 1000, as well as the same graphics and sound coprocessors, but is in a smaller case similar to that of the Commodore 128.
 
-Only Floppy Drive working at this moment
-
 To Be Done:
-* Keyboard re-mapping
-* Mouse Input
 * Harddrive access
+* Writting to Floppy disks
 * Video cleanup
-* Joystick hookup and documentation
-* APF Menu cleanup
 * and code tidy up - So much to do!!!
 
 Special Thanks
