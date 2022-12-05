@@ -22,7 +22,7 @@ This is based on the Mister Github of the Amiga Mist project (Also known as the 
 
 ## Is the best way to play this using the dock?
 
-* Yes, as you can then fully use the Keyboard and mouse to interface many games and functions. Just make sure you select in the Port1/Port2 as Mouse/Joystick1 or Mouse/CD32 for mouse access
+* Yes, as you can then fully use the Keyboard and mouse to interface the core. Just make sure you select in the Port1/Port2 as Mouse/Joystick1 or Mouse/CD32 when using the real mouse.
 
 ## Is there an emulated mouse while not connected to the dock?
 
@@ -35,7 +35,7 @@ This is based on the Mister Github of the Amiga Mist project (Also known as the 
 
 ## Can we write to floppy disks at this moment?
 
-* No, I have the code ready, but I want to check it before releasing it and add double buffering for faster access.
+* No, I have the code ready, but I want to check it before releasing it.
 
 ## When are writable disks and Harddrives going to be working?
 
@@ -51,14 +51,16 @@ Specs:
 * Two timers - one for interrupts and the other for user timing.
 * Currently, 32K of memory/ram for the MPU's program (Will be set to 16K for a smaller footprint)
 * A 2Kbyte swap buffer for both the APF and MPU to do transfers
-* A separate GitHub for the MPU and the APF framework for other developers to use soon with documentation.
+
+
+## In the future:
+* A separate GitHub for the MPU and the APF framework for other developers to use soon with documentation and how to build with it.
 
 ## I have selected a disk that is taking some time to load?
 
-* So it could be due to the game loading still. That's what that excellent green indicator at the top left-hand side is for :-)
-* Try only using one disk drive - I have found that some games don't like having more than one floppy drive.
-* The double buffering, as I will use the APF target bus commands to transfer DMA data while processing data to the core simultaneously. Right now, these are two concurrent processes
-* Analogue-supplied Dev Units can use the UART interface on the Dev Cart (Baud rate of 115200) to see what the MPU is doing with the debug logs.
+* So it could be due to the game loading still. That's what that excellent green indicator at the top left-hand side is for :-) 
+* Try only using one disk drive - I have found that some games don't like having more than one floppy drive unless those drive a operating too.
+* I need to build double buffering in the code, as I will use the APF target bus commands to transfer DMA data while processing data to the core simultaneously. Right now, these are two concurrent processes so this does cause some slow down
 
 ## Why are some of the resolutions not correct?
 
@@ -67,12 +69,12 @@ Specs:
 
 ## I have game X that does not work!!!
 
-* From the testing I have been doing, there are multiple configurations, bios and even ADF Images that you need to try. Hopefully, once I get both writing to floppy and the Harddrive access working, this will help with the current bugs. 
-* The main goal of this project was getting an MPU Framework so external media can be accessed and giving developers some tools to help create more cores on the Pocket.
+* From the testing I have been doing, there are multiple configurations, bios and even ADF Images that you need to try. Hopefully, once I get both writing to floppy and the Harddrive access working, this will help with this. 
+* The main goal of this project was getting an MPU Framework so external media can be accessed and giving developers some tools to help create more cores on the Pocket. So I do expect that there is more to learn about the amiga and get many of these bugs resolved.
 
 ## What will be the next update??
 
-* First Ill be updating some of the Neogeo core.
+* First Ill be updating some of the Neogeo core before doing the next lot of updates on this core.
 * Then I want a Virtual Keyboard to help non-dock users to be able to play this while on the go.
 * Writable Floppy access
 * HDF Hard drives - Will we get all 4 working would be a interesting acheavement. However they will only be 4GB max in size due to the APF framework
