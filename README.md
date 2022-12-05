@@ -84,7 +84,8 @@ Specs:
 ## I have game X that does not work!!!
 
 * From the testing I have been doing, there are multiple configurations, bios and even ADF Images that you need to try. Hopefully, once I get both writing to floppy and the Harddrive access working, this will help with this. 
-* The main goal of this project was getting an MPU Framework so external media can be accessed and giving developers some tools to help create more cores on the Pocket. So I do expect that there is more to learn about the amiga and get many of these bugs resolved.
+* The main goal of this project was getting an MPU Framework so external media can be accessed and help giving developers some tools to help create more cores on the Pocket. 
+* So I do expect that there is more to learn about the amiga and get many of these bugs resolved.
 
 ## What will be the next update??
 
