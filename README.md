@@ -30,6 +30,7 @@ This is based on the Mister Github of the Amiga Mist project (Also known as the 
 * Load Floppy Drive 0-3 - This will allow you to load different floppies while playing
 * CPU Reset - This will reset the core and any settings changed below it will be applied
 * Installed Floppy Drives - this will allow you to select  how many drives are installed and delimit the transfer rate of the amiga core to them.
+* port 1/Port 2 - This allows you to change and swap the controller ports with CD32/Normal Joysticks/Mouse - if you need to use the emulated mouse made sure you use the mouse/joystick or mouse/CD32 options 
 * Mouse Speed - this will change the update rate of both the emulated and real mouse movements
 * Screen Movement x/y - Moves the screen around
 * System config - Allows you to select PAL/NTSC refreash, OG (Orginal) hardware or the AGA (Advance Graphics) hardware, Turbo boot or standard boot modes
