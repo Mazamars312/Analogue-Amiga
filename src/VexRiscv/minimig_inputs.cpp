@@ -203,13 +203,17 @@ void update_keyboard_inputs (){
 
 // THis is the placeholder for the IO updates and makes sure we are polling every 50 milliseconds
 void minimig_input_update() {
-  if (CheckTimer1(10)){
-    // timing_delay++;
+    // int tmp = HW_TIMERCHECKBASE(0);
+    // printf("%d\r\n", tmp);
+    ResetTimer();
     if (((CONTROLLER_KEY_REG(3)>>28) == 0x4)) update_keyboard_inputs(); // We want to update the keyboard 6 time every
     if ((((AFP_REGISTOR(5)>>24)) == 0x80) | ((AFP_REGISTOR(5)>>24) == 0xa0)) update_mouse_inputs();
-    ResetTimer1();
-    }
+    minimig_input_setup();
   }
+
+  void minimig_input_setup() {
+      Set_interrupt_Timer(10);
+    }
 
 void minimig_joystick_reg_update(){
   // Get the JOY setup sorted

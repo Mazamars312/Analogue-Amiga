@@ -23,6 +23,7 @@
 
 #include "spi.h"
 #include "printf.h"
+#include "interrupts.h"
 #include "apf.h"
 
 #define SSPI_STROBE  (1<<17)
@@ -55,22 +56,26 @@ void HPS_fpga_spi_en(uint32_t mask, uint32_t en)
 
 void HPS_EnableFpga()
 {
+  DisableInterrupts();
 	HPS_fpga_spi_en(SSPI_FPGA_EN, 1);
 }
 
 void HPS_DisableFpga()
 {
 	HPS_fpga_spi_en(SSPI_FPGA_EN, 0);
+  EnableInterrupts();
 }
 
 void HPS_EnableIO()
 {
+  DisableInterrupts();
 	HPS_fpga_spi_en(SSPI_IO_EN, 1);
 }
 
 void HPS_DisableIO()
 {
 	HPS_fpga_spi_en(SSPI_IO_EN, 0);
+  EnableInterrupts();
 }
 
 uint16_t HPS_fpga_spi(uint16_t word)

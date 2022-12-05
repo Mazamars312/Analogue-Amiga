@@ -75,12 +75,6 @@ void minimig_fdd_update(){
 }
 
 void minimig_poll_io(){
-			// Get the mouse port updated
-
-			minimig_input_update();
-
-			// Get the keyboard port updated
-			// minimig_keyboard_update();
 
       unsigned char  c1, c2;
   		HPS_EnableFpga();
@@ -91,6 +85,5 @@ void minimig_poll_io(){
   		spi_w(0);
   		HPS_DisableFpga();
       HandleFDD(c1, c2);
-
 
 };

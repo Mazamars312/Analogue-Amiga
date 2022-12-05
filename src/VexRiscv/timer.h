@@ -25,11 +25,17 @@
 
 // We have two timers one for User use and the other for the Keyboard and mouse checks
 #define TIMERBASE1 0xffffffc4
-#define TIMERBASE2 0xffffffc8
+#define TIMERBASE1_RESET 0xffffffc8
+#define TIMERBASE2_RESET 0xffffffcc
+#define TIMERBASE2 0xffffffd0
 #define SYSCLOCKBASE 0xffffff98
+#define TIMERCHECKBASE 0xffffffF4
 #define HW_TIMER1(x) *(volatile unsigned int *)(TIMERBASE1+x)
+#define HW_TIMER1_RESET(x) *(volatile unsigned int *)(TIMERBASE1_RESET+x)
+#define HW_TIMER2_RESET(x) *(volatile unsigned int *)(TIMERBASE2_RESET+x)
 #define HW_TIMER2(x) *(volatile unsigned int *)(TIMERBASE2+x)
 #define HW_SYSCLOCK(x) *(volatile unsigned int *)(SYSCLOCKBASE+x)
+#define HW_TIMERCHECKBASE(x) *(volatile unsigned int *)(TIMERCHECKBASE+x)
 #define REG_MILLISECONDS 0
 
 unsigned int GetTimer();
@@ -38,10 +44,11 @@ unsigned int CheckTimer(unsigned int time);
 void ResetTimer();
 void SetTimer(unsigned int time);
 void usleep(unsigned int time);
+void Set_interrupt_Timer(unsigned int time);
 
-unsigned int GetTimer1();
-unsigned int CheckTimer1(unsigned int time);
+unsigned int GetTimer2();
+unsigned int CheckTimer2(unsigned int time);
 // Will reset the timer
-void ResetTimer1();
+void ResetTimer2();
 
 #endif

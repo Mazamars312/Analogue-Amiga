@@ -138,6 +138,7 @@ reg	littlenden;
 wire [31:0] 		iBus_cmd_payload_pc;
 wire [31:0] 		iBus_rsp_payload_inst;
 wire iBus_cmd_ready, iBus_cmd_valid;
+reg					interupt_mask;
 
 controller_rom 
 #(.top_address(16'h8000), // This sets the location on the APF bus to watch out for
@@ -212,7 +213,7 @@ assign mem_la_write	= dBus_cmd_valid &&  dBus_cmd_payload_wr;
 		.iBus_rsp_valid				(ibus_valid),
 		.iBus_rsp_payload_error		(1'b0),
 		.iBus_rsp_payload_inst		(iBus_rsp_payload_inst),
-		.timerInterrupt				(interupt_output_1_reg),
+		.timerInterrupt				(interupt_output_1_reg && interupt_mask),
 		.externalInterrupt			(externalInterrupt),
 		.softwareInterrupt			(1'b0),
 		.dBus_cmd_valid				(dBus_cmd_valid),
@@ -651,7 +652,7 @@ always @(posedge clk_mpu) begin
 					ext_data_out <= littlenden;
 					end
 					'hf4 : begin // This is GPI setup for the HPS interface
-					ext_data_out <= {interupt_output_1_reg, timerenabled};
+					ext_data_out <= {interupt_output_1, interupt_output_1_reg, timerenabled};
 					end
 					default : ext_data_out <= 0;
 				endcase
@@ -712,6 +713,9 @@ always @(posedge clk_mpu) begin
 					// This will change the Enden of the BRAM between the AFP and the BRAM for the CPU if required
 					'hf0 : begin 
 					littlenden <= dBus_cmd_payload_data[0];
+					end
+					'hf4 : begin 
+					interupt_mask <= dBus_cmd_payload_data[0];
 					end
 				endcase
 			end
@@ -861,7 +865,7 @@ always @(posedge clk_sys or posedge millisecond_counter_reset) begin
 	 else begin
 		 millisecond_tick <= millisecond_tick + 1;
 		 if (millisecond_tick == sysclk_frequency) begin
-			  if (millisecond_counter == interupt_counter) begin
+			  if (millisecond_counter >= interupt_counter) begin
 					interupt_output <= |{interupt_counter};
 			  end
 			  millisecond_counter <= millisecond_counter + 1;

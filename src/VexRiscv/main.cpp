@@ -71,12 +71,15 @@ void mainloop()
 	usleep(200);
 	minigmig_reset(0); // Turns off all the resets
 	// I do enjoy reseting this timer.
-
+  minimig_input_setup();
+  EnableInterrupts();
 	// This loop is what keeps the checking of the core interface
 	while(true){
 		if(DATASLOT_UPDATE_REG(0)){
 				// This subprogram is for the program to check what dataslots are updated
+      DisableInterrupts();
 			minimig_update_dataslots();
+      EnableInterrupts();
 		}
 
     // Get the JOY setup updated from the interact menu
@@ -88,6 +91,7 @@ void mainloop()
 
     // This checks if we are wanting to do a reboot of the core from the interaction menu. We want to do this last so nothing is held in the buffers
     if (AFP_REGISTOR(0) & 0x3) { // This has 2 bits for reseting the core
+      DisableInterrupts();
       printf("starting the reset\r\n");
       minigmig_reset(AFP_REGISTOR(0));
       usleep(200);
@@ -100,6 +104,7 @@ void mainloop()
       usleep(3000000);
       UpdateDriveStatus();
       printf("Completed the reset\r\n");
+  		EnableInterrupts();
     }
 	};
 }
