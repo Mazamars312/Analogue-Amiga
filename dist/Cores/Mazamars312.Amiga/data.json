@@ -58,7 +58,7 @@
         "filename": "slowhd2.img"
       },
 	  {
-        "name": "Floopy drive 0",
+        "name": "Floppy drive 0",
         "id": "320",
         "required": false,
 		"deferload": true,
@@ -71,7 +71,7 @@
         "address": "0x80000000"
       },
 	  {
-        "name": "Floopy drive 1",
+        "name": "Floppy drive 1",
         "id": "321",
         "required": false,
 		"deferload": true,
@@ -84,7 +84,7 @@
         "address": "0x80000000"
       },
 	  {
-        "name": "Floopy drive 2",
+        "name": "Floppy drive 2",
         "id": "322",
         "required": false,
 		"deferload": true,
@@ -97,7 +97,7 @@
         "address": "0x80000000"
       },
 	  {
-        "name": "Floopy drive 3",
+        "name": "Floppy drive 3",
         "id": "323",
         "required": false,
 		"deferload": true,
