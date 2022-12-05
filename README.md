@@ -9,7 +9,7 @@ This is based on the Mister Github of the Amiga Mist project (Also known as the 
 * Chip memory 512k, 1m, 1.5m and 2m
 * Slow memory none, 512k, 1m, 1.5m
 * Fast memory of none/2/4/8Mbyte for the 68000K CPU
-* Fast memory of 16/32Mbyte for the 68020K CPU setup - Another 32Mbytes will be added soon
+* Fast memory of 16/32Mbyte for the 68020K CPU setup - This is experamental at this moment
 * AGA Chipset
 * Turbo boot
 * It can only read ADF disk images (Floppy disks). Writes will come soon with Hard Drive access.
