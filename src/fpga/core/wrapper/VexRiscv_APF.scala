@@ -14,7 +14,7 @@ object GenSmallest extends App{
         new IBusSimplePlugin(
           resetVector = 0x00000000,
           cmdForkOnSecondStage = true,
-          cmdForkPersistence = false,
+          cmdForkPersistence = true,
           prediction = NONE,
           catchAccessFault = false,
           compressedGen = true
@@ -31,16 +31,16 @@ object GenSmallest extends App{
           mimpid         = null,
           mhartid        = null,
           misaExtensionsInit = 66,
-          misaAccess     = CsrAccess.NONE,
-          mtvecAccess    = CsrAccess.NONE,
-          mtvecInit      = 4l,
-          mepcAccess     = CsrAccess.NONE,
-          mscratchGen    = true,
+          misaAccess     = CsrAccess.READ_WRITE,
+          mtvecAccess    = CsrAccess.READ_WRITE,
+          mtvecInit      = 0x00000020,
+          mepcAccess     = CsrAccess.READ_ONLY,
+          mscratchGen    = false,
           mcauseAccess   = CsrAccess.READ_ONLY,
-          mbadaddrAccess = CsrAccess.NONE,
+          mbadaddrAccess = CsrAccess.READ_ONLY,
           mcycleAccess   = CsrAccess.NONE,
           minstretAccess = CsrAccess.NONE,
-          ecallGen       = true,
+          ecallGen       = false,
           wfiGenAsWait   = false,
           ucycleAccess   = CsrAccess.NONE,
           uinstretAccess = CsrAccess.NONE
@@ -59,19 +59,13 @@ object GenSmallest extends App{
         ),
         new FullBarrelShifterPlugin(earlyInjection = true),
         new HazardSimplePlugin(
-          bypassExecute           = true,
-          bypassMemory            = true,
-          bypassWriteBack         = true,
-          bypassWriteBackBuffer   = true,
+          bypassExecute           = false,
+          bypassMemory            = false,
+          bypassWriteBack         = false,
+          bypassWriteBackBuffer   = false,
           pessimisticUseSrc       = false,
           pessimisticWriteRegFile = false,
           pessimisticAddressMatch = false
-        ),
-        new MulDivIterativePlugin(
-          genMul = true,
-          genDiv = true,
-          mulUnrollFactor = 2,
-          divUnrollFactor = 2
         ),
         new BranchPlugin(
           earlyBranch = true,
