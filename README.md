@@ -16,13 +16,27 @@ This is based on the Mister Github of the Amiga Mist project (Also known as the 
 
 ## How to setup
 * Place your ADF floppy images in the \asset\amiga\common folder
-* Place the kickstart BIOS rom in the \asset\amiga\common folder (I'm using the 1.2 for now, but any original firmware rom will work - no encrypted BIOSes yet). Name it to kickstart.rom to autoload it
+* Place the kickstart BIOS rom in the \asset\amiga\common folder (I'm using the 1.2 for now, but any original 256/512/1024kbyte firmware rom will work - no encrypted BIOSes yet). Name it to kickstart.rom to autoload it
 * Make sure that the \asset\amiga\Mazamars312.amiga\ Folder has the mpu.bin file - this is supplied and should already be there.
 * When changing system configurations, you must select the "CPU reset" in the menu to apply the config.
 
 ## Is the best way to play this using the dock?
 
 * Yes, as you can then fully use the Keyboard and mouse to interface the core. Just make sure you select in the Port1/Port2 as Mouse/Joystick1 or Mouse/CD32 when using the real mouse.
+* Just know that you will need a controller to access the Menu if you want to make changes
+
+## Menu Listing
+* Load Bios - This will allow you to reload new BIOS's on the fly - will cause a reset
+* Load Floppy Drive 0-3 - This will allow you to load different floppies while playing
+* CPU Reset - This will reset the core and any settings changed below it will be applied
+* Installed Floppy Drives - this will allow you to select  how many drives are installed and delimit the transfer rate of the amiga core to them.
+* Mouse Speed - this will change the update rate of both the emulated and real mouse movements
+* Screen Movement x/y - Moves the screen around
+* System config - Allows you to select PAL/NTSC refreash, OG (Orginal) hardware or the AGA (Advance Graphics) hardware, Turbo boot or standard boot modes
+* CPU Type - Allows you which type of CPU you want installed 68K, 68010, 68020 with no cache, 68020 with cache
+* Memory Chip - Size of the Chip memory
+* Memory Slow - Size of the slow memory 
+* Memory Fast - on the 68000 CPU this is none/2/4/8Mbytes, on the 680X0 this is none or 32 at this moment.
 
 ## Is there an emulated mouse while not connected to the dock?
 
