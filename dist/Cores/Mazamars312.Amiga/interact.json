@@ -64,7 +64,7 @@
         "enabled": true,
         "persist": true,
         "address": "0x81000014",
-        "defaultval": 0,
+        "defaultval": "0x80000000",
         "mask": "0x0FFFFFFF",
         "options": [
 		{
@@ -285,19 +285,19 @@
         "options": [
 			{
 				"value": "0x0000",
-				"name": "Zero Fast Memory"
+				"name": "Nonw"
 			},
 			{
 				"value": "0x0010",
-				"name": "2Mbytes Fast Memory"
+				"name": "2Mbytes/32mbytes"
 			},
 			{
 				"value": "0x0020",
-				"name": "4Mbytes Fast Memory"
+				"name": "4Mbytes/none"
 			},
 			{
 				"value": "0x0030",
-				"name": "8Mbytes Fast Memory"
+				"name": "8Mbytes/none"
 			}
         ]
       }
