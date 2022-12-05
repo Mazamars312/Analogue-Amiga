@@ -26,6 +26,22 @@
         "address": "0x80000000"
       },	  
 	  {
+        "name": "harddrive - Fast 1",
+        "id": "310",
+        "required": false,
+		"deferload": true,
+        "parameters": 0,
+        "filename": "fasthd1.img"
+      },
+	  {
+        "name": "harddrive - Fast 2",
+        "id": "311",
+        "required": false,
+		"deferload": true,
+        "parameters": 0,
+        "filename": "fasthd2.img"
+      },	  
+	  {
         "name": "harddrive - Slow 1",
         "id": "312",
         "required": false,
