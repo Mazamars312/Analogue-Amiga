@@ -70,6 +70,15 @@ Specs:
 * From the testing I have been doing, there are multiple configurations, bios and even ADF Images that you need to try. Hopefully, once I get both writing to floppy and the Harddrive access working, this will help with the current bugs. 
 * The main goal of this project was getting an MPU Framework so external media can be accessed and giving developers some tools to help create more cores on the Pocket.
 
+## What will be the next update??
+
+* First Ill be updating some of the Neogeo core.
+* Then I want a Virtual Keyboard to help non-dock users to be able to play this while on the go.
+* Writable Floppy access
+* HDF Hard drives - Will we get all 4 working would be a interesting acheavement. However they will only be 4GB max in size due to the APF framework
+* Change or separate the mouse rate for both the emulated mouse and real mouse. Right now this value is used on both of them but decreasing the value will make the emulated mouse move slower but the real mouse move faster. 
+* An extra 32Mbytes of Fast Ram for the 68020 CPU using the CRAM. 
+
 ## Credits
 
 * This source code is based on Rok Krajnc project (minimig-de1).
