@@ -1,4 +1,4 @@
-# Copyright 2018 Jacob Lifshay
+# Copyright 2022 Murray Aickin
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -53,10 +53,10 @@ mpu-stripped.elf: Makefile mpu.elf
 	riscv32-unknown-elf-strip -o mpu-stripped.elf mpu.elf
 
 mpu.elf: $(OBJECTS) Makefile mpu.ld
-	riscv32-unknown-elf-ld -o mpu.elf $(OBJECTS) -static -T mpu.ld -L$(LIBGCC_DIR) -Map firmware.map -L/opt/riscv/riscv32-unknown-elf/lib -lgcc
+	riscv32-unknown-elf-ld -o mpu.elf $(OBJECTS) -static --print-memory-usage -T mpu.ld -L$(LIBGCC_DIR) -Map firmware.map -L/opt/riscv/riscv32-unknown-elf/lib -lgcc
 
 startup.o: startup.S Makefile
-	riscv32-unknown-elf-g++ -c -o startup.o startup.S -march=rv32imac  -mabi=ilp32
+	riscv32-unknown-elf-g++ -c -o startup.o startup.S -march=rv32ic  -mabi=ilp32
 
 %.o: %.cpp Makefile
 
@@ -67,7 +67,7 @@ emulated: main-emulated.o Makefile
 	g++ -g -o emulated -std=c++14 -Wall main-emulated.o -static
 
 %.o: %.cpp
-	riscv32-unknown-elf-g++ -Os -c -o $@ $< -std=c++14 -Wall -march=rv32i  -mabi=ilp32 -fno-exceptions
+	riscv32-unknown-elf-g++ -Os -c -o $@ $< -std=c++14 -Wall -march=rv32ic  -mabi=ilp32 -fno-exceptions
 
 clean:
 	rm -f mpu*.hex mpu.bin mpu.elf mpu-stripped.elf *.o emulated generate_hex_files.sh

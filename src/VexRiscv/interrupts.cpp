@@ -18,34 +18,13 @@
 
 #include <stdio.h>
 #include "interrupts.h"
+#include "minimig_inputs.h"
+#include "printf.h"
 
-#if 0
-static void dummy_handler()
-{
-	GetInterrupts();
-}
-#endif
 
-void SetIntHandler(void(*handler)())
-{
-	HW_INTERRUPT(REG_INTERRUPT_CTRL)=0;
-	*(void **)13=(void *)handler;
-//	puts("Set handler\n");
-}
-
-#if 0
-__constructor(100.interrupts) void intconstructor()
-{
-//	puts("In interrupt constructor\n");
-	SetIntHandler(dummy_handler);
-}
-#endif
-
-volatile int GetInterrupts()
-{
-	return(HW_INTERRUPT(REG_INTERRUPT_CTRL));
-}
-
+extern "C" void _handle_trap(){
+	minimig_input_update();
+};
 
 void EnableInterrupts()
 {
@@ -57,4 +36,3 @@ void DisableInterrupts()
 {
 	HW_INTERRUPT(REG_INTERRUPT_CTRL)=0;
 }
-

@@ -37,8 +37,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 unsigned char drives = 0; // number of active drives reported by FPGA (may change only during reset)
 adfTYPE *pdfx;            // drive select pointer
 adfTYPE df[4] = {};    // drive information structure
-static uint8_t sector_buffer0[512] __attribute__((section("ram"))) ;
-static uint8_t sector_buffer1[512] __attribute__((section("ram"))) ;
+uint8_t sector_buffer0[512] __attribute__((section("SRAM"))) ;
+uint8_t sector_buffer1[512] __attribute__((section("SRAM"))) ;
 unsigned char Error;
 
 #define TRACK_SIZE 12668
@@ -554,8 +554,9 @@ void ReadTrack(adfTYPE *drive)
 		dsksync = spi_w(0); // disk sync
 		spi_w(0); // mfm words to transfer
 
-		if (track >= drive->tracks)
+		if (track >= drive->tracks) {
 			track = drive->tracks - 1;
+		}
 
 		// workaround for Copy Lock in Wiz'n'Liz and North&South (might brake other games)
 		if (dsksync == 0x0000 || dsksync == 0x8914 || dsksync == 0xA144)
@@ -602,7 +603,6 @@ void ReadTrack(adfTYPE *drive)
 		sector++;
 		if (sector >= SECTOR_COUNT)
 		{
-			// printf("SECTOR_COUNT \r\n");
 			// go to the start of current track
 			sector = 0;
 			lba = drive->track * SECTOR_COUNT;
@@ -630,13 +630,26 @@ void UpdateDriveStatus()
 	HPS_DisableFpga();
 }
 
+void UnsertFloppy(adfTYPE *drive)
+{
+	printf("unload\r\n" );
+	drive->dataslot = 0;
+  drive->size = 0;
+	drive->tracks = 0;
+	drive->status = 0;
+	drive->sector_offset = 0;
+	drive->track = 0;
+	drive->track_prev = 0;
+	UpdateDriveStatus();
+	return;
+}
+
 void RemoveDriveStatus()
 {
 	HPS_EnableFpga();
 	spi_w(0x1000);
 	HPS_DisableFpga();
 }
-
 
 void HandleFDD(unsigned char c1, unsigned char c2)
 {
@@ -648,7 +661,7 @@ void HandleFDD(unsigned char c1, unsigned char c2)
 	{
 		sel = (c1 >> 6) & 0x03;
 		df[sel].track = c2;
-		// printf("Selected drive %d\r\nSelected track %d\r\n", sel, c2);
+		printf("Selected drive %d\r\nSelected track %d\r\n", sel, c2);
 		ReadTrack(&df[sel]);
 	}
 	else if (c1 & CMD_WRTRK)
@@ -659,21 +672,6 @@ void HandleFDD(unsigned char c1, unsigned char c2)
 	}
 }
 
-
-void UnsertFloppy(adfTYPE *drive)
-{
-
-	drive->dataslot = 0;
-  drive->size = 0;
-	drive->tracks = 0;
-	drive->status = 0;
-	drive->sector_offset = 0;
-	drive->track = 0;
-	drive->track_prev = 0;
-
-	UpdateDriveStatus();
-	return;
-}
 
 // insert floppy image pointed to to by global <file> into <drive>
 // We will change this for the inputerup so this gets updated by the APF interface
@@ -699,11 +697,10 @@ void InsertFloppy(adfTYPE *drive, uint32_t fsize, uint32_t drive_dataslot)
 	drive->sector_offset = 0;
 	drive->track = 0;
 	drive->track_prev = -1;
-	// printf("file writable: %d\r\n", writable);
-	// printf("file size: %lu (%lu KB)\r\n", drive->size, drive->size >> 10);
-	// printf("drive tracks: %u\r\n", drive->tracks);
-	// printf("drive track_prev: %u\r\n", drive->track_prev);
-	// printf("drive track_prev: %u\r\n", drive->track_prev);
-	// printf("drive status: 0x%02X\r\n", drive->status);
+	printf("file writable: %d\r\n", writable);
+	printf("file size: %lu (%lu KB)\r\n", drive->size, drive->size >> 10);
+	printf("drive tracks: %u\r\n", drive->tracks);
+	printf("drive track_prev: %u\r\n", drive->track_prev);
+	printf("drive status: 0x%02X\r\n", drive->status);
 	return;
 }

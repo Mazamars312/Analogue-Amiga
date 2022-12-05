@@ -34,4 +34,3 @@ extern "C" void _start() noexcept
         asm("wfi");
     }
 }
-
