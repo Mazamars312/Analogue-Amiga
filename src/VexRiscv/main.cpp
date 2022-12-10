@@ -40,7 +40,6 @@
 #include "spi.h"
 #include "minimig.h"
 
-
 // these values help with both the UART and System clock setups
 #define sys_clock  742 // This is the CPU clock speed in a int size 74.2mhz
 #define uart_rate  1152 // This is the UART Rate shifted right by 2

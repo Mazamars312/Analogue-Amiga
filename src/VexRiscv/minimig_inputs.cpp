@@ -60,10 +60,10 @@ void update_mouse_inputs (){
   } else if (!((CONTROLLER_KEY_REG(4)>>28) == 0x5)  && (((CONTROLLER_KEY_REG(1)>>8) & 0x3) == 0x3)){
     // Emulating the mouse on the dpad by pressing both left and right triggers
     int tmp_joy = CONTROLLER_KEY_REG(1);
-    if ((tmp_joy & 0x1) == 1) y_count = y_count - speed;
-    if (((tmp_joy>>1) & 0x1) == 1) y_count = y_count + speed;
-    if (((tmp_joy>>2) & 0x1) == 1) x_count = x_count - speed;
-    if (((tmp_joy>>3) & 0x1) == 1) x_count = x_count + speed;
+    if ((tmp_joy & 0x1) == 1)       y_count = y_count - (32 - speed);
+    if (((tmp_joy>>1) & 0x1) == 1)  y_count = y_count + (32 - speed);
+    if (((tmp_joy>>2) & 0x1) == 1)  x_count = x_count - (32 - speed);
+    if (((tmp_joy>>3) & 0x1) == 1)  x_count = x_count + (32 - speed);
     HPS_spi_uio_cmd8(UIO_MOUSE_X, x_count);
     HPS_spi_uio_cmd8(UIO_MOUSE_Y, y_count);
     HPS_spi_uio_cmd8(UIO_MOUSE_BTN, ((CONTROLLER_KEY_REG(1)>>4) & 0x7));

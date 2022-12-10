@@ -28,17 +28,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdio.h>
 #include <string.h>
 #include <inttypes.h>
+#include <stdlib.h>
 #include "minimig_fdd.h"
+#include "minimig.h"
 #include "spi.h"
 #include "printf.h"
 #include "apf.h"
 #include "timer.h"
 
 unsigned char drives = 0; // number of active drives reported by FPGA (may change only during reset)
-adfTYPE *pdfx;            // drive select pointer
 adfTYPE df[4] = {};    // drive information structure
-uint8_t sector_buffer0[512] __attribute__((section("SRAM"))) ;
-uint8_t sector_buffer1[512] __attribute__((section("SRAM"))) ;
+uint8_t sector_buffer1[5632] __attribute__((section("SRAM"))) ;
+// uint8_t *sector_buffer1 __attribute__((section("SRAM")));
+uint8_t sector_buffer0[512];
 unsigned char Error;
 
 #define TRACK_SIZE 12668
@@ -455,7 +457,7 @@ void WriteTrack(adfTYPE *drive)
 			if (Track == drive->track)
 			{
 				foo0 = (uint32_t) &sector_buffer0;
-				foo1 = (uint32_t) &sector_buffer1;
+				// foo1 = (uint32_t) &sector_buffer1;
 				if (dataslot_write_lba_set(drive->dataslot, foo0, lba+Sector))
 				{
 					return;
@@ -491,40 +493,60 @@ void WriteTrack(adfTYPE *drive)
 void ReadTrack(adfTYPE *drive)
 {
 	// track number is updated in drive struct before calling this function
-  uint32_t foo0;
+  // uint32_t foo0;
+
+
 	uint32_t foo1;
 	unsigned char sector;
 	unsigned char status;
 	unsigned char track;
 	unsigned short dsksync;
 	uint16_t tmp;
+	adfTYPE *df_cache;
+	foo1 = (uint32_t) &sector_buffer1;
+
 	if (drive->track >= drive->tracks)
 	{
 		printf("Illegal track read: %d\n", drive->track);
 		drive->track = drive->tracks - 1;
 	}
-
+  // sector_buffer1 = (uint8_t*)malloc(5632);
 	unsigned long lba;
+	printf("dataslots %d %d\r\n", df_cache->dataslot, drive->dataslot);
+	printf("tracks %d %d\r\n", df_cache->track, drive->track);
+	printf("status %d %d\r\n", df_cache->status, drive->status);
+	if ((drive->track 			== drive->track_prev) &
+		  (df_cache->dataslot 	== drive->dataslot) &
+			(df_cache->track 		== drive->track) &
+			(df_cache->status 		== drive->status))
+			{ // same track, start at next sector in track
+				sector = drive->sector_offset;
+				lba = (drive->track * SECTOR_COUNT);
+				printf("we using the cache\r\n");
+			} else
 
-	if (drive->track != drive->track_prev)
-	{ // track step or track 0, start at beginning of track
-		drive->track_prev = drive->track;
-		sector = 0;
-		drive->sector_offset = sector;
-		lba = drive->track * SECTOR_COUNT;
-	}
-	else
-	{ // same track, start at next sector in track
-		sector = drive->sector_offset;
-		lba = (drive->track * SECTOR_COUNT) + sector;
-	}
-  //uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length
-	foo0 = (uint32_t) &sector_buffer0;
-	foo1 = (uint32_t) &sector_buffer1;
-	if (dataslot_read_lba_set(drive->dataslot, foo0, lba))
-	{
-		return;
-	}
+			{ // track step or track 0, start at beginning of track and this to refull the cache system
+				drive->track_prev 			= drive->track;
+				sector 									= 0;
+				drive->sector_offset 		= sector;
+				lba 										= drive->track * SECTOR_COUNT;
+				df_cache->dataslot 			= drive->dataslot;
+				df_cache->size 					= drive->size; // Size of the image
+				df_cache->status 				= drive->status; /*status of floppy*/
+				df_cache->tracks 				= drive->tracks; /*number of tracks*/
+				df_cache->sector_offset 	= drive->sector_offset; /*sector offset to handle tricky loaders*/
+				df_cache->track 					= drive->track; /*current track*/
+				df_cache->track_prev 		= drive->track_prev; /*previous track*/
+				printf("we are not using the cache\r\n");
+				if (dataslot_read_lba_set_fast(drive->dataslot, foo1, lba, 5632))
+				{
+					return;
+				}
+			}
+
+
+
+
 	HPS_EnableFpga();
 	tmp = spi_w(0);
 	status = (uint8_t)(tmp>>8); // read request signal
@@ -535,16 +557,16 @@ void ReadTrack(adfTYPE *drive)
 
 	if (track >= drive->tracks)
 		track = drive->tracks - 1;
-	int tmp_count = 0;
+	// int tmp_count = 0;
 	while (1)
 	{
-		foo0 = (uint32_t) &sector_buffer0;
-		foo1 = (uint32_t) &sector_buffer1;
-		dataslot_read_lba(512);
-		// dataslot_read_lba_fast(512);
-		// FileReadSec(&drive->file, sector_buffer0);
-		// printf("sector send %d\r\n", tmp_count);
-		tmp_count++;
+		tmp = 0;
+		printf("sector %d\r\n", sector);
+		while (tmp <= 511){
+			sector_buffer0[tmp] = sector_buffer1[((sector<<9)|tmp)];
+			tmp++;
+		}
+		printf("data sector %d\r\n", ((sector<<9)));
 		HPS_EnableFpga();
 
 		// check if FPGA is still asking for data
@@ -605,21 +627,17 @@ void ReadTrack(adfTYPE *drive)
 		{
 			// go to the start of current track
 			sector = 0;
-			lba = drive->track * SECTOR_COUNT;
-			foo0 = (uint32_t) &sector_buffer0;
-			if (dataslot_read_lba_set(drive->dataslot, foo0, lba))
-			{
-				return;
-			}
 		}
 
 		// remember current sector
 		drive->sector_offset = sector;
+		usleep(10000);
 	}
 }
 
 void UpdateDriveStatus()
 {
+	adfTYPE *df_cache;
 	HPS_EnableFpga();
 	spi_w(0x1000 | df[0].status | (df[1].status << 1) | (df[2].status << 2) | (df[3].status << 3));
 	printf("States disk 0: %0.4x\r\n", (df[0].status));
@@ -628,6 +646,13 @@ void UpdateDriveStatus()
 	printf("States disk 3: %0.4x\r\n", (df[3].status));
 	printf("States of disks: %0.4x\r\n", (0x1000 | df[0].status | (df[1].status << 1) | (df[2].status << 2) | (df[3].status << 3)));
 	HPS_DisableFpga();
+	df_cache->dataslot 			= 0;
+	df_cache->size 					= 0; // Size of the image
+	df_cache->status 				= 0; /*status of floppy*/
+	df_cache->tracks 				= 0; /*number of tracks*/
+	df_cache->sector_offset 	= 0; /*sector offset to handle tricky loaders*/
+	df_cache->track 					= 0; /*current track*/
+	df_cache->track_prev 		= 0; /*previous track*/
 }
 
 void UnsertFloppy(adfTYPE *drive)

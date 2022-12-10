@@ -46,14 +46,26 @@ typedef struct adfTYPE
 	uint32_t      dataslot;
 	uint32_t      size; // Size of the image
 	unsigned char status; /*status of floppy*/
-	unsigned int tracks; /*number of tracks*/
+	unsigned int  tracks; /*number of tracks*/
 	unsigned char sector_offset; /*sector offset to handle tricky loaders*/
 	unsigned char track; /*current track*/
 	unsigned char track_prev; /*previous track*/
 } adfTYPE;
 
+typedef struct adfTYPE_CACHE
+{
+	uint32_t      dataslot;
+	uint32_t      size; // Size of the image
+	unsigned char status; /*status of floppy*/
+	unsigned int  tracks; /*number of tracks*/
+	unsigned char sector_offset; /*sector offset to handle tricky loaders*/
+	unsigned char track; /*current track*/
+	unsigned char track_prev; /*previous track*/
+} adfTYPE_CACHE;
+
 extern unsigned char drives;
 extern adfTYPE df[4];
+extern adfTYPE_CACHE df_cache;
 
 void UpdateDriveStatus(void);
 void UnsertFloppy(adfTYPE *df);

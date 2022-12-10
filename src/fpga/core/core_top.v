@@ -1114,11 +1114,13 @@ synch_3 #(.WIDTH(8)) y_offset_sync(y_offset, y_offset_s, video_rgb_clock);
 
 reg [7:0] x_offset_vga; // these are the counters for the offset when the DE or each HS wit DE happens
 reg [7:0] y_offset_vga;
-reg [1:0] res_reg;
+reg [2:0] res_reg;
 
 reg [9:0] x_counter_vga;
 reg [9:0] y_counter_vga;
 reg 		 video_de_reg;
+reg 		 lace_reg;
+reg 		 field1_reg;
 
 always @(posedge video_rgb_clock) begin
 	video_rgb 	<= 'b0;
@@ -1140,6 +1142,7 @@ always @(posedge video_rgb_clock) begin
 	if (~hs && hs_reg)  begin
 		hs_delay0 	<= 'b1;
 		x_counter_vga <= 0;
+		field1_reg <= field1;
 		x_offset_vga <= x_offset_s;
 		if (y_offset_vga != 0) y_offset_vga <= y_offset_vga - 1;
 	end
@@ -1147,11 +1150,12 @@ always @(posedge video_rgb_clock) begin
 	vs_reg <= vs;
 	
 	if (~vs && vs_reg) begin
-		res_reg <= {res[1], res[0] && lace};
+		res_reg <= {lace, res[1:0]};
+		lace_reg <= lace;
 		y_offset_vga <= y_offset_s;
 		y_counter_vga <= 0;
 		video_vs 	<= 'b1;
-		video_rgb 	<= {21'd0, 1'b0, field1 && lace, lace, 1'b0}; // This is the interlace part for the core.
+		video_rgb 	<= {21'd0, 1'b0, field1_reg && lace_reg, lace_reg, ~field1_reg && lace_reg}; // This is the interlace part for the core.
 	end
 	
 	
@@ -1169,9 +1173,13 @@ always @(posedge video_rgb_clock) begin
 	
 	else if (hblank_i && ~hblank_i_reg) begin
 		case (res_reg)
-			2'b11		: video_rgb 	<= {10'd0, 3'h3, 13'd0};
-			2'b10		: video_rgb 	<= {10'd0, 3'h2, 13'd0};
-			2'b01		: video_rgb 	<= {10'd0, 3'h1, 13'd0};
+			3'd7		: video_rgb 	<= {10'd0, 3'h7, 13'd0};
+			3'd6		: video_rgb 	<= {10'd0, 3'h6, 13'd0};
+			3'd5		: video_rgb 	<= {10'd0, 3'h5, 13'd0};
+			3'd4		: video_rgb 	<= {10'd0, 3'h4, 13'd0};
+			3'd3		: video_rgb 	<= {10'd0, 3'h3, 13'd0};
+			3'd2		: video_rgb 	<= {10'd0, 3'h2, 13'd0};
+			3'd1		: video_rgb 	<= {10'd0, 3'h1, 13'd0};
 			default : video_rgb 	<= 24'h0;
 		endcase
 	end

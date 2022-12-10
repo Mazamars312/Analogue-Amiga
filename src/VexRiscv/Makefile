@@ -53,10 +53,10 @@ mpu-stripped.elf: Makefile mpu.elf
 	riscv32-unknown-elf-strip -o mpu-stripped.elf mpu.elf
 
 mpu.elf: $(OBJECTS) Makefile mpu.ld
-	riscv32-unknown-elf-ld -o mpu.elf $(OBJECTS) -static --print-memory-usage -T mpu.ld -L$(LIBGCC_DIR) -Map firmware.map -L/opt/riscv/riscv32-unknown-elf/lib -lgcc
+	riscv32-unknown-elf-ld -o mpu.elf $(OBJECTS) -static --print-memory-usage -T mpu.ld -L$(LIBGCC_DIR) -Map firmware.map -L/opt/riscv/riscv32-unknown-elf/lib -L/opt/riscv32i/riscv32-unknown-elf/include/ -lgcc
 
 startup.o: startup.S Makefile
-	riscv32-unknown-elf-g++ -c -o startup.o startup.S -march=rv32ic  -mabi=ilp32
+	riscv32-unknown-elf-g++ -c -o startup.o startup.S -march=rv32ic -mabi=ilp32
 
 %.o: %.cpp Makefile
 

@@ -23,6 +23,11 @@
 
 #ifndef MINIMIG_H
 #define MINIMIG_H
+
+
+#include <stdio.h>
+#include <string.h>
+#include <inttypes.h>
 #include "minimig_fdd.h"
 #include "minimig_config.h"
 #include "minimig_inputs.h"
@@ -39,6 +44,8 @@
 #define UIO_DMA_WRITE   0x61
 #define UIO_DMA_READ    0x62
 #define UIO_DMA_SDIO    0x63
+
+
 
 void minigmig_reset(int reset);
 void minimig_update_dataslots();

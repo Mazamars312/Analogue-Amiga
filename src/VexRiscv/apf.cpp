@@ -33,6 +33,16 @@
 
 #define SSPI_ACK
 
+bool dataslot_ready(){
+  int apf_codes = READ_TARGET_DATASLOT_CONTROL(0);
+  return(apf_codes & APF_DONE);
+}
+
+uint8_t dataslot_status(){
+  int apf_codes = READ_TARGET_DATASLOT_CONTROL(0);
+  return(apf_codes & 0x7);
+}
+
 // This is to search though the dataslot ram looking for the location of the data slot in it
 uint32_t dataslot_search_id(uint16_t value)
 {
@@ -97,6 +107,7 @@ uint32_t dataslot_read(uint16_t dataslot, uint32_t address, uint32_t offset, uin
 		}
     // minimig_input_update();
 	} while (!(apf_codes & APF_DONE));
+  printf ("read complete %0.4x %0.4x %d\r\n", address, offset, length);
   return(0);
 }
 
@@ -127,32 +138,48 @@ uint32_t dataslot_write(uint16_t dataslot, uint32_t address, uint32_t offset, ui
 // THis will set the pointers read to go on the APF regs
 uint32_t dataslot_read_lba_set_fast(uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length)
 {
-  READ_TARGET_DATASLOT_ID(0) = dataslot;
-  READ_TARGET_DATASLOT_BRIDGE_ADD(0) = APF_ADDRESS_OFFSET | address;
-  READ_TARGET_DATASLOT_OFFSET(0) = offset << 9;
-  READ_TARGET_DATASLOT_LENGTH(0) = length;
-  READ_TARGET_DATASLOT_CONTROL(0) = TARGET_DATASLOT_READ_REG;
+  WRITE_TARGET_DATASLOT_ID(0) = dataslot;
+  WRITE_TARGET_DATASLOT_BRIDGE_ADD(0) = APF_ADDRESS_OFFSET | address;
+  WRITE_TARGET_DATASLOT_LENGTH(0) = length;
+  WRITE_TARGET_DATASLOT_OFFSET(0) = offset << 9;
+  WRITE_TARGET_DATASLOT_CONTROL(0) = TARGET_DATASLOT_READ_REG;
 
+  int apf_codes;
+  int i = 0;
+  do
+  {
+    apf_codes = READ_TARGET_DATASLOT_CONTROL(0);
+    if ((apf_codes & APF_ERROR) > 0)
+    {
+      printf("APF FAILD?\r\n", apf_codes & APF_DONE);
+      printf("APF FAILD? length %d\r\n", dataslot);
+      printf("APF FAILD? length %0.4x\r\n", address);
+      printf("APF FAILD? length %0.4x\r\n", offset);
+      printf("APF FAILD? length %d\r\n", length);
+      return (apf_codes & APF_ERROR);
+    }
+    i++;
+  } while (!(apf_codes & APF_ACK) | (i <= 1000));
+
+	do
+	{
+		apf_codes = READ_TARGET_DATASLOT_CONTROL(0);
+    if ((apf_codes & APF_ERROR) > 0)
+		{
+			printf("APF FAILD?\r\n", apf_codes & APF_DONE);
+			return (apf_codes & APF_ERROR);
+		}
+    // minimig_input_update();
+	} while (!(apf_codes & APF_DONE));
+  printf ("read complete %0.8x %0.8x %d\r\n", address, offset, length);
   return(0);
 }
 
 // This will read the data from where the file pointer is (This is set by dataslot_read_lba_set) and does the next batch of data
 uint32_t dataslot_read_lba_fast(uint32_t address, uint32_t length)
 {
-  int i = 0;
   int apf_codes;
-  do
-	{
-    apf_codes = READ_TARGET_DATASLOT_CONTROL(0);
-    if ((apf_codes & APF_ERROR) > 0)
-		{
-			printf("APF FAILD?\r\n", apf_codes & APF_DONE);
-			return (apf_codes & APF_ERROR);
-		}
-    i++;
-  } while (!(apf_codes & APF_ACK) | (i <= 1000));
-
-
+  int i = 0;
   READ_TARGET_DATASLOT_BRIDGE_ADD(0) = APF_ADDRESS_OFFSET | address;
   READ_TARGET_DATASLOT_LENGTH(0) = length;
   READ_TARGET_DATASLOT_CONTROL(0) = TARGET_DATASLOT_READ_REG;
@@ -160,7 +187,8 @@ uint32_t dataslot_read_lba_fast(uint32_t address, uint32_t length)
   do
 	{
     apf_codes = READ_TARGET_DATASLOT_CONTROL(0);
-  } while (apf_codes & APF_ACK);
+    i++;
+  } while (!(apf_codes & APF_ACK) | (i <=10000));
   int tmp = WRITE_TARGET_DATASLOT_OFFSET(0);
   WRITE_TARGET_DATASLOT_OFFSET(0) = tmp + length;
   return(0);
@@ -187,14 +215,9 @@ uint32_t dataslot_read_lba(uint32_t length)
   do
 	{
     apf_codes = READ_TARGET_DATASLOT_CONTROL(0);
-    if ((apf_codes & APF_ERROR) > 0)
-		{
-			printf("no act APF FAILD?\r\n", apf_codes & APF_DONE);
-			return (apf_codes & APF_ERROR);
-		}
-    i++;
-  } while (!(apf_codes & APF_ACK) | (i <=10000));
 
+    i++;
+  } while (!(apf_codes & APF_ACK) | (i <=100));
 	do
 	{
 		apf_codes = READ_TARGET_DATASLOT_CONTROL(0);

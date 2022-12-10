@@ -1,4 +1,4 @@
-# Analogue Pocket - Commodore Amiga 500 - 0.0.5 Alpha
+# Analogue Pocket - Commodore Amiga 500 - 0.0.6 Alpha
 
 The Commodore Amiga 500 was a personal computer that replaced the well-loved Commodore C64 in the Commodore product line. It also was one of the many 68K personal computers that showed that this CPU was a powerhouse when integrated with great hardware beside it.
 
@@ -15,9 +15,10 @@ This is based on the Mister Github of the Amiga Mist project (Also known as the 
 * It can only read ADF disk images (Floppy disks). Writes will come soon with Hard Drive access.
 
 ## How to setup
-* Place your ADF floppy images in the \asset\amiga\common folder
-* Place the kickstart BIOS rom in the \asset\amiga\common folder (I'm using the 1.2 for now, but any original 256/512/1024kbyte firmware rom will work - no encrypted BIOSes yet). Name it to kickstart.rom to autoload it
-* Make sure that the \asset\amiga\Mazamars312.amiga\ Folder has the mpu.bin file - this is supplied and should already be there.
+* PLEASE NOTE - Folder names have been changed to help with the updater - my mistake here.
+* Place your ADF floppy images in the \Asset\amiga\common folder
+* Place the kickstart BIOS rom in the \Asset\amiga\common folder (I'm using the 1.2 for now, but any original 256/512/1024kbyte firmware rom will work - no encrypted BIOSes yet). Name it to kickstart.rom to autoload it
+* Make sure that the \Asset\amiga\Mazamars312.Amiga\ Folder has the mpu.bin file - this is supplied and should already be there.
 * When changing system configurations, you must select the "CPU reset" in the menu to apply the config.
 
 ## Is the best way to play this using the dock?
@@ -50,11 +51,11 @@ This is based on the Mister Github of the Amiga Mist project (Also known as the 
 
 ## Can we write to floppy disks at this moment?
 
-* No, I have the code ready, but I want to check it before releasing it.
+* No, I have the code ready, but due to a bug in the framework Im holding off on releasing it as it will damage files on the sdcard.
 
 ## When are writable disks and Harddrives going to be working?
 
-* Now that the framework for the MPU has been built, this is a matter of getting the C++ code working with the MPU and APF interface.
+* Now that the framework for the MPU has been built, this is a matter of getting the C++ code working with the MPU and APF interface. There is also the sram being connected and tested to see if we can use this as a buffer as well.
 
 ## Wait, you have another CPU in the FPGA???
 
@@ -65,21 +66,20 @@ Specs:
 * Connected to the core via a 16bit HPS Bus 
 * Two timers - one for interrupts and the other for user timing.
 * Currently, 32K of memory/ram for the MPU's program (Will be set to 16K for a smaller footprint)
-* A 2Kbyte swap buffer for both the APF and MPU to do transfers
+* A 8Kbyte swap buffer for both the APF and MPU to do transfers
 
 
 ## In the future:
 * A separate GitHub for the MPU and the APF framework for other developers to use soon with documentation and how to build with it.
+* This has been released for others to have a go with it now.
 
-## I have selected a disk that is taking some time to load?
+## How did you speed up load times
 
-* So it could be due to the game loading still. That's what that excellent green indicator at the top left-hand side is for :-) 
-* Try only using one disk drive - I have found that some games don't like having more than one floppy drive unless those drive a operating too.
-* I need to build double buffering in the code, as I will use the APF target bus commands to transfer DMA data while processing data to the core simultaneously. Right now, these are two concurrent processes so this does cause some slow down
+* Through talking to the Analogue Techs, it is faster to buffer more data and have that ready for the core to use then smaller 512 chunks that the orginal code would do.
 
 ## Why are some of the resolutions not correct?
 
-* I need to see the standard resolutions to ensure the scaler will work correctly - Interlacing is one thing I need to build up.
+* I need to see the standard resolutions to ensure the scaler will work correctly
 * Due to memory access, the RTG resolutions will not work on this right now.
 
 ## I have game X that does not work!!!
@@ -87,6 +87,13 @@ Specs:
 * From the testing I have been doing, there are multiple configurations, bios and even ADF Images that you need to try. Hopefully, once I get both writing to floppy and the Harddrive access working, this will help with this. 
 * The main goal of this project was getting an MPU Framework so external media can be accessed and help giving developers some tools to help create more cores on the Pocket. 
 * So I do expect that there is more to learn about the amiga and get many of these bugs resolved.
+* for Multi disk games, also try putting disks on other drives. But please make sure you change the amount of installed drives to the amount needed. (Up to 4)
+
+## Change since 0.0.5 to 0.0.6
+* Interlace mode corrected for games like DarkSeed
+* Folder names changed for Unix/Linux/Mac OS and to help with the uploader system 
+* Faster floppy access times using a larger buffer in the MPU core and caching.
+* But what about the things below - I wanted to sort out these key issues out first and Im awaiting for a bugfix from Analogue to be released. This is due to files being corrupted when writting back.
 
 ## What will be the next update??
 
