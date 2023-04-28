@@ -1,0 +1,6 @@
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:36:6:void osd_display_error(int)	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:74:6:void osd_display_error_apf()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:78:6:void osd_display_info()	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:112:6:void osd_display_info_update(int)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:119:6:void osd_display_timing(uint8_t, uint8_t, uint8_t)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:127:6:void osd_display_error_dataslot(int)	16	static

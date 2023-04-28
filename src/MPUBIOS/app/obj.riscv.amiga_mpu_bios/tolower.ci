@@ -1,0 +1,3 @@
+graph: { title: "../lib/tolower.c"
+node: { title: "tolower" label: "tolower\n../lib/tolower.c:10:5" }
+}

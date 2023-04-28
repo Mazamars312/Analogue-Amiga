@@ -1,0 +1,2 @@
+../lib/strlen.c:10:8:strlen	0	static
+../lib/strlen.c:25:8:strnlen	0	static

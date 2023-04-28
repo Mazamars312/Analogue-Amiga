@@ -1,0 +1,6 @@
+../lib/stropen.c:16:1:buf_getchar	0	static
+../lib/stropen.c:28:1:buf_peekchar	0	static
+../lib/stropen.c:39:1:buf_feof	0	static
+../lib/stropen.c:6:1:buf_putchar	0	static
+../lib/stropen.c:68:1:stropen	0	static
+../lib/stropen.c:77:1:strclose	0	static

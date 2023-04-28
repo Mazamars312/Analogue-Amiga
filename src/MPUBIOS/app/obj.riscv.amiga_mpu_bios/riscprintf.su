@@ -1,0 +1,5 @@
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/riscprintf.cpp:94:20:void _out_null(char, void*, size_t, size_t)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/riscprintf.cpp:101:20:void _out_char(char, void*, size_t, size_t)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/riscprintf.cpp:233:15:size_t _ntoa_long(out_fct_type, char*, size_t, size_t, long unsigned int, bool, long unsigned int, unsigned int, unsigned int, unsigned int)	80	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/riscprintf.cpp:814:5:)	144	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/riscprintf.cpp:824:5:)	32	static

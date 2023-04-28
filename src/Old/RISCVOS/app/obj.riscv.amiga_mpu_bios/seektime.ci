@@ -1,0 +1,6 @@
+graph: { title: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/cue/seektime.cpp"
+node: { title: "_Z14get_cd_seek_msii" label: "int get_cd_seek_ms(int, int)\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/cue/seektime.cpp:63:5" }
+node: { title: "printf_" label: ")\n../lib/printf.h:68:5" shape : ellipse }
+edge: { sourcename: "_Z14get_cd_seek_msii" targetname: "printf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/cue/seektime.cpp:122:12" }
+edge: { sourcename: "_Z14get_cd_seek_msii" targetname: "printf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/cue/seektime.cpp:123:12" }
+}

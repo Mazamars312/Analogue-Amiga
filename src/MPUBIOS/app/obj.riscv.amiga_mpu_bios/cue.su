@@ -1,0 +1,22 @@
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:9:1:cue_t::cue_t()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:71:10:uint16_t cue_t::LoadCUE(int)	80	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:219:10:uint16_t cue_t::Load(int)	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:233:6:void cue_t::Unload()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:261:6:void cue_t::Reset()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:397:6:void cue_t::CommandExec()	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:688:10:uint16_t cue_t::GetStatus()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:692:5:int cue_t::SetCommand(uint8_t*)	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:697:6:void cue_t::PendStatus(uint16_t)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:702:6:void cue_t::SendStatus(uint16_t)	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:709:6:void cue_t::SendDataRequest()	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:716:6:void cue_t::SetRegion(uint8_t)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:720:6:void cue_t::LBAToMSF(int, msf_t*)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:726:6:void cue_t::MSFToLBA(int*, uint8_t, uint8_t, uint8_t)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:730:6:void cue_t::MSFToLBA(int*, msf_t*)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:734:5:int cue_t::GetTrackByLBA(int, toc_t*)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:740:6:void cue_t::ReadData()	32	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:282:6:void cue_t::Update()	32	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:755:5:int cue_t::ReadCDDA()	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:767:6:void cue_t::ReadSubcode(uint16_t*)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:788:6:void cue_t::CommandError(uint8_t, uint8_t, uint8_t, uint8_t)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:793:1:cpp)	0	static

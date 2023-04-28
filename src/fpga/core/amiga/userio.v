@@ -79,9 +79,9 @@ module userio
 	output reg  [1:0] cpu_config,
 	output reg  [2:0] cache_config,
 	output reg        bootrom, // do the A1000 bootrom magic in gary.v
-	output reg        usrrst,     // user reset from osd module
-	output reg        cpurst,
-	output reg        cpuhlt,
+	output reg        usrrst = 1,     // user reset from osd module
+	output reg        cpurst = 1,
+	output reg        cpuhlt = 1,
 	output reg  [1:0] aud_mix,
 	// Data upload to the amiga addressing
 	output reg        host_cs,
@@ -497,8 +497,8 @@ wire [23:0]	fifo_addr;
 wire [15:0]	fifo_dout;
 
   data_loader #(
-      .ADDRESS_MASK_UPPER_4(4'h0),
-      .ADDRESS_SIZE(25),
+      .ADDRESS_MASK_UPPER_4(4'h9),
+      .ADDRESS_SIZE(24),
       .WRITE_MEM_CLOCK_DELAY(7),
       .OUTPUT_WORD_SIZE(2)
   ) data_loader (

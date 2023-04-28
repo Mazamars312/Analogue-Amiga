@@ -1,0 +1,20 @@
+graph: { title: "../lib/vscanf.c"
+node: { title: "stream_vscanf" label: "stream_vscanf\n../lib/vscanf.c:179:1" }
+node: { title: "__indirect_call" label: "Indirect Call Placeholder" shape : ellipse }
+edge: { sourcename: "stream_vscanf" targetname: "__indirect_call" label: "../lib/vscanf.c:147:8" }
+edge: { sourcename: "stream_vscanf" targetname: "__indirect_call" label: "../lib/vscanf.c:146:11" }
+edge: { sourcename: "stream_vscanf" targetname: "__indirect_call" label: "../lib/vscanf.c:165:22" }
+edge: { sourcename: "stream_vscanf" targetname: "__indirect_call" label: "../lib/vscanf.c:153:11" }
+edge: { sourcename: "stream_vscanf" targetname: "__indirect_call" label: "../lib/vscanf.c:41:7" }
+edge: { sourcename: "stream_vscanf" targetname: "__indirect_call" label: "../lib/vscanf.c:46:3" }
+edge: { sourcename: "stream_vscanf" targetname: "__indirect_call" label: "../lib/vscanf.c:54:3" }
+edge: { sourcename: "stream_vscanf" targetname: "__indirect_call" label: "../lib/vscanf.c:56:19" }
+edge: { sourcename: "stream_vscanf" targetname: "__indirect_call" label: "../lib/vscanf.c:58:7" }
+edge: { sourcename: "stream_vscanf" targetname: "__indirect_call" label: "../lib/vscanf.c:81:3" }
+edge: { sourcename: "stream_vscanf" targetname: "__indirect_call" label: "../lib/vscanf.c:82:7" }
+edge: { sourcename: "stream_vscanf" targetname: "__indirect_call" label: "../lib/vscanf.c:262:7" }
+edge: { sourcename: "stream_vscanf" targetname: "__indirect_call" label: "../lib/vscanf.c:271:9" }
+edge: { sourcename: "stream_vscanf" targetname: "__indirect_call" label: "../lib/vscanf.c:276:4" }
+edge: { sourcename: "stream_vscanf" targetname: "__indirect_call" label: "../lib/vscanf.c:281:12" }
+edge: { sourcename: "stream_vscanf" targetname: "__indirect_call" label: "../lib/vscanf.c:286:3" }
+}

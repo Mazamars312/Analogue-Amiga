@@ -1,0 +1,4 @@
+graph: { title: "../lib/atoi.c"
+node: { title: "atoi" label: "atoi\n../lib/atoi.c:10:5" }
+node: { title: "atoi_hex" label: "atoi_hex\n../lib/atoi.c:25:5" }
+}

@@ -1,0 +1,7 @@
+graph: { title: "../lib/stpcpy.c"
+node: { title: "stpcpy" label: "stpcpy\n../lib/stpcpy.c:7:8" }
+node: { title: "strlen" label: "strlen\n../lib/_string.h:18:8" shape : ellipse }
+edge: { sourcename: "stpcpy" targetname: "strlen" label: "../lib/stpcpy.c:9:27" }
+node: { title: "memcpy" label: "__builtin_memcpy\n<built-in>" shape : ellipse }
+edge: { sourcename: "stpcpy" targetname: "memcpy" }
+}

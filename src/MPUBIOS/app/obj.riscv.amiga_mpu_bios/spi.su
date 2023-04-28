@@ -1,0 +1,37 @@
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:38:6:void HPS_fpga_gpo_write(uint32_t)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:42:10:uint32_t HPS_fpga_gpo_read()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:47:10:uint32_t HPS_fpga_gpi_read()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:51:6:void HPS_fpga_spi_en(uint32_t, uint32_t)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:60:6:void HPS_EnableFpga()	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:67:6:void HPS_DisableFpga()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:73:6:void HPS_EnableIO()	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:79:6:void HPS_DisableIO()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:85:10:uint16_t HPS_fpga_spi(uint16_t)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:113:6:void HPS_spi_read(uint8_t*, uint32_t, int)	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:128:6:void HPS_spi_write(const uint8_t*, uint32_t, int)	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:143:6:void HPS_spi_block_read(uint8_t*, int, int)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:149:6:void HPS_spi_block_write(const uint8_t*, int, int)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:155:10:uint32_t spi32_w(uint32_t)	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:163:10:uint16_t HPS_spi_uio_cmd_cont(uint16_t)	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:171:10:uint16_t HPS_spi_uio_cmd(uint16_t)	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:178:9:uint8_t HPS_spi_uio_cmd8_cont(uint8_t, uint8_t)	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:187:9:uint8_t HPS_spi_uio_cmd8(uint8_t, uint8_t)	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:197:10:uint16_t HPS_spi_uio_cmd16(uint8_t, uint16_t)	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:207:6:void HPS_spi_uio_cmd32(uint8_t, uint32_t, int)	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:227:6:void HPS_io_set_index(unsigned char)	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:236:6:void HPS_io_set_download(unsigned char, int)	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:250:6:void HPS_io_file_tx_data(const uint8_t*, uint32_t, int)	32	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:259:6:void HPS_fpga_spi_write_fast(uint16_t)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:269:6:void HPS_spi_write_fast(const uint8_t*, uint32_t, int)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:288:10:uint16_t HPS_fpga_spi_fast(uint16_t)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:297:6:void HPS_fpga_spi_fast_block_write(const uint16_t*, uint32_t)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:311:6:void HPS_fpga_spi_fast_block_read(uint16_t*, uint32_t, bool)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:324:6:void HPS_fpga_spi_fast_block_write_be(const uint16_t*, uint32_t)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:341:6:void HPS_fpga_spi_fast_block_read_be(uint16_t*, uint32_t)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:358:6:void HPS_EnableOsd_on(int)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:365:6:void HPS_EnableOsd()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:374:6:void HPS_DisableOsd()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:379:6:void HPS_spi_osd_cmd_cont(uint8_t)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:385:6:void HPS_spi_osd_cmd(uint8_t)	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:391:6:void HPS_spi_osd_cmd8_cont(uint8_t, uint8_t)	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:398:6:void HPS_spi_osd_cmd8(uint8_t, uint8_t)	16	static

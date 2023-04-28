@@ -1,0 +1,22 @@
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/cue/cue.cpp:9:1:cue_t::cue_t()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/cue/cue.cpp:71:5:int cue_t::LoadCUE(int)	80	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/cue/cue.cpp:218:5:int cue_t::Load(int)	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/cue/cue.cpp:232:6:void cue_t::Unload()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/cue/cue.cpp:260:6:void cue_t::Reset()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/cue/cue.cpp:393:6:void cue_t::CommandExec()	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/cue/cue.cpp:635:10:uint16_t cue_t::GetStatus()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/cue/cue.cpp:639:5:int cue_t::SetCommand(uint8_t*)	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/cue/cue.cpp:644:6:void cue_t::PendStatus(uint16_t)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/cue/cue.cpp:649:6:void cue_t::SendStatus(uint16_t)	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/cue/cue.cpp:656:6:void cue_t::SendDataRequest()	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/cue/cue.cpp:663:6:void cue_t::SetRegion(uint8_t)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/cue/cue.cpp:667:6:void cue_t::LBAToMSF(int, msf_t*)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/cue/cue.cpp:673:6:void cue_t::MSFToLBA(int*, uint8_t, uint8_t, uint8_t)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/cue/cue.cpp:677:6:void cue_t::MSFToLBA(int*, msf_t*)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/cue/cue.cpp:681:5:int cue_t::GetTrackByLBA(int, toc_t*)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/cue/cue.cpp:687:6:void cue_t::ReadData()	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/cue/cue.cpp:281:6:void cue_t::Update()	32	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/cue/cue.cpp:702:5:int cue_t::ReadCDDA()	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/cue/cue.cpp:714:6:void cue_t::ReadSubcode(uint16_t*)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/cue/cue.cpp:735:6:void cue_t::CommandError(uint8_t, uint8_t, uint8_t, uint8_t)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/cue/cue.cpp:740:1:cpp)	0	static

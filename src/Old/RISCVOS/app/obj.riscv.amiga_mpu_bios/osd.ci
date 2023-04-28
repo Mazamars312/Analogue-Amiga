@@ -1,0 +1,56 @@
+graph: { title: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp"
+node: { title: "_Z10OsdSetSizei" label: "void OsdSetSize(int)\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp:48:6" }
+node: { title: "_Z10OsdGetSizev" label: "int OsdGetSize()\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp:53:5" }
+node: { title: "_Z11OsdSetTitlePKci" label: "void OsdSetTitle(const char*, int)\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp:143:6" }
+node: { title: "memmove" label: "void* memmove(void*, const void*, size_t)\n/opt/riscv/riscv32-unknown-elf/include/string.h:32:9" shape : ellipse }
+edge: { sourcename: "_Z11OsdSetTitlePKci" targetname: "memmove" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp:181:9" }
+node: { title: "memset" label: "void* __builtin_memset(void*, int, unsigned int)\n<built-in>" shape : ellipse }
+edge: { sourcename: "_Z11OsdSetTitlePKci" targetname: "memset" }
+edge: { sourcename: "_Z11OsdSetTitlePKci" targetname: "memset" }
+node: { title: "_Z11OsdSetArrowi" label: "void OsdSetArrow(int)\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp:197:6" }
+node: { title: "_Z14OsdWriteOffsethPKchhcccii" label: "void OsdWriteOffset(unsigned char, const char*, unsigned char, unsigned char, char, char, char, int, int)\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp:236:6" }
+node: { title: "_Z8OsdWritehPKchhcii" label: "void OsdWrite(unsigned char, const char*, unsigned char, unsigned char, char, int, int)\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp:202:6" }
+edge: { sourcename: "_Z8OsdWritehPKchhcii" targetname: "_Z14OsdWriteOffsethPKchhcccii" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp:204:16" }
+node: { title: "_Z12OsdShiftDownh" label: "void OsdShiftDown(unsigned char)\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp:371:6" }
+node: { title: "_Z13OSD_PrintInfoPKcPiS1_i" label: "void OSD_PrintInfo(const char*, int*, int*, int)\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp:384:6" }
+node: { title: "memset" label: "void* memset(void*, int, size_t)\n/opt/riscv/riscv32-unknown-elf/include/string.h:33:9" shape : ellipse }
+edge: { sourcename: "_Z13OSD_PrintInfoPKcPiS1_i" targetname: "memset" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp:387:8" }
+node: { title: "_Z8OsdClearv" label: "void OsdClear()\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp:453:6" }
+edge: { sourcename: "_Z8OsdClearv" targetname: "memset" }
+node: { title: "_Z9OsdEnableh" label: "void OsdEnable(unsigned char)\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp:460:6" }
+node: { title: "_Z15HPS_spi_osd_cmdh" label: "void HPS_spi_osd_cmd(uint8_t)\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:92:6" shape : ellipse }
+edge: { sourcename: "_Z9OsdEnableh" targetname: "_Z15HPS_spi_osd_cmdh" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp:464:17" }
+node: { title: "_Z10InfoEnableiiii" label: "void InfoEnable(int, int, int, int)\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp:467:6" }
+node: { title: "_Z20HPS_spi_osd_cmd_conth" label: "void HPS_spi_osd_cmd_cont(uint8_t)\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:91:6" shape : ellipse }
+edge: { sourcename: "_Z10InfoEnableiiii" targetname: "_Z20HPS_spi_osd_cmd_conth" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp:470:22" }
+node: { title: "_Z12HPS_fpga_spit" label: "uint16_t HPS_fpga_spi(uint16_t)\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:73:10" shape : ellipse }
+edge: { sourcename: "_Z10InfoEnableiiii" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z10InfoEnableiiii" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z10InfoEnableiiii" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z10InfoEnableiiii" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+node: { title: "_Z14HPS_DisableOsdv" label: "void HPS_DisableOsd()\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:71:6" shape : ellipse }
+edge: { sourcename: "_Z10InfoEnableiiii" targetname: "_Z14HPS_DisableOsdv" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp:475:16" }
+node: { title: "_Z11OsdRotationh" label: "void OsdRotation(uint8_t)\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp:478:6" }
+edge: { sourcename: "_Z11OsdRotationh" targetname: "_Z20HPS_spi_osd_cmd_conth" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp:480:22" }
+edge: { sourcename: "_Z11OsdRotationh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z11OsdRotationh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z11OsdRotationh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z11OsdRotationh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z11OsdRotationh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z11OsdRotationh" targetname: "_Z14HPS_DisableOsdv" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp:486:16" }
+node: { title: "_Z10OsdDisablev" label: "void OsdDisable()\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp:490:6" }
+edge: { sourcename: "_Z10OsdDisablev" targetname: "_Z15HPS_spi_osd_cmdh" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp:493:17" }
+node: { title: "_Z10OsdMenuCtli" label: "void OsdMenuCtl(int)\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp:496:6" }
+edge: { sourcename: "_Z10OsdMenuCtli" targetname: "_Z15HPS_spi_osd_cmdh" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp:500:18" }
+edge: { sourcename: "_Z10OsdMenuCtli" targetname: "_Z15HPS_spi_osd_cmdh" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp:501:18" }
+edge: { sourcename: "_Z10OsdMenuCtli" targetname: "_Z15HPS_spi_osd_cmdh" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp:505:18" }
+node: { title: "_Z14OsdCoreNameSetPKc" label: "void OsdCoreNameSet(const char*)\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp:559:6" }
+node: { title: "strcpy" label: "char* __builtin_strcpy(char*, const char*)\n<built-in>" shape : ellipse }
+edge: { sourcename: "_Z14OsdCoreNameSetPKc" targetname: "strcpy" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp:561:9" }
+node: { title: "_Z14OsdCoreNameGetv" label: "char* OsdCoreNameGet()\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp:564:7" }
+node: { title: "_Z9OsdUpdatev" label: "void OsdUpdate()\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp:569:6" }
+edge: { sourcename: "_Z9OsdUpdatev" targetname: "_Z20HPS_spi_osd_cmd_conth" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp:577:24" }
+node: { title: "_Z13HPS_spi_writePKhmi" label: "void HPS_spi_write(const uint8_t*, uint32_t, int)\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:86:6" shape : ellipse }
+edge: { sourcename: "_Z9OsdUpdatev" targetname: "_Z13HPS_spi_writePKhmi" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp:578:17" }
+edge: { sourcename: "_Z9OsdUpdatev" targetname: "_Z14HPS_DisableOsdv" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/osd/osd.cpp:579:18" }
+}

@@ -1,0 +1,12 @@
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:48:15:unsigned char GetData()	64	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:160:15:unsigned char FindSync(adfTYPE*)	32	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:200:15:unsigned char GetHeader(unsigned char*, unsigned char*)	80	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:329:6:void SendSector(unsigned char*, unsigned char, unsigned char, unsigned char, unsigned char)	32	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:428:6:void SendGap()	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:434:6:void WriteTrack(adfTYPE*)	48	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:484:6:void ReadTrack(adfTYPE*)	80	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:632:6:void UpdateDriveStatus()	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:652:6:void UnsertFloppy(adfTYPE*)	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:666:6:void RemoveDriveStatus()	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:673:6:void HandleFDD(unsigned char, unsigned char)	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:697:6:void InsertFloppy(adfTYPE*, uint32_t, uint32_t)	16	static

@@ -1,0 +1,4 @@
+graph: { title: "../lib/strcat.c"
+node: { title: "strcat" label: "strcat\n../lib/strcat.c:10:7" }
+node: { title: "strncat" label: "strncat\n../lib/strcat.c:21:7" }
+}

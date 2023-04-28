@@ -1,0 +1,4 @@
+graph: { title: "../lib/strlen.c"
+node: { title: "strlen" label: "strlen\n../lib/strlen.c:10:8" }
+node: { title: "strnlen" label: "strnlen\n../lib/strlen.c:25:8" }
+}

@@ -1,0 +1,7 @@
+../lib/malloc.c:129:25:compact_blocks	0	static
+../lib/malloc.c:47:6:malloc_init	0	static
+../lib/malloc.c:190:7:malloc	16	static
+../lib/malloc.c:210:6:free	0	static
+../lib/malloc.c:226:7:calloc	0	static
+../lib/malloc.c:236:8:malloc_largest_free_size	16	static
+../lib/malloc.c:280:8:malloc_total_free	16	static

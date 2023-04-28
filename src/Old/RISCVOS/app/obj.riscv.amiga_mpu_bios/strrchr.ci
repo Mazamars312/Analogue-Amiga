@@ -1,0 +1,4 @@
+graph: { title: "../lib/strrchr.c"
+node: { title: "strrchr" label: "strrchr\n../lib/strrchr.c:10:8" }
+node: { title: "strchr" label: "strchr\n../lib/strrchr.c:26:7" }
+}

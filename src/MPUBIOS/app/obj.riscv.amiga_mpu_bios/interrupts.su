@@ -1,0 +1,5 @@
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/interrupts.cpp:25:17:void _handle_trap()	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/interrupts.cpp:33:6:void EnableInterrupts()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/interrupts.cpp:37:6:void timer1Interrupts_setup(uint32_t)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/interrupts.cpp:40:6:void timer1Interrupts_reset()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/interrupts.cpp:44:6:void DisableInterrupts()	0	static

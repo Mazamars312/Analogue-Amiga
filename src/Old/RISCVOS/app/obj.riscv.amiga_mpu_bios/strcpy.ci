@@ -1,0 +1,6 @@
+graph: { title: "../lib/strcpy.c"
+node: { title: "strcpy" label: "strcpy\n../lib/strcpy.c:10:8" }
+node: { title: "strncpy" label: "strncpy\n../lib/strcpy.c:22:8" }
+node: { title: "memset" label: "__builtin_memset\n<built-in>" shape : ellipse }
+edge: { sourcename: "strncpy" targetname: "memset" }
+}

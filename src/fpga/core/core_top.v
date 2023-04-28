@@ -157,13 +157,13 @@ output  wire            vpll_feed,
 
 ///////////////////////////////////////////////////
 // video, audio output to scaler
-output  reg     [23:0]  video_rgb,
+output  wire     [23:0]  video_rgb,
 output  wire            video_rgb_clock,
 output  wire            video_rgb_clock_90,
-output  reg             video_de,
-output  reg             video_skip,
-output  reg             video_vs,
-output  reg             video_hs,
+output  wire         	video_de,
+output  wire         	video_skip,
+output  wire         	video_vs,
+output  wire         	video_hs,
     
 output  wire            audio_mclk,
 input   wire            audio_adc,
@@ -276,13 +276,13 @@ assign cart_tran_bank3 = 8'hzz;            // these pins are not used, make them
 
 // link port is unused, set to input only to be safe
 // each bit may be bidirectional in some applications
-assign port_tran_so = 1'bz;
+//assign port_tran_so = 1'bz;
 assign port_tran_so_dir = 1'b0;     // SO is output only
-assign port_tran_si = 1'bz;
+//assign port_tran_si = 1'bz;
 assign port_tran_si_dir = 1'b0;     // SI is input only
-assign port_tran_sck = 1'bz;
+//assign port_tran_sck = 1'bz;
 assign port_tran_sck_dir = 1'b0;    // clock direction can change
-assign port_tran_sd = 1'bz;
+//assign port_tran_sd = 1'bz;
 assign port_tran_sd_dir = 1'b0;     // SD is input and not used
 
 // tie off the rest of the pins we are not using
@@ -335,25 +335,21 @@ wire clk_mpu;
 // add your own devices here
 always @(*) begin
     casex(bridge_addr)
-    default: begin
-        // all unmapped addresses are zero
-        bridge_rd_data <= 0;
-    end
-	 32'h10xxxxxx: begin
+	 32'h9Xxxxxxx: begin
         bridge_rd_data <= fpga_bridge_rd_data;
     end
-	 32'h200000xx: begin
+	 32'hA00000xx: begin
         bridge_rd_data <= vga_bridge_rd_data;
     end
-	 32'h8000xxxx: begin
-        bridge_rd_data <= mpu_ram_bridge_rd_data;
-    end
-	 32'h810000xx: begin
+	 32'hf00000xx: begin
         bridge_rd_data <= mpu_reg_bridge_rd_data;
     end
     32'hF8xxxxxx: begin
         bridge_rd_data <= cmd_bridge_rd_data;
     end
+	 default : begin
+		bridge_rd_data <= mpu_ram_bridge_rd_data;
+	 end
     endcase
 end
 
@@ -611,6 +607,7 @@ wire [15:0] joystick_enable;
 	wire        io_strobe;
 	wire        io_wait;
 	wire        io_fpga;
+	wire 			io_osd;
 	wire        io_uio;
 	wire [15:0] io_din, io_dout;
 	wire [15:0] fpga_dout;
@@ -765,6 +762,10 @@ fastchip fastchip
 );
 
 wire reset_mpu_l;
+wire [31:0] CORE_OUTPUT;
+wire [31:0] CORE_INPUT = {28'h0, res_reg};
+wire light_enable = CORE_OUTPUT[0];
+
 substitute_mcu_apf_mister substitute_mcu_apf_mister(
 		// Controls for the MPU
 		.clk_mpu								( clk_mpu ), 							// Clock of the MPU itself
@@ -823,10 +824,13 @@ substitute_mcu_apf_mister substitute_mcu_apf_mister(
 		.datatable_rden         		( datatable_rden ),
 		.datatable_data         		( datatable_data ),
 		.datatable_q            		( datatable_q ),
+		.CORE_OUTPUT						( CORE_OUTPUT ),
+		.CORE_INPUT							( CORE_INPUT ),
 		
 		// Core interactions
 		.IO_UIO       						( io_uio ),
 		.IO_FPGA      						( io_fpga ),
+		.IO_OSD								( io_osd ),
 		.IO_STROBE    						( io_strobe ),
 		.IO_WAIT      						( io_wait ),
 		.IO_DIN       						( io_dout ),
@@ -846,6 +850,9 @@ wire  [1:0] res;
 wire  [1:0] cpu_state;
 wire  [3:0] cpu_cacr;
 wire  [14:0] ldata, rdata;
+
+wire [9:0]  ldata_okk;     // left DAC data  (PWM vol version)
+wire [9:0]  rdata_okk;     // right DAC data (PWM vol version)
 wire ide_c_led;
 minimig minimig
 (
@@ -933,8 +940,8 @@ minimig minimig
 	//audio
 	.ldata        				(ldata            ), // left DAC data
 	.rdata        				(rdata            ), // right DAC data
-//	.ldata_okk    				(ldata_okk        ), // 9bit
-//	.rdata_okk    				(rdata_okk        ), // 9bit
+	.ldata_okk    				(ldata_okk        ), // 9bit
+	.rdata_okk    				(rdata_okk        ), // 9bit
 //
 //	.aud_mix      				(AUDIO_MIX        ),
 
@@ -943,9 +950,16 @@ minimig minimig
 	.cachecfg     				(cachecfg         ), // Cache config
 	.memcfg       				(memcfg           ), // memory config
 	.bootrom      				(bootrom          ), // bootrom mode. Needed here to tell tg68k to also mirror the 256k Kickstart 
+	
+	.rxd							(port_tran_si),         // rs232 receive
+	.txd							(port_tran_so),         // rs232 send
+	.cts							(),         // rs232 clear to send
+	.rts							(),         // rs232 request to send
+	.dtr							(),         // rs232 Data Terminal Ready
+	.dsr							(),         // rs232 Data Set Ready
 
 	.ide_fast     				(ide_fast         ),
-	.ide_ext_irq  				(ide_f_irq        		),
+	.ide_ext_irq  				(ide_f_irq        ),
 	.ide_ena      				(ide_ena          ),
 	.ide_req      				(ide_c_req        ),
 	.ide_address  				(ide_addr         ),
@@ -1083,7 +1097,7 @@ wire [7:0] y_offset_s;
 reg [31:0] vga_bridge_rd_data_reg;
 
 always @(posedge clk_74a) begin
-	if (bridge_wr && bridge_addr[31:8] == 24'h200000) begin
+	if (bridge_wr && bridge_addr[31:8] == 24'hA00000) begin
 		case (bridge_addr[7:0])
 			8'h00 : begin
 				x_offset <= bridge_wr_data;
@@ -1121,21 +1135,25 @@ reg [9:0] y_counter_vga;
 reg 		 video_de_reg;
 reg 		 lace_reg;
 reg 		 field1_reg;
+reg [23:0] video_rgb_reg;
+reg 			video_hs_i_reg;
+reg 			video_vs_i_reg;
+reg 			video_de_reg_i;
+assign video_skip = 0;
 
 always @(posedge video_rgb_clock) begin
-	video_rgb 	<= 'b0;
-	video_de 	<= 'b0;
-	video_skip 	<= 'b0;
-	video_vs 	<= 'b0;
+	video_rgb_reg 	<= 'b0;
+	video_de_reg 	<= 'b0;
+	video_vs_i_reg 	<= 'b0;
 	hs_delay0 	<= 'b0;
 	hblank_i_reg <= hblank_i;
 	hs_delay1 <= hs_delay0;
 	hs_delay2 <= hs_delay1;
 	hs_delay3 <= hs_delay2;
-	video_hs <= hs_delay3;
-	video_de_reg <= video_de;
-	if (video_de) x_counter_vga <= x_counter_vga + 1;
-	if (video_de && ~video_de_reg) y_counter_vga <= y_counter_vga + 1;
+	video_hs_i_reg <= hs_delay3;
+	video_de_reg_i <= video_de_reg;
+	if (video_de_reg) x_counter_vga <= x_counter_vga + 1;
+	if (video_de_reg && ~video_de_reg_i) y_counter_vga <= y_counter_vga + 1;
 	
 	hs_reg <= hs;
 	
@@ -1154,42 +1172,140 @@ always @(posedge video_rgb_clock) begin
 		lace_reg <= lace;
 		y_offset_vga <= y_offset_s;
 		y_counter_vga <= 0;
-		video_vs 	<= 'b1;
-		video_rgb 	<= {21'd0, 1'b0, field1_reg && lace_reg, lace_reg, ~field1_reg && lace_reg}; // This is the interlace part for the core.
+		video_vs_i_reg 	<= 'b1;
+		video_rgb_reg 	<= {21'd0, 1'b0, field1_reg && lace_reg, lace_reg, ~field1_reg && lace_reg}; // This is the interlace part for the core.
 	end
 	
 	
 	
 	else if (~hblank_i && ~vblank_i) begin
-		if ((y_counter_vga <= 15 && y_counter_vga >= 5) && (x_counter_vga <= 15 && x_counter_vga >= 5) && LED) 
-			video_rgb 	<= {8'h0, 8'hF0, 8'h0};
-		else if ((y_counter_vga <= 15 && y_counter_vga >= 5) && (x_counter_vga <= 35 && x_counter_vga >= 20) && |{ide_c_led, ide_f_led}) 
-			video_rgb 	<= {8'hF0, 8'h0, 8'h0};
-		else video_rgb 	<= {r, g, b};
+		if ((y_counter_vga <= 15 && y_counter_vga >= 5) && (x_counter_vga <= 15 && x_counter_vga >= 5) && LED && ~light_enable) 
+			video_rgb_reg 	<= {8'h0, 8'hF0, 8'h0};
+		else if ((y_counter_vga <= 15 && y_counter_vga >= 5) && (x_counter_vga <= 30 && x_counter_vga >= 20) && |{ide_c_led, ide_f_led} && ~light_enable) 
+			video_rgb_reg 	<= {8'hF0, 8'h0, 8'h0};
+		else video_rgb_reg 	<= {r, g, b};
 		
-		if (y_offset_vga == 0 && x_offset_vga == 0 ) video_de 	<= 'b1;
+		if (y_offset_vga == 0 && x_offset_vga == 0 ) video_de_reg 	<= 'b1;
 		if (x_offset_vga != 0) x_offset_vga <= x_offset_vga - 1;
 	end
 	
 	else if (hblank_i && ~hblank_i_reg) begin
 		case (res_reg)
-			3'd7		: video_rgb 	<= {10'd0, 3'h7, 13'd0};
-			3'd6		: video_rgb 	<= {10'd0, 3'h6, 13'd0};
-			3'd5		: video_rgb 	<= {10'd0, 3'h5, 13'd0};
-			3'd4		: video_rgb 	<= {10'd0, 3'h4, 13'd0};
-			3'd3		: video_rgb 	<= {10'd0, 3'h3, 13'd0};
-			3'd2		: video_rgb 	<= {10'd0, 3'h2, 13'd0};
-			3'd1		: video_rgb 	<= {10'd0, 3'h1, 13'd0};
-			default : video_rgb 	<= 24'h0;
+			3'd7		: video_rgb_reg 	<= {10'd0, 3'h7, 13'd0};
+			3'd6		: video_rgb_reg 	<= {10'd0, 3'h6, 13'd0};
+			3'd5		: video_rgb_reg 	<= {10'd0, 3'h5, 13'd0};
+			3'd4		: video_rgb_reg 	<= {10'd0, 3'h4, 13'd0};
+			3'd3		: video_rgb_reg 	<= {10'd0, 3'h3, 13'd0};
+			3'd2		: video_rgb_reg 	<= {10'd0, 3'h2, 13'd0};
+			3'd1		: video_rgb_reg 	<= {10'd0, 3'h1, 13'd0};
+			default : video_rgb_reg 	<= 24'h0;
 		endcase
 	end
 	
 end
 
+osd osd
+(
+	.clk_sys		(clk_sys),
+
+	.io_osd		(io_osd),
+	.io_strobe	(io_strobe),
+	.io_din		(io_din),
+
+	.clk_video	(video_rgb_clock),
+	.din			(video_rgb_reg),
+	.hs_in		(video_hs_i_reg),
+	.vs_in		(video_vs_i_reg),
+	.de_in		(video_de_reg),
+
+	.dout			(video_rgb),
+	.hs_out		(video_hs),
+	.vs_out		(video_vs),
+	.de_out		(video_de)
+);
+
+wire flt_en    = CORE_OUTPUT[3];
+wire aud_1200  = CORE_OUTPUT[2];
+wire paula_pwm = CORE_OUTPUT[1];
+
+wire [15:0] paula_smp_l = (paula_pwm ? {ldata_okk[8:0], 7'b0} : {ldata[14:0], 1'b0});
+wire [15:0] paula_smp_r = (paula_pwm ? {rdata_okk[8:0], 7'b0} : {rdata[14:0], 1'b0});
+
+// LPF 4400Hz, 1st order, 6db/oct
+wire [15:0] lpf4400_l, lpf4400_r;
+IIR_filter #(0) lpf4400
+(
+	.clk(clk_sys),
+	.reset(~cpu_rst | ~cpu_nrst_out ),
+
+	.ce(clk7_en | clk7n_en),
+	.sample_ce(1),
+
+	.cx (40'd4304835800),
+	.cx0(1),
+	.cy0(-2088941),
+	
+	.input_l(paula_smp_l),
+	.input_r(paula_smp_r),
+	.output_l(lpf4400_l),
+	.output_r(lpf4400_r)
+);
+
+wire [15:0] audm_l = aud_1200 ? paula_smp_l : lpf4400_l;
+wire [15:0] audm_r = aud_1200 ? paula_smp_r : lpf4400_r;
+
+// LPF 3000Hz 1st + 3400Hz 1st
+wire [15:0] lpf3275_l, lpf3275_r;
+IIR_filter #(0) lpf3275
+(
+	.clk(clk_sys),
+	.reset(~cpu_rst | ~cpu_nrst_out ),
+
+	.ce(clk7_en | clk7n_en),
+	.sample_ce(1),
+
+	.cx (40'd8536629),
+	.cx0(2),
+	.cx1(1),
+	.cy0(-4182432),
+	.cy1(2085297),
+
+	.input_l(audm_l),
+	.input_r(audm_r),
+	.output_l(lpf3275_l),
+	.output_r(lpf3275_r)
+);
+
+reg [15:0] aud_l, aud_r;
+always @(posedge audio_mclk) begin
+	reg [15:0] old_l0, old_l1, old_r0, old_r1;
+
+	old_l0 <= flt_en ? lpf3275_l : audm_l;
+	old_l1 <= old_l0;
+	if(old_l0 == old_l1) aud_l <= old_l1;
+
+	old_r0 <= flt_en ? lpf3275_r : audm_r;
+	old_r1 <= old_r0;
+	if(old_r0 == old_r1) aud_r <= old_r1;
+end
+
+reg [15:0] out_l, out_r;
+always @(posedge audio_mclk) begin
+	reg [16:0] tmp_l, tmp_r;
+
+	tmp_l <= {aud_l[15],aud_l};
+	tmp_r <= {aud_r[15],aud_r};
+
+	// clamp the output
+	out_l <= (^tmp_l[16:15]) ? {tmp_l[16], {15{tmp_l[15]}}} : tmp_l[15:0];
+	out_r <= (^tmp_r[16:15]) ? {tmp_r[16], {15{tmp_r[15]}}} : tmp_r[15:0];
+end
+
+
 i2s i2s (
 .clk_74a			(clk_74a),
-.left_audio		({ldata, 1'b0}),
-.right_audio	({rdata, 1'b0}),
+.left_audio		(out_l),
+.right_audio	(out_r),
 
 .audio_mclk		(audio_mclk),
 .audio_dac		(audio_dac),

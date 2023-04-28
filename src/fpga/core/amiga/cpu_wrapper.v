@@ -312,7 +312,7 @@ always @(*) begin
 			// Zorro III RAM 128MB/256MB
 			case (chip_addr[6:1])
 				6'b000000: autocfg_data = 4'b1010;	// Zorro-III card, add mem, no ROM
-				6'b000001: autocfg_data = autocfg_card[1] ? 4'b0000 : 4'b0101;	// 16MB or 32MB, extended
+				6'b000001: autocfg_data = autocfg_card[1] ? 4'b0000 : 4'b0001;	// 16MB or 32MB, extended
 				6'b000010: autocfg_data = 4'b1110;	// ProductID=0x10 (only setting upper nibble)
 				6'b000100: autocfg_data = 4'b0000;	// Memory card, not silenceable, Extended size, reserved.
 				6'b000101: autocfg_data = 4'b1111;	// 0000 - logical size matches physical size TODO change this to 0001, so it is autosized by the OS, WHEN it will be 24MB.

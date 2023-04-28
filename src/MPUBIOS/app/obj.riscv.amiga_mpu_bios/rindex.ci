@@ -1,0 +1,3 @@
+graph: { title: "../lib/rindex.c"
+node: { title: "rindex" label: "rindex\n../lib/rindex.c:10:7" }
+}

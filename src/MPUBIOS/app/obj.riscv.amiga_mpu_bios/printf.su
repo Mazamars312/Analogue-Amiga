@@ -1,0 +1,10 @@
+../lib/printf.c:290:13:outnum	112	static
+../lib/printf.c:62:6:printf_register	0	static
+../lib/printf.c:176:5:puts	16	static
+../lib/printf.c:189:5:putchar	16	static
+../lib/printf.c:380:5:vbuf_printf	128	static
+../lib/printf.c:36:5:printf	80	static
+../lib/printf.c:70:5:vsprintf	32	static
+../lib/printf.c:93:5:vsnprintf	32	static
+../lib/printf.c:116:5:sprintf	80	static
+../lib/printf.c:144:5:snprintf	80	static

@@ -2,16 +2,7 @@
   "data": {
     "magic": "APF_VER_1",
     "data_slots": [
-      {
-        "name": "BIOS",
-        "id": "210",
-        "required": true,
-		"deferload": true,
-        "parameters": 9,
-		"size_maximum": 1048576,
-        "filename": "kickstart.rom",
-        "address": "0x00f00000"
-      },
+      
 	  {
         "name": "MPU Bios",
         "id": "200",
@@ -21,17 +12,28 @@
         "extensions": [
 		"bin"
 		],
-        "size_exact": 0,
-        "size_maximum": 65536,
-        "address": "0x80000000"
-      },	  
+        "address": "0x00000000"
+      },	
+		{
+        "name": "BIOS",
+        "id": "210",
+        "required": true,
+		"deferload": true,
+        "parameters": 9,
+		"size_maximum": 1048576,
+        "filename": "MegaAGS-Kickstart.rom",
+        "address": "0x90f00000"
+      },
 	  {
         "name": "harddrive - Fast 1",
         "id": "310",
         "required": false,
 		"deferload": true,
-        "parameters": 0,
-        "filename": "fasthd1.img"
+        "parameters": 1,
+        "extensions": [
+		"hdf"
+		],
+        "filename": "MegaAGS-Pocket.hdf"
       },
 	  {
         "name": "harddrive - Fast 2",
@@ -39,7 +41,10 @@
         "required": false,
 		"deferload": true,
         "parameters": 0,
-        "filename": "fasthd2.img"
+        "extensions": [
+		"hdf"
+		],
+        "filename": "HDD-2.hdf"
       },	  
 	  {
         "name": "harddrive - Slow 1",
@@ -47,7 +52,10 @@
         "required": false,
 		"deferload": true,
         "parameters": 0,
-        "filename": "slowhd1.img"
+        "extensions": [
+		"hdf"
+		],
+        "filename": "HDD-3.hdf"
       },
 	  {
         "name": "harddrive - Slow 2",
@@ -55,59 +63,62 @@
         "required": false,
 		"deferload": true,
         "parameters": 0,
-        "filename": "slowhd2.img"
+        "extensions": [
+		"hdf"
+		],
+        "filename": "HDD-4.hdf"
       },
 	  {
         "name": "Floppy drive 0",
         "id": "320",
         "required": false,
 		"deferload": true,
-        "parameters": 9,
+        "parameters": 1,
         "extensions": [
 		"adf"
 		],
         "size_exact": 0,
         "size_maximum": 1572864,
-        "address": "0x80000000"
+        "address": "0x00000000"
       },
 	  {
         "name": "Floppy drive 1",
         "id": "321",
         "required": false,
 		"deferload": true,
-        "parameters": 9,
+        "parameters": 1,
         "extensions": [
 		"adf"
 		],
         "size_exact": 0,
         "size_maximum": 1572864,
-        "address": "0x80000000"
+        "address": "0x00000000"
       },
 	  {
         "name": "Floppy drive 2",
         "id": "322",
         "required": false,
 		"deferload": true,
-        "parameters": 9,
+        "parameters": 1,
         "extensions": [
 		"adf"
 		],
         "size_exact": 0,
         "size_maximum": 1572864,
-        "address": "0x80000000"
+        "address": "0x00000000"
       },
 	  {
         "name": "Floppy drive 3",
         "id": "323",
         "required": false,
 		"deferload": true,
-        "parameters": 9,
+        "parameters": 1,
         "extensions": [
 		"adf"
 		],
         "size_exact": 0,
         "size_maximum": 1572864,
-        "address": "0x80000000"
+        "address": "0x00000000"
       }
     ]
   }

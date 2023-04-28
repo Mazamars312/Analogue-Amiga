@@ -1,0 +1,3 @@
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/uart/uart.cpp:27:5:int riscputchar(int)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/uart/uart.cpp:36:5:int riscputc(char)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/uart/uart.cpp:60:6:void SetUART()	0	static

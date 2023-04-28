@@ -28,8 +28,8 @@
 // You can configure the cycle delay by setting WRITE_MEM_CLOCK_DELAY
 module data_loader #(
     // Upper 4 bits of address
-    parameter ADDRESS_MASK_UPPER_4 = 0,
-    parameter ADDRESS_SIZE = 28,
+    parameter ADDRESS_MASK_UPPER_4 = 9,
+    parameter ADDRESS_SIZE = 24,
 
     // Number of clk_memory cycles to delay each write output
     // Min 4. Component will assert this value is within the valid range
@@ -42,7 +42,7 @@ module data_loader #(
 
     // Word size in number of bytes. Can either be 1 (output 8 bits), or 2 (output 16 bits)
     // Component will assert this value is within the valid range
-    parameter OUTPUT_WORD_SIZE = 1
+    parameter OUTPUT_WORD_SIZE = 2
 ) (
     input wire clk_74a,
     input wire clk_memory,

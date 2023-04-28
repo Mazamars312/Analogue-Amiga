@@ -1,0 +1,21 @@
+graph: { title: "../lib/malloc.c"
+node: { title: "../lib/malloc.c:compact_blocks" label: "compact_blocks\n../lib/malloc.c:129:25" }
+node: { title: "malloc_init" label: "malloc_init\n../lib/malloc.c:47:6" }
+node: { title: "malloc" label: "malloc\n../lib/malloc.c:190:7" }
+node: { title: "__indirect_call" label: "Indirect Call Placeholder" shape : ellipse }
+edge: { sourcename: "malloc" targetname: "__indirect_call" label: "../lib/malloc.c:197:13" }
+edge: { sourcename: "malloc" targetname: "../lib/malloc.c:compact_blocks" label: "../lib/malloc.c:92:19" }
+edge: { sourcename: "malloc" targetname: "__indirect_call" label: "../lib/malloc.c:203:9" }
+node: { title: "free" label: "free\n../lib/malloc.c:210:6" }
+node: { title: "calloc" label: "calloc\n../lib/malloc.c:226:7" }
+node: { title: "calloc" label: "__builtin_calloc\n<built-in>" shape : ellipse }
+edge: { sourcename: "calloc" targetname: "calloc" label: "../lib/malloc.c:228:15" }
+node: { title: "malloc_largest_free_size" label: "malloc_largest_free_size\n../lib/malloc.c:236:8" }
+edge: { sourcename: "malloc_largest_free_size" targetname: "__indirect_call" label: "../lib/malloc.c:244:13" }
+edge: { sourcename: "malloc_largest_free_size" targetname: "../lib/malloc.c:compact_blocks" label: "../lib/malloc.c:249:5" }
+edge: { sourcename: "malloc_largest_free_size" targetname: "__indirect_call" label: "../lib/malloc.c:273:9" }
+node: { title: "malloc_total_free" label: "malloc_total_free\n../lib/malloc.c:280:8" }
+edge: { sourcename: "malloc_total_free" targetname: "__indirect_call" label: "../lib/malloc.c:288:13" }
+edge: { sourcename: "malloc_total_free" targetname: "../lib/malloc.c:compact_blocks" label: "../lib/malloc.c:293:5" }
+edge: { sourcename: "malloc_total_free" targetname: "__indirect_call" label: "../lib/malloc.c:316:9" }
+}

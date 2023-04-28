@@ -1,0 +1,19 @@
+graph: { title: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp"
+node: { title: "_Z8GetTimerv" label: "unsigned int GetTimer()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:29:14" }
+node: { title: "_Z10CheckTimerj" label: "unsigned int CheckTimer(unsigned int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:36:14" }
+node: { title: "_Z19Set_interrupt_Timerj" label: "void Set_interrupt_Timer(unsigned int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:43:6" }
+node: { title: "_Z10ResetTimerv" label: "void ResetTimer()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:49:6" }
+node: { title: "_Z8SetTimerv" label: "void SetTimer()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:60:6" }
+node: { title: "_Z10riscusleepi" label: "void riscusleep(int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:65:6" }
+node: { title: "_Z9GetTimer2v" label: "unsigned int GetTimer2()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:74:14" }
+node: { title: "_Z14GetTimer2_fastv" label: "unsigned int GetTimer2_fast()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:80:14" }
+node: { title: "_Z13RISCGetTimer1mi" label: "uint32_t RISCGetTimer1(uint32_t, int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:86:10" }
+node: { title: "_Z15RISCCheckTimer1m" label: "uint32_t RISCCheckTimer1(uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:96:10" }
+node: { title: "_Z11CheckTimer1j" label: "unsigned int CheckTimer1(unsigned int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:103:14" }
+node: { title: "_Z13RISCGetTimer2mi" label: "uint32_t RISCGetTimer2(uint32_t, int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:110:10" }
+node: { title: "_Z15RISCCheckTimer2m" label: "uint32_t RISCCheckTimer2(uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:119:10" }
+node: { title: "_Z11CheckTimer2j" label: "unsigned int CheckTimer2(unsigned int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:128:14" }
+node: { title: "_Z21reset_interrupt_Timerv" label: "void reset_interrupt_Timer()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:135:6" }
+node: { title: "_Z11ResetTimer1v" label: "void ResetTimer1()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:146:6" }
+node: { title: "_Z11ResetTimer2v" label: "void ResetTimer2()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:157:6" }
+}

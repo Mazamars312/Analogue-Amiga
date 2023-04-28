@@ -1,0 +1,12 @@
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/arch/riscv/timer.cpp:28:14:unsigned int GetTimer()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/arch/riscv/timer.cpp:35:14:unsigned int CheckTimer(unsigned int)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/arch/riscv/timer.cpp:42:6:void Set_interrupt_Timer(unsigned int)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/arch/riscv/timer.cpp:49:6:void reset_interrupt_Timer()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/arch/riscv/timer.cpp:61:6:void SetTimer()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/arch/riscv/timer.cpp:66:6:void riscusleep(int)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/arch/riscv/timer.cpp:75:14:unsigned int GetTimer2()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/arch/riscv/timer.cpp:81:14:unsigned int GetTimer2_fast()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/arch/riscv/timer.cpp:87:10:uint32_t RISCGetTimer(uint32_t)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/arch/riscv/timer.cpp:95:10:uint32_t RISCCheckTimer(uint32_t)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/arch/riscv/timer.cpp:100:14:unsigned int CheckTimer2(unsigned int)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/arch/riscv/timer.cpp:107:6:void ResetTimer2()	0	static

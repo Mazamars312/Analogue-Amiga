@@ -1,0 +1,17 @@
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:29:14:unsigned int GetTimer()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:36:14:unsigned int CheckTimer(unsigned int)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:43:6:void Set_interrupt_Timer(unsigned int)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:49:6:void ResetTimer()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:60:6:void SetTimer()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:65:6:void riscusleep(int)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:74:14:unsigned int GetTimer2()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:80:14:unsigned int GetTimer2_fast()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:86:10:uint32_t RISCGetTimer1(uint32_t, int)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:96:10:uint32_t RISCCheckTimer1(uint32_t)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:103:14:unsigned int CheckTimer1(unsigned int)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:110:10:uint32_t RISCGetTimer2(uint32_t, int)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:119:10:uint32_t RISCCheckTimer2(uint32_t)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:128:14:unsigned int CheckTimer2(unsigned int)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:135:6:void reset_interrupt_Timer()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:146:6:void ResetTimer1()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.cpp:157:6:void ResetTimer2()	0	static

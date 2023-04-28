@@ -1,0 +1,4 @@
+main.cpp:39:6:void init()	16	static
+main.cpp:57:6:void mainloop()	32	static
+main.cpp:111:5:int main()	16	static
+main.cpp:121:6:void irqCallback()	0	static

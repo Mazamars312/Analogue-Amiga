@@ -7,7 +7,7 @@
         "id": 121,
         "type": "check",
         "enabled": true,
-        "address": "0x81000000",
+        "address": "0xf0000000",
         "defaultval": 0,
         "value": 1,
 		"value_off" : 0,
@@ -19,7 +19,7 @@
         "type": "list",
         "enabled": true,
         "persist": true,
-        "address": "0x81000004",
+        "address": "0xf0000004",
         "defaultval": 0,
         "mask": "0xFFFFfff0",
         "options": [
@@ -63,7 +63,7 @@
         "type": "list",
         "enabled": true,
         "persist": true,
-        "address": "0x81000014",
+        "address": "0xf0000014",
         "defaultval": "0x80000000",
         "mask": "0x0FFFFFFF",
         "options": [
@@ -100,7 +100,7 @@
 		"defaultval": "10",
         "enabled": true,
         "persist": true,
-        "address": "0x81000014",
+        "address": "0xf0000014",
         "mask": "0xFFFFFF00",
 		"graphical": {
 			"signed": false,
@@ -118,7 +118,7 @@
 		"enabled": true,
 		"defaultval": "39",
 		"persist": true,
-		"address": "0x20000000",
+		"address": "0xA0000000",
 		"mask": "0x00000000",
 		"graphical": {
 			"signed": false,
@@ -135,7 +135,7 @@
 		"enabled": true,
 		"persist": true,
 		"defaultval": "40",
-		"address": "0x20000004",
+		"address": "0xA0000004",
 		"mask": "0x00000000",
 		"graphical": {
 			"signed": false,
@@ -151,7 +151,7 @@
         "type": "list",
         "enabled": true,
         "persist": true,
-        "address": "0x81000008",
+        "address": "0xf0000008",
         "defaultval": 0,
         "mask": "0xFFFFFFEC",
         "options": [
@@ -195,13 +195,13 @@
         "type": "list",
         "enabled": true,
         "persist": true,
-        "address": "0x8100000c",
-        "defaultval": 0,
+        "address": "0xf000000c",
+        "defaultval": 3,
         "mask": "0xFFFFfff8",
         "options": [
 		{
 			"value": "0x0000",
-			"name": "68K CPU"
+			"name": "68000K CPU"
 		},
 		{
 			"value": "0x0002",
@@ -223,7 +223,7 @@
         "type": "list",
         "enabled": true,
         "persist": true,
-        "address": "0x81000010",
+        "address": "0xf0000010",
         "defaultval": 0,
         "mask": "0xFFFFfffc",
         "options": [
@@ -251,7 +251,7 @@
         "type": "list",
         "enabled": true,
         "persist": true,
-        "address": "0x81000010",
+        "address": "0xf0000010",
         "defaultval": 0,
         "mask": "0xFFFFfff3",
         "options": [
@@ -279,7 +279,7 @@
         "type": "list",
         "enabled": true,
         "persist": true,
-        "address": "0x81000010",
+        "address": "0xf0000010",
         "defaultval": 0,
         "mask": "0xFFFFffcf",
         "options": [
@@ -290,14 +290,6 @@
 			{
 				"value": "0x0010",
 				"name": "2Mbytes/32mbytes"
-			},
-			{
-				"value": "0x0020",
-				"name": "4Mbytes/none"
-			},
-			{
-				"value": "0x0030",
-				"name": "8Mbytes/none"
 			}
         ]
       }

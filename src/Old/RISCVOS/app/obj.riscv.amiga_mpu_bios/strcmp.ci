@@ -1,0 +1,11 @@
+graph: { title: "../lib/strcmp.c"
+node: { title: "strcmp" label: "strcmp\n../lib/strcmp.c:12:5" }
+node: { title: "strncmp" label: "strncmp\n../lib/strcmp.c:29:5" }
+node: { title: "strcasecmp" label: "strcasecmp\n../lib/strcmp.c:48:5" }
+node: { title: "tolower" label: "tolower\n../lib/_string.h:36:5" shape : ellipse }
+edge: { sourcename: "strcasecmp" targetname: "tolower" label: "../lib/strcmp.c:50:11" }
+edge: { sourcename: "strcasecmp" targetname: "tolower" label: "../lib/strcmp.c:50:27" }
+node: { title: "strncasecmp" label: "strncasecmp\n../lib/strcmp.c:64:5" }
+edge: { sourcename: "strncasecmp" targetname: "tolower" label: "../lib/strcmp.c:71:12" }
+edge: { sourcename: "strncasecmp" targetname: "tolower" label: "../lib/strcmp.c:71:28" }
+}

@@ -1,0 +1,40 @@
+graph: { title: "../lib/printf.c"
+node: { title: "../lib/printf.c:outnum" label: "outnum\n../lib/printf.c:290:13" }
+node: { title: "strlen" label: "strlen\n../lib/_string.h:18:8" shape : ellipse }
+edge: { sourcename: "../lib/printf.c:outnum" targetname: "strlen" label: "../lib/printf.c:337:16" }
+node: { title: "__indirect_call" label: "Indirect Call Placeholder" shape : ellipse }
+edge: { sourcename: "../lib/printf.c:outnum" targetname: "__indirect_call" label: "../lib/printf.c:228:9" }
+edge: { sourcename: "../lib/printf.c:outnum" targetname: "__indirect_call" label: "../lib/printf.c:228:9" }
+edge: { sourcename: "../lib/printf.c:outnum" targetname: "__indirect_call" label: "../lib/printf.c:228:9" }
+node: { title: "printf_register" label: "printf_register\n../lib/printf.c:62:6" }
+node: { title: "puts" label: "puts\n../lib/printf.c:176:5" }
+edge: { sourcename: "puts" targetname: "__indirect_call" label: "../lib/printf.c:182:9" }
+edge: { sourcename: "puts" targetname: "__indirect_call" label: "../lib/printf.c:184:12" }
+node: { title: "putchar" label: "putchar\n../lib/printf.c:189:5" }
+edge: { sourcename: "putchar" targetname: "__indirect_call" label: "../lib/printf.c:194:5" }
+node: { title: "vbuf_printf" label: "vbuf_printf\n../lib/printf.c:380:5" }
+edge: { sourcename: "vbuf_printf" targetname: "__indirect_call" label: "../lib/printf.c:228:9" }
+edge: { sourcename: "vbuf_printf" targetname: "__indirect_call" label: "../lib/printf.c:228:9" }
+edge: { sourcename: "vbuf_printf" targetname: "../lib/printf.c:outnum" label: "../lib/printf.c:453:21" }
+edge: { sourcename: "vbuf_printf" targetname: "../lib/printf.c:outnum" label: "../lib/printf.c:457:21" }
+edge: { sourcename: "vbuf_printf" targetname: "../lib/printf.c:outnum" label: "../lib/printf.c:467:21" }
+edge: { sourcename: "vbuf_printf" targetname: "../lib/printf.c:outnum" label: "../lib/printf.c:472:21" }
+edge: { sourcename: "vbuf_printf" targetname: "strlen" label: "../lib/printf.c:267:16" }
+edge: { sourcename: "vbuf_printf" targetname: "__indirect_call" label: "../lib/printf.c:228:9" }
+edge: { sourcename: "vbuf_printf" targetname: "__indirect_call" label: "../lib/printf.c:228:9" }
+edge: { sourcename: "vbuf_printf" targetname: "strlen" label: "../lib/printf.c:277:16" }
+edge: { sourcename: "vbuf_printf" targetname: "__indirect_call" label: "../lib/printf.c:228:9" }
+edge: { sourcename: "vbuf_printf" targetname: "__indirect_call" label: "../lib/printf.c:228:9" }
+edge: { sourcename: "vbuf_printf" targetname: "__indirect_call" label: "../lib/printf.c:228:9" }
+edge: { sourcename: "vbuf_printf" targetname: "strlen" label: "../lib/printf.c:277:16" }
+node: { title: "printf" label: "printf\n../lib/printf.c:36:5" }
+edge: { sourcename: "printf" targetname: "vbuf_printf" label: "../lib/printf.c:52:15" }
+node: { title: "vsprintf" label: "vsprintf\n../lib/printf.c:70:5" }
+edge: { sourcename: "vsprintf" targetname: "vbuf_printf" label: "../lib/printf.c:83:5" }
+node: { title: "vsnprintf" label: "vsnprintf\n../lib/printf.c:93:5" }
+edge: { sourcename: "vsnprintf" targetname: "vbuf_printf" label: "../lib/printf.c:106:5" }
+node: { title: "sprintf" label: "sprintf\n../lib/printf.c:116:5" }
+edge: { sourcename: "sprintf" targetname: "vbuf_printf" label: "../lib/printf.c:132:5" }
+node: { title: "snprintf" label: "snprintf\n../lib/printf.c:144:5" }
+edge: { sourcename: "snprintf" targetname: "vbuf_printf" label: "../lib/printf.c:160:5" }
+}

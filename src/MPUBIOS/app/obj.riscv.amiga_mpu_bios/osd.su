@@ -1,0 +1,10 @@
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.cpp:59:6:void OsdSetSize(int)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.cpp:64:5:int OsdGetSize()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.cpp:93:6:void OsdSetArrow(int)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.cpp:127:6:void OsdWriteOffset(unsigned char, const char*, unsigned char, unsigned char, char, char, char, int, int)	80	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.cpp:100:6:void OsdWrite(const char*, unsigned char, unsigned char, char, int, int)	32	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.cpp:265:6:void OsdClear()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.cpp:275:6:void OsdEnable(unsigned char)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.cpp:282:6:void InfoEnable(int, int, int, int, int, int)	32	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.cpp:297:6:void OsdDisable()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.cpp:304:6:void OsdUpdate(int)	16	static

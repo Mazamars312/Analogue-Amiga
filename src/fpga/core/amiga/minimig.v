@@ -169,7 +169,7 @@ module minimig
 	//sram pins
 	output [15:0] ram_data,    // sram data bus
 	input  [15:0] ramdata_in,  // sram data bus in
-	output [22:1] ram_address, // sram address bus
+	output [23:1] ram_address, // sram address bus
 	output 	     _ram_bhe,    // sram upper byte select
 	output 	     _ram_ble,    // sram lower byte select
 	output 	     _ram_we,     // sram write enable

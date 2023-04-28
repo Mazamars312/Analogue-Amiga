@@ -1,0 +1,143 @@
+graph: { title: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp"
+node: { title: "_Z7GetDatav" label: "unsigned char GetData()\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:48:15" }
+node: { title: "_Z14HPS_EnableFpgav" label: "void HPS_EnableFpga()\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:68:6" shape : ellipse }
+edge: { sourcename: "_Z7GetDatav" targetname: "_Z14HPS_EnableFpgav" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:60:17" }
+node: { title: "_Z12HPS_fpga_spit" label: "uint16_t HPS_fpga_spi(uint16_t)\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:73:10" shape : ellipse }
+edge: { sourcename: "_Z7GetDatav" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z7GetDatav" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z7GetDatav" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z7GetDatav" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z7GetDatav" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z7GetDatav" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z7GetDatav" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z7GetDatav" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z7GetDatav" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z7GetDatav" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z7GetDatav" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+node: { title: "_Z15HPS_DisableFpgav" label: "void HPS_DisableFpga()\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:69:6" shape : ellipse }
+edge: { sourcename: "_Z7GetDatav" targetname: "_Z15HPS_DisableFpgav" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:143:19" }
+edge: { sourcename: "_Z7GetDatav" targetname: "_Z15HPS_DisableFpgav" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:152:18" }
+edge: { sourcename: "_Z7GetDatav" targetname: "_Z15HPS_DisableFpgav" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:154:17" }
+node: { title: "_Z8FindSyncP7adfTYPE" label: "unsigned char FindSync(adfTYPE*)\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:160:15" }
+edge: { sourcename: "_Z8FindSyncP7adfTYPE" targetname: "_Z14HPS_EnableFpgav" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:169:17" }
+edge: { sourcename: "_Z8FindSyncP7adfTYPE" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z8FindSyncP7adfTYPE" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z8FindSyncP7adfTYPE" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z8FindSyncP7adfTYPE" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z8FindSyncP7adfTYPE" targetname: "_Z15HPS_DisableFpgav" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:190:20" }
+edge: { sourcename: "_Z8FindSyncP7adfTYPE" targetname: "_Z15HPS_DisableFpgav" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:194:18" }
+edge: { sourcename: "_Z8FindSyncP7adfTYPE" targetname: "_Z15HPS_DisableFpgav" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:196:17" }
+node: { title: "_Z9GetHeaderPhS_" label: "unsigned char GetHeader(unsigned char*, unsigned char*)\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:200:15" }
+edge: { sourcename: "_Z9GetHeaderPhS_" targetname: "_Z14HPS_EnableFpgav" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:211:17" }
+edge: { sourcename: "_Z9GetHeaderPhS_" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z9GetHeaderPhS_" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z9GetHeaderPhS_" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z9GetHeaderPhS_" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+node: { title: "printf_" label: ")\n../lib/printf.h:68:5" shape : ellipse }
+edge: { sourcename: "_Z9GetHeaderPhS_" targetname: "printf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:224:11" }
+edge: { sourcename: "_Z9GetHeaderPhS_" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z9GetHeaderPhS_" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z9GetHeaderPhS_" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z9GetHeaderPhS_" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z9GetHeaderPhS_" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z9GetHeaderPhS_" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z9GetHeaderPhS_" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z9GetHeaderPhS_" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z9GetHeaderPhS_" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z9GetHeaderPhS_" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z9GetHeaderPhS_" targetname: "_Z15HPS_DisableFpgav" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:313:19" }
+edge: { sourcename: "_Z9GetHeaderPhS_" targetname: "_Z15HPS_DisableFpgav" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:322:18" }
+edge: { sourcename: "_Z9GetHeaderPhS_" targetname: "_Z15HPS_DisableFpgav" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:325:17" }
+edge: { sourcename: "_Z9GetHeaderPhS_" targetname: "printf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:271:11" }
+node: { title: "_Z10SendSectorPhhhhh" label: "void SendSector(unsigned char*, unsigned char, unsigned char, unsigned char, unsigned char)\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:329:6" }
+edge: { sourcename: "_Z10SendSectorPhhhhh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z10SendSectorPhhhhh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z10SendSectorPhhhhh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z10SendSectorPhhhhh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z10SendSectorPhhhhh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z10SendSectorPhhhhh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z10SendSectorPhhhhh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z10SendSectorPhhhhh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z10SendSectorPhhhhh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z10SendSectorPhhhhh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z10SendSectorPhhhhh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z10SendSectorPhhhhh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z10SendSectorPhhhhh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z10SendSectorPhhhhh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z10SendSectorPhhhhh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z10SendSectorPhhhhh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z10SendSectorPhhhhh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z10SendSectorPhhhhh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z10SendSectorPhhhhh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+node: { title: "_Z7SendGapv" label: "void SendGap()\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:428:6" }
+edge: { sourcename: "_Z7SendGapv" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+node: { title: "_Z10WriteTrackP7adfTYPE" label: "void WriteTrack(adfTYPE*)\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:434:6" }
+edge: { sourcename: "_Z10WriteTrackP7adfTYPE" targetname: "_Z9GetHeaderPhS_" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:447:16" }
+node: { title: "_Z14dataslot_readyv" label: "bool dataslot_ready()\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/apf/apf.h:85:11" shape : ellipse }
+edge: { sourcename: "_Z10WriteTrackP7adfTYPE" targetname: "_Z14dataslot_readyv" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:452:27" }
+node: { title: "_Z22dataslot_write_lba_settmm" label: "uint32_t dataslot_write_lba_set(uint16_t, uint32_t, uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/apf/apf.h:83:10" shape : ellipse }
+edge: { sourcename: "_Z10WriteTrackP7adfTYPE" targetname: "_Z22dataslot_write_lba_settmm" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:454:27" }
+edge: { sourcename: "_Z10WriteTrackP7adfTYPE" targetname: "_Z7GetDatav" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:456:16" }
+node: { title: "_Z18dataslot_write_lbamb" label: "uint32_t dataslot_write_lba(uint32_t, bool)\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/apf/apf.h:84:10" shape : ellipse }
+edge: { sourcename: "_Z10WriteTrackP7adfTYPE" targetname: "_Z18dataslot_write_lbamb" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:461:25" }
+edge: { sourcename: "_Z10WriteTrackP7adfTYPE" targetname: "printf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:466:13" }
+edge: { sourcename: "_Z10WriteTrackP7adfTYPE" targetname: "printf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:475:10" }
+edge: { sourcename: "_Z10WriteTrackP7adfTYPE" targetname: "printf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:476:10" }
+edge: { sourcename: "_Z10WriteTrackP7adfTYPE" targetname: "_Z8FindSyncP7adfTYPE" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:445:17" }
+node: { title: "_Z9ReadTrackP7adfTYPE" label: "void ReadTrack(adfTYPE*)\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:484:6" }
+edge: { sourcename: "_Z9ReadTrackP7adfTYPE" targetname: "printf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:501:9" }
+edge: { sourcename: "_Z9ReadTrackP7adfTYPE" targetname: "printf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:506:8" }
+edge: { sourcename: "_Z9ReadTrackP7adfTYPE" targetname: "printf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:507:8" }
+edge: { sourcename: "_Z9ReadTrackP7adfTYPE" targetname: "printf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:508:8" }
+edge: { sourcename: "_Z9ReadTrackP7adfTYPE" targetname: "printf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:516:11" }
+edge: { sourcename: "_Z9ReadTrackP7adfTYPE" targetname: "printf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:531:11" }
+edge: { sourcename: "_Z9ReadTrackP7adfTYPE" targetname: "_Z14dataslot_readyv" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:532:27" }
+node: { title: "_Z13dataslot_readtmmm" label: "uint32_t dataslot_read(uint16_t, uint32_t, uint32_t, uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/apf/apf.h:77:10" shape : ellipse }
+edge: { sourcename: "_Z9ReadTrackP7adfTYPE" targetname: "_Z13dataslot_readtmmm" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:534:22" }
+edge: { sourcename: "_Z9ReadTrackP7adfTYPE" targetname: "_Z14HPS_EnableFpgav" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:543:16" }
+edge: { sourcename: "_Z9ReadTrackP7adfTYPE" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z9ReadTrackP7adfTYPE" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z9ReadTrackP7adfTYPE" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z9ReadTrackP7adfTYPE" targetname: "_Z15HPS_DisableFpgav" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:549:17" }
+edge: { sourcename: "_Z9ReadTrackP7adfTYPE" targetname: "printf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:557:9" }
+edge: { sourcename: "_Z9ReadTrackP7adfTYPE" targetname: "printf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:563:9" }
+edge: { sourcename: "_Z9ReadTrackP7adfTYPE" targetname: "_Z14HPS_EnableFpgav" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:564:17" }
+edge: { sourcename: "_Z9ReadTrackP7adfTYPE" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z9ReadTrackP7adfTYPE" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z9ReadTrackP7adfTYPE" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z9ReadTrackP7adfTYPE" targetname: "_Z10SendSectorPhhhhh" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:596:15" }
+edge: { sourcename: "_Z9ReadTrackP7adfTYPE" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "_Z9ReadTrackP7adfTYPE" targetname: "_Z15HPS_DisableFpgav" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:604:18" }
+node: { title: "_Z10riscusleepi" label: "void riscusleep(int)\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/arch/riscv/timer.h:50:6" shape : ellipse }
+edge: { sourcename: "_Z9ReadTrackP7adfTYPE" targetname: "_Z10riscusleepi" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:628:13" }
+edge: { sourcename: "_Z9ReadTrackP7adfTYPE" targetname: "_Z15HPS_DisableFpgav" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:604:18" }
+edge: { sourcename: "_Z9ReadTrackP7adfTYPE" targetname: "_Z15HPS_DisableFpgav" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:604:18" }
+edge: { sourcename: "_Z9ReadTrackP7adfTYPE" targetname: "_Z15HPS_DisableFpgav" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:604:18" }
+node: { title: "UpdateDriveStatus" label: "void UpdateDriveStatus()\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:632:6" }
+edge: { sourcename: "UpdateDriveStatus" targetname: "_Z14HPS_EnableFpgav" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:635:16" }
+edge: { sourcename: "UpdateDriveStatus" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "UpdateDriveStatus" targetname: "printf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:637:8" }
+edge: { sourcename: "UpdateDriveStatus" targetname: "printf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:638:8" }
+edge: { sourcename: "UpdateDriveStatus" targetname: "printf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:639:8" }
+edge: { sourcename: "UpdateDriveStatus" targetname: "printf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:640:8" }
+edge: { sourcename: "UpdateDriveStatus" targetname: "printf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:641:8" }
+edge: { sourcename: "UpdateDriveStatus" targetname: "_Z15HPS_DisableFpgav" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:642:17" }
+node: { title: "UnsertFloppy" label: "void UnsertFloppy(adfTYPE*)\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:652:6" }
+edge: { sourcename: "UnsertFloppy" targetname: "printf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:654:8" }
+edge: { sourcename: "UnsertFloppy" targetname: "UpdateDriveStatus" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:662:19" }
+node: { title: "RemoveDriveStatus" label: "void RemoveDriveStatus()\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:666:6" }
+edge: { sourcename: "RemoveDriveStatus" targetname: "_Z14HPS_EnableFpgav" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:668:16" }
+edge: { sourcename: "RemoveDriveStatus" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/hps/spi.h:77:21" }
+edge: { sourcename: "RemoveDriveStatus" targetname: "_Z15HPS_DisableFpgav" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:670:17" }
+node: { title: "HandleFDD" label: "void HandleFDD(unsigned char, unsigned char)\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:673:6" }
+edge: { sourcename: "HandleFDD" targetname: "printf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:683:9" }
+edge: { sourcename: "HandleFDD" targetname: "_Z9ReadTrackP7adfTYPE" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:684:12" }
+edge: { sourcename: "HandleFDD" targetname: "_Z10WriteTrackP7adfTYPE" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:690:13" }
+node: { title: "InsertFloppy" label: "void InsertFloppy(adfTYPE*, uint32_t, uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:697:6" }
+edge: { sourcename: "InsertFloppy" targetname: "printf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:708:9" }
+edge: { sourcename: "InsertFloppy" targetname: "printf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:719:8" }
+edge: { sourcename: "InsertFloppy" targetname: "printf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:720:8" }
+edge: { sourcename: "InsertFloppy" targetname: "printf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:721:8" }
+edge: { sourcename: "InsertFloppy" targetname: "printf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:722:8" }
+edge: { sourcename: "InsertFloppy" targetname: "printf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.cpp:723:8" }
+}

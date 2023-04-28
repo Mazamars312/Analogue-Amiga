@@ -1,0 +1,1009 @@
+
+Discarded input sections
+
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/boot.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/boot.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/core.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/core.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/core.o
+ .rodata._Z15full_core_resetv.str1.4
+                0x0000000000000000       0x2e obj.riscv.amiga_mpu_bios/core.o
+ .text._Z15full_core_resetv
+                0x0000000000000000       0xa2 obj.riscv.amiga_mpu_bios/core.o
+ .text._Z25core_restart_running_corev
+                0x0000000000000000        0x2 obj.riscv.amiga_mpu_bios/core.o
+ .text._Z17core_input_updatev
+                0x0000000000000000        0x8 obj.riscv.amiga_mpu_bios/core.o
+ .text._Z20core_interupt_updatev
+                0x0000000000000000        0x2 obj.riscv.amiga_mpu_bios/core.o
+ .eh_frame      0x0000000000000000      0x13c obj.riscv.amiga_mpu_bios/core.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/main.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/main.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/main.o
+ .text._Z11irqCallbackv
+                0x0000000000000000        0x2 obj.riscv.amiga_mpu_bios/main.o
+ .eh_frame      0x0000000000000000       0x84 obj.riscv.amiga_mpu_bios/main.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/minimig_config.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/minimig_config.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/minimig_config.o
+ .eh_frame      0x0000000000000000       0xc0 obj.riscv.amiga_mpu_bios/minimig_config.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/hdd.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/hdd.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/hdd.o
+ .text._ZL12CalcGeometryP7hdfTYPE
+                0x0000000000000000       0x76 obj.riscv.amiga_mpu_bios/hdd.o
+ .rodata._ZL14GetRDBGeometryP7hdfTYPE.str1.4
+                0x0000000000000000       0x91 obj.riscv.amiga_mpu_bios/hdd.o
+ .text._ZL14GetRDBGeometryP7hdfTYPE
+                0x0000000000000000      0x102 obj.riscv.amiga_mpu_bios/hdd.o
+ .text._ZL13WriteTaskFilehhhhhh
+                0x0000000000000000       0xa0 obj.riscv.amiga_mpu_bios/hdd.o
+ .rodata._ZL7PrefacePhP7hdfTYPEb.str1.4
+                0x0000000000000000       0x24 obj.riscv.amiga_mpu_bios/hdd.o
+ .text._ZL7PrefacePhP7hdfTYPEb
+                0x0000000000000000       0xd8 obj.riscv.amiga_mpu_bios/hdd.o
+ .text._ZL7nextCHSP7hdfTYPE
+                0x0000000000000000       0x6e obj.riscv.amiga_mpu_bios/hdd.o
+ .text._ZL11RDBChecksumPmi.constprop.0
+                0x0000000000000000       0xb6 obj.riscv.amiga_mpu_bios/hdd.o
+ .rodata._ZL11WriteSectorP7hdfTYPE.str1.4
+                0x0000000000000000       0x7f obj.riscv.amiga_mpu_bios/hdd.o
+ .text._ZL11WriteSectorP7hdfTYPE
+                0x0000000000000000       0xe4 obj.riscv.amiga_mpu_bios/hdd.o
+ .rodata._ZL10ReadSectorP7hdfTYPE.str1.4
+                0x0000000000000000       0x1d obj.riscv.amiga_mpu_bios/hdd.o
+ .text._ZL10ReadSectorP7hdfTYPE
+                0x0000000000000000      0x23a obj.riscv.amiga_mpu_bios/hdd.o
+ .rodata._Z9HandleHDDhh.str1.4
+                0x0000000000000000      0x1ac obj.riscv.amiga_mpu_bios/hdd.o
+ .text._Z9HandleHDDhh
+                0x0000000000000000      0xb40 obj.riscv.amiga_mpu_bios/hdd.o
+ .rodata._Z12OpenHardfileht.str1.4
+                0x0000000000000000      0x14d obj.riscv.amiga_mpu_bios/hdd.o
+ .text._Z12OpenHardfileht
+                0x0000000000000000      0x2a0 obj.riscv.amiga_mpu_bios/hdd.o
+ .text._Z8checkHDFtPP14RigidDiskBlock
+                0x0000000000000000      0x1e0 obj.riscv.amiga_mpu_bios/hdd.o
+ .bss._ZL13sector_buffer
+                0x0000000000000000      0x200 obj.riscv.amiga_mpu_bios/hdd.o
+ .bss._ZL3HDF   0x0000000000000000       0xd0 obj.riscv.amiga_mpu_bios/hdd.o
+ .comment       0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/hdd.o
+ .eh_frame      0x0000000000000000      0x238 obj.riscv.amiga_mpu_bios/hdd.o
+ .riscv.attributes
+                0x0000000000000000       0x2b obj.riscv.amiga_mpu_bios/hdd.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/inputs.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/inputs.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/inputs.o
+ .rodata._Z19update_mouse_inputsv.str1.4
+                0x0000000000000000       0x4c obj.riscv.amiga_mpu_bios/inputs.o
+ .text._Z19update_mouse_inputsv
+                0x0000000000000000      0x2de obj.riscv.amiga_mpu_bios/inputs.o
+ .text._Z22update_keyboard_inputsv
+                0x0000000000000000      0x30e obj.riscv.amiga_mpu_bios/inputs.o
+ .text._Z12input_updatev
+                0x0000000000000000       0x5e obj.riscv.amiga_mpu_bios/inputs.o
+ .sbss.MOD_CAPS_LOCK
+                0x0000000000000000        0x1 obj.riscv.amiga_mpu_bios/inputs.o
+ .sbss.MOD_CTRL
+                0x0000000000000000        0x1 obj.riscv.amiga_mpu_bios/inputs.o
+ .sbss.MOD_LWIN
+                0x0000000000000000        0x1 obj.riscv.amiga_mpu_bios/inputs.o
+ .sbss.MOD_RSHIFT
+                0x0000000000000000        0x1 obj.riscv.amiga_mpu_bios/inputs.o
+ .sbss.MOD_LSHIFT
+                0x0000000000000000        0x1 obj.riscv.amiga_mpu_bios/inputs.o
+ .sbss.MOD_RALT
+                0x0000000000000000        0x1 obj.riscv.amiga_mpu_bios/inputs.o
+ .sbss.MOD_LALT
+                0x0000000000000000        0x1 obj.riscv.amiga_mpu_bios/inputs.o
+ .sbss.keyboard_buffer
+                0x0000000000000000        0x6 obj.riscv.amiga_mpu_bios/inputs.o
+ .sbss.y_count  0x0000000000000000        0x2 obj.riscv.amiga_mpu_bios/inputs.o
+ .sbss.x_count  0x0000000000000000        0x2 obj.riscv.amiga_mpu_bios/inputs.o
+ .sbss.mouse_counter
+                0x0000000000000000        0x4 obj.riscv.amiga_mpu_bios/inputs.o
+ .rodata._ZL13mapHidToAmiga
+                0x0000000000000000      0x100 obj.riscv.amiga_mpu_bios/inputs.o
+ .eh_frame      0x0000000000000000      0x118 obj.riscv.amiga_mpu_bios/inputs.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/apf.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/apf.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/apf.o
+ .text._Z15dataslot_statusv
+                0x0000000000000000        0x8 obj.riscv.amiga_mpu_bios/apf.o
+ .text._Z18dataslot_search_idt
+                0x0000000000000000       0x20 obj.riscv.amiga_mpu_bios/apf.o
+ .text._Z16dataslot_updatedv
+                0x0000000000000000        0xa obj.riscv.amiga_mpu_bios/apf.o
+ .text._Z14dataslot_writetmmm
+                0x0000000000000000       0x74 obj.riscv.amiga_mpu_bios/apf.o
+ .rodata._Z26dataslot_read_lba_set_fasttmmm.str1.4
+                0x0000000000000000       0x66 obj.riscv.amiga_mpu_bios/apf.o
+ .text._Z26dataslot_read_lba_set_fasttmmm
+                0x0000000000000000       0x72 obj.riscv.amiga_mpu_bios/apf.o
+ .rodata._Z21dataslot_read_lba_settmm.str1.4
+                0x0000000000000000       0x39 obj.riscv.amiga_mpu_bios/apf.o
+ .text._Z21dataslot_read_lba_settmm
+                0x0000000000000000       0x68 obj.riscv.amiga_mpu_bios/apf.o
+ .rodata._Z17dataslot_read_lbam.str1.4
+                0x0000000000000000       0x58 obj.riscv.amiga_mpu_bios/apf.o
+ .text._Z17dataslot_read_lbam
+                0x0000000000000000       0xb4 obj.riscv.amiga_mpu_bios/apf.o
+ .text._Z22dataslot_read_lba_fastmb
+                0x0000000000000000       0x76 obj.riscv.amiga_mpu_bios/apf.o
+ .eh_frame      0x0000000000000000      0x22c obj.riscv.amiga_mpu_bios/apf.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/fileio.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/fileio.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/fileio.o
+ .text._Z14clearbufferramv
+                0x0000000000000000       0x10 obj.riscv.amiga_mpu_bios/fileio.o
+ .text._Z39sector_buffer_transfer_size_max_processim
+                0x0000000000000000       0x26 obj.riscv.amiga_mpu_bios/fileio.o
+ .text._Z12RISCFileSeektmmb
+                0x0000000000000000      0x2ec obj.riscv.amiga_mpu_bios/fileio.o
+ .text._Z15RISCFileReadAdvihhhm
+                0x0000000000000000      0x11a obj.riscv.amiga_mpu_bios/fileio.o
+ .text._Z15RISCFileReadSecmtmm
+                0x0000000000000000      0x2f0 obj.riscv.amiga_mpu_bios/fileio.o
+ .text.unlikely._Z16RISCFileWriteSecmtmm
+                0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/fileio.o
+ .sbss.sector_buffer_transfer_size_max
+                0x0000000000000000        0x4 obj.riscv.amiga_mpu_bios/fileio.o
+ .sbss.sector_buffer_processing
+                0x0000000000000000        0x4 obj.riscv.amiga_mpu_bios/fileio.o
+ .sbss.sector_buffer_offset
+                0x0000000000000000        0x4 obj.riscv.amiga_mpu_bios/fileio.o
+ .sbss.sector_buffer_selector
+                0x0000000000000000        0x4 obj.riscv.amiga_mpu_bios/fileio.o
+ .sbss.sector_buffer_size_max
+                0x0000000000000000        0x4 obj.riscv.amiga_mpu_bios/fileio.o
+ .sbss.sector_buffer_size
+                0x0000000000000000        0x4 obj.riscv.amiga_mpu_bios/fileio.o
+ .sbss.sector_buffer1_address
+                0x0000000000000000        0x4 obj.riscv.amiga_mpu_bios/fileio.o
+ .sbss.sector_buffer0_address
+                0x0000000000000000        0x4 obj.riscv.amiga_mpu_bios/fileio.o
+ .sbss.sector_buffer_dataslot
+                0x0000000000000000        0x4 obj.riscv.amiga_mpu_bios/fileio.o
+ .sbss.wait_timer
+                0x0000000000000000        0x4 obj.riscv.amiga_mpu_bios/fileio.o
+ .bss.sector_buffer0
+                0x0000000000000000     0x6000 obj.riscv.amiga_mpu_bios/fileio.o
+ .bss.sector_buffer1
+                0x0000000000000000     0x6000 obj.riscv.amiga_mpu_bios/fileio.o
+ .comment       0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/fileio.o
+ .eh_frame      0x0000000000000000      0x140 obj.riscv.amiga_mpu_bios/fileio.o
+ .riscv.attributes
+                0x0000000000000000       0x2b obj.riscv.amiga_mpu_bios/fileio.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/cue.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/cue.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/cue.o
+ .text._ZN5cue_tC2Ev
+                0x0000000000000000       0x8a obj.riscv.amiga_mpu_bios/cue.o
+ .rodata._ZN5cue_t7LoadCUEEi.str1.4
+                0x0000000000000000      0x1e6 obj.riscv.amiga_mpu_bios/cue.o
+ .text._ZN5cue_t7LoadCUEEi
+                0x0000000000000000      0x5ec obj.riscv.amiga_mpu_bios/cue.o
+ .text._ZN5cue_t4LoadEi
+                0x0000000000000000       0x1e obj.riscv.amiga_mpu_bios/cue.o
+ .text._ZN5cue_t6UnloadEv
+                0x0000000000000000       0x56 obj.riscv.amiga_mpu_bios/cue.o
+ .text._ZN5cue_t5ResetEv
+                0x0000000000000000       0x4a obj.riscv.amiga_mpu_bios/cue.o
+ .text._ZN5cue_t11CommandExecEv
+                0x0000000000000000      0x688 obj.riscv.amiga_mpu_bios/cue.o
+ .rodata._ZN5cue_t11CommandExecEv
+                0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/cue.o
+ .text._ZN5cue_t9GetStatusEv
+                0x0000000000000000        0x6 obj.riscv.amiga_mpu_bios/cue.o
+ .text._ZN5cue_t10SetCommandEPh
+                0x0000000000000000       0x1a obj.riscv.amiga_mpu_bios/cue.o
+ .text._ZN5cue_t10PendStatusEt
+                0x0000000000000000        0xa obj.riscv.amiga_mpu_bios/cue.o
+ .text._ZN5cue_t10SendStatusEt
+                0x0000000000000000       0x44 obj.riscv.amiga_mpu_bios/cue.o
+ .text._ZN5cue_t15SendDataRequestEv
+                0x0000000000000000       0x44 obj.riscv.amiga_mpu_bios/cue.o
+ .text._ZN5cue_t8LBAToMSFEiP5msf_t
+                0x0000000000000000       0x2c obj.riscv.amiga_mpu_bios/cue.o
+ .text._ZN5cue_t8MSFToLBAEPihhh
+                0x0000000000000000       0x22 obj.riscv.amiga_mpu_bios/cue.o
+ .text._ZN5cue_t8MSFToLBAEPiP5msf_t
+                0x0000000000000000       0x2e obj.riscv.amiga_mpu_bios/cue.o
+ .text._ZN5cue_t13GetTrackByLBAEiP5toc_t
+                0x0000000000000000       0x28 obj.riscv.amiga_mpu_bios/cue.o
+ .text._ZN5cue_t8ReadDataEv
+                0x0000000000000000       0x98 obj.riscv.amiga_mpu_bios/cue.o
+ .text._ZN5cue_t6UpdateEv
+                0x0000000000000000      0x254 obj.riscv.amiga_mpu_bios/cue.o
+ .text._ZN5cue_t8ReadCDDAEv
+                0x0000000000000000       0x4a obj.riscv.amiga_mpu_bios/cue.o
+ .text._ZN5cue_t11ReadSubcodeEPt
+                0x0000000000000000        0x2 obj.riscv.amiga_mpu_bios/cue.o
+ .text._ZN5cue_t12CommandErrorEhhhh
+                0x0000000000000000       0x12 obj.riscv.amiga_mpu_bios/cue.o
+ .text.startup._GLOBAL__sub_I_foo1
+                0x0000000000000000       0x10 obj.riscv.amiga_mpu_bios/cue.o
+ .init_array    0x0000000000000000        0x4 obj.riscv.amiga_mpu_bios/cue.o
+ .bss._ZZN5cue_t11CommandExecEvE3buf
+                0x0000000000000000       0x20 obj.riscv.amiga_mpu_bios/cue.o
+ .bss._ZZN5cue_t7LoadCUEEiE4line
+                0x0000000000000000       0x80 obj.riscv.amiga_mpu_bios/cue.o
+ .sbss.foo1     0x0000000000000000        0x4 obj.riscv.amiga_mpu_bios/cue.o
+ .eh_frame      0x0000000000000000      0x2f8 obj.riscv.amiga_mpu_bios/cue.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/seektime.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/seektime.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/seektime.o
+ .rodata._Z14get_cd_seek_msii.str1.4
+                0x0000000000000000       0x38 obj.riscv.amiga_mpu_bios/seektime.o
+ .text._Z14get_cd_seek_msii
+                0x0000000000000000      0x1a8 obj.riscv.amiga_mpu_bios/seektime.o
+ .data.sector_list
+                0x0000000000000000      0x118 obj.riscv.amiga_mpu_bios/seektime.o
+ .comment       0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/seektime.o
+ .eh_frame      0x0000000000000000       0x38 obj.riscv.amiga_mpu_bios/seektime.o
+ .riscv.attributes
+                0x0000000000000000       0x2b obj.riscv.amiga_mpu_bios/seektime.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/fdd.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/fdd.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/fdd.o
+ .text._Z7SendGapv
+                0x0000000000000000       0x2e obj.riscv.amiga_mpu_bios/fdd.o
+ .eh_frame      0x0000000000000000      0x2b8 obj.riscv.amiga_mpu_bios/fdd.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/spi.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/spi.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/spi.o
+ .text._Z18HPS_fpga_gpo_writem
+                0x0000000000000000        0x6 obj.riscv.amiga_mpu_bios/spi.o
+ .text._Z17HPS_fpga_gpo_readv
+                0x0000000000000000        0x6 obj.riscv.amiga_mpu_bios/spi.o
+ .text._Z17HPS_fpga_gpi_readv
+                0x0000000000000000        0x6 obj.riscv.amiga_mpu_bios/spi.o
+ .text._Z15HPS_fpga_spi_enmm
+                0x0000000000000000       0x24 obj.riscv.amiga_mpu_bios/spi.o
+ .text._Z12HPS_EnableIOv
+                0x0000000000000000       0x24 obj.riscv.amiga_mpu_bios/spi.o
+ .text._Z13HPS_DisableIOv
+                0x0000000000000000       0x22 obj.riscv.amiga_mpu_bios/spi.o
+ .text._Z12HPS_spi_readPhmi
+                0x0000000000000000       0x7a obj.riscv.amiga_mpu_bios/spi.o
+ .text._Z13HPS_spi_writePKhmi
+                0x0000000000000000       0x72 obj.riscv.amiga_mpu_bios/spi.o
+ .text._Z18HPS_spi_block_readPhii
+                0x0000000000000000        0x2 obj.riscv.amiga_mpu_bios/spi.o
+ .text._Z19HPS_spi_block_writePKhii
+                0x0000000000000000        0x2 obj.riscv.amiga_mpu_bios/spi.o
+ .text._Z20HPS_spi_uio_cmd_contt
+                0x0000000000000000       0x36 obj.riscv.amiga_mpu_bios/spi.o
+ .text._Z15HPS_spi_uio_cmdt
+                0x0000000000000000       0x5e obj.riscv.amiga_mpu_bios/spi.o
+ .text._Z21HPS_spi_uio_cmd8_conthh
+                0x0000000000000000       0x5c obj.riscv.amiga_mpu_bios/spi.o
+ .text._Z17HPS_spi_uio_cmd16ht
+                0x0000000000000000       0x82 obj.riscv.amiga_mpu_bios/spi.o
+ .text._Z17HPS_spi_uio_cmd32hmi
+                0x0000000000000000       0xbe obj.riscv.amiga_mpu_bios/spi.o
+ .text._Z16HPS_io_set_indexh
+                0x0000000000000000       0x6a obj.riscv.amiga_mpu_bios/spi.o
+ .text._Z19HPS_io_set_downloadhi
+                0x0000000000000000       0x9e obj.riscv.amiga_mpu_bios/spi.o
+ .text._Z19HPS_io_file_tx_dataPKhmi
+                0x0000000000000000       0x7a obj.riscv.amiga_mpu_bios/spi.o
+ .text._Z23HPS_fpga_spi_write_fastt
+                0x0000000000000000       0x20 obj.riscv.amiga_mpu_bios/spi.o
+ .text._Z18HPS_spi_write_fastPKhmi
+                0x0000000000000000       0x9a obj.riscv.amiga_mpu_bios/spi.o
+ .text._Z17HPS_fpga_spi_fastt
+                0x0000000000000000       0x24 obj.riscv.amiga_mpu_bios/spi.o
+ .text._Z32HPS_fpga_spi_fast_block_write_bePKtm
+                0x0000000000000000       0x4a obj.riscv.amiga_mpu_bios/spi.o
+ .text._Z31HPS_fpga_spi_fast_block_read_bePtm
+                0x0000000000000000       0x40 obj.riscv.amiga_mpu_bios/spi.o
+ .text._Z16HPS_EnableOsd_oni
+                0x0000000000000000        0x2 obj.riscv.amiga_mpu_bios/spi.o
+ .text._Z13HPS_EnableOsdv
+                0x0000000000000000       0x14 obj.riscv.amiga_mpu_bios/spi.o
+ .text._Z14HPS_DisableOsdv
+                0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/spi.o
+ .text._Z20HPS_spi_osd_cmd_conth
+                0x0000000000000000       0x1a obj.riscv.amiga_mpu_bios/spi.o
+ .text._Z15HPS_spi_osd_cmdh
+                0x0000000000000000       0x3e obj.riscv.amiga_mpu_bios/spi.o
+ .text._Z21HPS_spi_osd_cmd8_conthh
+                0x0000000000000000       0x32 obj.riscv.amiga_mpu_bios/spi.o
+ .text._Z16HPS_spi_osd_cmd8hh
+                0x0000000000000000       0x4e obj.riscv.amiga_mpu_bios/spi.o
+ .eh_frame      0x0000000000000000      0x40c obj.riscv.amiga_mpu_bios/spi.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/char_rom.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/char_rom.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/char_rom.o
+ .data.charfont
+                0x0000000000000000      0x800 obj.riscv.amiga_mpu_bios/char_rom.o
+ .comment       0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/char_rom.o
+ .riscv.attributes
+                0x0000000000000000       0x2b obj.riscv.amiga_mpu_bios/char_rom.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/osd.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/osd.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/osd.o
+ .text._Z10OsdSetSizei
+                0x0000000000000000        0xa obj.riscv.amiga_mpu_bios/osd.o
+ .text._Z10OsdGetSizev
+                0x0000000000000000        0xa obj.riscv.amiga_mpu_bios/osd.o
+ .text._Z11OsdSetTitlePKci
+                0x0000000000000000      0x154 obj.riscv.amiga_mpu_bios/osd.o
+ .text._Z11OsdSetArrowi
+                0x0000000000000000        0xa obj.riscv.amiga_mpu_bios/osd.o
+ .text._Z14OsdWriteOffsethPKchhcccii
+                0x0000000000000000      0x4ee obj.riscv.amiga_mpu_bios/osd.o
+ .text._Z8OsdWritehPKchhcii
+                0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/osd.o
+ .text._Z12OsdShiftDownh
+                0x0000000000000000       0x4e obj.riscv.amiga_mpu_bios/osd.o
+ .text._Z13OSD_PrintInfoPKcPiS1_i
+                0x0000000000000000      0x30a obj.riscv.amiga_mpu_bios/osd.o
+ .text._Z8OsdClearv
+                0x0000000000000000       0x1e obj.riscv.amiga_mpu_bios/osd.o
+ .text._Z9OsdEnableh
+                0x0000000000000000        0xe obj.riscv.amiga_mpu_bios/osd.o
+ .text._Z10InfoEnableiiii
+                0x0000000000000000       0x6c obj.riscv.amiga_mpu_bios/osd.o
+ .text._Z11OsdRotationh
+                0x0000000000000000       0x54 obj.riscv.amiga_mpu_bios/osd.o
+ .text._Z10OsdDisablev
+                0x0000000000000000        0xc obj.riscv.amiga_mpu_bios/osd.o
+ .text._Z10OsdMenuCtli
+                0x0000000000000000       0x2e obj.riscv.amiga_mpu_bios/osd.o
+ .text._Z14OsdCoreNameSetPKc
+                0x0000000000000000       0x12 obj.riscv.amiga_mpu_bios/osd.o
+ .text._Z14OsdCoreNameGetv
+                0x0000000000000000        0xa obj.riscv.amiga_mpu_bios/osd.o
+ .text._Z9OsdUpdatev
+                0x0000000000000000       0x86 obj.riscv.amiga_mpu_bios/osd.o
+ .data._ZL12lastcorename
+                0x0000000000000000      0x10f obj.riscv.amiga_mpu_bios/osd.o
+ .bss._ZZ13OSD_PrintInfoPKcPiS1_iE3str
+                0x0000000000000000      0x200 obj.riscv.amiga_mpu_bios/osd.o
+ .bss._ZL11titlebuffer
+                0x0000000000000000      0x100 obj.riscv.amiga_mpu_bios/osd.o
+ .sbss._ZL5arrow
+                0x0000000000000000        0x4 obj.riscv.amiga_mpu_bios/osd.o
+ .bss.framebuffer
+                0x0000000000000000     0x1000 obj.riscv.amiga_mpu_bios/osd.o
+ .sbss._ZL6osdset
+                0x0000000000000000        0x4 obj.riscv.amiga_mpu_bios/osd.o
+ .sbss._ZL9osdbufpos
+                0x0000000000000000        0x4 obj.riscv.amiga_mpu_bios/osd.o
+ .bss._ZL6osdbuf
+                0x0000000000000000     0x2000 obj.riscv.amiga_mpu_bios/osd.o
+ .bss.stars     0x0000000000000000      0x400 obj.riscv.amiga_mpu_bios/osd.o
+ .sdata._ZL8osd_size
+                0x0000000000000000        0x4 obj.riscv.amiga_mpu_bios/osd.o
+ .comment       0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/osd.o
+ .eh_frame      0x0000000000000000      0x24c obj.riscv.amiga_mpu_bios/osd.o
+ .riscv.attributes
+                0x0000000000000000       0x2b obj.riscv.amiga_mpu_bios/osd.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/uart.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/uart.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/uart.o
+ .text._Z8riscputcc
+                0x0000000000000000       0x10 obj.riscv.amiga_mpu_bios/uart.o
+ .eh_frame      0x0000000000000000       0x50 obj.riscv.amiga_mpu_bios/uart.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/interrupts.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/interrupts.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/interrupts.o
+ .eh_frame      0x0000000000000000       0x50 obj.riscv.amiga_mpu_bios/interrupts.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/timer.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/timer.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/timer.o
+ .text._Z8GetTimerv
+                0x0000000000000000        0x6 obj.riscv.amiga_mpu_bios/timer.o
+ .text._Z10CheckTimerj
+                0x0000000000000000       0x16 obj.riscv.amiga_mpu_bios/timer.o
+ .text._Z9GetTimer2v
+                0x0000000000000000        0x6 obj.riscv.amiga_mpu_bios/timer.o
+ .text._Z14GetTimer2_fastv
+                0x0000000000000000        0x6 obj.riscv.amiga_mpu_bios/timer.o
+ .text._Z12RISCGetTimerm
+                0x0000000000000000       0x12 obj.riscv.amiga_mpu_bios/timer.o
+ .text._Z14RISCCheckTimerm
+                0x0000000000000000       0x1e obj.riscv.amiga_mpu_bios/timer.o
+ .text._Z11CheckTimer2j
+                0x0000000000000000       0x16 obj.riscv.amiga_mpu_bios/timer.o
+ .text._Z11ResetTimer2v
+                0x0000000000000000       0x12 obj.riscv.amiga_mpu_bios/timer.o
+ .eh_frame      0x0000000000000000      0x104 obj.riscv.amiga_mpu_bios/timer.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/atoi.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/atoi.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/atoi.o
+ .text.atoi     0x0000000000000000       0x3c obj.riscv.amiga_mpu_bios/atoi.o
+ .text.atoi_hex
+                0x0000000000000000       0x78 obj.riscv.amiga_mpu_bios/atoi.o
+ .comment       0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/atoi.o
+ .riscv.attributes
+                0x0000000000000000       0x2b obj.riscv.amiga_mpu_bios/atoi.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/bcmp.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/bcmp.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/bcmp.o
+ .text.bcmp     0x0000000000000000        0x8 obj.riscv.amiga_mpu_bios/bcmp.o
+ .comment       0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/bcmp.o
+ .riscv.attributes
+                0x0000000000000000       0x2b obj.riscv.amiga_mpu_bios/bcmp.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/isalpha.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/isalpha.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/isalpha.o
+ .text.isupper  0x0000000000000000        0xa obj.riscv.amiga_mpu_bios/isalpha.o
+ .text.isalpha  0x0000000000000000        0xe obj.riscv.amiga_mpu_bios/isalpha.o
+ .text.isdigit  0x0000000000000000        0xa obj.riscv.amiga_mpu_bios/isalpha.o
+ .text.isspace  0x0000000000000000       0x14 obj.riscv.amiga_mpu_bios/isalpha.o
+ .text.isalnum  0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/isalpha.o
+ .comment       0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/isalpha.o
+ .riscv.attributes
+                0x0000000000000000       0x2b obj.riscv.amiga_mpu_bios/isalpha.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/itoa.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/itoa.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/itoa.o
+ .text.itoa     0x0000000000000000       0x8e obj.riscv.amiga_mpu_bios/itoa.o
+ .comment       0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/itoa.o
+ .riscv.attributes
+                0x0000000000000000       0x2b obj.riscv.amiga_mpu_bios/itoa.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/malloc.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/malloc.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/malloc.o
+ .text.compact_blocks
+                0x0000000000000000       0x3e obj.riscv.amiga_mpu_bios/malloc.o
+ .text.malloc_init
+                0x0000000000000000       0x3a obj.riscv.amiga_mpu_bios/malloc.o
+ .text.malloc   0x0000000000000000       0x9a obj.riscv.amiga_mpu_bios/malloc.o
+ .text.free     0x0000000000000000       0x18 obj.riscv.amiga_mpu_bios/malloc.o
+ .text.calloc   0x0000000000000000        0xa obj.riscv.amiga_mpu_bios/malloc.o
+ .text.malloc_largest_free_size
+                0x0000000000000000       0x70 obj.riscv.amiga_mpu_bios/malloc.o
+ .text.malloc_total_free
+                0x0000000000000000       0x6c obj.riscv.amiga_mpu_bios/malloc.o
+ .sbss.MemUnlock
+                0x0000000000000000        0x4 obj.riscv.amiga_mpu_bios/malloc.o
+ .sbss.MemLock  0x0000000000000000        0x4 obj.riscv.amiga_mpu_bios/malloc.o
+ .sbss.MemAllocInit
+                0x0000000000000000        0x4 obj.riscv.amiga_mpu_bios/malloc.o
+ .sbss.MemHeap  0x0000000000000000        0x4 obj.riscv.amiga_mpu_bios/malloc.o
+ .sbss.MemFree  0x0000000000000000        0x4 obj.riscv.amiga_mpu_bios/malloc.o
+ .comment       0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/malloc.o
+ .riscv.attributes
+                0x0000000000000000       0x2b obj.riscv.amiga_mpu_bios/malloc.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/memchr.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/memchr.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/memchr.o
+ .text.memchr   0x0000000000000000       0x1e obj.riscv.amiga_mpu_bios/memchr.o
+ .comment       0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/memchr.o
+ .riscv.attributes
+                0x0000000000000000       0x2b obj.riscv.amiga_mpu_bios/memchr.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/memcmp.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/memcmp.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/memcmp.o
+ .text.memcmp   0x0000000000000000       0x4c obj.riscv.amiga_mpu_bios/memcmp.o
+ .text.memicmp  0x0000000000000000       0x54 obj.riscv.amiga_mpu_bios/memcmp.o
+ .comment       0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/memcmp.o
+ .riscv.attributes
+                0x0000000000000000       0x2b obj.riscv.amiga_mpu_bios/memcmp.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/memcpy.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/memcpy.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/memcpy.o
+ .text.memcpy   0x0000000000000000       0x54 obj.riscv.amiga_mpu_bios/memcpy.o
+ .text.memccpy  0x0000000000000000       0x1e obj.riscv.amiga_mpu_bios/memcpy.o
+ .comment       0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/memcpy.o
+ .riscv.attributes
+                0x0000000000000000       0x2b obj.riscv.amiga_mpu_bios/memcpy.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/memmove.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/memmove.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/memmove.o
+ .text.memmove  0x0000000000000000       0x9e obj.riscv.amiga_mpu_bios/memmove.o
+ .comment       0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/memmove.o
+ .riscv.attributes
+                0x0000000000000000       0x2b obj.riscv.amiga_mpu_bios/memmove.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/memset.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/memset.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/memset.o
+ .text.memset   0x0000000000000000       0x20 obj.riscv.amiga_mpu_bios/memset.o
+ .comment       0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/memset.o
+ .riscv.attributes
+                0x0000000000000000       0x2b obj.riscv.amiga_mpu_bios/memset.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/printf.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/printf.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/printf.o
+ .text._out_null
+                0x0000000000000000        0x2 obj.riscv.amiga_mpu_bios/printf.o
+ .text.riscprintff_
+                0x0000000000000000       0x16 obj.riscv.amiga_mpu_bios/printf.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/rindex.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/rindex.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/rindex.o
+ .text.rindex   0x0000000000000000       0x1e obj.riscv.amiga_mpu_bios/rindex.o
+ .comment       0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/rindex.o
+ .riscv.attributes
+                0x0000000000000000       0x2b obj.riscv.amiga_mpu_bios/rindex.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/sscanf.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/sscanf.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/sscanf.o
+ .text.sscanf   0x0000000000000000       0x3a obj.riscv.amiga_mpu_bios/sscanf.o
+ .comment       0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/sscanf.o
+ .riscv.attributes
+                0x0000000000000000       0x2b obj.riscv.amiga_mpu_bios/sscanf.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/stpcpy.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/stpcpy.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/stpcpy.o
+ .text.stpcpy   0x0000000000000000       0x3a obj.riscv.amiga_mpu_bios/stpcpy.o
+ .comment       0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/stpcpy.o
+ .riscv.attributes
+                0x0000000000000000       0x2b obj.riscv.amiga_mpu_bios/stpcpy.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/strcat.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/strcat.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/strcat.o
+ .text.strcat   0x0000000000000000       0x32 obj.riscv.amiga_mpu_bios/strcat.o
+ .text.strncat  0x0000000000000000       0x28 obj.riscv.amiga_mpu_bios/strcat.o
+ .comment       0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/strcat.o
+ .riscv.attributes
+                0x0000000000000000       0x2b obj.riscv.amiga_mpu_bios/strcat.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/strcmp.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/strcmp.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/strcmp.o
+ .text.strcmp   0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/strcmp.o
+ .text.strncmp  0x0000000000000000       0x26 obj.riscv.amiga_mpu_bios/strcmp.o
+ .text.strcasecmp
+                0x0000000000000000       0x5c obj.riscv.amiga_mpu_bios/strcmp.o
+ .text.strncasecmp
+                0x0000000000000000       0x70 obj.riscv.amiga_mpu_bios/strcmp.o
+ .comment       0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/strcmp.o
+ .riscv.attributes
+                0x0000000000000000       0x2b obj.riscv.amiga_mpu_bios/strcmp.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/strcpy.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/strcpy.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/strcpy.o
+ .text.strcpy   0x0000000000000000       0x12 obj.riscv.amiga_mpu_bios/strcpy.o
+ .text.strncpy  0x0000000000000000       0x3e obj.riscv.amiga_mpu_bios/strcpy.o
+ .comment       0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/strcpy.o
+ .riscv.attributes
+                0x0000000000000000       0x2b obj.riscv.amiga_mpu_bios/strcpy.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/strlen.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/strlen.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/strlen.o
+ .text.strlen   0x0000000000000000       0x1a obj.riscv.amiga_mpu_bios/strlen.o
+ .text.strnlen  0x0000000000000000       0x24 obj.riscv.amiga_mpu_bios/strlen.o
+ .comment       0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/strlen.o
+ .riscv.attributes
+                0x0000000000000000       0x2b obj.riscv.amiga_mpu_bios/strlen.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/stropen.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/stropen.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/stropen.o
+ .text.buf_getchar
+                0x0000000000000000       0x14 obj.riscv.amiga_mpu_bios/stropen.o
+ .text.buf_peekchar
+                0x0000000000000000        0xe obj.riscv.amiga_mpu_bios/stropen.o
+ .text.buf_feof
+                0x0000000000000000        0xc obj.riscv.amiga_mpu_bios/stropen.o
+ .text.buf_putchar
+                0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/stropen.o
+ .text.stropen  0x0000000000000000       0x10 obj.riscv.amiga_mpu_bios/stropen.o
+ .text.strclose
+                0x0000000000000000       0x1a obj.riscv.amiga_mpu_bios/stropen.o
+ .data.buf_interface
+                0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/stropen.o
+ .comment       0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/stropen.o
+ .riscv.attributes
+                0x0000000000000000       0x2b obj.riscv.amiga_mpu_bios/stropen.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/strpbrk.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/strpbrk.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/strpbrk.o
+ .text.strpbrk  0x0000000000000000       0x26 obj.riscv.amiga_mpu_bios/strpbrk.o
+ .comment       0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/strpbrk.o
+ .riscv.attributes
+                0x0000000000000000       0x2b obj.riscv.amiga_mpu_bios/strpbrk.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/strrchr.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/strrchr.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/strrchr.o
+ .text.strrchr  0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/strrchr.o
+ .text.strchr   0x0000000000000000       0x10 obj.riscv.amiga_mpu_bios/strrchr.o
+ .comment       0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/strrchr.o
+ .riscv.attributes
+                0x0000000000000000       0x2b obj.riscv.amiga_mpu_bios/strrchr.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/strstr.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/strstr.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/strstr.o
+ .text.strstr   0x0000000000000000       0x38 obj.riscv.amiga_mpu_bios/strstr.o
+ .comment       0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/strstr.o
+ .riscv.attributes
+                0x0000000000000000       0x2b obj.riscv.amiga_mpu_bios/strstr.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/strtok.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/strtok.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/strtok.o
+ .text.strspn   0x0000000000000000       0x34 obj.riscv.amiga_mpu_bios/strtok.o
+ .text.strtok   0x0000000000000000       0x66 obj.riscv.amiga_mpu_bios/strtok.o
+ .sbss.lastToken.0
+                0x0000000000000000        0x4 obj.riscv.amiga_mpu_bios/strtok.o
+ .comment       0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/strtok.o
+ .riscv.attributes
+                0x0000000000000000       0x2b obj.riscv.amiga_mpu_bios/strtok.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/strtol.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/strtol.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/strtol.o
+ .text.strtol   0x0000000000000000        0x2 obj.riscv.amiga_mpu_bios/strtol.o
+ .comment       0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/strtol.o
+ .riscv.attributes
+                0x0000000000000000       0x2b obj.riscv.amiga_mpu_bios/strtol.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/tolower.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/tolower.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/tolower.o
+ .text.tolower  0x0000000000000000       0x10 obj.riscv.amiga_mpu_bios/tolower.o
+ .comment       0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/tolower.o
+ .riscv.attributes
+                0x0000000000000000       0x2b obj.riscv.amiga_mpu_bios/tolower.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/toupper.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/toupper.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/toupper.o
+ .text.toupper  0x0000000000000000        0xe obj.riscv.amiga_mpu_bios/toupper.o
+ .comment       0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/toupper.o
+ .riscv.attributes
+                0x0000000000000000       0x2b obj.riscv.amiga_mpu_bios/toupper.o
+ .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/vscanf.o
+ .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/vscanf.o
+ .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/vscanf.o
+ .text.stream_vscanf
+                0x0000000000000000      0x4c0 obj.riscv.amiga_mpu_bios/vscanf.o
+ .rodata.stream_vscanf
+                0x0000000000000000       0x78 obj.riscv.amiga_mpu_bios/vscanf.o
+ .comment       0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/vscanf.o
+ .riscv.attributes
+                0x0000000000000000       0x2b obj.riscv.amiga_mpu_bios/vscanf.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+RAM              0x0000000000000000 0x0000000000020000 xrw
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD obj.riscv.amiga_mpu_bios/boot.o
+LOAD obj.riscv.amiga_mpu_bios/core.o
+LOAD obj.riscv.amiga_mpu_bios/main.o
+LOAD obj.riscv.amiga_mpu_bios/minimig_config.o
+LOAD obj.riscv.amiga_mpu_bios/hdd.o
+LOAD obj.riscv.amiga_mpu_bios/inputs.o
+LOAD obj.riscv.amiga_mpu_bios/apf.o
+LOAD obj.riscv.amiga_mpu_bios/fileio.o
+LOAD obj.riscv.amiga_mpu_bios/cue.o
+LOAD obj.riscv.amiga_mpu_bios/seektime.o
+LOAD obj.riscv.amiga_mpu_bios/fdd.o
+LOAD obj.riscv.amiga_mpu_bios/spi.o
+LOAD obj.riscv.amiga_mpu_bios/char_rom.o
+LOAD obj.riscv.amiga_mpu_bios/osd.o
+LOAD obj.riscv.amiga_mpu_bios/uart.o
+LOAD obj.riscv.amiga_mpu_bios/interrupts.o
+LOAD obj.riscv.amiga_mpu_bios/timer.o
+LOAD obj.riscv.amiga_mpu_bios/atoi.o
+LOAD obj.riscv.amiga_mpu_bios/bcmp.o
+LOAD obj.riscv.amiga_mpu_bios/isalpha.o
+LOAD obj.riscv.amiga_mpu_bios/itoa.o
+LOAD obj.riscv.amiga_mpu_bios/malloc.o
+LOAD obj.riscv.amiga_mpu_bios/memchr.o
+LOAD obj.riscv.amiga_mpu_bios/memcmp.o
+LOAD obj.riscv.amiga_mpu_bios/memcpy.o
+LOAD obj.riscv.amiga_mpu_bios/memmove.o
+LOAD obj.riscv.amiga_mpu_bios/memset.o
+LOAD obj.riscv.amiga_mpu_bios/printf.o
+LOAD obj.riscv.amiga_mpu_bios/rindex.o
+LOAD obj.riscv.amiga_mpu_bios/sscanf.o
+LOAD obj.riscv.amiga_mpu_bios/stpcpy.o
+LOAD obj.riscv.amiga_mpu_bios/strcat.o
+LOAD obj.riscv.amiga_mpu_bios/strcmp.o
+LOAD obj.riscv.amiga_mpu_bios/strcpy.o
+LOAD obj.riscv.amiga_mpu_bios/strlen.o
+LOAD obj.riscv.amiga_mpu_bios/stropen.o
+LOAD obj.riscv.amiga_mpu_bios/strpbrk.o
+LOAD obj.riscv.amiga_mpu_bios/strrchr.o
+LOAD obj.riscv.amiga_mpu_bios/strstr.o
+LOAD obj.riscv.amiga_mpu_bios/strtok.o
+LOAD obj.riscv.amiga_mpu_bios/strtol.o
+LOAD obj.riscv.amiga_mpu_bios/tolower.o
+LOAD obj.riscv.amiga_mpu_bios/toupper.o
+LOAD obj.riscv.amiga_mpu_bios/vscanf.o
+LOAD /opt/riscv/lib/gcc/riscv32-unknown-elf/12.2.0/libgcc.a
+                0x0000000000000000                BASE_ADDRESS = 0x0
+                0x0000000000010000                MEM_SIZE = 0x10000
+START GROUP
+LOAD /opt/riscv/lib/gcc/riscv32-unknown-elf/12.2.0/libgcc.a
+END GROUP
+
+.text           0x0000000000000000     0x2638
+ *(.boot)
+ .boot          0x0000000000000000       0x14 obj.riscv.amiga_mpu_bios/boot.o
+ *(.boot)
+ *(.text .text.*)
+ .text          0x0000000000000014      0x1fe obj.riscv.amiga_mpu_bios/boot.o
+                0x0000000000000138                isr_vector
+                0x00000000000001c4                exception_syscall
+                0x0000000000000208                _exit
+ .text._Z10core_reseti
+                0x0000000000000212       0x26 obj.riscv.amiga_mpu_bios/core.o
+                0x0000000000000212                core_reset(int)
+ .text._Z21core_update_dataslotsv
+                0x0000000000000238       0x7a obj.riscv.amiga_mpu_bios/core.o
+                0x0000000000000238                core_update_dataslots()
+ .text._Z12core_poll_iov
+                0x00000000000002b2       0x38 obj.riscv.amiga_mpu_bios/core.o
+                0x00000000000002b2                core_poll_io()
+ .text._Z15core_reg_updatev
+                0x00000000000002ea       0x46 obj.riscv.amiga_mpu_bios/core.o
+                0x00000000000002ea                core_reg_update()
+ .text._Z18core_restart_firstv
+                0x0000000000000330        0x2 obj.riscv.amiga_mpu_bios/core.o
+                0x0000000000000330                core_restart_first()
+ .text._Z16core_input_setupv
+                0x0000000000000332        0x2 obj.riscv.amiga_mpu_bios/core.o
+                0x0000000000000332                core_input_setup()
+ .text._Z4initv
+                0x0000000000000334       0x34 obj.riscv.amiga_mpu_bios/main.o
+                0x0000000000000334                init()
+ .text._Z8mainloopv
+                0x0000000000000368       0xf4 obj.riscv.amiga_mpu_bios/main.o
+                0x0000000000000368                mainloop()
+ .text.startup.main
+                0x000000000000045c       0x14 obj.riscv.amiga_mpu_bios/main.o
+                0x000000000000045c                main
+ .text._Z12minimig_biosv
+                0x0000000000000470       0xe8 obj.riscv.amiga_mpu_bios/minimig_config.o
+                0x0000000000000470                minimig_bios()
+ .text.minimig_restart_running_core
+                0x0000000000000558       0x58 obj.riscv.amiga_mpu_bios/minimig_config.o
+                0x0000000000000558                minimig_restart_running_core
+ .text.minimig_fdd_update
+                0x00000000000005b0       0x68 obj.riscv.amiga_mpu_bios/minimig_config.o
+                0x00000000000005b0                minimig_fdd_update
+ .text.minimig_restart_first
+                0x0000000000000618       0x5c obj.riscv.amiga_mpu_bios/minimig_config.o
+                0x0000000000000618                minimig_restart_first
+ .text._Z11input_setupv
+                0x0000000000000674        0x6 obj.riscv.amiga_mpu_bios/inputs.o
+                0x0000000000000674                input_setup()
+ .text._Z16input_reg_updatev
+                0x000000000000067a        0xe obj.riscv.amiga_mpu_bios/inputs.o
+                0x000000000000067a                input_reg_update()
+ .text._Z14dataslot_readyv
+                0x0000000000000688       0x36 obj.riscv.amiga_mpu_bios/apf.o
+                0x0000000000000688                dataslot_ready()
+ .text._Z13dataslot_sizet
+                0x00000000000006be       0x2c obj.riscv.amiga_mpu_bios/apf.o
+                0x00000000000006be                dataslot_size(unsigned short)
+ .text._Z13dataslot_readtmmm
+                0x00000000000006ea       0xc4 obj.riscv.amiga_mpu_bios/apf.o
+                0x00000000000006ea                dataslot_read(unsigned short, unsigned long, unsigned long, unsigned long)
+ .text._Z22dataslot_write_lba_settmm
+                0x00000000000007ae       0x52 obj.riscv.amiga_mpu_bios/apf.o
+                0x00000000000007ae                dataslot_write_lba_set(unsigned short, unsigned long, unsigned long)
+ .text._Z18dataslot_write_lbamb
+                0x0000000000000800       0xa4 obj.riscv.amiga_mpu_bios/apf.o
+                0x0000000000000800                dataslot_write_lba(unsigned long, bool)
+ .text._ZN5cue_t9SetRegionEh
+                0x00000000000008a4        0x6 obj.riscv.amiga_mpu_bios/cue.o
+                0x00000000000008a4                cue_t::SetRegion(unsigned char)
+ .text._Z7GetDatav
+                0x00000000000008aa      0x220 obj.riscv.amiga_mpu_bios/fdd.o
+                0x00000000000008aa                GetData()
+ .text._Z8FindSyncP7adfTYPE
+                0x0000000000000aca       0x9c obj.riscv.amiga_mpu_bios/fdd.o
+                0x0000000000000aca                FindSync(adfTYPE*)
+ .text._Z9GetHeaderPhS_
+                0x0000000000000b66      0x29c obj.riscv.amiga_mpu_bios/fdd.o
+                0x0000000000000b66                GetHeader(unsigned char*, unsigned char*)
+ .text._Z10SendSectorPhhhhh
+                0x0000000000000e02      0x1dc obj.riscv.amiga_mpu_bios/fdd.o
+                0x0000000000000e02                SendSector(unsigned char*, unsigned char, unsigned char, unsigned char, unsigned char)
+ .text._Z10WriteTrackP7adfTYPE
+                0x0000000000000fde       0xde obj.riscv.amiga_mpu_bios/fdd.o
+                0x0000000000000fde                WriteTrack(adfTYPE*)
+ .text._Z9ReadTrackP7adfTYPE
+                0x00000000000010bc      0x290 obj.riscv.amiga_mpu_bios/fdd.o
+                0x00000000000010bc                ReadTrack(adfTYPE*)
+ .text.UpdateDriveStatus
+                0x000000000000134c       0xb4 obj.riscv.amiga_mpu_bios/fdd.o
+                0x000000000000134c                UpdateDriveStatus
+ .text.UnsertFloppy
+                0x0000000000001400       0x30 obj.riscv.amiga_mpu_bios/fdd.o
+                0x0000000000001400                UnsertFloppy
+ .text.RemoveDriveStatus
+                0x0000000000001430       0x10 obj.riscv.amiga_mpu_bios/fdd.o
+                0x0000000000001430                RemoveDriveStatus
+ .text.HandleFDD
+                0x0000000000001440       0x68 obj.riscv.amiga_mpu_bios/fdd.o
+                0x0000000000001440                HandleFDD
+ .text.InsertFloppy
+                0x00000000000014a8       0x84 obj.riscv.amiga_mpu_bios/fdd.o
+                0x00000000000014a8                InsertFloppy
+ .text._Z14HPS_EnableFpgav
+                0x000000000000152c       0x1e obj.riscv.amiga_mpu_bios/spi.o
+                0x000000000000152c                HPS_EnableFpga()
+ .text._Z15HPS_DisableFpgav
+                0x000000000000154a       0x1c obj.riscv.amiga_mpu_bios/spi.o
+                0x000000000000154a                HPS_DisableFpga()
+ .text._Z12HPS_fpga_spit
+                0x0000000000001566       0x4c obj.riscv.amiga_mpu_bios/spi.o
+                0x0000000000001566                HPS_fpga_spi(unsigned short)
+ .text._Z16HPS_spi_uio_cmd8hh
+                0x00000000000015b2       0x60 obj.riscv.amiga_mpu_bios/spi.o
+                0x00000000000015b2                HPS_spi_uio_cmd8(unsigned char, unsigned char)
+ .text.riscputchar
+                0x0000000000001612       0x10 obj.riscv.amiga_mpu_bios/uart.o
+                0x0000000000001612                riscputchar
+ .text.SetUART  0x0000000000001622        0xa obj.riscv.amiga_mpu_bios/uart.o
+                0x0000000000001622                SetUART
+ .text._handle_trap
+                0x000000000000162c        0x8 obj.riscv.amiga_mpu_bios/interrupts.o
+                0x000000000000162c                _handle_trap
+ .text._Z16EnableInterruptsv
+                0x0000000000001634        0x8 obj.riscv.amiga_mpu_bios/interrupts.o
+                0x0000000000001634                EnableInterrupts()
+ .text._Z17DisableInterruptsv
+                0x000000000000163c        0x6 obj.riscv.amiga_mpu_bios/interrupts.o
+                0x000000000000163c                DisableInterrupts()
+ .text._Z19Set_interrupt_Timerj
+                0x0000000000001642        0x6 obj.riscv.amiga_mpu_bios/timer.o
+                0x0000000000001642                Set_interrupt_Timer(unsigned int)
+ .text._Z21reset_interrupt_Timerv
+                0x0000000000001648       0x14 obj.riscv.amiga_mpu_bios/timer.o
+                0x0000000000001648                reset_interrupt_Timer()
+ .text._Z8SetTimerv
+                0x000000000000165c        0xe obj.riscv.amiga_mpu_bios/timer.o
+                0x000000000000165c                SetTimer()
+ .text._Z10riscusleepi
+                0x000000000000166a        0xe obj.riscv.amiga_mpu_bios/timer.o
+                0x000000000000166a                riscusleep(int)
+ .text._out_char
+                0x0000000000001678        0x6 obj.riscv.amiga_mpu_bios/printf.o
+ .text._ntoa_long.constprop.0
+                0x000000000000167e      0x43c obj.riscv.amiga_mpu_bios/printf.o
+ .text.printf_  0x0000000000001aba      0x5b8 obj.riscv.amiga_mpu_bios/printf.o
+                0x0000000000001aba                printf_
+ *(.rodata)
+ *(.rodata*)
+ *fill*         0x0000000000002072        0x2 
+ .rodata._Z10core_reseti.str1.4
+                0x0000000000002074        0xb obj.riscv.amiga_mpu_bios/core.o
+ *fill*         0x000000000000207f        0x1 
+ .rodata._Z21core_update_dataslotsv.str1.4
+                0x0000000000002080       0x15 obj.riscv.amiga_mpu_bios/core.o
+ *fill*         0x0000000000002095        0x3 
+ .rodata._Z4initv.str1.4
+                0x0000000000002098        0x5 obj.riscv.amiga_mpu_bios/main.o
+ *fill*         0x000000000000209d        0x3 
+ .rodata._Z8mainloopv.str1.4
+                0x00000000000020a0       0xce obj.riscv.amiga_mpu_bios/main.o
+ *fill*         0x000000000000216e        0x2 
+ .rodata._Z12minimig_biosv.str1.4
+                0x0000000000002170       0x33 obj.riscv.amiga_mpu_bios/minimig_config.o
+ *fill*         0x00000000000021a3        0x1 
+ .rodata._Z14dataslot_readyv.str1.4
+                0x00000000000021a4       0x22 obj.riscv.amiga_mpu_bios/apf.o
+ *fill*         0x00000000000021c6        0x2 
+ .rodata._Z13dataslot_readtmmm.str1.4
+                0x00000000000021c8      0x10c obj.riscv.amiga_mpu_bios/apf.o
+ .rodata._Z18dataslot_write_lbamb.str1.4
+                0x00000000000022d4       0x95 obj.riscv.amiga_mpu_bios/apf.o
+ *fill*         0x0000000000002369        0x3 
+ .rodata._Z9GetHeaderPhS_.str1.4
+                0x000000000000236c       0x3c obj.riscv.amiga_mpu_bios/fdd.o
+ .rodata._Z10WriteTrackP7adfTYPE.str1.4
+                0x00000000000023a8       0x48 obj.riscv.amiga_mpu_bios/fdd.o
+ .rodata._Z9ReadTrackP7adfTYPE.str1.4
+                0x00000000000023f0       0xa1 obj.riscv.amiga_mpu_bios/fdd.o
+ *fill*         0x0000000000002491        0x3 
+ .rodata.UpdateDriveStatus.str1.4
+                0x0000000000002494       0x79 obj.riscv.amiga_mpu_bios/fdd.o
+ *fill*         0x000000000000250d        0x3 
+ .rodata.UnsertFloppy.str1.4
+                0x0000000000002510        0x9 obj.riscv.amiga_mpu_bios/fdd.o
+ *fill*         0x0000000000002519        0x3 
+ .rodata.HandleFDD.str1.4
+                0x000000000000251c       0x27 obj.riscv.amiga_mpu_bios/fdd.o
+ *fill*         0x0000000000002543        0x1 
+ .rodata.InsertFloppy.str1.4
+                0x0000000000002544       0xa3 obj.riscv.amiga_mpu_bios/fdd.o
+ *fill*         0x00000000000025e7        0x1 
+ .rodata._handle_trap.str1.4
+                0x00000000000025e8        0xa obj.riscv.amiga_mpu_bios/interrupts.o
+ *fill*         0x00000000000025f2        0x2 
+ .rodata.printf_
+                0x00000000000025f4       0x44 obj.riscv.amiga_mpu_bios/printf.o
+ *(.rdata*)
+                0x0000000000002638                . = ALIGN (0x4)
+
+.rela.dyn       0x0000000000002638        0x0
+ .rela.text     0x0000000000002638        0x0 obj.riscv.amiga_mpu_bios/boot.o
+
+.data           0x0000000000002638        0x8
+ *(.got.plt)
+ *(.got)
+ *(.shdata)
+ *(.data .data.* .gnu.linkonce.d.*)
+                0x0000000000002640                . = ALIGN (0x10)
+ *fill*         0x0000000000002638        0x8 
+ *(.lit8)
+ *(.lit4)
+ *(.sdata .sdata.* .gnu.linkonce.s.*)
+                0x0000000000002640                . = ALIGN (0x8)
+ *(.ram)
+                0x0000000000002640                . = ALIGN (0x8)
+                0x0000000000002640                _edata = .
+
+.bss            0x0000000000002640     0x3318
+                0x0000000000002640                . = ALIGN (0x4)
+                0x0000000000002640                _bss_start = .
+ *(.bss*)
+ .bss.cue       0x0000000000002640      0xec4 obj.riscv.amiga_mpu_bios/cue.o
+                0x0000000000002640                cue
+ .bss.sector_bufferfdd0
+                0x0000000000003504      0x200 obj.riscv.amiga_mpu_bios/fdd.o
+                0x0000000000003504                sector_bufferfdd0
+ .bss.sector_bufferfdd1
+                0x0000000000003704     0x1600 obj.riscv.amiga_mpu_bios/fdd.o
+                0x0000000000003704                sector_bufferfdd1
+ .bss.df        0x0000000000004d04       0x50 obj.riscv.amiga_mpu_bios/fdd.o
+                0x0000000000004d04                df
+ *(.sbss*)
+ .sbss.Error    0x0000000000004d54        0x1 obj.riscv.amiga_mpu_bios/fdd.o
+                0x0000000000004d54                Error
+ .sbss.drives   0x0000000000004d55        0x1 obj.riscv.amiga_mpu_bios/fdd.o
+                0x0000000000004d55                drives
+ *(COMMON)
+                0x0000000000004d58                . = ALIGN (0x8)
+ *fill*         0x0000000000004d56        0x2 
+                0x0000000000005958                . = (. + 0xc00)
+ *fill*         0x0000000000004d58      0xc00 
+                0x0000000000005948                _sp = (. - 0x10)
+                0x0000000000005958                . = ALIGN (0x4)
+                0x0000000000005958                _end = .
+
+.payload
+ *(.payload)
+OUTPUT(build.riscv.amiga_mpu_bios/amiga_mpu_bios elf32-littleriscv)
+
+.riscv.attributes
+                0x0000000000000000       0x2f
+ .riscv.attributes
+                0x0000000000000000       0x2d obj.riscv.amiga_mpu_bios/boot.o
+ .riscv.attributes
+                0x000000000000002d       0x2b obj.riscv.amiga_mpu_bios/core.o
+ .riscv.attributes
+                0x0000000000000058       0x2b obj.riscv.amiga_mpu_bios/main.o
+ .riscv.attributes
+                0x0000000000000083       0x2b obj.riscv.amiga_mpu_bios/minimig_config.o
+ .riscv.attributes
+                0x00000000000000ae       0x2b obj.riscv.amiga_mpu_bios/inputs.o
+ .riscv.attributes
+                0x00000000000000d9       0x2b obj.riscv.amiga_mpu_bios/apf.o
+ .riscv.attributes
+                0x0000000000000104       0x2b obj.riscv.amiga_mpu_bios/cue.o
+ .riscv.attributes
+                0x000000000000012f       0x2b obj.riscv.amiga_mpu_bios/fdd.o
+ .riscv.attributes
+                0x000000000000015a       0x2b obj.riscv.amiga_mpu_bios/spi.o
+ .riscv.attributes
+                0x0000000000000185       0x2b obj.riscv.amiga_mpu_bios/uart.o
+ .riscv.attributes
+                0x00000000000001b0       0x2b obj.riscv.amiga_mpu_bios/interrupts.o
+ .riscv.attributes
+                0x00000000000001db       0x2b obj.riscv.amiga_mpu_bios/timer.o
+ .riscv.attributes
+                0x0000000000000206       0x2b obj.riscv.amiga_mpu_bios/printf.o
+
+.comment        0x0000000000000000       0x1b
+ .comment       0x0000000000000000       0x1b obj.riscv.amiga_mpu_bios/core.o
+                                         0x1c (size before relaxing)
+ .comment       0x000000000000001b       0x1c obj.riscv.amiga_mpu_bios/main.o
+ .comment       0x000000000000001b       0x1c obj.riscv.amiga_mpu_bios/minimig_config.o
+ .comment       0x000000000000001b       0x1c obj.riscv.amiga_mpu_bios/inputs.o
+ .comment       0x000000000000001b       0x1c obj.riscv.amiga_mpu_bios/apf.o
+ .comment       0x000000000000001b       0x1c obj.riscv.amiga_mpu_bios/cue.o
+ .comment       0x000000000000001b       0x1c obj.riscv.amiga_mpu_bios/fdd.o
+ .comment       0x000000000000001b       0x1c obj.riscv.amiga_mpu_bios/spi.o
+ .comment       0x000000000000001b       0x1c obj.riscv.amiga_mpu_bios/uart.o
+ .comment       0x000000000000001b       0x1c obj.riscv.amiga_mpu_bios/interrupts.o
+ .comment       0x000000000000001b       0x1c obj.riscv.amiga_mpu_bios/timer.o
+ .comment       0x000000000000001b       0x1c obj.riscv.amiga_mpu_bios/printf.o

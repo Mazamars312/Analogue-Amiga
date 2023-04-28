@@ -1,0 +1,30 @@
+graph: { title: "../lib/printf.c"
+node: { title: "../lib/printf.c:_out_null" label: "_out_null\n../lib/printf.c:94:20" }
+node: { title: "../lib/printf.c:_out_char" label: "_out_char\n../lib/printf.c:101:20" }
+node: { title: "riscputchar" label: "riscputchar\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/uart/uart.h:42:5" shape : ellipse }
+edge: { sourcename: "../lib/printf.c:_out_char" targetname: "riscputchar" label: "../lib/printf.c:105:5" }
+node: { title: "../lib/printf.c:_ntoa_long.constprop.0" label: "_ntoa_long.constprop\n../lib/printf.c:233:15" }
+node: { title: "__indirect_call" label: "Indirect Call Placeholder" shape : ellipse }
+edge: { sourcename: "../lib/printf.c:_ntoa_long.constprop.0" targetname: "__indirect_call" label: "../lib/printf.c:158:7" }
+edge: { sourcename: "../lib/printf.c:_ntoa_long.constprop.0" targetname: "__indirect_call" label: "../lib/printf.c:164:5" }
+edge: { sourcename: "../lib/printf.c:_ntoa_long.constprop.0" targetname: "__indirect_call" label: "../lib/printf.c:170:7" }
+node: { title: "printf_" label: "printf_\n../lib/printf.c:814:5" }
+edge: { sourcename: "printf_" targetname: "../lib/printf.c:_out_char" label: "../lib/printf.c:544:7" }
+edge: { sourcename: "printf_" targetname: "../lib/printf.c:_ntoa_long.constprop.0" label: "../lib/printf.c:684:19" }
+edge: { sourcename: "printf_" targetname: "../lib/printf.c:_ntoa_long.constprop.0" label: "../lib/printf.c:688:19" }
+edge: { sourcename: "printf_" targetname: "../lib/printf.c:_ntoa_long.constprop.0" label: "../lib/printf.c:699:19" }
+edge: { sourcename: "printf_" targetname: "../lib/printf.c:_ntoa_long.constprop.0" label: "../lib/printf.c:703:19" }
+edge: { sourcename: "printf_" targetname: "../lib/printf.c:_out_char" label: "../lib/printf.c:733:13" }
+edge: { sourcename: "printf_" targetname: "../lib/printf.c:_out_char" label: "../lib/printf.c:737:9" }
+edge: { sourcename: "printf_" targetname: "../lib/printf.c:_out_char" label: "../lib/printf.c:741:13" }
+edge: { sourcename: "printf_" targetname: "../lib/printf.c:_out_char" label: "../lib/printf.c:757:13" }
+edge: { sourcename: "printf_" targetname: "../lib/printf.c:_out_char" label: "../lib/printf.c:762:11" }
+edge: { sourcename: "printf_" targetname: "../lib/printf.c:_out_char" label: "../lib/printf.c:767:13" }
+edge: { sourcename: "printf_" targetname: "../lib/printf.c:_ntoa_long.constprop.0" label: "../lib/printf.c:784:17" }
+edge: { sourcename: "printf_" targetname: "../lib/printf.c:_out_char" label: "../lib/printf.c:793:9" }
+edge: { sourcename: "printf_" targetname: "../lib/printf.c:_out_char" label: "../lib/printf.c:798:9" }
+edge: { sourcename: "printf_" targetname: "../lib/printf.c:_out_char" label: "../lib/printf.c:805:3" }
+edge: { sourcename: "printf_" targetname: "../lib/printf.c:_out_char" label: "../lib/printf.c:737:9" }
+edge: { sourcename: "printf_" targetname: "../lib/printf.c:_out_char" label: "../lib/printf.c:737:9" }
+node: { title: "riscprintff_" label: "riscprintff_\n../lib/printf.c:825:5" }
+}

@@ -1,0 +1,3 @@
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/arch/riscv/interrupts.cpp:26:17:void _handle_trap()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/arch/riscv/interrupts.cpp:32:6:void EnableInterrupts()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/arch/riscv/interrupts.cpp:38:6:void DisableInterrupts()	0	static

@@ -1,0 +1,98 @@
+graph: { title: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp"
+node: { title: "_Z17osd_display_errori" label: "void osd_display_error(int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:36:6" }
+node: { title: "_Z8OsdWritePKchhcii" label: "void OsdWrite(const char*, unsigned char, unsigned char, char, int, int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.h:20:6" shape : ellipse }
+edge: { sourcename: "_Z17osd_display_errori" targetname: "_Z8OsdWritePKchhcii" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:38:11" }
+node: { title: "_Z9OsdUpdatei" label: "void OsdUpdate(int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.h:28:6" shape : ellipse }
+edge: { sourcename: "_Z17osd_display_errori" targetname: "_Z9OsdUpdatei" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:39:12" }
+node: { title: "_Z8OsdClearv" label: "void OsdClear()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.h:22:6" shape : ellipse }
+edge: { sourcename: "_Z17osd_display_errori" targetname: "_Z8OsdClearv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:40:11" }
+edge: { sourcename: "_Z17osd_display_errori" targetname: "_Z8OsdWritePKchhcii" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:41:11" }
+edge: { sourcename: "_Z17osd_display_errori" targetname: "_Z9OsdUpdatei" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:42:12" }
+edge: { sourcename: "_Z17osd_display_errori" targetname: "_Z8OsdClearv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:43:11" }
+edge: { sourcename: "_Z17osd_display_errori" targetname: "_Z8OsdWritePKchhcii" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:44:11" }
+edge: { sourcename: "_Z17osd_display_errori" targetname: "_Z9OsdUpdatei" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:45:12" }
+edge: { sourcename: "_Z17osd_display_errori" targetname: "_Z8OsdClearv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:46:11" }
+edge: { sourcename: "_Z17osd_display_errori" targetname: "_Z8OsdWritePKchhcii" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:47:11" }
+edge: { sourcename: "_Z17osd_display_errori" targetname: "_Z9OsdUpdatei" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:48:12" }
+edge: { sourcename: "_Z17osd_display_errori" targetname: "_Z8OsdClearv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:49:11" }
+edge: { sourcename: "_Z17osd_display_errori" targetname: "_Z8OsdWritePKchhcii" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:50:11" }
+edge: { sourcename: "_Z17osd_display_errori" targetname: "_Z9OsdUpdatei" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:51:12" }
+edge: { sourcename: "_Z17osd_display_errori" targetname: "_Z8OsdClearv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:52:11" }
+edge: { sourcename: "_Z17osd_display_errori" targetname: "_Z8OsdWritePKchhcii" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:53:11" }
+edge: { sourcename: "_Z17osd_display_errori" targetname: "_Z9OsdUpdatei" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:54:12" }
+edge: { sourcename: "_Z17osd_display_errori" targetname: "_Z8OsdClearv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:55:11" }
+edge: { sourcename: "_Z17osd_display_errori" targetname: "_Z8OsdWritePKchhcii" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:56:11" }
+edge: { sourcename: "_Z17osd_display_errori" targetname: "_Z9OsdUpdatei" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:57:12" }
+edge: { sourcename: "_Z17osd_display_errori" targetname: "_Z8OsdClearv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:58:11" }
+edge: { sourcename: "_Z17osd_display_errori" targetname: "_Z8OsdWritePKchhcii" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:59:11" }
+edge: { sourcename: "_Z17osd_display_errori" targetname: "_Z9OsdUpdatei" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:60:12" }
+edge: { sourcename: "_Z17osd_display_errori" targetname: "_Z8OsdClearv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:61:11" }
+node: { title: "sprintf" label: ")\n/opt/riscv/riscv32-unknown-elf/include/stdio.h:244:5" shape : ellipse }
+edge: { sourcename: "_Z17osd_display_errori" targetname: "sprintf" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:62:11" }
+edge: { sourcename: "_Z17osd_display_errori" targetname: "_Z8OsdWritePKchhcii" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:63:11" }
+edge: { sourcename: "_Z17osd_display_errori" targetname: "_Z9OsdUpdatei" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:64:12" }
+edge: { sourcename: "_Z17osd_display_errori" targetname: "_Z8OsdClearv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:65:11" }
+edge: { sourcename: "_Z17osd_display_errori" targetname: "_Z8OsdWritePKchhcii" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:67:11" }
+edge: { sourcename: "_Z17osd_display_errori" targetname: "_Z9OsdUpdatei" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:68:12" }
+edge: { sourcename: "_Z17osd_display_errori" targetname: "_Z8OsdClearv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:69:11" }
+node: { title: "_Z10InfoEnableiiiiii" label: "void InfoEnable(int, int, int, int, int, int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.h:24:6" shape : ellipse }
+edge: { sourcename: "_Z17osd_display_errori" targetname: "_Z10InfoEnableiiiiii" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:70:13" }
+node: { title: "_Z21osd_display_error_apfv" label: "void osd_display_error_apf()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:74:6" }
+node: { title: "_Z16osd_display_infov" label: "void osd_display_info()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:78:6" }
+edge: { sourcename: "_Z16osd_display_infov" targetname: "_Z8OsdClearv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:81:13" }
+edge: { sourcename: "_Z16osd_display_infov" targetname: "sprintf" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:82:13" }
+edge: { sourcename: "_Z16osd_display_infov" targetname: "_Z8OsdWritePKchhcii" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:83:13" }
+edge: { sourcename: "_Z16osd_display_infov" targetname: "_Z9OsdUpdatei" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:84:14" }
+edge: { sourcename: "_Z16osd_display_infov" targetname: "_Z8OsdClearv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:85:13" }
+edge: { sourcename: "_Z16osd_display_infov" targetname: "sprintf" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:86:13" }
+edge: { sourcename: "_Z16osd_display_infov" targetname: "_Z8OsdWritePKchhcii" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:87:13" }
+edge: { sourcename: "_Z16osd_display_infov" targetname: "_Z9OsdUpdatei" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:88:14" }
+edge: { sourcename: "_Z16osd_display_infov" targetname: "_Z8OsdClearv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:89:13" }
+edge: { sourcename: "_Z16osd_display_infov" targetname: "_Z9OsdUpdatei" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:90:14" }
+edge: { sourcename: "_Z16osd_display_infov" targetname: "_Z9OsdUpdatei" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:91:14" }
+edge: { sourcename: "_Z16osd_display_infov" targetname: "_Z9OsdUpdatei" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:92:14" }
+edge: { sourcename: "_Z16osd_display_infov" targetname: "_Z10InfoEnableiiiiii" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:95:17" }
+node: { title: "_Z11ResetTimer2v" label: "void ResetTimer2()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.h:65:6" shape : ellipse }
+edge: { sourcename: "_Z16osd_display_infov" targetname: "_Z11ResetTimer2v" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:96:18" }
+node: { title: "_Z13RISCGetTimer2mi" label: "uint32_t RISCGetTimer2(uint32_t, int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.h:60:10" shape : ellipse }
+edge: { sourcename: "_Z16osd_display_infov" targetname: "_Z13RISCGetTimer2mi" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:97:39" }
+edge: { sourcename: "_Z16osd_display_infov" targetname: "_Z10InfoEnableiiiiii" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:101:17" }
+node: { title: "_Z10OsdDisablev" label: "void OsdDisable()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.h:26:6" shape : ellipse }
+edge: { sourcename: "_Z16osd_display_infov" targetname: "_Z10OsdDisablev" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:108:15" }
+node: { title: "_Z23osd_display_info_updatei" label: "void osd_display_info_update(int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:112:6" }
+node: { title: "_Z18osd_display_timinghhh" label: "void osd_display_timing(uint8_t, uint8_t, uint8_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:119:6" }
+node: { title: "_Z26osd_display_error_datasloti" label: "void osd_display_error_dataslot(int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:127:6" }
+edge: { sourcename: "_Z26osd_display_error_datasloti" targetname: "sprintf" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:132:11" }
+edge: { sourcename: "_Z26osd_display_error_datasloti" targetname: "_Z8OsdWritePKchhcii" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:133:11" }
+edge: { sourcename: "_Z26osd_display_error_datasloti" targetname: "_Z9OsdUpdatei" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:134:12" }
+edge: { sourcename: "_Z26osd_display_error_datasloti" targetname: "_Z8OsdClearv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:135:11" }
+edge: { sourcename: "_Z26osd_display_error_datasloti" targetname: "_Z8OsdWritePKchhcii" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:136:11" }
+edge: { sourcename: "_Z26osd_display_error_datasloti" targetname: "_Z9OsdUpdatei" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:137:12" }
+edge: { sourcename: "_Z26osd_display_error_datasloti" targetname: "_Z8OsdClearv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:138:11" }
+edge: { sourcename: "_Z26osd_display_error_datasloti" targetname: "_Z8OsdWritePKchhcii" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:139:11" }
+edge: { sourcename: "_Z26osd_display_error_datasloti" targetname: "_Z9OsdUpdatei" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:140:12" }
+edge: { sourcename: "_Z26osd_display_error_datasloti" targetname: "_Z8OsdClearv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:141:11" }
+edge: { sourcename: "_Z26osd_display_error_datasloti" targetname: "_Z8OsdWritePKchhcii" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:142:11" }
+edge: { sourcename: "_Z26osd_display_error_datasloti" targetname: "_Z9OsdUpdatei" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:143:12" }
+edge: { sourcename: "_Z26osd_display_error_datasloti" targetname: "_Z8OsdClearv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:144:11" }
+edge: { sourcename: "_Z26osd_display_error_datasloti" targetname: "_Z8OsdWritePKchhcii" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:145:11" }
+edge: { sourcename: "_Z26osd_display_error_datasloti" targetname: "_Z9OsdUpdatei" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:146:12" }
+edge: { sourcename: "_Z26osd_display_error_datasloti" targetname: "_Z8OsdClearv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:147:11" }
+edge: { sourcename: "_Z26osd_display_error_datasloti" targetname: "_Z8OsdWritePKchhcii" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:148:11" }
+edge: { sourcename: "_Z26osd_display_error_datasloti" targetname: "_Z9OsdUpdatei" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:149:12" }
+edge: { sourcename: "_Z26osd_display_error_datasloti" targetname: "_Z8OsdClearv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:150:11" }
+edge: { sourcename: "_Z26osd_display_error_datasloti" targetname: "_Z8OsdWritePKchhcii" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:151:11" }
+edge: { sourcename: "_Z26osd_display_error_datasloti" targetname: "_Z9OsdUpdatei" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:152:12" }
+edge: { sourcename: "_Z26osd_display_error_datasloti" targetname: "_Z8OsdClearv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:153:11" }
+edge: { sourcename: "_Z26osd_display_error_datasloti" targetname: "_Z8OsdWritePKchhcii" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:154:11" }
+edge: { sourcename: "_Z26osd_display_error_datasloti" targetname: "_Z9OsdUpdatei" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:155:12" }
+edge: { sourcename: "_Z26osd_display_error_datasloti" targetname: "_Z8OsdClearv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:156:11" }
+edge: { sourcename: "_Z26osd_display_error_datasloti" targetname: "sprintf" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:157:11" }
+edge: { sourcename: "_Z26osd_display_error_datasloti" targetname: "_Z8OsdWritePKchhcii" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:158:11" }
+edge: { sourcename: "_Z26osd_display_error_datasloti" targetname: "_Z9OsdUpdatei" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:159:12" }
+edge: { sourcename: "_Z26osd_display_error_datasloti" targetname: "_Z8OsdClearv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:160:11" }
+edge: { sourcename: "_Z26osd_display_error_datasloti" targetname: "_Z8OsdWritePKchhcii" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:162:11" }
+edge: { sourcename: "_Z26osd_display_error_datasloti" targetname: "_Z9OsdUpdatei" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:163:12" }
+edge: { sourcename: "_Z26osd_display_error_datasloti" targetname: "_Z8OsdClearv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:164:11" }
+edge: { sourcename: "_Z26osd_display_error_datasloti" targetname: "_Z10InfoEnableiiiiii" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:165:13" }
+}

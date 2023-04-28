@@ -1,0 +1,68 @@
+graph: { title: "main.cpp"
+node: { title: "_Z4initv" label: "void init()\nmain.cpp:38:6" }
+node: { title: "_Z10core_reseti" label: "void core_reset(int)\ncore.h:57:6" shape : ellipse }
+edge: { sourcename: "_Z4initv" targetname: "_Z10core_reseti" label: "main.cpp:41:13" }
+node: { title: "_Z17DisableInterruptsv" label: "void DisableInterrupts()\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/arch/riscv/interrupts.h:38:6" shape : ellipse }
+edge: { sourcename: "_Z4initv" targetname: "_Z17DisableInterruptsv" label: "main.cpp:43:20" }
+node: { title: "_Z8SetTimerv" label: "void SetTimer()\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/arch/riscv/timer.h:49:6" shape : ellipse }
+edge: { sourcename: "_Z4initv" targetname: "_Z8SetTimerv" label: "main.cpp:45:10" }
+node: { title: "SetUART" label: "void SetUART()\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/uart/uart.h:45:6" shape : ellipse }
+edge: { sourcename: "_Z4initv" targetname: "SetUART" label: "main.cpp:46:9" }
+node: { title: "_Z21reset_interrupt_Timerv" label: "void reset_interrupt_Timer()\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/arch/riscv/timer.h:47:6" shape : ellipse }
+edge: { sourcename: "_Z4initv" targetname: "_Z21reset_interrupt_Timerv" label: "main.cpp:47:23" }
+node: { title: "_Z10riscusleepi" label: "void riscusleep(int)\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/arch/riscv/timer.h:50:6" shape : ellipse }
+edge: { sourcename: "_Z4initv" targetname: "_Z10riscusleepi" label: "main.cpp:48:13" }
+node: { title: "printf_" label: ")\n../lib/printf.h:68:5" shape : ellipse }
+edge: { sourcename: "_Z4initv" targetname: "printf_" label: "main.cpp:49:9" }
+node: { title: "_Z18core_restart_firstv" label: "void core_restart_first()\ncore.h:62:6" shape : ellipse }
+edge: { sourcename: "_Z4initv" targetname: "_Z18core_restart_firstv" label: "main.cpp:52:21" }
+node: { title: "_Z8mainloopv" label: "void mainloop()\nmain.cpp:55:6" }
+edge: { sourcename: "_Z8mainloopv" targetname: "_Z10riscusleepi" label: "main.cpp:58:12" }
+edge: { sourcename: "_Z8mainloopv" targetname: "printf_" label: "main.cpp:59:8" }
+edge: { sourcename: "_Z8mainloopv" targetname: "printf_" label: "main.cpp:60:8" }
+edge: { sourcename: "_Z8mainloopv" targetname: "printf_" label: "main.cpp:61:8" }
+edge: { sourcename: "_Z8mainloopv" targetname: "printf_" label: "main.cpp:62:8" }
+node: { title: "minimig_restart_first" label: "void minimig_restart_first()\nminimig_config.h:51:6" shape : ellipse }
+edge: { sourcename: "_Z8mainloopv" targetname: "minimig_restart_first" label: "main.cpp:64:24" }
+node: { title: "_Z21core_update_dataslotsv" label: "void core_update_dataslots()\ncore.h:58:6" shape : ellipse }
+edge: { sourcename: "_Z8mainloopv" targetname: "_Z21core_update_dataslotsv" label: "main.cpp:65:24" }
+edge: { sourcename: "_Z8mainloopv" targetname: "_Z10riscusleepi" label: "main.cpp:66:12" }
+edge: { sourcename: "_Z8mainloopv" targetname: "_Z10core_reseti" label: "main.cpp:67:12" }
+node: { title: "_Z16core_input_setupv" label: "void core_input_setup()\ncore.h:64:6" shape : ellipse }
+edge: { sourcename: "_Z8mainloopv" targetname: "_Z16core_input_setupv" label: "main.cpp:68:18" }
+node: { title: "_Z16EnableInterruptsv" label: "void EnableInterrupts()\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/arch/riscv/interrupts.h:37:6" shape : ellipse }
+edge: { sourcename: "_Z8mainloopv" targetname: "_Z16EnableInterruptsv" label: "main.cpp:69:19" }
+edge: { sourcename: "_Z8mainloopv" targetname: "printf_" label: "main.cpp:71:9" }
+edge: { sourcename: "_Z8mainloopv" targetname: "_Z17DisableInterruptsv" label: "main.cpp:76:21" }
+edge: { sourcename: "_Z8mainloopv" targetname: "printf_" label: "main.cpp:77:13" }
+edge: { sourcename: "_Z8mainloopv" targetname: "_Z21core_update_dataslotsv" label: "main.cpp:78:28" }
+edge: { sourcename: "_Z8mainloopv" targetname: "printf_" label: "main.cpp:79:13" }
+edge: { sourcename: "_Z8mainloopv" targetname: "_Z16EnableInterruptsv" label: "main.cpp:80:20" }
+node: { title: "_Z12core_poll_iov" label: "void core_poll_io()\ncore.h:60:6" shape : ellipse }
+edge: { sourcename: "_Z8mainloopv" targetname: "_Z12core_poll_iov" label: "main.cpp:83:16" }
+node: { title: "_Z16input_reg_updatev" label: "void input_reg_update()\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/KMIO/inputs.h:62:6" shape : ellipse }
+edge: { sourcename: "_Z8mainloopv" targetname: "_Z16input_reg_updatev" label: "main.cpp:84:21" }
+node: { title: "_Z15core_reg_updatev" label: "void core_reg_update()\ncore.h:61:6" shape : ellipse }
+edge: { sourcename: "_Z8mainloopv" targetname: "_Z15core_reg_updatev" label: "main.cpp:85:20" }
+edge: { sourcename: "_Z8mainloopv" targetname: "_Z17DisableInterruptsv" label: "main.cpp:89:24" }
+edge: { sourcename: "_Z8mainloopv" targetname: "printf_" label: "main.cpp:90:13" }
+edge: { sourcename: "_Z8mainloopv" targetname: "_Z10core_reseti" label: "main.cpp:91:17" }
+edge: { sourcename: "_Z8mainloopv" targetname: "_Z10riscusleepi" label: "main.cpp:92:17" }
+node: { title: "minimig_restart_running_core" label: "void minimig_restart_running_core()\nminimig_config.h:52:6" shape : ellipse }
+edge: { sourcename: "_Z8mainloopv" targetname: "minimig_restart_running_core" label: "main.cpp:94:35" }
+edge: { sourcename: "_Z8mainloopv" targetname: "_Z10riscusleepi" label: "main.cpp:95:17" }
+edge: { sourcename: "_Z8mainloopv" targetname: "_Z10core_reseti" label: "main.cpp:96:17" }
+edge: { sourcename: "_Z8mainloopv" targetname: "_Z10riscusleepi" label: "main.cpp:97:17" }
+node: { title: "RemoveDriveStatus" label: "void RemoveDriveStatus()\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.h:79:6" shape : ellipse }
+edge: { sourcename: "_Z8mainloopv" targetname: "RemoveDriveStatus" label: "main.cpp:98:24" }
+edge: { sourcename: "_Z8mainloopv" targetname: "_Z10riscusleepi" label: "main.cpp:99:17" }
+node: { title: "UpdateDriveStatus" label: "void UpdateDriveStatus()\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/floppy_drive/fdd.h:77:6" shape : ellipse }
+edge: { sourcename: "_Z8mainloopv" targetname: "UpdateDriveStatus" label: "main.cpp:100:24" }
+edge: { sourcename: "_Z8mainloopv" targetname: "printf_" label: "main.cpp:101:13" }
+edge: { sourcename: "_Z8mainloopv" targetname: "_Z16EnableInterruptsv" label: "main.cpp:102:23" }
+node: { title: "main" label: "int main()\nmain.cpp:107:5" }
+edge: { sourcename: "main" targetname: "_Z4initv" label: "main.cpp:110:6" }
+edge: { sourcename: "main" targetname: "_Z10riscusleepi" label: "main.cpp:111:12" }
+edge: { sourcename: "main" targetname: "_Z8mainloopv" label: "main.cpp:112:10" }
+node: { title: "_Z11irqCallbackv" label: "void irqCallback()\nmain.cpp:116:6" }
+}

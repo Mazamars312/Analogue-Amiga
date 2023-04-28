@@ -1,0 +1,13 @@
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/apf/apf.cpp:32:6:bool dataslot_ready()	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/apf/apf.cpp:40:9:uint8_t dataslot_status()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/apf/apf.cpp:46:10:uint32_t dataslot_search_id(uint16_t)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/apf/apf.cpp:60:10:uint32_t dataslot_size(uint16_t)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/apf/apf.cpp:73:6:bool dataslot_updated()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/apf/apf.cpp:82:10:uint32_t dataslot_read(uint16_t, uint32_t, uint32_t, uint32_t)	32	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/apf/apf.cpp:121:10:uint32_t dataslot_write(uint16_t, uint32_t, uint32_t, uint32_t)	32	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/apf/apf.cpp:144:10:uint32_t dataslot_read_lba_set_fast(uint16_t, uint32_t, uint32_t, uint32_t)	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/apf/apf.cpp:174:10:uint32_t dataslot_read_lba_set(uint16_t, uint32_t, uint32_t)	32	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/apf/apf.cpp:187:10:uint32_t dataslot_read_lba(uint32_t)	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/apf/apf.cpp:218:10:uint32_t dataslot_read_lba_fast(uint32_t, bool)	32	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/apf/apf.cpp:244:10:uint32_t dataslot_write_lba_set(uint16_t, uint32_t, uint32_t)	32	static
+/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/apf/apf.cpp:255:10:uint32_t dataslot_write_lba(uint32_t, bool)	32	static

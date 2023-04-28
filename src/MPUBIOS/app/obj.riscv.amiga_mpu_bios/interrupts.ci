@@ -1,0 +1,9 @@
+graph: { title: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/interrupts.cpp"
+node: { title: "_handle_trap" label: "void _handle_trap()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/interrupts.cpp:25:17" }
+node: { title: "_Z17core_input_updatev" label: "void core_input_update()\n./core.h:65:6" shape : ellipse }
+edge: { sourcename: "_handle_trap" targetname: "_Z17core_input_updatev" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/interrupts.cpp:27:19" }
+node: { title: "_Z16EnableInterruptsv" label: "void EnableInterrupts()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/interrupts.cpp:33:6" }
+node: { title: "_Z22timer1Interrupts_setupm" label: "void timer1Interrupts_setup(uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/interrupts.cpp:37:6" }
+node: { title: "_Z22timer1Interrupts_resetv" label: "void timer1Interrupts_reset()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/interrupts.cpp:40:6" }
+node: { title: "_Z17DisableInterruptsv" label: "void DisableInterrupts()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/interrupts.cpp:44:6" }
+}

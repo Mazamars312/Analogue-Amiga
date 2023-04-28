@@ -1,0 +1,5 @@
+graph: { title: "../lib/bcmp.c"
+node: { title: "bcmp" label: "bcmp\n../lib/bcmp.c:13:5" }
+node: { title: "memcmp" label: "memcmp\n../lib/_string.h:42:5" shape : ellipse }
+edge: { sourcename: "bcmp" targetname: "memcmp" label: "../lib/bcmp.c:16:12" }
+}

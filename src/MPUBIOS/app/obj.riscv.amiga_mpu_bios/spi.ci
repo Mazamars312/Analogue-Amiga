@@ -1,0 +1,111 @@
+graph: { title: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp"
+node: { title: "_Z18HPS_fpga_gpo_writem" label: "void HPS_fpga_gpo_write(uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:38:6" }
+node: { title: "_Z17HPS_fpga_gpo_readv" label: "uint32_t HPS_fpga_gpo_read()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:42:10" }
+node: { title: "_Z17HPS_fpga_gpi_readv" label: "uint32_t HPS_fpga_gpi_read()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:47:10" }
+node: { title: "_Z15HPS_fpga_spi_enmm" label: "void HPS_fpga_spi_en(uint32_t, uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:51:6" }
+node: { title: "_Z14HPS_EnableFpgav" label: "void HPS_EnableFpga()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:60:6" }
+node: { title: "_Z17DisableInterruptsv" label: "void DisableInterrupts()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/interrupts.h:43:6" shape : ellipse }
+edge: { sourcename: "_Z14HPS_EnableFpgav" targetname: "_Z17DisableInterruptsv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:62:20" }
+node: { title: "_Z15HPS_DisableFpgav" label: "void HPS_DisableFpga()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:67:6" }
+node: { title: "_Z16EnableInterruptsv" label: "void EnableInterrupts()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/interrupts.h:42:6" shape : ellipse }
+edge: { sourcename: "_Z15HPS_DisableFpgav" targetname: "_Z16EnableInterruptsv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:70:19" }
+node: { title: "_Z12HPS_EnableIOv" label: "void HPS_EnableIO()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:73:6" }
+edge: { sourcename: "_Z12HPS_EnableIOv" targetname: "_Z17DisableInterruptsv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:75:20" }
+node: { title: "_Z13HPS_DisableIOv" label: "void HPS_DisableIO()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:79:6" }
+edge: { sourcename: "_Z13HPS_DisableIOv" targetname: "_Z16EnableInterruptsv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:82:19" }
+node: { title: "_Z12HPS_fpga_spit" label: "uint16_t HPS_fpga_spi(uint16_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:85:10" }
+node: { title: "_Z12HPS_spi_readPhmi" label: "void HPS_spi_read(uint8_t*, uint32_t, int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:113:6" }
+edge: { sourcename: "_Z12HPS_spi_readPhmi" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:92:21" }
+edge: { sourcename: "_Z12HPS_spi_readPhmi" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:92:21" }
+edge: { sourcename: "_Z12HPS_spi_readPhmi" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:97:30" }
+node: { title: "_Z13HPS_spi_writePKhmi" label: "void HPS_spi_write(const uint8_t*, uint32_t, int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:128:6" }
+edge: { sourcename: "_Z13HPS_spi_writePKhmi" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:92:21" }
+edge: { sourcename: "_Z13HPS_spi_writePKhmi" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:92:21" }
+edge: { sourcename: "_Z13HPS_spi_writePKhmi" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:97:30" }
+node: { title: "_Z18HPS_spi_block_readPhii" label: "void HPS_spi_block_read(uint8_t*, int, int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:143:6" }
+node: { title: "_Z19HPS_spi_block_writePKhii" label: "void HPS_spi_block_write(const uint8_t*, int, int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:149:6" }
+node: { title: "_Z7spi32_wm" label: "uint32_t spi32_w(uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:155:10" }
+edge: { sourcename: "_Z7spi32_wm" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:92:21" }
+edge: { sourcename: "_Z7spi32_wm" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:92:21" }
+node: { title: "_Z20HPS_spi_uio_cmd_contt" label: "uint16_t HPS_spi_uio_cmd_cont(uint16_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:163:10" }
+edge: { sourcename: "_Z20HPS_spi_uio_cmd_contt" targetname: "_Z17DisableInterruptsv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:75:20" }
+edge: { sourcename: "_Z20HPS_spi_uio_cmd_contt" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:92:21" }
+node: { title: "_Z15HPS_spi_uio_cmdt" label: "uint16_t HPS_spi_uio_cmd(uint16_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:171:10" }
+edge: { sourcename: "_Z15HPS_spi_uio_cmdt" targetname: "_Z17DisableInterruptsv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:75:20" }
+edge: { sourcename: "_Z15HPS_spi_uio_cmdt" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:92:21" }
+edge: { sourcename: "_Z15HPS_spi_uio_cmdt" targetname: "_Z16EnableInterruptsv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:82:19" }
+node: { title: "_Z21HPS_spi_uio_cmd8_conthh" label: "uint8_t HPS_spi_uio_cmd8_cont(uint8_t, uint8_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:178:9" }
+edge: { sourcename: "_Z21HPS_spi_uio_cmd8_conthh" targetname: "_Z17DisableInterruptsv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:75:20" }
+node: { title: "_Z10riscusleepi" label: "void riscusleep(int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.h:51:6" shape : ellipse }
+edge: { sourcename: "_Z21HPS_spi_uio_cmd8_conthh" targetname: "_Z10riscusleepi" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:181:13" }
+edge: { sourcename: "_Z21HPS_spi_uio_cmd8_conthh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:97:30" }
+edge: { sourcename: "_Z21HPS_spi_uio_cmd8_conthh" targetname: "_Z10riscusleepi" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:183:13" }
+edge: { sourcename: "_Z21HPS_spi_uio_cmd8_conthh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:97:30" }
+node: { title: "_Z16HPS_spi_uio_cmd8hh" label: "uint8_t HPS_spi_uio_cmd8(uint8_t, uint8_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:187:9" }
+edge: { sourcename: "_Z16HPS_spi_uio_cmd8hh" targetname: "_Z17DisableInterruptsv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:75:20" }
+edge: { sourcename: "_Z16HPS_spi_uio_cmd8hh" targetname: "_Z10riscusleepi" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:181:13" }
+edge: { sourcename: "_Z16HPS_spi_uio_cmd8hh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:97:30" }
+edge: { sourcename: "_Z16HPS_spi_uio_cmd8hh" targetname: "_Z10riscusleepi" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:183:13" }
+edge: { sourcename: "_Z16HPS_spi_uio_cmd8hh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:97:30" }
+edge: { sourcename: "_Z16HPS_spi_uio_cmd8hh" targetname: "_Z10riscusleepi" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:192:13" }
+edge: { sourcename: "_Z16HPS_spi_uio_cmd8hh" targetname: "_Z16EnableInterruptsv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:82:19" }
+node: { title: "_Z17HPS_spi_uio_cmd16ht" label: "uint16_t HPS_spi_uio_cmd16(uint8_t, uint16_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:197:10" }
+edge: { sourcename: "_Z17HPS_spi_uio_cmd16ht" targetname: "_Z17DisableInterruptsv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:75:20" }
+edge: { sourcename: "_Z17HPS_spi_uio_cmd16ht" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:92:21" }
+edge: { sourcename: "_Z17HPS_spi_uio_cmd16ht" targetname: "_Z10riscusleepi" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:200:13" }
+edge: { sourcename: "_Z17HPS_spi_uio_cmd16ht" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:92:21" }
+edge: { sourcename: "_Z17HPS_spi_uio_cmd16ht" targetname: "_Z10riscusleepi" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:202:13" }
+edge: { sourcename: "_Z17HPS_spi_uio_cmd16ht" targetname: "_Z16EnableInterruptsv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:82:19" }
+node: { title: "_Z17HPS_spi_uio_cmd32hmi" label: "void HPS_spi_uio_cmd32(uint8_t, uint32_t, int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:207:6" }
+edge: { sourcename: "_Z17HPS_spi_uio_cmd32hmi" targetname: "_Z17DisableInterruptsv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:75:20" }
+edge: { sourcename: "_Z17HPS_spi_uio_cmd32hmi" targetname: "_Z10riscusleepi" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:210:13" }
+edge: { sourcename: "_Z17HPS_spi_uio_cmd32hmi" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:97:30" }
+edge: { sourcename: "_Z17HPS_spi_uio_cmd32hmi" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:92:21" }
+edge: { sourcename: "_Z17HPS_spi_uio_cmd32hmi" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:92:21" }
+edge: { sourcename: "_Z17HPS_spi_uio_cmd32hmi" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:97:30" }
+edge: { sourcename: "_Z17HPS_spi_uio_cmd32hmi" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:97:30" }
+edge: { sourcename: "_Z17HPS_spi_uio_cmd32hmi" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:97:30" }
+edge: { sourcename: "_Z17HPS_spi_uio_cmd32hmi" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:97:30" }
+edge: { sourcename: "_Z17HPS_spi_uio_cmd32hmi" targetname: "_Z16EnableInterruptsv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:82:19" }
+node: { title: "_Z16HPS_io_set_indexh" label: "void HPS_io_set_index(unsigned char)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:227:6" }
+edge: { sourcename: "_Z16HPS_io_set_indexh" targetname: "_Z17DisableInterruptsv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:62:20" }
+edge: { sourcename: "_Z16HPS_io_set_indexh" targetname: "_Z10riscusleepi" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:230:13" }
+edge: { sourcename: "_Z16HPS_io_set_indexh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:97:30" }
+edge: { sourcename: "_Z16HPS_io_set_indexh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:97:30" }
+edge: { sourcename: "_Z16HPS_io_set_indexh" targetname: "_Z16EnableInterruptsv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:70:19" }
+node: { title: "_Z19HPS_io_set_downloadhi" label: "void HPS_io_set_download(unsigned char, int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:236:6" }
+edge: { sourcename: "_Z19HPS_io_set_downloadhi" targetname: "_Z17DisableInterruptsv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:62:20" }
+edge: { sourcename: "_Z19HPS_io_set_downloadhi" targetname: "_Z10riscusleepi" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:239:13" }
+edge: { sourcename: "_Z19HPS_io_set_downloadhi" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:97:30" }
+edge: { sourcename: "_Z19HPS_io_set_downloadhi" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:97:30" }
+edge: { sourcename: "_Z19HPS_io_set_downloadhi" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:97:30" }
+edge: { sourcename: "_Z19HPS_io_set_downloadhi" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:92:21" }
+edge: { sourcename: "_Z19HPS_io_set_downloadhi" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:92:21" }
+edge: { sourcename: "_Z19HPS_io_set_downloadhi" targetname: "_Z16EnableInterruptsv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:70:19" }
+node: { title: "_Z19HPS_io_file_tx_dataPKhmi" label: "void HPS_io_file_tx_data(const uint8_t*, uint32_t, int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:250:6" }
+edge: { sourcename: "_Z19HPS_io_file_tx_dataPKhmi" targetname: "_Z17DisableInterruptsv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:75:20" }
+edge: { sourcename: "_Z19HPS_io_file_tx_dataPKhmi" targetname: "_Z10riscusleepi" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:253:13" }
+edge: { sourcename: "_Z19HPS_io_file_tx_dataPKhmi" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:97:30" }
+edge: { sourcename: "_Z19HPS_io_file_tx_dataPKhmi" targetname: "_Z13HPS_spi_writePKhmi" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:255:15" }
+edge: { sourcename: "_Z19HPS_io_file_tx_dataPKhmi" targetname: "_Z16EnableInterruptsv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:82:19" }
+node: { title: "_Z23HPS_fpga_spi_write_fastt" label: "void HPS_fpga_spi_write_fast(uint16_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:259:6" }
+node: { title: "_Z18HPS_spi_write_fastPKhmi" label: "void HPS_spi_write_fast(const uint8_t*, uint32_t, int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:269:6" }
+node: { title: "_Z17HPS_fpga_spi_fastt" label: "uint16_t HPS_fpga_spi_fast(uint16_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:288:10" }
+node: { title: "_Z29HPS_fpga_spi_fast_block_writePKtm" label: "void HPS_fpga_spi_fast_block_write(const uint16_t*, uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:297:6" }
+node: { title: "_Z28HPS_fpga_spi_fast_block_readPtmb" label: "void HPS_fpga_spi_fast_block_read(uint16_t*, uint32_t, bool)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:311:6" }
+node: { title: "_Z32HPS_fpga_spi_fast_block_write_bePKtm" label: "void HPS_fpga_spi_fast_block_write_be(const uint16_t*, uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:324:6" }
+node: { title: "_Z31HPS_fpga_spi_fast_block_read_bePtm" label: "void HPS_fpga_spi_fast_block_read_be(uint16_t*, uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:341:6" }
+node: { title: "_Z16HPS_EnableOsd_oni" label: "void HPS_EnableOsd_on(int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:358:6" }
+node: { title: "_Z13HPS_EnableOsdv" label: "void HPS_EnableOsd()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:365:6" }
+node: { title: "_Z14HPS_DisableOsdv" label: "void HPS_DisableOsd()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:374:6" }
+node: { title: "_Z20HPS_spi_osd_cmd_conth" label: "void HPS_spi_osd_cmd_cont(uint8_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:379:6" }
+edge: { sourcename: "_Z20HPS_spi_osd_cmd_conth" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:97:30" }
+node: { title: "_Z15HPS_spi_osd_cmdh" label: "void HPS_spi_osd_cmd(uint8_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:385:6" }
+edge: { sourcename: "_Z15HPS_spi_osd_cmdh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:97:30" }
+node: { title: "_Z21HPS_spi_osd_cmd8_conthh" label: "void HPS_spi_osd_cmd8_cont(uint8_t, uint8_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:391:6" }
+edge: { sourcename: "_Z21HPS_spi_osd_cmd8_conthh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:97:30" }
+edge: { sourcename: "_Z21HPS_spi_osd_cmd8_conthh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:97:30" }
+node: { title: "_Z16HPS_spi_osd_cmd8hh" label: "void HPS_spi_osd_cmd8(uint8_t, uint8_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.cpp:398:6" }
+edge: { sourcename: "_Z16HPS_spi_osd_cmd8hh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:97:30" }
+edge: { sourcename: "_Z16HPS_spi_osd_cmd8hh" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:97:30" }
+}
