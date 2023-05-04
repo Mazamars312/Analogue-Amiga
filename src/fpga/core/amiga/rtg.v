@@ -95,7 +95,7 @@ always @(posedge clk) begin
 			4: dout <= hsize;
 			5: dout <= vsize;
 			6: dout <= stride;
-			7: dout <= 16'h5001;
+			7: dout <= 16'h6001;
 		endcase
 	end
 	if (r_pal) dout <= rs[1] ? pal_dr[15:0] : pal_dr[23:16];

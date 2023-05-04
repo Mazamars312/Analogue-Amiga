@@ -31,6 +31,7 @@
 #include "timer.h"
 #include "riscprintf.h"
 #include "spi.h"
+#include "osd.h"
 
 #define NONE         0xFF
 #define LCTRL        0x000100

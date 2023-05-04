@@ -6,5 +6,5 @@
 /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.cpp:265:6:void OsdClear()	0	static
 /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.cpp:275:6:void OsdEnable(unsigned char)	0	static
 /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.cpp:282:6:void InfoEnable(int, int, int, int, int, int)	32	static
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.cpp:297:6:void OsdDisable()	0	static
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.cpp:304:6:void OsdUpdate(int)	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.cpp:299:6:void OsdDisable()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.cpp:306:6:void OsdUpdate(int)	16	static

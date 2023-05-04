@@ -29,11 +29,11 @@
         "id": "310",
         "required": false,
 		"deferload": true,
-        "parameters": 1,
+        "parameters": 0,
         "extensions": [
 		"hdf"
 		],
-        "filename": "MegaAGS-Pocket.hdf"
+        "filename": "MegaAGS-Pocket-alpha2.hdf"
       },
 	  {
         "name": "harddrive - Fast 2",
@@ -84,32 +84,6 @@
 	  {
         "name": "Floppy drive 1",
         "id": "321",
-        "required": false,
-		"deferload": true,
-        "parameters": 1,
-        "extensions": [
-		"adf"
-		],
-        "size_exact": 0,
-        "size_maximum": 1572864,
-        "address": "0x00000000"
-      },
-	  {
-        "name": "Floppy drive 2",
-        "id": "322",
-        "required": false,
-		"deferload": true,
-        "parameters": 1,
-        "extensions": [
-		"adf"
-		],
-        "size_exact": 0,
-        "size_maximum": 1572864,
-        "address": "0x00000000"
-      },
-	  {
-        "name": "Floppy drive 3",
-        "id": "323",
         "required": false,
 		"deferload": true,
         "parameters": 1,

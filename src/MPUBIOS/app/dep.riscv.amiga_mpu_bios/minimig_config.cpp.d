@@ -12,9 +12,7 @@ obj.riscv.amiga_mpu_bios/minimig_config.o: minimig_config.cpp \
  /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/floppy_drive/fdd.h \
  /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.h \
  /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/fileio.h \
- /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.h \
- /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.h \
- /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.h
+ /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.h
 minimig_config.h:
 core.h:
 ../lib/printf.h:
@@ -31,5 +29,3 @@ core.h:
 /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.h:
 /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/fileio.h:
 /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.h:
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.h:
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.h:

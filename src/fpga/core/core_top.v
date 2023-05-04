@@ -277,7 +277,7 @@ assign cart_tran_bank3 = 8'hzz;            // these pins are not used, make them
 // link port is unused, set to input only to be safe
 // each bit may be bidirectional in some applications
 //assign port_tran_so = 1'bz;
-assign port_tran_so_dir = 1'b0;     // SO is output only
+assign port_tran_so_dir = 1'b1;     // SO is output only
 //assign port_tran_si = 1'bz;
 assign port_tran_si_dir = 1'b0;     // SI is input only
 //assign port_tran_sck = 1'bz;
@@ -625,7 +625,7 @@ wire        ram_uds;
 wire [15:0] ram_din;
 wire [15:0] ram_dout  = ram_dout1;//zram_sel ? ram_dout2  : ram_dout1;
 wire        ram_ready = ram_ready1; //zram_sel ? ram_ready2 : ram_ready1;
-wire        zram_sel  = |ram_addr[28:26];
+wire 			sel_zram;
 wire        ramshared;
 	
 pll pll
@@ -645,8 +645,6 @@ amiga_clk amiga_clk
 (
 	.clk_28   ( clk_sys    ), // input  clock c1 ( 28.687500MHz)
 	.clk7_en  ( clk7_en    ), // output clock 7 enable (on 28MHz clock domain)
-//	.clk7n_vga_en90 ( video_rgb_clock_90   ), // 7MHz 90 Degree Video output clock enable (on 28MHz clock domain)
-//	.clk7n_vga_en ( video_rgb_clock   ), // 7MHz 0 Degree Video output clock enable (on 28MHz clock domain)
 	.clk7n_en ( clk7n_en   ), // 7MHz negedge output clock enable (on 28MHz clock domain)
 	.c1       ( c1         ), // clk28m clock domain signal synchronous with clk signal
 	.c3       ( c3         ), // clk28m clock domain signal synchronous with clk signal delayed by 90 degrees
@@ -685,26 +683,26 @@ sdram_ctrl ram1
 	.sysclk       (clk_114         ),
 	.reset_n      (~reset_d        ),
 	.c_7m         (c1              ),
-
+	.cache_inhibit	(1'b1),
 	.cache_rst    (cpu_rst         ),
 	.cpu_cache_ctrl(cpu_cacr       ),
 
-	.sd_data      (dram_dq        ),
-	.sd_addr      (dram_a         ),
+	.sd_data      (dram_dq         ),
+	.sd_addr      (dram_a          ),
 	.sd_dqm       (dram_dqm),
-	.sd_ba        (dram_ba        ),
+	.sd_ba        (dram_ba         ),
 	.sd_we        (dram_we_n       ),
 	.sd_ras       (dram_ras_n      ),
 	.sd_cas       (dram_cas_n      ),
-	.sd_cke       (dram_cke       ),
-	.sd_clk       (dram_clk       ),
+	.sd_cke       (dram_cke        ),
+	.sd_clk       (dram_clk        ),
 
 	.cpuWR        (ram_din         ),
-	.cpuAddr      ({zram_sel, ram_addr[24:1]}),
+	.cpuAddr      ({sel_zram, ram_addr[24:1]}),
 	.cpuU         (ram_uds         ),
 	.cpuL         (ram_lds         ),
 	.cpustate     (cpu_state       ),
-	.cpuCS        (ram_cs), //~zram_sel&
+	.cpuCS        (ram_cs			 ),
 	.cpuRD        (ram_dout1       ),
 	.ramready     (ram_ready1      ),
 
@@ -851,6 +849,8 @@ wire  [1:0] cpu_state;
 wire  [3:0] cpu_cacr;
 wire  [14:0] ldata, rdata;
 
+wire 	pwr_led;
+
 wire [9:0]  ldata_okk;     // left DAC data  (PWM vol version)
 wire [9:0]  rdata_okk;     // right DAC data (PWM vol version)
 wire ide_c_led;
@@ -905,7 +905,7 @@ minimig minimig
 	.kbd_mouse_data 			(kbd_mouse_data ), // mouse direction data, keycodes
 	.kbd_mouse_type 			(kbd_mouse_type ), // type of data
 	.kms_level    				(kbd_mouse_level  ),
-//	.pwr_led      				(pwr_led          ), // power led
+	.pwr_led      				(pwr_led          ), // power led
 	.fdd_led      				(LED         ),
 	.hdd_led      				(ide_c_led        ),
 	.rtc          				(RTC              ),
@@ -1066,6 +1066,7 @@ cpu_wrapper cpu_wrapper
 	.ramdin       (ram_din         ),
 	.ramready     (ram_ready       ),
 	.ramshared    (ramshared       ),
+	.sel_zram	  (sel_zram			 ),
 
 	//custom CPU signals
 	.cpustate     (cpu_state       ),
@@ -1224,9 +1225,9 @@ osd osd
 	.de_out		(video_de)
 );
 
-wire flt_en    = CORE_OUTPUT[3];
+wire flt_en    = CORE_OUTPUT[1] && pwr_led;
 wire aud_1200  = CORE_OUTPUT[2];
-wire paula_pwm = CORE_OUTPUT[1];
+wire paula_pwm = CORE_OUTPUT[3];
 
 wire [15:0] paula_smp_l = (paula_pwm ? {ldata_okk[8:0], 7'b0} : {ldata[14:0], 1'b0});
 wire [15:0] paula_smp_r = (paula_pwm ? {rdata_okk[8:0], 7'b0} : {rdata[14:0], 1'b0});

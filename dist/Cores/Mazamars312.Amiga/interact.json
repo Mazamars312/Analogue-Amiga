@@ -38,22 +38,6 @@
 		{
 			"value": "0x0005",
 			"name": "2 Drive 2x Speed"
-		},
-		{
-			"value": "0x0008",
-			"name": "3 Drive 1x Speed"
-		},
-		{
-			"value": "0x0009",
-			"name": "3 Drive 2x Speed"
-		},
-		{
-			"value": "0x000c",
-			"name": "4 Drive 1x Speed"
-		},
-		{
-			"value": "0x000d",
-			"name": "4 Drive 2x Speed"
 		}
         ]
 	},
@@ -196,7 +180,7 @@
         "enabled": true,
         "persist": true,
         "address": "0xf000000c",
-        "defaultval": 3,
+        "defaultval": "0x0003",
         "mask": "0xFFFFfff8",
         "options": [
 		{
@@ -204,7 +188,7 @@
 			"name": "68000K CPU"
 		},
 		{
-			"value": "0x0002",
+			"value": "0x0001",
 			"name": "68010K CPU"
 		},
 		{
@@ -280,20 +264,35 @@
         "enabled": true,
         "persist": true,
         "address": "0xf0000010",
-        "defaultval": 0,
-        "mask": "0xFFFFffcf",
+        "defaultval": "0x0000",
+        "mask": "0xFFFFff8f",
         "options": [
 			{
 				"value": "0x0000",
-				"name": "None"
+				"name": "0Mbytes"
 			},
 			{
 				"value": "0x0010",
-				"name": "2Mbytes/32mbytes"
+				"name": "2Mbytes"
+			},
+			{
+				"value": "0x0020",
+				"name": "4Mbytes"
+			},
+			{
+				"value": "0x0030",
+				"name": "8Mbytes"
+			},
+			{
+				"value": "0x0040",
+				"name": "16Mbytes"
+			},
+			{
+				"value": "0x0050",
+				"name": "32Mbytes"
 			}
         ]
       }
-	
     ]
   }
 }

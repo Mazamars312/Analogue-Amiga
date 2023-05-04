@@ -40,7 +40,7 @@ Discarded input sections
                 0x0000000000000000       0x3e obj.riscv.amiga_mpu_bios/ide.o
  .srodata.ide_io_max_size
                 0x0000000000000000        0x4 obj.riscv.amiga_mpu_bios/ide.o
- .eh_frame      0x0000000000000000      0x444 obj.riscv.amiga_mpu_bios/ide.o
+ .eh_frame      0x0000000000000000      0x410 obj.riscv.amiga_mpu_bios/ide.o
  .text          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/inputs.o
  .data          0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/inputs.o
  .bss           0x0000000000000000        0x0 obj.riscv.amiga_mpu_bios/inputs.o
@@ -277,7 +277,7 @@ Discarded input sections
  .text._Z9OsdEnableh
                 0x0000000000000000        0xe obj.riscv.amiga_mpu_bios/osd.o
  .text._Z10InfoEnableiiiiii
-                0x0000000000000000       0x94 obj.riscv.amiga_mpu_bios/osd.o
+                0x0000000000000000       0xa8 obj.riscv.amiga_mpu_bios/osd.o
  .text._Z10OsdDisablev
                 0x0000000000000000        0xc obj.riscv.amiga_mpu_bios/osd.o
  .text._Z9OsdUpdatei
@@ -683,7 +683,7 @@ START GROUP
 LOAD /opt/riscv/lib/gcc/riscv32-unknown-elf/12.2.0/libgcc.a
 END GROUP
 
-.text           0x0000000000000000     0x4f78
+.text           0x0000000000000000     0x4e9c
  *(.boot)
  .boot          0x0000000000000000       0x1c obj.riscv.amiga_mpu_bios/boot.o
  *(.boot)
@@ -700,406 +700,400 @@ END GROUP
                 0x0000000000000272       0x8a obj.riscv.amiga_mpu_bios/core.o
                 0x0000000000000272                core_update_dataslots()
  .text._Z12core_poll_iov
-                0x00000000000002fc       0x64 obj.riscv.amiga_mpu_bios/core.o
+                0x00000000000002fc       0x62 obj.riscv.amiga_mpu_bios/core.o
                 0x00000000000002fc                core_poll_io()
  .text._Z15core_reg_updatev
-                0x0000000000000360       0x16 obj.riscv.amiga_mpu_bios/core.o
-                0x0000000000000360                core_reg_update()
+                0x000000000000035e       0x16 obj.riscv.amiga_mpu_bios/core.o
+                0x000000000000035e                core_reg_update()
  .text._Z18core_restart_firstv
-                0x0000000000000376       0x1e obj.riscv.amiga_mpu_bios/core.o
-                0x0000000000000376                core_restart_first()
+                0x0000000000000374       0x1e obj.riscv.amiga_mpu_bios/core.o
+                0x0000000000000374                core_restart_first()
  .text._Z16core_input_setupv
-                0x0000000000000394        0x4 obj.riscv.amiga_mpu_bios/core.o
-                0x0000000000000394                core_input_setup()
+                0x0000000000000392        0x4 obj.riscv.amiga_mpu_bios/core.o
+                0x0000000000000392                core_input_setup()
  .text._Z17core_input_updatev
-                0x0000000000000398        0x4 obj.riscv.amiga_mpu_bios/core.o
-                0x0000000000000398                core_input_update()
+                0x0000000000000396        0x4 obj.riscv.amiga_mpu_bios/core.o
+                0x0000000000000396                core_input_update()
  .text._Z4initv
-                0x000000000000039c       0x30 obj.riscv.amiga_mpu_bios/main.o
-                0x000000000000039c                init()
+                0x000000000000039a       0x30 obj.riscv.amiga_mpu_bios/main.o
+                0x000000000000039a                init()
  .text._Z8mainloopv
-                0x00000000000003cc       0xfa obj.riscv.amiga_mpu_bios/main.o
-                0x00000000000003cc                mainloop()
+                0x00000000000003ca       0xfa obj.riscv.amiga_mpu_bios/main.o
+                0x00000000000003ca                mainloop()
  .text.startup.main
-                0x00000000000004c6       0x14 obj.riscv.amiga_mpu_bios/main.o
-                0x00000000000004c6                main
+                0x00000000000004c4       0x14 obj.riscv.amiga_mpu_bios/main.o
+                0x00000000000004c4                main
  .text._Z12minimig_biosv
-                0x00000000000004da       0xf8 obj.riscv.amiga_mpu_bios/minimig_config.o
-                0x00000000000004da                minimig_bios()
+                0x00000000000004d8       0xf8 obj.riscv.amiga_mpu_bios/minimig_config.o
+                0x00000000000004d8                minimig_bios()
  .text.minimig_restart_running_core
-                0x00000000000005d2       0x62 obj.riscv.amiga_mpu_bios/minimig_config.o
-                0x00000000000005d2                minimig_restart_running_core
+                0x00000000000005d0       0x62 obj.riscv.amiga_mpu_bios/minimig_config.o
+                0x00000000000005d0                minimig_restart_running_core
  .text.minimig_fdd_update
-                0x0000000000000634       0x6c obj.riscv.amiga_mpu_bios/minimig_config.o
-                0x0000000000000634                minimig_fdd_update
+                0x0000000000000632       0x6c obj.riscv.amiga_mpu_bios/minimig_config.o
+                0x0000000000000632                minimig_fdd_update
  .text.minimig_hdd_update
-                0x00000000000006a0       0xae obj.riscv.amiga_mpu_bios/minimig_config.o
-                0x00000000000006a0                minimig_hdd_update
+                0x000000000000069e       0xae obj.riscv.amiga_mpu_bios/minimig_config.o
+                0x000000000000069e                minimig_hdd_update
  .text.minimig_restart_first
-                0x000000000000074e       0x68 obj.riscv.amiga_mpu_bios/minimig_config.o
-                0x000000000000074e                minimig_restart_first
- .text._ZL16ide_set_geometryP7drive_ttt
-                0x00000000000007b6       0x84 obj.riscv.amiga_mpu_bios/ide.o
- .text._ZL7get_lbaP10ide_config
-                0x000000000000083a       0x94 obj.riscv.amiga_mpu_bios/ide.o
+                0x000000000000074c       0x68 obj.riscv.amiga_mpu_bios/minimig_config.o
+                0x000000000000074c                minimig_restart_first
  .text._ZL7put_lbaP10ide_configm
-                0x00000000000008ce       0x82 obj.riscv.amiga_mpu_bios/ide.o
+                0x00000000000007b4       0x5c obj.riscv.amiga_mpu_bios/ide.o
+ .text._ZL16ide_set_geometryP7drive_ttt
+                0x0000000000000810       0x84 obj.riscv.amiga_mpu_bios/ide.o
+ .text._ZL7get_lbaP10ide_config
+                0x0000000000000894       0x58 obj.riscv.amiga_mpu_bios/ide.o
  .text._Z9ide_checkv
-                0x0000000000000950       0x3a obj.riscv.amiga_mpu_bios/ide.o
-                0x0000000000000950                ide_check()
+                0x00000000000008ec       0x3a obj.riscv.amiga_mpu_bios/ide.o
+                0x00000000000008ec                ide_check()
  .text._Z12ide_get_regsP10ide_config
-                0x000000000000098a       0x9c obj.riscv.amiga_mpu_bios/ide.o
-                0x000000000000098a                ide_get_regs(ide_config*)
+                0x0000000000000926       0x9c obj.riscv.amiga_mpu_bios/ide.o
+                0x0000000000000926                ide_get_regs(ide_config*)
  .text._Z12ide_set_regsP10ide_config
-                0x0000000000000a26       0xda obj.riscv.amiga_mpu_bios/ide.o
-                0x0000000000000a26                ide_set_regs(ide_config*)
+                0x00000000000009c2       0xda obj.riscv.amiga_mpu_bios/ide.o
+                0x00000000000009c2                ide_set_regs(ide_config*)
  .text._ZL12process_readP10ide_configi
-                0x0000000000000b00      0x284 obj.riscv.amiga_mpu_bios/ide.o
+                0x0000000000000a9c      0x262 obj.riscv.amiga_mpu_bios/ide.o
  .text._ZL13process_writeP10ide_configi
-                0x0000000000000d84      0x1a4 obj.riscv.amiga_mpu_bios/ide.o
+                0x0000000000000cfe      0x178 obj.riscv.amiga_mpu_bios/ide.o
  .text._ZL10handle_hddP10ide_config
-                0x0000000000000f28      0x1c0 obj.riscv.amiga_mpu_bios/ide.o
+                0x0000000000000e76      0x1be obj.riscv.amiga_mpu_bios/ide.o
  .text._Z13calc_geometryP7hdfTYPE
-                0x00000000000010e8       0x76 obj.riscv.amiga_mpu_bios/ide.o
-                0x00000000000010e8                calc_geometry(hdfTYPE*)
+                0x0000000000001034       0x76 obj.riscv.amiga_mpu_bios/ide.o
+                0x0000000000001034                calc_geometry(hdfTYPE*)
  .text._Z16get_rdb_geometryP7hdfTYPE
-                0x000000000000115e       0xe8 obj.riscv.amiga_mpu_bios/ide.o
-                0x000000000000115e                get_rdb_geometry(hdfTYPE*)
+                0x00000000000010aa       0xe8 obj.riscv.amiga_mpu_bios/ide.o
+                0x00000000000010aa                get_rdb_geometry(hdfTYPE*)
  .text._Z14guess_geometryP7hdfTYPE
-                0x0000000000001246      0x146 obj.riscv.amiga_mpu_bios/ide.o
-                0x0000000000001246                guess_geometry(hdfTYPE*)
+                0x0000000000001192      0x15c obj.riscv.amiga_mpu_bios/ide.o
+                0x0000000000001192                guess_geometry(hdfTYPE*)
  .text._Z11ide_img_setmtiiii
-                0x000000000000138c      0x3aa obj.riscv.amiga_mpu_bios/ide.o
-                0x000000000000138c                ide_img_set(unsigned long, unsigned short, int, int, int, int)
+                0x00000000000012ee      0x3aa obj.riscv.amiga_mpu_bios/ide.o
+                0x00000000000012ee                ide_img_set(unsigned long, unsigned short, int, int, int, int)
  .text._Z6ide_ioii
-                0x0000000000001736      0x204 obj.riscv.amiga_mpu_bios/ide.o
-                0x0000000000001736                ide_io(int, int)
+                0x0000000000001698      0x204 obj.riscv.amiga_mpu_bios/ide.o
+                0x0000000000001698                ide_io(int, int)
  .text._Z8ide_openht
-                0x000000000000193a       0xdc obj.riscv.amiga_mpu_bios/ide.o
-                0x000000000000193a                ide_open(unsigned char, unsigned short)
+                0x000000000000189c       0xdc obj.riscv.amiga_mpu_bios/ide.o
+                0x000000000000189c                ide_open(unsigned char, unsigned short)
  .text._Z19update_mouse_inputsv
-                0x0000000000001a16      0x296 obj.riscv.amiga_mpu_bios/inputs.o
-                0x0000000000001a16                update_mouse_inputs()
+                0x0000000000001978      0x296 obj.riscv.amiga_mpu_bios/inputs.o
+                0x0000000000001978                update_mouse_inputs()
  .text._Z22update_keyboard_inputsv
-                0x0000000000001cac      0x2c2 obj.riscv.amiga_mpu_bios/inputs.o
-                0x0000000000001cac                update_keyboard_inputs()
+                0x0000000000001c0e      0x2c2 obj.riscv.amiga_mpu_bios/inputs.o
+                0x0000000000001c0e                update_keyboard_inputs()
  .text._Z12input_updatev
-                0x0000000000001f6e       0x40 obj.riscv.amiga_mpu_bios/inputs.o
-                0x0000000000001f6e                input_update()
+                0x0000000000001ed0       0x40 obj.riscv.amiga_mpu_bios/inputs.o
+                0x0000000000001ed0                input_update()
  .text._Z11input_setupv
-                0x0000000000001fae        0x6 obj.riscv.amiga_mpu_bios/inputs.o
-                0x0000000000001fae                input_setup()
+                0x0000000000001f10        0x6 obj.riscv.amiga_mpu_bios/inputs.o
+                0x0000000000001f10                input_setup()
  .text._Z16input_reg_updatev
-                0x0000000000001fb4        0xe obj.riscv.amiga_mpu_bios/inputs.o
-                0x0000000000001fb4                input_reg_update()
+                0x0000000000001f16        0xe obj.riscv.amiga_mpu_bios/inputs.o
+                0x0000000000001f16                input_reg_update()
  .text._Z14dataslot_readyv
-                0x0000000000001fc2       0x36 obj.riscv.amiga_mpu_bios/apf.o
-                0x0000000000001fc2                dataslot_ready()
+                0x0000000000001f24       0x36 obj.riscv.amiga_mpu_bios/apf.o
+                0x0000000000001f24                dataslot_ready()
  .text._Z13dataslot_sizet
-                0x0000000000001ff8       0x60 obj.riscv.amiga_mpu_bios/apf.o
-                0x0000000000001ff8                dataslot_size(unsigned short)
+                0x0000000000001f5a       0x60 obj.riscv.amiga_mpu_bios/apf.o
+                0x0000000000001f5a                dataslot_size(unsigned short)
  .text._Z13dataslot_readtmmm
-                0x0000000000002058       0xc4 obj.riscv.amiga_mpu_bios/apf.o
-                0x0000000000002058                dataslot_read(unsigned short, unsigned long, unsigned long, unsigned long)
+                0x0000000000001fba       0xd0 obj.riscv.amiga_mpu_bios/apf.o
+                0x0000000000001fba                dataslot_read(unsigned short, unsigned long, unsigned long, unsigned long)
  .text._Z14dataslot_writetmmm
-                0x000000000000211c       0x72 obj.riscv.amiga_mpu_bios/apf.o
-                0x000000000000211c                dataslot_write(unsigned short, unsigned long, unsigned long, unsigned long)
+                0x000000000000208a       0x72 obj.riscv.amiga_mpu_bios/apf.o
+                0x000000000000208a                dataslot_write(unsigned short, unsigned long, unsigned long, unsigned long)
  .text._Z22dataslot_write_lba_settmm
-                0x000000000000218e       0x2c obj.riscv.amiga_mpu_bios/apf.o
-                0x000000000000218e                dataslot_write_lba_set(unsigned short, unsigned long, unsigned long)
+                0x00000000000020fc       0x2c obj.riscv.amiga_mpu_bios/apf.o
+                0x00000000000020fc                dataslot_write_lba_set(unsigned short, unsigned long, unsigned long)
  .text._Z18dataslot_write_lbamb
-                0x00000000000021ba       0x36 obj.riscv.amiga_mpu_bios/apf.o
-                0x00000000000021ba                dataslot_write_lba(unsigned long, bool)
+                0x0000000000002128       0x36 obj.riscv.amiga_mpu_bios/apf.o
+                0x0000000000002128                dataslot_write_lba(unsigned long, bool)
  .text._Z7GetDatav
-                0x00000000000021f0      0x220 obj.riscv.amiga_mpu_bios/fdd.o
-                0x00000000000021f0                GetData()
+                0x000000000000215e      0x220 obj.riscv.amiga_mpu_bios/fdd.o
+                0x000000000000215e                GetData()
  .text._Z8FindSyncP7adfTYPE
-                0x0000000000002410       0x9c obj.riscv.amiga_mpu_bios/fdd.o
-                0x0000000000002410                FindSync(adfTYPE*)
+                0x000000000000237e       0x9c obj.riscv.amiga_mpu_bios/fdd.o
+                0x000000000000237e                FindSync(adfTYPE*)
  .text._Z9GetHeaderPhS_
-                0x00000000000024ac      0x29c obj.riscv.amiga_mpu_bios/fdd.o
-                0x00000000000024ac                GetHeader(unsigned char*, unsigned char*)
+                0x000000000000241a      0x29c obj.riscv.amiga_mpu_bios/fdd.o
+                0x000000000000241a                GetHeader(unsigned char*, unsigned char*)
  .text._Z10SendSectorPhhhhh
-                0x0000000000002748      0x1e2 obj.riscv.amiga_mpu_bios/fdd.o
-                0x0000000000002748                SendSector(unsigned char*, unsigned char, unsigned char, unsigned char, unsigned char)
+                0x00000000000026b6      0x1e2 obj.riscv.amiga_mpu_bios/fdd.o
+                0x00000000000026b6                SendSector(unsigned char*, unsigned char, unsigned char, unsigned char, unsigned char)
  .text._Z10WriteTrackP7adfTYPE
-                0x000000000000292a       0xde obj.riscv.amiga_mpu_bios/fdd.o
-                0x000000000000292a                WriteTrack(adfTYPE*)
+                0x0000000000002898       0xde obj.riscv.amiga_mpu_bios/fdd.o
+                0x0000000000002898                WriteTrack(adfTYPE*)
  .text._Z9ReadTrackP7adfTYPE
-                0x0000000000002a08      0x294 obj.riscv.amiga_mpu_bios/fdd.o
-                0x0000000000002a08                ReadTrack(adfTYPE*)
+                0x0000000000002976      0x294 obj.riscv.amiga_mpu_bios/fdd.o
+                0x0000000000002976                ReadTrack(adfTYPE*)
  .text.UpdateDriveStatus_fdd
-                0x0000000000002c9c       0xba obj.riscv.amiga_mpu_bios/fdd.o
-                0x0000000000002c9c                UpdateDriveStatus_fdd
+                0x0000000000002c0a       0xba obj.riscv.amiga_mpu_bios/fdd.o
+                0x0000000000002c0a                UpdateDriveStatus_fdd
  .text.UnsertFloppy
-                0x0000000000002d56       0x34 obj.riscv.amiga_mpu_bios/fdd.o
-                0x0000000000002d56                UnsertFloppy
+                0x0000000000002cc4       0x34 obj.riscv.amiga_mpu_bios/fdd.o
+                0x0000000000002cc4                UnsertFloppy
  .text.RemoveDriveStatus
-                0x0000000000002d8a       0x10 obj.riscv.amiga_mpu_bios/fdd.o
-                0x0000000000002d8a                RemoveDriveStatus
+                0x0000000000002cf8       0x10 obj.riscv.amiga_mpu_bios/fdd.o
+                0x0000000000002cf8                RemoveDriveStatus
  .text.HandleFDD
-                0x0000000000002d9a       0x6a obj.riscv.amiga_mpu_bios/fdd.o
-                0x0000000000002d9a                HandleFDD
+                0x0000000000002d08       0x6a obj.riscv.amiga_mpu_bios/fdd.o
+                0x0000000000002d08                HandleFDD
  .text.InsertFloppy
-                0x0000000000002e04       0x84 obj.riscv.amiga_mpu_bios/fdd.o
-                0x0000000000002e04                InsertFloppy
+                0x0000000000002d72       0x84 obj.riscv.amiga_mpu_bios/fdd.o
+                0x0000000000002d72                InsertFloppy
  .text._Z14HPS_EnableFpgav
-                0x0000000000002e88       0x1e obj.riscv.amiga_mpu_bios/spi.o
-                0x0000000000002e88                HPS_EnableFpga()
+                0x0000000000002df6       0x1e obj.riscv.amiga_mpu_bios/spi.o
+                0x0000000000002df6                HPS_EnableFpga()
  .text._Z15HPS_DisableFpgav
-                0x0000000000002ea6       0x1c obj.riscv.amiga_mpu_bios/spi.o
-                0x0000000000002ea6                HPS_DisableFpga()
+                0x0000000000002e14       0x1c obj.riscv.amiga_mpu_bios/spi.o
+                0x0000000000002e14                HPS_DisableFpga()
  .text._Z12HPS_EnableIOv
-                0x0000000000002ec2       0x1e obj.riscv.amiga_mpu_bios/spi.o
-                0x0000000000002ec2                HPS_EnableIO()
+                0x0000000000002e30       0x1e obj.riscv.amiga_mpu_bios/spi.o
+                0x0000000000002e30                HPS_EnableIO()
  .text._Z13HPS_DisableIOv
-                0x0000000000002ee0       0x1c obj.riscv.amiga_mpu_bios/spi.o
-                0x0000000000002ee0                HPS_DisableIO()
+                0x0000000000002e4e       0x1c obj.riscv.amiga_mpu_bios/spi.o
+                0x0000000000002e4e                HPS_DisableIO()
  .text._Z12HPS_fpga_spit
-                0x0000000000002efc       0x4c obj.riscv.amiga_mpu_bios/spi.o
-                0x0000000000002efc                HPS_fpga_spi(unsigned short)
+                0x0000000000002e6a       0x4c obj.riscv.amiga_mpu_bios/spi.o
+                0x0000000000002e6a                HPS_fpga_spi(unsigned short)
  .text._Z7spi32_wm
-                0x0000000000002f48       0x28 obj.riscv.amiga_mpu_bios/spi.o
-                0x0000000000002f48                spi32_w(unsigned long)
+                0x0000000000002eb6       0x28 obj.riscv.amiga_mpu_bios/spi.o
+                0x0000000000002eb6                spi32_w(unsigned long)
  .text._Z16HPS_spi_uio_cmd8hh
-                0x0000000000002f70       0x6a obj.riscv.amiga_mpu_bios/spi.o
-                0x0000000000002f70                HPS_spi_uio_cmd8(unsigned char, unsigned char)
+                0x0000000000002ede       0x6a obj.riscv.amiga_mpu_bios/spi.o
+                0x0000000000002ede                HPS_spi_uio_cmd8(unsigned char, unsigned char)
  .text._Z17HPS_fpga_spi_fastt
-                0x0000000000002fda       0x24 obj.riscv.amiga_mpu_bios/spi.o
-                0x0000000000002fda                HPS_fpga_spi_fast(unsigned short)
+                0x0000000000002f48       0x24 obj.riscv.amiga_mpu_bios/spi.o
+                0x0000000000002f48                HPS_fpga_spi_fast(unsigned short)
  .text._Z29HPS_fpga_spi_fast_block_writePKtm
-                0x0000000000002ffe       0x3e obj.riscv.amiga_mpu_bios/spi.o
-                0x0000000000002ffe                HPS_fpga_spi_fast_block_write(unsigned short const*, unsigned long)
+                0x0000000000002f6c       0x3e obj.riscv.amiga_mpu_bios/spi.o
+                0x0000000000002f6c                HPS_fpga_spi_fast_block_write(unsigned short const*, unsigned long)
  .text._Z28HPS_fpga_spi_fast_block_readPtmb
-                0x000000000000303c       0x36 obj.riscv.amiga_mpu_bios/spi.o
-                0x000000000000303c                HPS_fpga_spi_fast_block_read(unsigned short*, unsigned long, bool)
+                0x0000000000002faa       0x36 obj.riscv.amiga_mpu_bios/spi.o
+                0x0000000000002faa                HPS_fpga_spi_fast_block_read(unsigned short*, unsigned long, bool)
  .text.riscputchar
-                0x0000000000003072       0x10 obj.riscv.amiga_mpu_bios/uart.o
-                0x0000000000003072                riscputchar
- .text.SetUART  0x0000000000003082        0xa obj.riscv.amiga_mpu_bios/uart.o
-                0x0000000000003082                SetUART
+                0x0000000000002fe0       0x10 obj.riscv.amiga_mpu_bios/uart.o
+                0x0000000000002fe0                riscputchar
+ .text.SetUART  0x0000000000002ff0        0xa obj.riscv.amiga_mpu_bios/uart.o
+                0x0000000000002ff0                SetUART
  .text._handle_trap
-                0x000000000000308c       0x20 obj.riscv.amiga_mpu_bios/interrupts.o
-                0x000000000000308c                _handle_trap
+                0x0000000000002ffa       0x20 obj.riscv.amiga_mpu_bios/interrupts.o
+                0x0000000000002ffa                _handle_trap
  .text._Z16EnableInterruptsv
-                0x00000000000030ac        0x8 obj.riscv.amiga_mpu_bios/interrupts.o
-                0x00000000000030ac                EnableInterrupts()
+                0x000000000000301a        0x8 obj.riscv.amiga_mpu_bios/interrupts.o
+                0x000000000000301a                EnableInterrupts()
  .text._Z22timer1Interrupts_setupm
-                0x00000000000030b4        0x6 obj.riscv.amiga_mpu_bios/interrupts.o
-                0x00000000000030b4                timer1Interrupts_setup(unsigned long)
+                0x0000000000003022        0x6 obj.riscv.amiga_mpu_bios/interrupts.o
+                0x0000000000003022                timer1Interrupts_setup(unsigned long)
  .text._Z22timer1Interrupts_resetv
-                0x00000000000030ba        0x8 obj.riscv.amiga_mpu_bios/interrupts.o
-                0x00000000000030ba                timer1Interrupts_reset()
+                0x0000000000003028        0x8 obj.riscv.amiga_mpu_bios/interrupts.o
+                0x0000000000003028                timer1Interrupts_reset()
  .text._Z17DisableInterruptsv
-                0x00000000000030c2        0x6 obj.riscv.amiga_mpu_bios/interrupts.o
-                0x00000000000030c2                DisableInterrupts()
+                0x0000000000003030        0x6 obj.riscv.amiga_mpu_bios/interrupts.o
+                0x0000000000003030                DisableInterrupts()
  .text._ZL9_out_charcPvjj
-                0x00000000000030c8        0x8 obj.riscv.amiga_mpu_bios/riscprintf.o
+                0x0000000000003036        0x8 obj.riscv.amiga_mpu_bios/riscprintf.o
  .text._ZL10_ntoa_longPFvcPvjjEPcjjmbmjjj.constprop.0
-                0x00000000000030d0      0x43c obj.riscv.amiga_mpu_bios/riscprintf.o
+                0x000000000000303e      0x43c obj.riscv.amiga_mpu_bios/riscprintf.o
  .text.riscprintf_
-                0x000000000000350c      0x5b8 obj.riscv.amiga_mpu_bios/riscprintf.o
-                0x000000000000350c                riscprintf_
+                0x000000000000347a      0x5b8 obj.riscv.amiga_mpu_bios/riscprintf.o
+                0x000000000000347a                riscprintf_
  .text.riscprintff_
-                0x0000000000003ac4       0x16 obj.riscv.amiga_mpu_bios/riscprintf.o
-                0x0000000000003ac4                riscprintff_
+                0x0000000000003a32       0x16 obj.riscv.amiga_mpu_bios/riscprintf.o
+                0x0000000000003a32                riscprintff_
  .text._Z10ResetTimerv
-                0x0000000000003ada       0x14 obj.riscv.amiga_mpu_bios/timer.o
-                0x0000000000003ada                ResetTimer()
+                0x0000000000003a48       0x14 obj.riscv.amiga_mpu_bios/timer.o
+                0x0000000000003a48                ResetTimer()
  .text._Z8SetTimerv
-                0x0000000000003aee        0xe obj.riscv.amiga_mpu_bios/timer.o
-                0x0000000000003aee                SetTimer()
+                0x0000000000003a5c        0xe obj.riscv.amiga_mpu_bios/timer.o
+                0x0000000000003a5c                SetTimer()
  .text._Z10riscusleepi
-                0x0000000000003afc        0xe obj.riscv.amiga_mpu_bios/timer.o
-                0x0000000000003afc                riscusleep(int)
- .text.memset   0x0000000000003b0a       0x1a obj.riscv.amiga_mpu_bios/memset.o
-                0x0000000000003b0a                memset
- .text.outnum   0x0000000000003b24      0x212 obj.riscv.amiga_mpu_bios/printf.o
+                0x0000000000003a6a        0xe obj.riscv.amiga_mpu_bios/timer.o
+                0x0000000000003a6a                riscusleep(int)
+ .text.memset   0x0000000000003a78       0x1a obj.riscv.amiga_mpu_bios/memset.o
+                0x0000000000003a78                memset
+ .text.outnum   0x0000000000003a92      0x212 obj.riscv.amiga_mpu_bios/printf.o
  .text.vbuf_printf
-                0x0000000000003d36      0x39c obj.riscv.amiga_mpu_bios/printf.o
-                0x0000000000003d36                vbuf_printf
- .text.printf   0x00000000000040d2       0x3e obj.riscv.amiga_mpu_bios/printf.o
-                0x00000000000040d2                printf
- .text.strlen   0x0000000000004110       0x1a obj.riscv.amiga_mpu_bios/strlen.o
-                0x0000000000004110                strlen
+                0x0000000000003ca4      0x39c obj.riscv.amiga_mpu_bios/printf.o
+                0x0000000000003ca4                vbuf_printf
+ .text.printf   0x0000000000004040       0x3e obj.riscv.amiga_mpu_bios/printf.o
+                0x0000000000004040                printf
+ .text.strlen   0x000000000000407e       0x1a obj.riscv.amiga_mpu_bios/strlen.o
+                0x000000000000407e                strlen
  *(.rodata)
  *(.rodata*)
- *fill*         0x000000000000412a        0x2 
  .rodata._Z10core_reseti.str1.4
-                0x000000000000412c       0x18 obj.riscv.amiga_mpu_bios/core.o
+                0x0000000000004098       0x18 obj.riscv.amiga_mpu_bios/core.o
  .rodata._Z21core_update_dataslotsv.str1.4
-                0x0000000000004144       0x15 obj.riscv.amiga_mpu_bios/core.o
- *fill*         0x0000000000004159        0x3 
+                0x00000000000040b0       0x15 obj.riscv.amiga_mpu_bios/core.o
+ *fill*         0x00000000000040c5        0x3 
  .rodata._Z4initv.str1.4
-                0x000000000000415c        0x5 obj.riscv.amiga_mpu_bios/main.o
- *fill*         0x0000000000004161        0x3 
+                0x00000000000040c8        0x5 obj.riscv.amiga_mpu_bios/main.o
+ *fill*         0x00000000000040cd        0x3 
  .rodata._Z8mainloopv.str1.4
-                0x0000000000004164       0xce obj.riscv.amiga_mpu_bios/main.o
- *fill*         0x0000000000004232        0x2 
+                0x00000000000040d0       0xce obj.riscv.amiga_mpu_bios/main.o
+ *fill*         0x000000000000419e        0x2 
  .rodata._Z12minimig_biosv.str1.4
-                0x0000000000004234       0x3d obj.riscv.amiga_mpu_bios/minimig_config.o
- *fill*         0x0000000000004271        0x3 
+                0x00000000000041a0       0x3d obj.riscv.amiga_mpu_bios/minimig_config.o
+ *fill*         0x00000000000041dd        0x3 
  .rodata.minimig_restart_running_core.str1.4
-                0x0000000000004274       0x12 obj.riscv.amiga_mpu_bios/minimig_config.o
- *fill*         0x0000000000004286        0x2 
+                0x00000000000041e0       0x12 obj.riscv.amiga_mpu_bios/minimig_config.o
+ *fill*         0x00000000000041f2        0x2 
  .rodata.minimig_hdd_update.str1.4
-                0x0000000000004288       0x42 obj.riscv.amiga_mpu_bios/minimig_config.o
- *fill*         0x00000000000042ca        0x2 
+                0x00000000000041f4       0x42 obj.riscv.amiga_mpu_bios/minimig_config.o
+ *fill*         0x0000000000004236        0x2 
  .rodata._ZL16ide_set_geometryP7drive_ttt.str1.4
-                0x00000000000042cc       0x39 obj.riscv.amiga_mpu_bios/ide.o
- *fill*         0x0000000000004305        0x3 
- .rodata._ZL7get_lbaP10ide_config.str1.4
-                0x0000000000004308       0x28 obj.riscv.amiga_mpu_bios/ide.o
- .rodata._ZL7put_lbaP10ide_configm.str1.4
-                0x0000000000004330        0xf obj.riscv.amiga_mpu_bios/ide.o
- *fill*         0x000000000000433f        0x1 
+                0x0000000000004238       0x39 obj.riscv.amiga_mpu_bios/ide.o
+ *fill*         0x0000000000004271        0x3 
  .rodata._ZL12process_readP10ide_configi.str1.4
-                0x0000000000004340       0x4b obj.riscv.amiga_mpu_bios/ide.o
- *fill*         0x000000000000438b        0x1 
+                0x0000000000004274       0x23 obj.riscv.amiga_mpu_bios/ide.o
+ *fill*         0x0000000000004297        0x1 
  .rodata._ZL10handle_hddP10ide_config.str1.4
-                0x000000000000438c       0xa9 obj.riscv.amiga_mpu_bios/ide.o
- *fill*         0x0000000000004435        0x3 
+                0x0000000000004298       0xa9 obj.riscv.amiga_mpu_bios/ide.o
+ *fill*         0x0000000000004341        0x3 
  .rodata._ZL10handle_hddP10ide_config
-                0x0000000000004438       0xe4 obj.riscv.amiga_mpu_bios/ide.o
+                0x0000000000004344       0xe4 obj.riscv.amiga_mpu_bios/ide.o
  .rodata._Z16get_rdb_geometryP7hdfTYPE.str1.4
-                0x000000000000451c       0x96 obj.riscv.amiga_mpu_bios/ide.o
- *fill*         0x00000000000045b2        0x2 
+                0x0000000000004428       0x96 obj.riscv.amiga_mpu_bios/ide.o
+ *fill*         0x00000000000044be        0x2 
  .rodata._Z14guess_geometryP7hdfTYPE.str1.4
-                0x00000000000045b4       0xca obj.riscv.amiga_mpu_bios/ide.o
- *fill*         0x000000000000467e        0x2 
+                0x00000000000044c0       0xde obj.riscv.amiga_mpu_bios/ide.o
+ *fill*         0x000000000000459e        0x2 
  .rodata._Z11ide_img_setmtiiii.str1.4
-                0x0000000000004680       0x53 obj.riscv.amiga_mpu_bios/ide.o
- *fill*         0x00000000000046d3        0x1 
+                0x00000000000045a0       0x53 obj.riscv.amiga_mpu_bios/ide.o
+ *fill*         0x00000000000045f3        0x1 
  .rodata._Z6ide_ioii.str1.4
-                0x00000000000046d4       0x82 obj.riscv.amiga_mpu_bios/ide.o
- *fill*         0x0000000000004756        0x2 
+                0x00000000000045f4       0x82 obj.riscv.amiga_mpu_bios/ide.o
+ *fill*         0x0000000000004676        0x2 
  .rodata._Z8ide_openht.str1.4
-                0x0000000000004758       0x51 obj.riscv.amiga_mpu_bios/ide.o
- *fill*         0x00000000000047a9        0x3 
+                0x0000000000004678       0x51 obj.riscv.amiga_mpu_bios/ide.o
+ *fill*         0x00000000000046c9        0x3 
  .rodata._Z19update_mouse_inputsv.str1.4
-                0x00000000000047ac       0x4c obj.riscv.amiga_mpu_bios/inputs.o
+                0x00000000000046cc       0x4c obj.riscv.amiga_mpu_bios/inputs.o
  .rodata._ZL13mapHidToAmiga
-                0x00000000000047f8      0x100 obj.riscv.amiga_mpu_bios/inputs.o
+                0x0000000000004718      0x100 obj.riscv.amiga_mpu_bios/inputs.o
  .rodata._Z14dataslot_readyv.str1.4
-                0x00000000000048f8       0x21 obj.riscv.amiga_mpu_bios/apf.o
- *fill*         0x0000000000004919        0x3 
+                0x0000000000004818       0x21 obj.riscv.amiga_mpu_bios/apf.o
+ *fill*         0x0000000000004839        0x3 
  .rodata._Z13dataslot_sizet.str1.4
-                0x000000000000491c       0x3b obj.riscv.amiga_mpu_bios/apf.o
- *fill*         0x0000000000004957        0x1 
+                0x000000000000483c       0x3b obj.riscv.amiga_mpu_bios/apf.o
+ *fill*         0x0000000000004877        0x1 
  .rodata._Z13dataslot_readtmmm.str1.4
-                0x0000000000004958      0x10c obj.riscv.amiga_mpu_bios/apf.o
+                0x0000000000004878      0x110 obj.riscv.amiga_mpu_bios/apf.o
  .rodata._Z14dataslot_writetmmm.str1.4
-                0x0000000000004a64       0x82 obj.riscv.amiga_mpu_bios/apf.o
- *fill*         0x0000000000004ae6        0x2 
+                0x0000000000004988       0x82 obj.riscv.amiga_mpu_bios/apf.o
+ *fill*         0x0000000000004a0a        0x2 
  .rodata._Z9GetHeaderPhS_.str1.4
-                0x0000000000004ae8       0x3c obj.riscv.amiga_mpu_bios/fdd.o
+                0x0000000000004a0c       0x3c obj.riscv.amiga_mpu_bios/fdd.o
  .rodata._Z10WriteTrackP7adfTYPE.str1.4
-                0x0000000000004b24       0x48 obj.riscv.amiga_mpu_bios/fdd.o
+                0x0000000000004a48       0x48 obj.riscv.amiga_mpu_bios/fdd.o
  .rodata._Z9ReadTrackP7adfTYPE.str1.4
-                0x0000000000004b6c       0xa1 obj.riscv.amiga_mpu_bios/fdd.o
- *fill*         0x0000000000004c0d        0x3 
+                0x0000000000004a90       0xa1 obj.riscv.amiga_mpu_bios/fdd.o
+ *fill*         0x0000000000004b31        0x3 
  .rodata.UpdateDriveStatus_fdd.str1.4
-                0x0000000000004c10       0x79 obj.riscv.amiga_mpu_bios/fdd.o
- *fill*         0x0000000000004c89        0x3 
+                0x0000000000004b34       0x79 obj.riscv.amiga_mpu_bios/fdd.o
+ *fill*         0x0000000000004bad        0x3 
  .rodata.UnsertFloppy.str1.4
-                0x0000000000004c8c        0x9 obj.riscv.amiga_mpu_bios/fdd.o
- *fill*         0x0000000000004c95        0x3 
+                0x0000000000004bb0        0x9 obj.riscv.amiga_mpu_bios/fdd.o
+ *fill*         0x0000000000004bb9        0x3 
  .rodata.HandleFDD.str1.4
-                0x0000000000004c98       0x27 obj.riscv.amiga_mpu_bios/fdd.o
- *fill*         0x0000000000004cbf        0x1 
+                0x0000000000004bbc       0x27 obj.riscv.amiga_mpu_bios/fdd.o
+ *fill*         0x0000000000004be3        0x1 
  .rodata.InsertFloppy.str1.4
-                0x0000000000004cc0       0xa3 obj.riscv.amiga_mpu_bios/fdd.o
- *fill*         0x0000000000004d63        0x1 
+                0x0000000000004be4       0xa3 obj.riscv.amiga_mpu_bios/fdd.o
+ *fill*         0x0000000000004c87        0x1 
  .rodata.riscprintf_
-                0x0000000000004d64       0x44 obj.riscv.amiga_mpu_bios/riscprintf.o
+                0x0000000000004c88       0x44 obj.riscv.amiga_mpu_bios/riscprintf.o
  .rodata.outnum.str1.4
-                0x0000000000004da8       0x25 obj.riscv.amiga_mpu_bios/printf.o
- *fill*         0x0000000000004dcd        0x3 
+                0x0000000000004ccc       0x25 obj.riscv.amiga_mpu_bios/printf.o
+ *fill*         0x0000000000004cf1        0x3 
  .rodata.vbuf_printf
-                0x0000000000004dd0      0x1a8 obj.riscv.amiga_mpu_bios/printf.o
+                0x0000000000004cf4      0x1a8 obj.riscv.amiga_mpu_bios/printf.o
  *(.rdata*)
-                0x0000000000004f78                . = ALIGN (0x4)
+                0x0000000000004e9c                . = ALIGN (0x4)
 
-.rela.dyn       0x0000000000004f78        0x0
- .rela.text     0x0000000000004f78        0x0 obj.riscv.amiga_mpu_bios/boot.o
+.rela.dyn       0x0000000000004e9c        0x0
+ .rela.text     0x0000000000004e9c        0x0 obj.riscv.amiga_mpu_bios/boot.o
 
-.data           0x0000000000004f78        0x8
+.data           0x0000000000004e9c        0x4
  *(.got.plt)
  *(.got)
  *(.shdata)
  *(.data .data.* .gnu.linkonce.d.*)
-                0x0000000000004f80                . = ALIGN (0x10)
- *fill*         0x0000000000004f78        0x8 
+                0x0000000000004ea0                . = ALIGN (0x10)
+ *fill*         0x0000000000004e9c        0x4 
  *(.lit8)
  *(.lit4)
  *(.sdata .sdata.* .gnu.linkonce.s.*)
-                0x0000000000004f80                . = ALIGN (0x8)
+                0x0000000000004ea0                . = ALIGN (0x8)
  *(.ram)
-                0x0000000000004f80                . = ALIGN (0x8)
-                0x0000000000004f80                _edata = .
+                0x0000000000004ea0                . = ALIGN (0x8)
+                0x0000000000004ea0                _edata = .
 
-.bss            0x0000000000004f80     0x7c98
-                0x0000000000004f80                . = ALIGN (0x4)
-                0x0000000000004f80                _bss_start = .
+.bss            0x0000000000004ea0     0x7c98
+                0x0000000000004ea0                . = ALIGN (0x4)
+                0x0000000000004ea0                _bss_start = .
  *(.bss*)
- .bss.ide_inst  0x0000000000004f80     0x1f58 obj.riscv.amiga_mpu_bios/ide.o
-                0x0000000000004f80                ide_inst
+ .bss.ide_inst  0x0000000000004ea0     0x1f58 obj.riscv.amiga_mpu_bios/ide.o
+                0x0000000000004ea0                ide_inst
  .bss.sector_buffer
-                0x0000000000006ed8     0x4000 obj.riscv.amiga_mpu_bios/ide.o
-                0x0000000000006ed8                sector_buffer
- .bss._ZL3HDF   0x000000000000aed8       0xd0 obj.riscv.amiga_mpu_bios/ide.o
+                0x0000000000006df8     0x4000 obj.riscv.amiga_mpu_bios/ide.o
+                0x0000000000006df8                sector_buffer
+ .bss._ZL3HDF   0x000000000000adf8       0xd0 obj.riscv.amiga_mpu_bios/ide.o
  .bss.sector_bufferfdd0
-                0x000000000000afa8      0x200 obj.riscv.amiga_mpu_bios/fdd.o
-                0x000000000000afa8                sector_bufferfdd0
+                0x000000000000aec8      0x200 obj.riscv.amiga_mpu_bios/fdd.o
+                0x000000000000aec8                sector_bufferfdd0
  .bss.sector_bufferfdd1
-                0x000000000000b1a8     0x1600 obj.riscv.amiga_mpu_bios/fdd.o
-                0x000000000000b1a8                sector_bufferfdd1
- .bss.df        0x000000000000c7a8       0x50 obj.riscv.amiga_mpu_bios/fdd.o
-                0x000000000000c7a8                df
+                0x000000000000b0c8     0x1600 obj.riscv.amiga_mpu_bios/fdd.o
+                0x000000000000b0c8                sector_bufferfdd1
+ .bss.df        0x000000000000c6c8       0x50 obj.riscv.amiga_mpu_bios/fdd.o
+                0x000000000000c6c8                df
  *(.sbss*)
  .sbss.MOD_CTRL
-                0x000000000000c7f8        0x1 obj.riscv.amiga_mpu_bios/inputs.o
-                0x000000000000c7f8                MOD_CTRL
+                0x000000000000c718        0x1 obj.riscv.amiga_mpu_bios/inputs.o
+                0x000000000000c718                MOD_CTRL
  .sbss.MOD_LWIN
-                0x000000000000c7f9        0x1 obj.riscv.amiga_mpu_bios/inputs.o
-                0x000000000000c7f9                MOD_LWIN
+                0x000000000000c719        0x1 obj.riscv.amiga_mpu_bios/inputs.o
+                0x000000000000c719                MOD_LWIN
  .sbss.MOD_RSHIFT
-                0x000000000000c7fa        0x1 obj.riscv.amiga_mpu_bios/inputs.o
-                0x000000000000c7fa                MOD_RSHIFT
+                0x000000000000c71a        0x1 obj.riscv.amiga_mpu_bios/inputs.o
+                0x000000000000c71a                MOD_RSHIFT
  .sbss.MOD_LSHIFT
-                0x000000000000c7fb        0x1 obj.riscv.amiga_mpu_bios/inputs.o
-                0x000000000000c7fb                MOD_LSHIFT
+                0x000000000000c71b        0x1 obj.riscv.amiga_mpu_bios/inputs.o
+                0x000000000000c71b                MOD_LSHIFT
  .sbss.MOD_RALT
-                0x000000000000c7fc        0x1 obj.riscv.amiga_mpu_bios/inputs.o
-                0x000000000000c7fc                MOD_RALT
+                0x000000000000c71c        0x1 obj.riscv.amiga_mpu_bios/inputs.o
+                0x000000000000c71c                MOD_RALT
  .sbss.MOD_LALT
-                0x000000000000c7fd        0x1 obj.riscv.amiga_mpu_bios/inputs.o
-                0x000000000000c7fd                MOD_LALT
- *fill*         0x000000000000c7fe        0x2 
+                0x000000000000c71d        0x1 obj.riscv.amiga_mpu_bios/inputs.o
+                0x000000000000c71d                MOD_LALT
+ *fill*         0x000000000000c71e        0x2 
  .sbss.keyboard_buffer
-                0x000000000000c800        0x6 obj.riscv.amiga_mpu_bios/inputs.o
-                0x000000000000c800                keyboard_buffer
- .sbss.y_count  0x000000000000c806        0x2 obj.riscv.amiga_mpu_bios/inputs.o
-                0x000000000000c806                y_count
- .sbss.x_count  0x000000000000c808        0x2 obj.riscv.amiga_mpu_bios/inputs.o
-                0x000000000000c808                x_count
- *fill*         0x000000000000c80a        0x2 
+                0x000000000000c720        0x6 obj.riscv.amiga_mpu_bios/inputs.o
+                0x000000000000c720                keyboard_buffer
+ .sbss.y_count  0x000000000000c726        0x2 obj.riscv.amiga_mpu_bios/inputs.o
+                0x000000000000c726                y_count
+ .sbss.x_count  0x000000000000c728        0x2 obj.riscv.amiga_mpu_bios/inputs.o
+                0x000000000000c728                x_count
+ *fill*         0x000000000000c72a        0x2 
  .sbss.mouse_counter
-                0x000000000000c80c        0x4 obj.riscv.amiga_mpu_bios/inputs.o
-                0x000000000000c80c                mouse_counter
- .sbss.Error    0x000000000000c810        0x1 obj.riscv.amiga_mpu_bios/fdd.o
-                0x000000000000c810                Error
- .sbss.drives   0x000000000000c811        0x1 obj.riscv.amiga_mpu_bios/fdd.o
-                0x000000000000c811                drives
- *fill*         0x000000000000c812        0x2 
- .sbss._stdout  0x000000000000c814        0x4 obj.riscv.amiga_mpu_bios/printf.o
+                0x000000000000c72c        0x4 obj.riscv.amiga_mpu_bios/inputs.o
+                0x000000000000c72c                mouse_counter
+ .sbss.Error    0x000000000000c730        0x1 obj.riscv.amiga_mpu_bios/fdd.o
+                0x000000000000c730                Error
+ .sbss.drives   0x000000000000c731        0x1 obj.riscv.amiga_mpu_bios/fdd.o
+                0x000000000000c731                drives
+ *fill*         0x000000000000c732        0x2 
+ .sbss._stdout  0x000000000000c734        0x4 obj.riscv.amiga_mpu_bios/printf.o
  *(COMMON)
-                0x000000000000c818                . = ALIGN (0x8)
-                0x000000000000cc18                . = (. + 0x400)
- *fill*         0x000000000000c818      0x400 
-                0x000000000000cc08                _sp = (. - 0x10)
-                0x000000000000cc18                . = ALIGN (0x4)
-                0x000000000000cc18                _end = .
+                0x000000000000c738                . = ALIGN (0x8)
+                0x000000000000cb38                . = (. + 0x400)
+ *fill*         0x000000000000c738      0x400 
+                0x000000000000cb28                _sp = (. - 0x10)
+                0x000000000000cb38                . = ALIGN (0x4)
+                0x000000000000cb38                _end = .
 
 .payload
  *(.payload)

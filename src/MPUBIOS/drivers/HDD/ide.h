@@ -9,7 +9,7 @@
 #include "riscprintf.h"
 #include "apf.h"
 #include "fileio.h"
-#include "osd_menu.h"
+// #include "osd_menu.h"
 #define ATA_STATUS_BSY  0x80  // busy
 #define ATA_STATUS_RDY  0x40  // ready
 #define ATA_STATUS_RDP  0x20  // performance read

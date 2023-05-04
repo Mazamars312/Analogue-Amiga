@@ -11,9 +11,7 @@ obj.riscv.amiga_mpu_bios/ide.o: \
  /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/uart/uart.h \
  /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/fileio.h \
  /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.h \
- ../lib/printf.h \
- /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.h \
- /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.h
+ ../lib/printf.h
 /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.h:
 /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.h:
 /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:
@@ -26,5 +24,3 @@ obj.riscv.amiga_mpu_bios/ide.o: \
 /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/fileio.h:
 /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.h:
 ../lib/printf.h:
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.h:
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.h:

@@ -15,8 +15,6 @@ obj.riscv.amiga_mpu_bios/interrupts.o: \
  /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.h \
  /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/fileio.h \
  /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.h \
- /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.h \
- /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.h \
  /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/riscprintf.h
 /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/interrupts.h:
 /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/hardware.h:
@@ -36,6 +34,4 @@ core.h:
 /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.h:
 /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/fileio.h:
 /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.h:
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.h:
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.h:
 /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/riscprintf.h:

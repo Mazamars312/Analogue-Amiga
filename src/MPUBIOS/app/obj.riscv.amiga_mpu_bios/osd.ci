@@ -19,13 +19,15 @@ edge: { sourcename: "_Z10InfoEnableiiiiii" targetname: "_Z12HPS_fpga_spit" label
 edge: { sourcename: "_Z10InfoEnableiiiiii" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:92:21" }
 edge: { sourcename: "_Z10InfoEnableiiiiii" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:92:21" }
 edge: { sourcename: "_Z10InfoEnableiiiiii" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:92:21" }
+edge: { sourcename: "_Z10InfoEnableiiiiii" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:92:21" }
+edge: { sourcename: "_Z10InfoEnableiiiiii" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:92:21" }
 node: { title: "_Z14HPS_DisableOsdv" label: "void HPS_DisableOsd()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:78:6" shape : ellipse }
-edge: { sourcename: "_Z10InfoEnableiiiiii" targetname: "_Z14HPS_DisableOsdv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.cpp:292:16" }
-node: { title: "_Z10OsdDisablev" label: "void OsdDisable()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.cpp:297:6" }
-edge: { sourcename: "_Z10OsdDisablev" targetname: "_Z15HPS_spi_osd_cmdh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.cpp:300:17" }
-node: { title: "_Z9OsdUpdatei" label: "void OsdUpdate(int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.cpp:304:6" }
-edge: { sourcename: "_Z9OsdUpdatei" targetname: "_Z20HPS_spi_osd_cmd_conth" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.cpp:307:23" }
+edge: { sourcename: "_Z10InfoEnableiiiiii" targetname: "_Z14HPS_DisableOsdv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.cpp:294:16" }
+node: { title: "_Z10OsdDisablev" label: "void OsdDisable()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.cpp:299:6" }
+edge: { sourcename: "_Z10OsdDisablev" targetname: "_Z15HPS_spi_osd_cmdh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.cpp:302:17" }
+node: { title: "_Z9OsdUpdatei" label: "void OsdUpdate(int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.cpp:306:6" }
+edge: { sourcename: "_Z9OsdUpdatei" targetname: "_Z20HPS_spi_osd_cmd_conth" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.cpp:309:23" }
 node: { title: "_Z17OSD_HPS_spi_writePKhmi" label: "void OSD_HPS_spi_write(const uint8_t*, uint32_t, int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:86:6" shape : ellipse }
-edge: { sourcename: "_Z9OsdUpdatei" targetname: "_Z17OSD_HPS_spi_writePKhmi" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.cpp:310:20" }
-edge: { sourcename: "_Z9OsdUpdatei" targetname: "_Z14HPS_DisableOsdv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.cpp:313:17" }
+edge: { sourcename: "_Z9OsdUpdatei" targetname: "_Z17OSD_HPS_spi_writePKhmi" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.cpp:312:20" }
+edge: { sourcename: "_Z9OsdUpdatei" targetname: "_Z14HPS_DisableOsdv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.cpp:315:17" }
 }

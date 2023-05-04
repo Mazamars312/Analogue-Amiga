@@ -169,7 +169,7 @@ module minimig
 	//sram pins
 	output [15:0] ram_data,    // sram data bus
 	input  [15:0] ramdata_in,  // sram data bus in
-	output [23:1] ram_address, // sram address bus
+	output [22:1] ram_address, // sram address bus
 	output 	     _ram_bhe,    // sram upper byte select
 	output 	     _ram_ble,    // sram lower byte select
 	output 	     _ram_we,     // sram write enable
@@ -419,7 +419,7 @@ wire        reset = sys_reset | ~_cpu_reset_in; // both tg68k and minimig_syscon
 
 assign pwr_led = ~_led;
 
-assign memcfg = {memory_config[7],memory_config[5:0]};
+assign memcfg = {memory_config[6:0]};
 assign cachecfg = {cachecfg_pre[2], ~ovl, ~ovl};
 
 // NTSC/PAL switching is controlled by OSD menu, change requires reset to take effect
@@ -639,7 +639,7 @@ ciaa CIAA1
 	.kms_level(kms_level),
 	.kbd_mouse_data(kbd_mouse_data), 
 	.freeze(freeze),
-	.hrtmon_en (memory_config[6])
+	.hrtmon_en (memory_config[7])
 );
 
 //instantiate cia B

@@ -188,7 +188,10 @@ void guess_geometry(hdfTYPE *hdf)
 	{
 		struct RigidDiskBlock *rdb = (struct RigidDiskBlock *)sector_buffer;
 		dataslot_read(hdf->dataslot, (uint32_t)&sector_buffer, i *512,  512);
-		for (int i = 0; i < 512; i++) flg |= sector_buffer[i];
+		for (int i = 0; i < 512; i++) {
+			flg |= sector_buffer[i];
+			mainprintf("data In : %0.4\r\n", sector_buffer[i]);
+		}
 
 		if (rdb->rdb_ID == RDB_MAGIC)
 		{
@@ -402,7 +405,7 @@ static uint32_t get_lba(ide_config *ide)
 	else
 	{
 		drive_t *drive = &ide->drive[ide->regs.drv];
-		mainprintf("  CHS: %d/%d/%d (%d/%d)\r\n", ide->regs.cylinder, ide->regs.head, ide->regs.sector, drive->heads, drive->spt);
+		// mainprintf("  CHS: %d/%d/%d (%d/%d)\r\n", ide->regs.cylinder, ide->regs.head, ide->regs.sector, drive->heads, drive->spt);
 		lba = ide->regs.cylinder;
 		lba *= drive->heads;
 		lba += ide->regs.head;
@@ -410,14 +413,14 @@ static uint32_t get_lba(ide_config *ide)
 		lba += ide->regs.sector - 1;
 	}
 
-	mainprintf("  LBA: %u\r\n", lba);
+	// mainprintf("  LBA: %u\r\n", lba);
 	return lba;
 }
 
 static void put_lba(ide_config *ide, uint32_t lba)
 {
 	lba--;
-	mainprintf("  putLBA: %u\r\n", lba);
+	// mainprintf("  putLBA: %u\r\n", lba);
 	if (ide->regs.lba)
 	{
 		ide->regs.sector = lba;
@@ -441,12 +444,12 @@ static void put_lba(ide_config *ide, uint32_t lba)
 inline uint16_t get_cnt(ide_config *ide)
 {
 	drive_t *drive = &ide->drive[ide->regs.drv];
-	mainprintf("  Cnt: %d (max = %d)\r\n", ide->regs.sector_count, drive->spb);
+	// mainprintf("  Cnt: %d (max = %d)\r\n", ide->regs.sector_count, drive->spb);
 	uint16_t cnt = ide->regs.sector_count;
 	if (!cnt || cnt > drive->spb)
 	{
 		cnt = drive->spb;
-		mainprintf("  New cnt: %d\r\n", cnt);
+		// mainprintf("  New cnt: %d\r\n", cnt);
 	}
 	return cnt;
 }
@@ -544,7 +547,7 @@ static void process_write(ide_config *ide, int multi)
 	uint32_t cnt = 1;
 	uint16_t ide_req;
 	
-//   mainprintf("\033[39;1;5mWRITE!!!!!!!!!!!!!!!!!!!!!  %d\033[0m\r\n", ide->regs.cmd);
+//   mainprintf("\033[33;1;5mWRITE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  %d\033[0m\r\n", ide->regs.cmd);
 	// ide->null = (ide->regs.cmd != 0xFA) ? !FileSeekLBA(ide->drive[ide->regs.drv].f, (lba <= ide->drive[ide->regs.drv].offset) ? 0 : (lba - ide->drive[ide->regs.drv].offset)) : 1;
 	uint8_t irq = 0;
 

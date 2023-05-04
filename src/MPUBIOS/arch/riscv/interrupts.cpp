@@ -25,7 +25,7 @@
 extern "C" void _handle_trap(){
 	DisableInterrupts();
 	core_input_update();
-	mainprintf("mouse \r\n");
+	// mainprintf("mouse \r\n");
 	HW_TIMER1CLOCK(0) = 1;
 	EnableInterrupts();
 	return;

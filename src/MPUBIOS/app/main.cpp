@@ -34,7 +34,7 @@
 #include "printf.h"
 #include "spi.h"
 #include "core.h"
-#include "osd_menu.h"
+// #include "osd_menu.h"
 
 void init()
 {

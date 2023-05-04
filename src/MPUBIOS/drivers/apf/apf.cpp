@@ -91,7 +91,7 @@ uint32_t dataslot_read(uint16_t dataslot, uint32_t address, uint32_t offset, uin
   WRITE_TARGET_DATASLOT_LENGTH(0) = length;
   WRITE_TARGET_DATASLOT_OFFSET(0) = offset;
   WRITE_TARGET_DATASLOT_CONTROL(0) = TARGET_DATASLOT_READ_REG;
-  mainprintf("APF read: %d, %0.4x, %0.4x, %d\r\n", dataslot, WRITE_TARGET_DATASLOT_BRIDGE_ADD(0), offset, length);
+  mainprintf("APF read: %d, %0.4x, %0.4x, %0.4x, %d\r\n", dataslot, address, WRITE_TARGET_DATASLOT_BRIDGE_ADD(0), offset, length);
   int apf_codes;
   int i = 0;
   do

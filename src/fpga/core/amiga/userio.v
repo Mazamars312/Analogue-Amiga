@@ -424,7 +424,7 @@ always @(posedge clk) begin
 		chipset_config <= t_chipset_config;
 		ide_cfg <= t_ide_config;
 		cpu_cfg <= t_cpu_config[1:0];
-		memory_config[5:0] <= t_memory_config[5:0];
+		memory_config[7:0] <= t_memory_config[7:0];
 		memory_config[7] <= t_memory_config[7];
 	end
 	
@@ -434,7 +434,6 @@ end
 
 always @(posedge clk) begin
 	cache_config[2:0] <= t_cpu_config[4:2];
-	memory_config[6] <= t_memory_config[6];
 end
 
 reg [7:0] cmd;

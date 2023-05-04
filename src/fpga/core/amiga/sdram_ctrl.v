@@ -49,7 +49,7 @@ module sdram_ctrl
 	output reg        sd_clk,
 	output            sd_cke,
 	// chip
-	input      [24:1] chipAddr,
+	input      [22:1] chipAddr,
 	input             chipL,
 	input             chipU,
 	input             chipRW,
@@ -58,7 +58,7 @@ module sdram_ctrl
 	output reg [15:0] chipRD,
 	output     [47:0] chip48,
 	// cpu
-	input      [24:1] cpuAddr,
+	input      [25:1] cpuAddr,
 	input             cpuCS,
 	input       [1:0] cpustate,
 	input             cpuL,
@@ -147,7 +147,7 @@ reg        write_ena;
 reg        write_req;
 reg        write_ack;
 reg  [1:0] write_dqm;
-reg [24:1] writeAddr;
+reg [25:1] writeAddr;
 reg [15:0] writeDat;
 
 always @ (posedge sysclk) begin
