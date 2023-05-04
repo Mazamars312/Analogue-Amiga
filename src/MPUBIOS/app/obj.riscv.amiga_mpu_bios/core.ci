@@ -49,10 +49,10 @@ edge: { sourcename: "_Z18core_restart_firstv" targetname: "_Z16HPS_spi_uio_cmd8h
 edge: { sourcename: "_Z18core_restart_firstv" targetname: "riscprintf_" label: "core.cpp:9:13" }
 node: { title: "_Z25core_restart_running_corev" label: "void core_restart_running_core()\ncore.cpp:82:7" }
 node: { title: "_Z16core_input_setupv" label: "void core_input_setup()\ncore.cpp:87:7" }
-node: { title: "_Z11input_setupv" label: "void input_setup()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.h:61:6" shape : ellipse }
+node: { title: "_Z11input_setupv" label: "void input_setup()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.h:62:6" shape : ellipse }
 edge: { sourcename: "_Z16core_input_setupv" targetname: "_Z11input_setupv" label: "core.cpp:89:14" }
 node: { title: "_Z17core_input_updatev" label: "void core_input_update()\ncore.cpp:92:7" }
-node: { title: "_Z12input_updatev" label: "void input_update()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.h:60:6" shape : ellipse }
+node: { title: "_Z12input_updatev" label: "void input_update()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.h:61:6" shape : ellipse }
 edge: { sourcename: "_Z17core_input_updatev" targetname: "_Z12input_updatev" label: "core.cpp:94:15" }
 node: { title: "_Z20core_interupt_updatev" label: "void core_interupt_update()\ncore.cpp:97:7" }
 edge: { sourcename: "_Z20core_interupt_updatev" targetname: "_Z11input_setupv" label: "core.cpp:89:14" }

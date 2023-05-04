@@ -1278,7 +1278,7 @@ IIR_filter #(0) lpf3275
 );
 
 reg [15:0] aud_l, aud_r;
-always @(posedge audio_mclk) begin
+always @(posedge clk_sys) begin
 	reg [15:0] old_l0, old_l1, old_r0, old_r1;
 
 	old_l0 <= flt_en ? lpf3275_l : audm_l;
@@ -1291,7 +1291,7 @@ always @(posedge audio_mclk) begin
 end
 
 reg [15:0] out_l, out_r;
-always @(posedge audio_mclk) begin
+always @(posedge clk_sys) begin
 	reg [16:0] tmp_l, tmp_r;
 
 	tmp_l <= {aud_l[15],aud_l};

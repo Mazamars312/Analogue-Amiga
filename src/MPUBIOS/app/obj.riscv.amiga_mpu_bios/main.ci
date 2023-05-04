@@ -40,7 +40,7 @@ edge: { sourcename: "_Z8mainloopv" targetname: "riscprintf_" label: "main.cpp:83
 edge: { sourcename: "_Z8mainloopv" targetname: "_Z16EnableInterruptsv" label: "main.cpp:84:23" }
 node: { title: "_Z12core_poll_iov" label: "void core_poll_io()\ncore.h:60:6" shape : ellipse }
 edge: { sourcename: "_Z8mainloopv" targetname: "_Z12core_poll_iov" label: "main.cpp:87:17" }
-node: { title: "_Z16input_reg_updatev" label: "void input_reg_update()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.h:62:6" shape : ellipse }
+node: { title: "_Z16input_reg_updatev" label: "void input_reg_update()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.h:63:6" shape : ellipse }
 edge: { sourcename: "_Z8mainloopv" targetname: "_Z16input_reg_updatev" label: "main.cpp:88:21" }
 node: { title: "_Z15core_reg_updatev" label: "void core_reg_update()\ncore.h:61:6" shape : ellipse }
 edge: { sourcename: "_Z8mainloopv" targetname: "_Z15core_reg_updatev" label: "main.cpp:89:20" }

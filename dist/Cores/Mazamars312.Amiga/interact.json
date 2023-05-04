@@ -14,6 +14,17 @@
         "mask": "0xFFFFFFFE"
 	},
 	{
+        "name": "FDD/HDD LED",
+        "id": 140,
+        "type": "check",
+        "enabled": true,
+        "address": "0xf000001C",
+        "defaultval": 0,
+        "value": 0,
+		"value_off" : 1,
+        "mask": "0xFFFFFFFE"
+	},
+	{
         "name": "Installed Floppy Drives",
         "id": 120,
         "type": "list",
@@ -292,7 +303,39 @@
 				"name": "32Mbytes"
 			}
         ]
-      }
+      },
+	{
+        "name": "Audio Filter",
+        "id": 141,
+        "type": "list",
+        "enabled": true,
+        "persist": true,
+        "address": "0xf000001C",
+        "defaultval": 0,
+        "mask": "0xFFFFFFF1",
+        "options": [
+		{
+			"value": "0x0000",
+			"name": "Audio Filter off"
+		},
+		{
+			"value": "0x0002",
+			"name": "A500/No PWM"
+		},
+		{
+			"value": "0x000A",
+			"name": "A500/PWM"
+		},
+		{
+			"value": "0x0006",
+			"name": "A1200/No PWM"
+		},
+		{
+			"value": "0x000E",
+			"name": "A1200/PWM"
+		}
+        ]
+	}
     ]
   }
 }

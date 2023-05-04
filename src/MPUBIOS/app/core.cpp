@@ -65,9 +65,9 @@
  	// else cue.SetRegion(0);
  	// if (old_region != AFP_REGISTOR(1) & 0x1) full_core_reset();
  	// Arcade Setup
-
- 	if (AFP_REGISTOR(1) & 0x2) CORE_OUTPUT_REGISTOR() = 0x2;
- 	else CORE_OUTPUT_REGISTOR() = 0x0;
+	CORE_OUTPUT_REGISTOR() = AFP_REGISTOR(7);
+ 	// if (AFP_REGISTOR(1) & 0x2) CORE_OUTPUT_REGISTOR() = 0x2;
+ 	// else CORE_OUTPUT_REGISTOR() = 0x0;
  	// if (old_arcade != AFP_REGISTOR(1) & 0x2) full_core_reset();
 
  };

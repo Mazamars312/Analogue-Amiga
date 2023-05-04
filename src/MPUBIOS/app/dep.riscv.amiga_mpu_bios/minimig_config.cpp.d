@@ -9,6 +9,7 @@ obj.riscv.amiga_mpu_bios/minimig_config.o: minimig_config.cpp \
  /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/riscprintf.h \
  /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h \
  /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/interrupts.h \
+ /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.h \
  /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/floppy_drive/fdd.h \
  /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.h \
  /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/fileio.h \
@@ -25,6 +26,7 @@ core.h:
 /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/riscprintf.h:
 /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:
 /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/interrupts.h:
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.h:
 /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/floppy_drive/fdd.h:
 /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.h:
 /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/fileio.h:
