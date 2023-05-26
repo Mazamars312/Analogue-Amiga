@@ -1,6 +1,6 @@
-# Analogue Pocket - Commodore Amiga 500 - 0.0.6 Alpha
+# Analogue Pocket - Commodore Amiga -- 0.0.6 Alpha
 
-The Commodore Amiga 500 was a personal computer that replaced the well-loved Commodore C64 in the Commodore product line. It also was one of the many 68K personal computers that showed that this CPU was a powerhouse when integrated with great hardware beside it.
+The Commodore Amiga was a personal computer that replaced the well-loved Commodore C64 in the Commodore product line. It also was one of the many 68K personal computers that showed that this CPU was a powerhouse when integrated with great hardware beside it.
 
 This is based on the Mister Github of the Amiga Mist project (Also known as the minimig) and the VexRISCV RISC-V chip for the Media Processing Unit (MPU) between the core and APF framework for floppy, hard drive and CD-ROM access.
 
