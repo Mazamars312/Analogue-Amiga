@@ -200,6 +200,9 @@ I have game X that does not work!
 -   For multi-disk games, also try putting disks in other drives. Make sure you
     change the amount of installed drives to the amount needed. (Up to 2)
 
+-   Some games like another world does not work on the AmigaVision hardrive image 
+    right now. We are working on this issue for the next build
+
 Change since 0.0.6 to 0.1.0
 ---------------------------
 
@@ -221,6 +224,9 @@ Change since 0.0.6 to 0.1.0
 
 -   Also a emulated mouse on a analogue joystick in docked mode (This is the
     left thumb stick and the left and right triggers for the mouse clicks)
+
+-   Dropped the floppy drives from 4 to 2 as there was not enough room in the interation menu
+    at this moment.
 
 Change since 0.0.5 to 0.0.6
 ---------------------------
