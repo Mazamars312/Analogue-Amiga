@@ -30,6 +30,7 @@
 #define SSPI_OSD_EN  (1<<19) // This is not used
 #define SSPI_IO_EN   (1<<20)
 static int fio_size = 1;
+static int osd_target = OSD_ALL;
 
 #define SWAPW(a) ((((a)<<8)&0xff00)|(((a)>>8)&0x00ff))
 
@@ -80,6 +81,22 @@ void HPS_DisableIO()
 {
 	HPS_fpga_spi_en(SSPI_IO_EN, 0);
   EnableInterrupts();
+}
+
+void HPS_EnableOsd()
+{
+	DisableInterrupts();
+	osd_target = OSD_ALL;
+
+	uint32_t mask = SSPI_OSD_EN | SSPI_IO_EN | SSPI_FPGA_EN;
+
+	HPS_fpga_spi_en(mask, 1);
+}
+
+void HPS_DisableOsd()
+{
+	HPS_fpga_spi_en(SSPI_OSD_EN | SSPI_IO_EN | SSPI_FPGA_EN, 0);
+	EnableInterrupts();
 }
 
 uint16_t HPS_fpga_spi(uint16_t word){
@@ -188,7 +205,7 @@ uint8_t HPS_spi_uio_cmd8(uint8_t cmd, uint8_t parm)
 {
 
 	uint8_t res = HPS_spi_uio_cmd8_cont(cmd, parm);
-  // riscprintf("HPS %0.4x\r\n", res);
+//   mainprintf("HPS %0.4x\r\n", res);
   riscusleep(1);
 	HPS_DisableIO();
 	return res;
@@ -353,7 +370,6 @@ void HPS_fpga_spi_fast_block_read_be(uint16_t *buf, uint32_t length)
 }
 
 
-static int osd_target = OSD_ALL;
 
 void HPS_EnableOsd_on(int target)
 {
@@ -362,19 +378,7 @@ void HPS_EnableOsd_on(int target)
 }
 
 
-void HPS_EnableOsd()
-{
-	osd_target = OSD_ALL;
 
-	uint32_t mask = SSPI_OSD_EN | SSPI_IO_EN | SSPI_FPGA_EN;
-
-	HPS_fpga_spi_en(mask, 1);
-}
-
-void HPS_DisableOsd()
-{
-	HPS_fpga_spi_en(SSPI_OSD_EN | SSPI_IO_EN | SSPI_FPGA_EN, 0);
-}
 
 void HPS_spi_osd_cmd_cont(uint8_t cmd)
 {
@@ -399,4 +403,27 @@ void HPS_spi_osd_cmd8(uint8_t cmd, uint8_t parm)
 {
 	HPS_spi_osd_cmd8_cont(cmd, parm);
 	HPS_DisableOsd();
+}
+
+void HPS_OSD_spi_write(const uint8_t *addr, uint32_t len, int wide)
+{
+	if (wide)
+	{
+		uint32_t len16 = len >> 1;
+		uint16_t *a16 = (uint16_t*)addr;
+		while (len16--) {
+      spi_w(*a16++);
+
+    }
+		if(len & 1) spi_w(*((uint8_t*)a16));
+  	}
+  	else
+  	{
+
+    // mainprintf("%0.4x\r\n", len);
+		while (len--) {
+    // mainprintf("%0.2x\r\n", *addr);
+      spi_b(*addr++);
+    }
+	}
 }

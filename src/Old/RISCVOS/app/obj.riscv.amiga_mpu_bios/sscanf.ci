@@ -1,7 +1,0 @@
-graph: { title: "../lib/sscanf.c"
-node: { title: "sscanf" label: "sscanf\n../lib/sscanf.c:5:1" }
-node: { title: "stropen" label: "stropen\n../lib/stream.h:89:11" shape : ellipse }
-edge: { sourcename: "sscanf" targetname: "stropen" label: "../lib/sscanf.c:11:2" }
-node: { title: "stream_vscanf" label: "stream_vscanf\n../lib/stream.h:73:5" shape : ellipse }
-edge: { sourcename: "sscanf" targetname: "stream_vscanf" label: "../lib/sscanf.c:13:8" }
-}

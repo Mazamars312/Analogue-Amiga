@@ -1,2 +1,0 @@
-../lib/strrchr.c:10:8:strrchr	0	static
-../lib/strrchr.c:26:7:strchr	0	static

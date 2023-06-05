@@ -48,9 +48,11 @@
    		spi_w(0);
    		spi_w(0);
    		HPS_DisableFpga();
-		// if (c1 == 0x4) mainprintf("Floppy controller and Harddrive poll c1 %0.2x c2 %0.2x\r\n", c1, c2);
         HandleFDD(c1, c2);
 		uint16_t sd_req = ide_check();
+		if ((sd_req >> 3) == 5) mainprintf ("\033[38;1;5m %d sdreq5\033[0m\r\n", sd_req >> 3);
+		if ((sd_req >> 3) == 7) mainprintf ("\033[38;1;5m %d sdreq7\033[0m\r\n", sd_req >> 3);
+		if ((sd_req >> 3) == 6) mainprintf ("\033[38;1;5m %d sdreq6\033[0m\r\n", sd_req >> 3);
 		if (sd_req & 0x8000)
 		{
 			ide_io(0, sd_req & 7);
@@ -59,20 +61,11 @@
  };
 
  void core_reg_update(){
- 	// This can be used for polling the APF regs from the interaction menu to change core settings
- 	// Region setup
- 	// if (AFP_REGISTOR(1) & 0x1) cue.SetRegion(1);
- 	// else cue.SetRegion(0);
- 	// if (old_region != AFP_REGISTOR(1) & 0x1) full_core_reset();
- 	// Arcade Setup
-	CORE_OUTPUT_REGISTOR() = AFP_REGISTOR(7);
- 	// if (AFP_REGISTOR(1) & 0x2) CORE_OUTPUT_REGISTOR() = 0x2;
- 	// else CORE_OUTPUT_REGISTOR() = 0x0;
- 	// if (old_arcade != AFP_REGISTOR(1) & 0x2) full_core_reset();
+	uint32_t tmp = CORE_OUTPUT_REGISTOR();
+    tmp = tmp & 0xFFFFFFF0;
+    CORE_OUTPUT_REGISTOR() = tmp | (AFP_REGISTOR(7) & 0x0000000f);
 
  };
-
-
 
  void core_restart_first(){
  	// what to do to start up the core if required

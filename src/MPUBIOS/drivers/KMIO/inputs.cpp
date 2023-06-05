@@ -25,10 +25,13 @@
 
 
 #include "inputs.h"
-
+int interupt_amount_timer = 0;
 unsigned int mouse_counter={0};
 signed short x_count = 0;
 signed short y_count = 0;
+bool mouse_enabled = 0;
+bool mouse_enabled_press = 0;
+bool mouse_enabled_press_old = 0;
 
 uint8_t keyboard_buffer[6];
 bool    MOD_LALT;
@@ -38,42 +41,104 @@ bool    MOD_RSHIFT;
 bool    MOD_LWIN;
 bool    MOD_CTRL;
 bool    MOD_CAPS_LOCK;
+bool    keyboard_osd_showing = 0;
 // static uint8_t timing_delay;
 
-void update_mouse_inputs (){
+void input_allow_osd(bool keyboard_active){
+  keyboard_osd_showing = keyboard_active;
+  mainprintf ("Active %d\r\n", keyboard_osd_showing);
+}
 
+void update_mouse_inputs (){
+  mouse_enabled_press = ((CONTROLLER_KEY_REG(1) >> 15) & 0x1) ; //|| ( ((CONTROLLER_KEY_REG(1)>>28) == 0x3) && ((CONTROLLER_KEY_REG(1) >> 15) & 0x1))
+  if (keyboard_osd_showing == 1) {
+    mouse_enabled = 0;
+  } else if (mouse_enabled_press && !mouse_enabled_press_old) {
+    mouse_enabled = !mouse_enabled;
+    
+    OsdUpdate(0);
+    OsdClear();
+    if (mouse_enabled){
+      uint32_t tmp = CORE_OUTPUT_REGISTOR();
+      tmp = tmp | 0x00000010;
+      CORE_OUTPUT_REGISTOR() = tmp;
+        OsdWrite("Mouse Disabled");
+        OsdUpdate(0);
+        OsdClear();
+        
+    } else {
+      uint32_t tmp = CORE_OUTPUT_REGISTOR();
+      tmp = tmp & 0xFFFFFFEF;
+      CORE_OUTPUT_REGISTOR() = tmp;
+      OsdWrite("Mouse Enabled");
+    }
+    
+    OsdUpdate(1);
+    OsdClear();
+    OsdUpdate(2);
+    OsdClear();
+  } 
+  mouse_enabled_press_old = mouse_enabled_press;
+  if (keyboard_osd_showing == 0){
+    if (mouse_enabled_press){
+      InfoEnable(10, 10, 32, 3, 291, 31744); // Had to use the info as some of the PCE outputs are smaller
+    } else {
+      OsdDisable();
+    }
+  }
   uint16_t speed = (AFP_REGISTOR(5) & 0xffff);
   if (((CONTROLLER_KEY_REG(4)>>28) == 0x5) && (mouse_counter != (CONTROLLER_KEY_REG(4) & 0x0000FFFF))){
-    
     // the normal mouse access via the dock
     // Right now this is just a shifter Will change this to something more accurate as this causes an issue with the emulated mouse
     signed short x = (short)((CONTROLLER_JOY_REG(4) & 0x0000FFFF));
     signed short y = (short)((CONTROLLER_TRIG_REG(4) & 0x0000FFFF));
-    x = x / speed;
-    y = y / speed;
+    x = x - speed;
+    y = y - speed;
     x_count = x_count + ((x < -127) ? -127 : (x > 127) ? 127 : x);
     y_count = y_count + ((y < -127) ? -127 : (y > 127) ? 127 : y);
     HPS_spi_uio_cmd8(UIO_MOUSE_X, x_count);
     HPS_spi_uio_cmd8(UIO_MOUSE_Y, y_count);
     HPS_spi_uio_cmd8(UIO_MOUSE_BTN, ((CONTROLLER_JOY_REG(4)>>16) & 0x7));
     mouse_counter = (CONTROLLER_KEY_REG(4) & 0x0000FFFF);
-  } else if (((CONTROLLER_KEY_REG(1)>>28) == 0x3)){
 
+
+  } else if (((CONTROLLER_KEY_REG(1)>>28) == 0x3)){
     // // the normal joypad via the dock still needs work
+    signed short xtemp = (signed short)(CONTROLLER_JOY_REG(1) & 0x000000FF);
+    signed short ytemp = (signed short)((CONTROLLER_JOY_REG(1)>>8) & 0x000000FF);
     signed short x = (signed short)(CONTROLLER_JOY_REG(1) & 0x000000FF);
     signed short y = (signed short)((CONTROLLER_JOY_REG(1)>>8) & 0x000000FF);
-    x = ((x < 0x69) | (x > 0x99)) ? (80 - speed) - (x - speed) : 0;
-    y = ((y < 0x69) | (y > 0x99)) ? (80 - speed) - (y - speed) : 0;
-    printf ("Joystick Access 1 X %0.4x Y %0.4x\r\n", x, y);
 
-    x_count = ((x < 0x0) ? x_count + (x) : (x > 0x0) ? x_count - (x) : x_count);
-    y_count = ((y < 0x0) ? y_count + (y) : (y > 0x0) ? y_count - (y) : y_count);
-    printf ("Joystick Access count X %0.4x Y %0.4x\r\n", x_count, y_count);
+    uint32_t x_left = 0x80 - x;
+    uint32_t x_right = x - 0x80;
+    x_left = x_left * speed;
+    x_right = x_right * speed;
+    x_left = x_left >> 6;
+    x_right = x_right >> 6;
+    uint32_t y_up = 0x80 - y;
+    uint32_t y_down = y - 0x80;
+    y_up = y_up * speed;
+    y_down = y_down * speed;
+    y_up = y_up >> 6;
+    y_down = y_down >> 6;
+    // mainprintf ("Joystick start 1 X %0.4x %0.4x %0.4x Y %0.4x \r\n", x, x_left, x_right, y);
+
+    // mainprintf ("Joystick Access 1 X %0.4x Y %0.4x\r\n", x, y);
+
+    x_count = ((x < 0x70) ? x_count + x_right : (x > 0x90) ? x_count - x_left : x_count);
+    y_count = ((y < 0x70) ? y_count + y_down :  (y > 0x90) ? y_count - y_up : y_count);
+    mainprintf ("Joystick Access count X %0.4x Y %0.4x\r\n", x_count, y_count);
     HPS_spi_uio_cmd8(UIO_MOUSE_X, x_count);
     HPS_spi_uio_cmd8(UIO_MOUSE_Y, y_count);
-    HPS_spi_uio_cmd8(UIO_MOUSE_BTN, ((CONTROLLER_JOY_REG(4)>>9) & 0x7));
-  } else if (!((CONTROLLER_KEY_REG(4)>>28) == 0x05)  && (((CONTROLLER_KEY_REG(1)>>8) & 0x3) == 0x3)){
+    HPS_spi_uio_cmd8(UIO_MOUSE_BTN, ((CONTROLLER_KEY_REG(1)>>8) & 0x3));
+
+
+  } else if (mouse_enabled) {
     // Emulating the mouse on the dpad by pressing both left and right triggers
+    
+    uint32_t tmp = CORE_OUTPUT_REGISTOR();
+    tmp = tmp | 0x00000010;
+    CORE_OUTPUT_REGISTOR() = tmp;
     int tmp_joy = CONTROLLER_KEY_REG(1);
     if ((tmp_joy & 0x1) == 1)       y_count = y_count - speed;
     if (((tmp_joy>>1) & 0x1) == 1)  y_count = y_count + speed;
@@ -81,7 +146,12 @@ void update_mouse_inputs (){
     if (((tmp_joy>>3) & 0x1) == 1)  x_count = x_count + speed;
     HPS_spi_uio_cmd8(UIO_MOUSE_X, x_count);
     HPS_spi_uio_cmd8(UIO_MOUSE_Y, y_count);
-    HPS_spi_uio_cmd8(UIO_MOUSE_BTN, ((CONTROLLER_KEY_REG(1)>>4) & 0x7));
+    HPS_spi_uio_cmd8(UIO_MOUSE_BTN, ((CONTROLLER_KEY_REG(1)>>8) & 0x3));
+  } else {
+    HPS_spi_uio_cmd8(UIO_MOUSE_BTN, ((CONTROLLER_KEY_REG(1)>>8) & 0x3));
+    uint32_t tmp = CORE_OUTPUT_REGISTOR();
+    tmp = tmp & 0xFFFFFFEF;
+    CORE_OUTPUT_REGISTOR() = tmp;
   }
   return;
 };
@@ -220,7 +290,9 @@ void update_keyboard_inputs (){
 void input_update() {
     timer1Interrupts_reset();
     if (((CONTROLLER_KEY_REG(3)>>28) == 0x4)) update_keyboard_inputs(); // We want to update the keyboard 6 time every
-    if ((((AFP_REGISTOR(5)>>24)) == 0x80) | ((AFP_REGISTOR(5)>>24) == 0xa0)) update_mouse_inputs();
+    if ((((AFP_REGISTOR(5)>>24)) == 0x80) | ((AFP_REGISTOR(5)>>24) == 0xa0)) {
+      update_mouse_inputs();
+    } 
     return;
   }
 
@@ -230,5 +302,5 @@ void input_setup() {
 
 void input_reg_update(){
   // Get the JOY setup sorted
-  HPS_spi_uio_cmd8(UIO_MM2_JOY , (AFP_REGISTOR(5)>>24));
+  HPS_spi_uio_cmd8(UIO_MM2_JOY , (AFP_REGISTOR(5)>>28));
 }

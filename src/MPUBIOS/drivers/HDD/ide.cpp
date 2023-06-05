@@ -24,7 +24,9 @@ typedef struct
 	uint16_t sector_count;
 } hdfTYPE;
 
-static hdfTYPE HDF[4] = {};
+
+ide_config ide_inst[2];
+static hdfTYPE HDF[4];
 const uint32_t ide_io_max_size = 32;
 uint8_t sector_buffer[ide_io_max_size * 512];
 
@@ -35,7 +37,7 @@ uint8_t sector_buffer[ide_io_max_size * 512];
 
 void ide_reg_set(ide_config *ide, uint16_t reg, uint16_t value)
 {
-	// mainprintf("ide_reg_set\r\n");
+	mainprintf("ide_reg_set %0.8X %0.4X\r\n", ide->base + reg, value);
 	HPS_EnableIO();
 	spi8(UIO_DMA_WRITE);
 	spi32_w(ide->base + reg);
@@ -56,7 +58,7 @@ void ide_sendbuf(ide_config *ide, uint16_t reg, uint32_t length, uint16_t *data,
 
 void ide_recvbuf(ide_config *ide, uint16_t reg, uint32_t length, uint16_t *data, bool printtxt)
 {
-	// if (printtxt) mainprintf("Received buffer: length %d\r\n", length);
+	// mainprintf("Received buffer: length %d\r\n", length);
 	HPS_EnableIO();
 	HPS_fpga_spi_fast(UIO_DMA_READ);
 	HPS_fpga_spi_fast(ide->base + reg);
@@ -66,7 +68,6 @@ void ide_recvbuf(ide_config *ide, uint16_t reg, uint32_t length, uint16_t *data,
 }
 
 
-ide_config ide_inst[2] = {};
 
 uint16_t ide_check()
 {
@@ -94,7 +95,7 @@ void ide_get_regs(ide_config *ide)
 	ide->regs.drv = (data[2] >> 20) & 1;
 	ide->regs.lba = (data[2] >> 22) & 1;
 	ide->regs.cmd = data[2] >> 24;
-	// mainprintf("ide_get_reg: %0.8x %0.8x %0.8x\r\n", data[2], data[1], data[0]);
+	// mainprintf("ide_get_reg: %0.8x %0.2x\r\n", data[2], ide->regs.drv);
 	ide->regs.error = 0;
 	ide->regs.status = 0;
 
@@ -123,7 +124,6 @@ void ide_set_regs(ide_config *ide)
 	};
 	// mainprintf("ide_set_reg: %0.8x %0.8x %0.8x\r\n", data[2], data[1], data[0]);
 
-	//hexdump(data, 12, ide->base);
 	ide_sendbuf(ide, 0, 6, (uint16_t*)data, 0);
 }
 
@@ -190,7 +190,7 @@ void guess_geometry(hdfTYPE *hdf)
 		dataslot_read(hdf->dataslot, (uint32_t)&sector_buffer, i *512,  512);
 		for (int i = 0; i < 512; i++) {
 			flg |= sector_buffer[i];
-			mainprintf("data In : %0.4\r\n", sector_buffer[i]);
+			// mainprintf("data In : %0.4\r\n", sector_buffer[i]);
 		}
 
 		if (rdb->rdb_ID == RDB_MAGIC)
@@ -272,14 +272,14 @@ static uint32_t checksum_rdb(uint32_t *p, int set)
 
 void ide_img_set(uint32_t drvnum, uint16_t dataslot, int cd, int sectors, int heads, int offset)
 {
-	int drv = (drvnum & 1);
-	int port = (drvnum >> 1);
-
+	uint8_t drv = (drvnum & 1);
+	uint8_t port = (drvnum >> 1);
+	mainprintf("drv %d %d", drv, port);
 	drive_t *drive = &ide_inst[port].drive[drv];
 
 	ide_inst[port].base = port ? IDE1_BASE : IDE0_BASE;
 	ide_inst[port].drive[drv].drvnum = drvnum;
-
+	mainprintf("port %d", port);
 
 	drive->cylinders = 0;
 	drive->heads = 0;
@@ -308,85 +308,72 @@ void ide_img_set(uint32_t drvnum, uint16_t dataslot, int cd, int sectors, int he
 			ide_set_geometry(drive, sectors, heads);
 			if (offset && drive->cylinders < 65535) drive->cylinders++;
 			drive->offset = offset;
-			// int i = 0;
-			// do { 
-			// 	drive->id[i] = 0;
-			// 	i++;
-			// } while (i <= 255);
-
-			// i = 0;
-			// do { 
-			// 	mainprintf("drive %d\r\n", drive->id[i]);
-			// 	i++;
-			// } while (i <= 255);
-			// // uint16_t identify[256] =
-			// // {
-				drive->id[0] = 0x0040; 											//word 0
-				drive->id[1] = drive->cylinders;									//word 1
-				drive->id[3] = drive->heads;										//word 3
-				drive->id[6] = drive->spt;											//word 6
-				drive->id[10] = ('A' << 8) | 'O';									//word 10
-				drive->id[11] = ('H' << 8) | 'D';									//word 11
-				drive->id[12] = ('0' << 8) | '0';									//word 12
-				drive->id[13] = ('0' << 8) | '0';									//word 13
-				drive->id[14] = ('0' << 8) | ' ';									//word 14
-				drive->id[15] = (' ' << 8) | ' ';									//word 15
-				drive->id[16] = (' ' << 8) | ' ';									//word 16
-				drive->id[17] = (' ' << 8) | ' ';									//word 17
-				drive->id[18] = (' ' << 8) | ' ';									//word 18
-				drive->id[19] = (' ' << 8) | ' ';									//word 19
-				drive->id[20] = 3;   												//word 20 buffer type
-				drive->id[21] = 512;												//word 21 cache size
-				drive->id[22] = 4;													//word 22 number of ecc bytes
-				drive->id[27] = ('A' << 8) | 'M';									//words 27..46 model number
-				drive->id[28] = ('I' << 8) | 'G';
-				drive->id[29] = ('A' << 8) | ' ';
-				drive->id[30] = ('H' << 8) | 'A';
-				drive->id[31] = ('R' << 8) | 'D';
-				drive->id[32] = ('D' << 8) | 'R';
-				drive->id[33] = ('I' << 8) | 'V';
-				drive->id[34] = ('E' << 8) | ' ';
-				drive->id[35] = (' ' << 8) | ' ';
-				drive->id[36] = (' ' << 8) | ' ';
-				drive->id[37] = (' ' << 8) | ' ';
-				drive->id[38] = (' ' << 8) | ' ';
-				drive->id[39] = (' ' << 8) | ' ';
-				drive->id[40] = (' ' << 8) | ' ';
-				drive->id[41] = (' ' << 8) | ' ';
-				drive->id[42] = (' ' << 8) | ' ';
-				drive->id[43] = (' ' << 8) | ' ';
-				drive->id[44] = (' ' << 8) | ' ';
-				drive->id[45] = (' ' << 8) | ' ';
-				drive->id[46] = (' ' << 8) | ' ';
-				drive->id[47] = 0x8020;												//word 47 max multiple sectors
-				drive->id[48] = 1;													//word 48 dword io
-				drive->id[49] = 1 << 9;												//word 49 lba supported
-				drive->id[50] = 0x4001;												//word 50 reserved
-				drive->id[51] = 0x0200;												//word 51 pio timing
-				drive->id[52] = 0x0200;												//word 52 pio timing
-				drive->id[53] = 0x0007;												//word 53 valid fields
-				drive->id[54] = drive->cylinders; 									//word 54
-				drive->id[55] = drive->heads;										//word 55
-				drive->id[56] = drive->spt;											//word 56
-				drive->id[57] = (uint16_t)(drive->total_sectors & 0xFFFF);			//word 57
-				drive->id[58] = (uint16_t)(drive->total_sectors >> 16);				//word 58
-				drive->id[59] = 0x110;												//word 59 multiple sectors
-				drive->id[60] = (uint16_t)(drive->total_sectors & 0xFFFF);			//word 60 LBA-28
-				drive->id[61] = (uint16_t)(drive->total_sectors >> 16);				//word 61 LBA-28
-				drive->id[65] = 120;
-				drive->id[66] = 120;
-				drive->id[67] = 120;
-				drive->id[68] = 120;									//word 65..68
-				drive->id[80] = 0x007E;												//word 80 ata modes
-				drive->id[82] = (1 << 14) | (1 << 9); 								//word 82 supported commands
-				drive->id[83] = (1 << 14) | (1 << 13) | (1 << 12);					//word 83
-				drive->id[84] = 1 << 14;	    									//word 84
-				drive->id[85] = (1 << 14) | (1 << 9);  								//word 85
-				drive->id[86] = (1 << 14) | (1 << 13) | (1 << 12);					//word 86
-				drive->id[87] = 1 << 14;	    									//word 87
-				drive->id[93] = (1 << 14) | (1 << 13) | (1 << 9) | (1 << 8) | (1 << 3) | (1 << 1) | (1 << 0); //word 93
-				drive->id[100] = (uint16_t)(drive->total_sectors & 0xFFFF);			//word 100 LBA-48
-				drive->id[101] = (uint16_t)(drive->total_sectors >> 16);				//word 101 LBA-48
+			drive->id[0] = 0x0040; 											//word 0
+			drive->id[1] = drive->cylinders;									//word 1
+			drive->id[3] = drive->heads;										//word 3
+			drive->id[6] = drive->spt;											//word 6
+			drive->id[10] = ('A' << 8) | 'O';									//word 10
+			drive->id[11] = ('H' << 8) | 'D';									//word 11
+			drive->id[12] = ('0' << 8) | '0';									//word 12
+			drive->id[13] = ('0' << 8) | '0';									//word 13
+			drive->id[14] = ('0' << 8) | ' ';									//word 14
+			drive->id[15] = (' ' << 8) | ' ';									//word 15
+			drive->id[16] = (' ' << 8) | ' ';									//word 16
+			drive->id[17] = (' ' << 8) | ' ';									//word 17
+			drive->id[18] = (' ' << 8) | ' ';									//word 18
+			drive->id[19] = (' ' << 8) | ' ';									//word 19
+			drive->id[20] = 3;   												//word 20 buffer type
+			drive->id[21] = 512;												//word 21 cache size
+			drive->id[22] = 4;													//word 22 number of ecc bytes
+			drive->id[27] = ('A' << 8) | 'M';									//words 27..46 model number
+			drive->id[28] = ('I' << 8) | 'G';
+			drive->id[29] = ('A' << 8) | ' ';
+			drive->id[30] = ('H' << 8) | 'A';
+			drive->id[31] = ('R' << 8) | 'D';
+			drive->id[32] = ('D' << 8) | 'R';
+			drive->id[33] = ('I' << 8) | 'V';
+			drive->id[34] = ('E' << 8) | ' ';
+			drive->id[35] = (port << 8) | drv;
+			drive->id[36] = (' ' << 8) | ' ';
+			drive->id[37] = (' ' << 8) | ' ';
+			drive->id[38] = (' ' << 8) | ' ';
+			drive->id[39] = (' ' << 8) | ' ';
+			drive->id[40] = (' ' << 8) | ' ';
+			drive->id[41] = (' ' << 8) | ' ';
+			drive->id[42] = (' ' << 8) | ' ';
+			drive->id[43] = (' ' << 8) | ' ';
+			drive->id[44] = (' ' << 8) | ' ';
+			drive->id[45] = (' ' << 8) | ' ';
+			drive->id[46] = (' ' << 8) | ' ';
+			drive->id[47] = 0x8020;												//word 47 max multiple sectors
+			drive->id[48] = 1;													//word 48 dword io
+			drive->id[49] = 1 << 9;												//word 49 lba supported
+			drive->id[50] = 0x4001;												//word 50 reserved
+			drive->id[51] = 0x0200;												//word 51 pio timing
+			drive->id[52] = 0x0200;												//word 52 pio timing
+			drive->id[53] = 0x0007;												//word 53 valid fields
+			drive->id[54] = drive->cylinders; 									//word 54
+			drive->id[55] = drive->heads;										//word 55
+			drive->id[56] = drive->spt;											//word 56
+			drive->id[57] = (uint16_t)(drive->total_sectors & 0xFFFF);			//word 57
+			drive->id[58] = (uint16_t)(drive->total_sectors >> 16);				//word 58
+			drive->id[59] = 0x110;												//word 59 multiple sectors
+			drive->id[60] = (uint16_t)(drive->total_sectors & 0xFFFF);			//word 60 LBA-28
+			drive->id[61] = (uint16_t)(drive->total_sectors >> 16);				//word 61 LBA-28
+			drive->id[65] = 120;
+			drive->id[66] = 120;
+			drive->id[67] = 120;
+			drive->id[68] = 120;									//word 65..68
+			drive->id[80] = 0x007E;												//word 80 ata modes
+			drive->id[82] = (1 << 14) | (1 << 9); 								//word 82 supported commands
+			drive->id[83] = (1 << 14) | (1 << 13) | (1 << 12);					//word 83
+			drive->id[84] = 1 << 14;	    									//word 84
+			drive->id[85] = (1 << 14) | (1 << 9);  								//word 85
+			drive->id[86] = (1 << 14) | (1 << 13) | (1 << 12);					//word 86
+			drive->id[87] = 1 << 14;	    									//word 87
+			drive->id[93] = (1 << 14) | (1 << 13) | (1 << 9) | (1 << 8) | (1 << 3) | (1 << 1) | (1 << 0); //word 93
+			drive->id[100] = (uint16_t)(drive->total_sectors & 0xFFFF);			//word 100 LBA-48
+			drive->id[101] = (uint16_t)(drive->total_sectors >> 16);				//word 101 LBA-48
 
 		}
 
@@ -458,7 +445,8 @@ inline int readhdd(drive_t *drive, uint32_t lba, int cnt)
 {
 	if (lba < drive->offset)
 	{
-		memset(sector_buffer, 0, sizeof(sector_buffer));
+		// memset(sector_buffer, 0, sizeof(sector_buffer));
+		mainprintf("FEDDSD UPS\r\n");
 		return 1;
 	}
 	else
@@ -488,7 +476,7 @@ static void process_read(ide_config *ide, int multi)
 		lba += cnt;
 		ide->regs.sector_count -= cnt;
 		put_lba(ide, lba);
-
+		mainprintf("  loop: %d\r\n", ide->regs.sector_count);
 		ide->regs.io_size = cnt;
 		ide->regs.status = ATA_STATUS_RDP | ATA_STATUS_RDY | ATA_STATUS_DRQ | ATA_STATUS_IRQ;
 		if (!ide->regs.sector_count) ide->regs.status |= ATA_STATUS_END;
@@ -547,8 +535,6 @@ static void process_write(ide_config *ide, int multi)
 	uint32_t cnt = 1;
 	uint16_t ide_req;
 	
-//   mainprintf("\033[33;1;5mWRITE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  %d\033[0m\r\n", ide->regs.cmd);
-	// ide->null = (ide->regs.cmd != 0xFA) ? !FileSeekLBA(ide->drive[ide->regs.drv].f, (lba <= ide->drive[ide->regs.drv].offset) ? 0 : (lba - ide->drive[ide->regs.drv].offset)) : 1;
 	uint8_t irq = 0;
 
 	while (1)
@@ -580,7 +566,6 @@ static void process_write(ide_config *ide, int multi)
 		}
 		else
 		{
-			// if (!ide->null) ide->null = (lba < ide->drive[ide->regs.drv].offset) ? 0 : (FileWriteAdv(ide->drive[ide->regs.drv].f, sector_buffer, cnt * 512, -1) <= 0);
 			writehdd(&ide->drive[ide->regs.drv], lba, cnt);
 			lba += cnt;
 			ide->regs.sector_count -= cnt;
@@ -695,74 +680,72 @@ static int handle_hdd(ide_config *ide)
 void ide_io(int num, int req)
 {
 	ide_config *ide = &ide_inst[num];
-
-	// mainprintf("req: %d, disk: %d\r\n", req, num);
-
+	
+	
 	if (req == 0) // no request
 	{
-		if (ide->state == IDE_STATE_RESET)
+		if (num == 1) mainprintf("IDE Pointer  %08X \r\n", req);
+		if (ide_inst[num].state == IDE_STATE_RESET)
 		{
-			ide->state = IDE_STATE_IDLE;
+			ide_inst[num].state = IDE_STATE_IDLE;
 
-			ide->regs.status = ATA_STATUS_RDY;
-			ide_set_regs(ide);
-
-			mainprintf("IDE %04X reset finish\r\n", ide->base);
+			ide_inst[num].regs.status = ATA_STATUS_RDY;
+			
+			ide_set_regs(&ide_inst[num]);
 		}
 	}
 	else if (req == 4) // command
 	{
-		ide->state = IDE_STATE_IDLE;
-		ide_get_regs(ide);
-
-		mainprintf("IDE command: %02X (on %d)\r\n", ide->regs.cmd, ide->regs.drv);
+		if (num == 1) mainprintf("IDE Pointer  %08X \r\n", req);
+		ide_inst[num].state = IDE_STATE_IDLE;
+		ide_get_regs(&ide_inst[num]);
+		mainprintf("IDE command: %d %02X (on %d)\r\n", num, ide_inst[num].regs.cmd, ide_inst[num].regs.drv);
 
 		int err = 0;
 
-		if(ide->regs.cmd == 0xFA) err = handle_hdd(ide);
-		else if (!ide->drive[ide->regs.drv].present) err = 1;
-		else err = handle_hdd(ide);
-
+		if(ide_inst[num].regs.cmd == 0xFA) err = handle_hdd(&ide_inst[num]);
+		else if (!ide_inst[num].drive[ide_inst[num].regs.drv].present) err = 1;
+		else err = handle_hdd(&ide_inst[num]);
 		if (err)
 		{
-			ide->regs.status = ATA_STATUS_RDY | ATA_STATUS_ERR | ATA_STATUS_IRQ;
-			ide->regs.error = ATA_ERR_ABRT;
-			ide_set_regs(ide);
+			ide_inst[num].regs.status = ATA_STATUS_RDY | ATA_STATUS_ERR | ATA_STATUS_IRQ;
+			ide_inst[num].regs.error = ATA_ERR_ABRT;
+			ide_set_regs(&ide_inst[num]);
 		}
 	}
 	else if (req == 5) // data request
 	{
-		mainprintf("IDE data request (on %d)\r\n", ide->regs.drv);
+		if (num == 1) mainprintf("IDE Pointer  %08X \r\n", req);
 		mainprintf("(!) IDE unknown state!\r\n");
-		ide->state = IDE_STATE_IDLE;
-		ide->regs.status = ATA_STATUS_RDY | ATA_STATUS_ERR | ATA_STATUS_IRQ;
-		ide->regs.error = ATA_ERR_ABRT;
-		ide_set_regs(ide);
+		ide_inst[num].state = IDE_STATE_IDLE;
+		ide_inst[num].regs.status = ATA_STATUS_RDY | ATA_STATUS_ERR | ATA_STATUS_IRQ;
+		ide_inst[num].regs.error = ATA_ERR_ABRT;
+		ide_set_regs(&ide_inst[num]);
 		
 	}
 	else if (req == 6) // reset
 	{
-		if (ide->state != IDE_STATE_RESET)
+		if (ide_inst[num].state != IDE_STATE_RESET)
 		{
-			mainprintf("IDE %04X reset start\n", ide->base);
+			mainprintf("IDE %04X reset start\r\n", ide_inst[num].base);
 		}
 
-		ide->drive[0].playing = 0;
-		ide->drive[0].paused = 0;
-		ide->drive[1].playing = 0;
-		ide->drive[1].paused = 0;
+		ide_inst[num].drive[0].playing = 0;
+		ide_inst[num].drive[0].paused = 0;
+		ide_inst[num].drive[1].playing = 0;
+		ide_inst[num].drive[1].paused = 0;
 
 		ide_get_regs(ide);
-		ide->regs.head = 0;
-		ide->regs.error = 0;
-		ide->regs.sector = 1;
-		ide->regs.sector_count = 1;
-		ide->regs.cylinder = (!ide->drive[ide->regs.drv].present) ? 0xFFFF : ide->drive[ide->regs.drv].cd ? 0xEB14 : 0x0000;
-		if (ide->drive[ide->regs.drv].placeholder) ide->regs.cylinder = 0xEB14;
-		ide->regs.status = ATA_STATUS_BSY;
-		ide_set_regs(ide);
+		ide_inst[num].regs.head = 0;
+		ide_inst[num].regs.error = 0;
+		ide_inst[num].regs.sector = 1;
+		ide_inst[num].regs.sector_count = 1;
+		ide_inst[num].regs.cylinder = (!ide_inst[num].drive[ide_inst[num].regs.drv].present) ? 0xFFFF : ide_inst[num].drive[ide_inst[num].regs.drv].cd ? 0xEB14 : 0x0000;
+		if (ide_inst[num].drive[ide_inst[num].regs.drv].placeholder) ide_inst[num].regs.cylinder = 0xEB14;
+		ide_inst[num].regs.status = ATA_STATUS_BSY;
+		ide_set_regs(&ide_inst[num]);
 
-		ide->state = IDE_STATE_RESET;
+		ide_inst[num].state = IDE_STATE_RESET;
 	}
 }
 
@@ -786,23 +769,24 @@ void ide_reset(uint8_t hotswap[4])
 
 int ide_open(uint8_t unit, 	uint16_t dataslot)
 {
-	hdfTYPE *hdf = &HDF[unit];
-	hdf->unit = unit;
-	hdf->enabled = 1;
-	hdf->dataslot = dataslot;
-	hdf->size = dataslot_size(dataslot);
+	// hdfTYPE *hdf = &HDF[unit];
+	mainprintf("HDF[unit] %08X \r\n", &HDF[unit]);
+	HDF[unit].unit = unit;
+	HDF[unit].enabled = 1;
+	HDF[unit].dataslot = dataslot;
+	HDF[unit].size = dataslot_size(dataslot);
 	mainprintf("\nChecking HDD %d\r\n", unit);
-	guess_geometry(&hdf[unit]);
-	mainprintf("size: %d (%d MB)\r\n", hdf->size, hdf->size >> 20);
-	mainprintf("hdf: %u/%u/%u", hdf->cylinders, hdf->heads, hdf->sectors);
-	mainprintf(" (%d MB), ", ((((uint64_t)hdf->cylinders) * hdf->heads * hdf->sectors) >> 11));
-	mainprintf("Offset: %d\r\n", hdf->offset);
+	guess_geometry(&HDF[unit]);
+	mainprintf("size: %d (%d MB)\r\n", HDF[unit].size, HDF[unit].size >> 20);
+	mainprintf("hdf: %u/%u/%u", HDF[unit].cylinders, HDF[unit].heads, HDF[unit].sectors);
+	mainprintf(" (%d MB), ", ((((uint32_t)HDF[unit].cylinders) * HDF[unit].heads * HDF[unit].sectors) >> 11));
+	mainprintf("Offset: %d\r\n", HDF[unit].offset);
 
 
 	int present = 1;
 	int cd = 0;
 
-	ide_img_set(unit, dataslot, cd, hdf->sectors, hdf->heads, -hdf->offset);
+	ide_img_set(unit, dataslot, cd, HDF[unit].sectors, HDF[unit].heads, -HDF[unit].offset);
 
 	return 0;
 }

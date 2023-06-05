@@ -13,6 +13,7 @@ module osd
 	input         de_in,
 	input         vs_in,
 	input         hs_in,
+	input         ce_pix_wire,
 	
 	output [23:0] dout,
 	output reg    de_out,
@@ -98,6 +99,7 @@ always@(posedge clk_sys) begin
 end
 
 (* direct_enable *) reg ce_pix;
+reg ce_pix_temp;
 always @(posedge clk_video) begin
 	reg [21:0] cnt = 0;
 	reg [21:0] pixsz, pixcnt;
@@ -105,7 +107,7 @@ always @(posedge clk_video) begin
 
 	cnt <= cnt + 1'd1;
 	deD <= de_in;
-
+	ce_pix_temp <= ce_pix_wire;
 	pixcnt <= pixcnt + 1'd1;
 	if(pixcnt == pixsz) pixcnt <= 0;
 	ce_pix <= !pixcnt;
@@ -167,7 +169,7 @@ always @(posedge clk_video) begin
 	reg        f1;
 	reg        half;
 	reg		vsync_first;
-
+	
 	if(ce_pix) begin
 		
 		if (vs_in) vsync_first <= 1;
@@ -187,7 +189,7 @@ always @(posedge clk_video) begin
 			osd_hcnt2 <= 0;
 			if(info && rot == 1) osd_hcnt2 <= 22'd128-infoh;
 		end
-		if (osd_hcnt+1 == osd_w) osd_de[0] <= 0;
+		if (osd_hcnt+1 == {osd_w, 1'b0}) osd_de[0] <= 0;
 
 		// falling edge of de
 		if(!de_in && deD) dsp_width <= h_cnt[21:0];
@@ -249,8 +251,12 @@ always @(posedge clk_video) begin
 			end
 		end
 
-		osd_byte  <= osd_buffer[rot[0] ? ({osd_hcnt2[6:3], osd_vcnt[7:0]} ^ { {4{~rot[1]}}, {8{rot[1]}} }) : {osd_vcnt[7:3], osd_hcnt[7:0]}];
-		osd_pixel <= osd_byte[rot[0] ? ((osd_hcnt2[2:0]-1'd1) ^ {3{~rot[1]}}) : osd_vcnt[2:0]];
+		osd_byte  <= osd_buffer[rot[0] ? 
+						({osd_hcnt2[6:3], osd_vcnt[7:0]} ^ { {4{~rot[1]}}, {8{rot[1]}} }) : 
+						{osd_vcnt[7:3], osd_hcnt[8:1]}];
+		osd_pixel <= osd_byte[rot[0] ? 
+						((osd_hcnt2[2:0]-1'd1) ^ {3{~rot[1]}}) : 
+						osd_vcnt[2:0]];
 		osd_de[2:1] <= osd_de[1:0];
 	end
 end

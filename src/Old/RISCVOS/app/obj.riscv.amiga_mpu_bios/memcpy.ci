@@ -1,4 +1,0 @@
-graph: { title: "../lib/memcpy.c"
-node: { title: "memcpy" label: "memcpy\n../lib/memcpy.c:10:7" }
-node: { title: "memccpy" label: "memccpy\n../lib/memcpy.c:37:7" }
-}

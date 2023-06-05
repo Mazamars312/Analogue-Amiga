@@ -83,7 +83,7 @@ void HPS_spi_osd_cmd_cont(uint8_t cmd);
 void HPS_spi_osd_cmd(uint8_t cmd);
 void HPS_spi_osd_cmd8_cont(uint8_t cmd, uint8_t parm);
 void HPS_spi_osd_cmd8(uint8_t cmd, uint8_t parm);
-void OSD_HPS_spi_write(const uint8_t *addr, uint32_t len, int wide);
+void HPS_OSD_spi_write(const uint8_t *addr, uint32_t len, int wide);
 
 uint16_t HPS_fpga_spi(uint16_t word);
 

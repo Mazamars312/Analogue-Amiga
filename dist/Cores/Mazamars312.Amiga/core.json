@@ -6,11 +6,11 @@
         "amiga"
       ],
       "shortname": "Amiga",
-      "description": "Amiga 500 Core",
+      "description": "Amiga Core",
       "author": "Mazamars312",
       "url": "https://github.com/Mazamars312/Analogue-Amiga",
       "version": "0.1.0",
-      "date_release": "2023-04-27"
+      "date_release": "2023-06-06"
     },
     "framework": {
       "target_product": "Analogue Pocket",

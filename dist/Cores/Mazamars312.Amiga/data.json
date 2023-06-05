@@ -21,11 +21,14 @@
 		"deferload": true,
         "parameters": 9,
 		"size_maximum": 1048576,
+		"extensions": [
+		"rom"
+		],
         "filename": "MegaAGS-Kickstart.rom",
         "address": "0x90f00000"
       },
 	  {
-        "name": "harddrive - Fast 1",
+        "name": "harddrive - IDE 0",
         "id": "310",
         "required": false,
 		"deferload": true,
@@ -33,10 +36,10 @@
         "extensions": [
 		"hdf"
 		],
-        "filename": "MegaAGS-Pocket-alpha2.hdf"
+        "filename": "MegaAGS-Pocket.hdf"
       },
 	  {
-        "name": "harddrive - Fast 2",
+        "name": "harddrive - IDE 1",
         "id": "311",
         "required": false,
 		"deferload": true,
@@ -44,10 +47,10 @@
         "extensions": [
 		"hdf"
 		],
-        "filename": "HDD-2.hdf"
-      },	  
+        "filename": "MegaAGS-Saves.hdf"
+      },		  
 	  {
-        "name": "harddrive - Slow 1",
+        "name": "harddrive - IDE 2",
         "id": "312",
         "required": false,
 		"deferload": true,
@@ -58,7 +61,7 @@
         "filename": "HDD-3.hdf"
       },
 	  {
-        "name": "harddrive - Slow 2",
+        "name": "harddrive - IDE 3",
         "id": "313",
         "required": false,
 		"deferload": true,

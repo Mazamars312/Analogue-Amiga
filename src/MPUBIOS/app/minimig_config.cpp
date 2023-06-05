@@ -105,26 +105,25 @@ void minimig_hdd_update(){
     int temp = 0;
     if (dataslot_size(310) != 0){
       ide_open(0,310);
-      temp = temp | 3;
+      temp = temp | 0x23;
     }
 		if (dataslot_size(311) != 0){
       ide_open(1,311);
-      temp = temp | 7;
+      temp = temp | 0x29;
 
     }
 		if (dataslot_size(312) != 0){
       ide_open(2,312);
-      temp = temp | 47;
+      temp = temp | 0x25;
 
     }
 		if (dataslot_size(313) != 0){
       ide_open(3,313);
-      temp = temp | 64;
+      temp = temp | 0x31;
 
     }
     
   // Get the HDD setup sorted
   HPS_spi_uio_cmd8(UIO_MM2_HDD , temp);
-  ide_check();
   mainprintf("Harddrive setups %0.4x \r\n", temp);
 }

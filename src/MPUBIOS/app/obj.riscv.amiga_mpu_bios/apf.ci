@@ -1,30 +1,29 @@
 graph: { title: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp"
 node: { title: "_Z14dataslot_readyv" label: "bool dataslot_ready()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:35:6" }
-node: { title: "riscprintf_" label: ")\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/riscprintf.h:71:5" shape : ellipse }
-edge: { sourcename: "_Z14dataslot_readyv" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:37:46" }
+node: { title: "riscprintff_" label: ")\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/riscprintf.h:71:5" shape : ellipse }
+edge: { sourcename: "_Z14dataslot_readyv" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:37:46" }
 node: { title: "_Z15dataslot_statusv" label: "uint8_t dataslot_status()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:43:9" }
 node: { title: "_Z18dataslot_search_idt" label: "uint32_t dataslot_search_id(uint16_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:50:10" }
 node: { title: "_Z13dataslot_sizet" label: "uint32_t dataslot_size(uint16_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:64:10" }
-edge: { sourcename: "_Z13dataslot_sizet" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:68:13" }
-edge: { sourcename: "_Z13dataslot_sizet" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:70:13" }
-edge: { sourcename: "_Z13dataslot_sizet" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:72:13" }
+edge: { sourcename: "_Z13dataslot_sizet" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:68:13" }
+edge: { sourcename: "_Z13dataslot_sizet" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:70:13" }
+edge: { sourcename: "_Z13dataslot_sizet" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:72:13" }
 node: { title: "_Z16dataslot_updatedv" label: "bool dataslot_updated()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:77:6" }
 node: { title: "_Z13dataslot_readtmmm" label: "uint32_t dataslot_read(uint16_t, uint32_t, uint32_t, uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:86:10" }
-edge: { sourcename: "_Z13dataslot_readtmmm" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:94:13" }
-edge: { sourcename: "_Z13dataslot_readtmmm" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:102:17" }
-edge: { sourcename: "_Z13dataslot_readtmmm" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:113:14" }
-edge: { sourcename: "_Z13dataslot_readtmmm" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:117:13" }
-node: { title: "_Z14dataslot_writetmmm" label: "uint32_t dataslot_write(uint16_t, uint32_t, uint32_t, uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:124:10" }
-edge: { sourcename: "_Z14dataslot_writetmmm" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:131:13" }
-node: { title: "riscprintff_" label: ")\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/riscprintf.h:64:5" shape : ellipse }
-edge: { sourcename: "_Z14dataslot_writetmmm" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:138:14" }
-node: { title: "_Z26dataslot_read_lba_set_fasttmmm" label: "uint32_t dataslot_read_lba_set_fast(uint16_t, uint32_t, uint32_t, uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:146:10" }
-node: { title: "_Z21dataslot_read_lba_settmm" label: "uint32_t dataslot_read_lba_set(uint16_t, uint32_t, uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:176:10" }
-edge: { sourcename: "_Z21dataslot_read_lba_settmm" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:182:13" }
-node: { title: "_Z17dataslot_read_lbam" label: "uint32_t dataslot_read_lba(uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:187:10" }
-edge: { sourcename: "_Z17dataslot_read_lbam" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:191:13" }
-edge: { sourcename: "_Z17dataslot_read_lbam" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:205:14" }
-node: { title: "_Z22dataslot_read_lba_fastmb" label: "uint32_t dataslot_read_lba_fast(uint32_t, bool)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:216:10" }
-node: { title: "_Z22dataslot_write_lba_settmm" label: "uint32_t dataslot_write_lba_set(uint16_t, uint32_t, uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:240:10" }
-node: { title: "_Z18dataslot_write_lbamb" label: "uint32_t dataslot_write_lba(uint32_t, bool)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:263:10" }
+edge: { sourcename: "_Z13dataslot_readtmmm" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:94:13" }
+edge: { sourcename: "_Z13dataslot_readtmmm" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:103:17" }
+edge: { sourcename: "_Z13dataslot_readtmmm" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:115:14" }
+edge: { sourcename: "_Z13dataslot_readtmmm" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:119:13" }
+node: { title: "_Z14dataslot_writetmmm" label: "uint32_t dataslot_write(uint16_t, uint32_t, uint32_t, uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:126:10" }
+edge: { sourcename: "_Z14dataslot_writetmmm" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:133:13" }
+edge: { sourcename: "_Z14dataslot_writetmmm" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:140:14" }
+node: { title: "_Z26dataslot_read_lba_set_fasttmmm" label: "uint32_t dataslot_read_lba_set_fast(uint16_t, uint32_t, uint32_t, uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:148:10" }
+node: { title: "_Z21dataslot_read_lba_settmm" label: "uint32_t dataslot_read_lba_set(uint16_t, uint32_t, uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:178:10" }
+edge: { sourcename: "_Z21dataslot_read_lba_settmm" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:184:13" }
+node: { title: "_Z17dataslot_read_lbam" label: "uint32_t dataslot_read_lba(uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:189:10" }
+edge: { sourcename: "_Z17dataslot_read_lbam" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:193:13" }
+edge: { sourcename: "_Z17dataslot_read_lbam" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:207:14" }
+node: { title: "_Z22dataslot_read_lba_fastmb" label: "uint32_t dataslot_read_lba_fast(uint32_t, bool)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:218:10" }
+node: { title: "_Z22dataslot_write_lba_settmm" label: "uint32_t dataslot_write_lba_set(uint16_t, uint32_t, uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:242:10" }
+node: { title: "_Z18dataslot_write_lbamb" label: "uint32_t dataslot_write_lba(uint32_t, bool)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:265:10" }
 }

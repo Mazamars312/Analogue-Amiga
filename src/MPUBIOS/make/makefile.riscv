@@ -42,6 +42,7 @@ ARCH_CFLAGS += -DCONFIG_USE_LOCAL_STRING_H
 ARCH_CFLAGS += -ffunction-sections -fdata-sections
 ARCH_LFLAGS += -Wall
 ARCH_CFLAGS += -fstack-usage -fcallgraph-info -Wstack-usage=64
+ARCH_CFLAGS += -fno-zero-initialized-in-bss
 ARCH_LFLAGS += -Wl,-Map=out.map
 ARCH_LFLAGS += -Wl,--print-memory-usage -Wall
 ARCH_LFLAGS += -Wl,--gc-sections

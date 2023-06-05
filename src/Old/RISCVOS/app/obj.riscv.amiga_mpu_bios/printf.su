@@ -1,5 +1,0 @@
-../lib/printf.c:94:20:_out_null	0	static
-../lib/printf.c:101:20:_out_char	0	static
-../lib/printf.c:233:15:_ntoa_long.constprop	80	static
-../lib/printf.c:814:5:printf_	144	static
-../lib/printf.c:825:5:riscprintff_	32	static

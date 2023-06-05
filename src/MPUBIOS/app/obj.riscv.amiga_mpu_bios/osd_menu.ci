@@ -1,6 +1,6 @@
 graph: { title: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp"
 node: { title: "_Z17osd_display_errori" label: "void osd_display_error(int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:36:6" }
-node: { title: "_Z8OsdWritePKchhcii" label: "void OsdWrite(const char*, unsigned char, unsigned char, char, int, int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.h:18:6" shape : ellipse }
+node: { title: "_Z8OsdWritePKchhcii" label: "void OsdWrite(const char*, unsigned char, unsigned char, char, int, int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.h:17:6" shape : ellipse }
 edge: { sourcename: "_Z17osd_display_errori" targetname: "_Z8OsdWritePKchhcii" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:38:11" }
 node: { title: "_Z9OsdUpdatei" label: "void OsdUpdate(int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.h:24:6" shape : ellipse }
 edge: { sourcename: "_Z17osd_display_errori" targetname: "_Z9OsdUpdatei" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd_menu.cpp:39:12" }

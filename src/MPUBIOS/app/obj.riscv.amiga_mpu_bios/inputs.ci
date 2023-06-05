@@ -1,42 +1,60 @@
 graph: { title: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp"
-node: { title: "_Z19update_mouse_inputsv" label: "void update_mouse_inputs()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:43:6" }
+node: { title: "_Z15input_allow_osdb" label: "void input_allow_osd(bool)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:47:6" }
+node: { title: "riscprintff_" label: ")\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/riscprintf.h:71:5" shape : ellipse }
+edge: { sourcename: "_Z15input_allow_osdb" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:49:14" }
+node: { title: "_Z19update_mouse_inputsv" label: "void update_mouse_inputs()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:52:6" }
+node: { title: "_Z9OsdUpdatei" label: "void OsdUpdate(int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.h:24:6" shape : ellipse }
+edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "_Z9OsdUpdatei" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:59:14" }
+node: { title: "_Z8OsdClearv" label: "void OsdClear()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.h:20:6" shape : ellipse }
+edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "_Z8OsdClearv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:60:13" }
+node: { title: "_Z8OsdWritePKchhcii" label: "void OsdWrite(const char*, unsigned char, unsigned char, char, int, int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.h:17:6" shape : ellipse }
+edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "_Z8OsdWritePKchhcii" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:65:17" }
+edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "_Z9OsdUpdatei" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:66:18" }
+edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "_Z8OsdClearv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:67:17" }
+edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "_Z8OsdWritePKchhcii" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:73:15" }
+edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "_Z9OsdUpdatei" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:76:14" }
+edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "_Z8OsdClearv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:77:13" }
+edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "_Z9OsdUpdatei" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:78:14" }
+edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "_Z8OsdClearv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:79:13" }
+node: { title: "_Z10InfoEnableiiiiii" label: "void InfoEnable(int, int, int, int, int, int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.h:22:6" shape : ellipse }
+edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "_Z10InfoEnableiiiiii" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:84:17" }
+node: { title: "_Z10OsdDisablev" label: "void OsdDisable()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/osd/osd.h:23:6" shape : ellipse }
+edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "_Z10OsdDisablev" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:86:17" }
 node: { title: "_Z16HPS_spi_uio_cmd8hh" label: "uint8_t HPS_spi_uio_cmd8(uint8_t, uint8_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:114:9" shape : ellipse }
-edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:56:21" }
-edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:57:21" }
-edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:58:21" }
-node: { title: "printf" label: ")\n/opt/riscv/riscv32-unknown-elf/include/stdio.h:200:5" shape : ellipse }
-edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "printf" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:67:12" }
-edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "printf" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:71:12" }
-edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:72:21" }
-edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:73:21" }
-edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:74:21" }
-edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:82:21" }
-edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:83:21" }
-edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:84:21" }
-edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "printf" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:67:12" }
-node: { title: "_Z22update_keyboard_inputsv" label: "void update_keyboard_inputs()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:89:6" }
-edge: { sourcename: "_Z22update_keyboard_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:171:21" }
-edge: { sourcename: "_Z22update_keyboard_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:174:21" }
-edge: { sourcename: "_Z22update_keyboard_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:179:21" }
-edge: { sourcename: "_Z22update_keyboard_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:182:21" }
-edge: { sourcename: "_Z22update_keyboard_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:187:21" }
-edge: { sourcename: "_Z22update_keyboard_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:190:21" }
-edge: { sourcename: "_Z22update_keyboard_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:195:21" }
-edge: { sourcename: "_Z22update_keyboard_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:198:21" }
-edge: { sourcename: "_Z22update_keyboard_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:203:21" }
-edge: { sourcename: "_Z22update_keyboard_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:206:21" }
-edge: { sourcename: "_Z22update_keyboard_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:211:21" }
-edge: { sourcename: "_Z22update_keyboard_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:214:21" }
-edge: { sourcename: "_Z22update_keyboard_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:154:23" }
-edge: { sourcename: "_Z22update_keyboard_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:129:23" }
-node: { title: "_Z12input_updatev" label: "void input_update()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:220:6" }
+edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:99:21" }
+edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:100:21" }
+edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:101:21" }
+edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:130:16" }
+edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:131:21" }
+edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:132:21" }
+edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:133:21" }
+edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:147:21" }
+edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:148:21" }
+edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:149:21" }
+edge: { sourcename: "_Z19update_mouse_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:151:21" }
+node: { title: "_Z22update_keyboard_inputsv" label: "void update_keyboard_inputs()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:159:6" }
+edge: { sourcename: "_Z22update_keyboard_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:241:21" }
+edge: { sourcename: "_Z22update_keyboard_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:244:21" }
+edge: { sourcename: "_Z22update_keyboard_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:249:21" }
+edge: { sourcename: "_Z22update_keyboard_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:252:21" }
+edge: { sourcename: "_Z22update_keyboard_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:257:21" }
+edge: { sourcename: "_Z22update_keyboard_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:260:21" }
+edge: { sourcename: "_Z22update_keyboard_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:265:21" }
+edge: { sourcename: "_Z22update_keyboard_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:268:21" }
+edge: { sourcename: "_Z22update_keyboard_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:273:21" }
+edge: { sourcename: "_Z22update_keyboard_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:276:21" }
+edge: { sourcename: "_Z22update_keyboard_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:281:21" }
+edge: { sourcename: "_Z22update_keyboard_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:284:21" }
+edge: { sourcename: "_Z22update_keyboard_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:224:23" }
+edge: { sourcename: "_Z22update_keyboard_inputsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:199:23" }
+node: { title: "_Z12input_updatev" label: "void input_update()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:290:6" }
 node: { title: "_Z22timer1Interrupts_resetv" label: "void timer1Interrupts_reset()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/interrupts.h:41:6" shape : ellipse }
-edge: { sourcename: "_Z12input_updatev" targetname: "_Z22timer1Interrupts_resetv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:221:27" }
-edge: { sourcename: "_Z12input_updatev" targetname: "_Z22update_keyboard_inputsv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:222:69" }
-edge: { sourcename: "_Z12input_updatev" targetname: "_Z19update_mouse_inputsv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:223:97" }
-node: { title: "_Z11input_setupv" label: "void input_setup()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:227:6" }
+edge: { sourcename: "_Z12input_updatev" targetname: "_Z22timer1Interrupts_resetv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:291:27" }
+edge: { sourcename: "_Z12input_updatev" targetname: "_Z22update_keyboard_inputsv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:292:69" }
+edge: { sourcename: "_Z12input_updatev" targetname: "_Z19update_mouse_inputsv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:294:26" }
+node: { title: "_Z11input_setupv" label: "void input_setup()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:299:6" }
 node: { title: "_Z22timer1Interrupts_setupm" label: "void timer1Interrupts_setup(uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/interrupts.h:40:6" shape : ellipse }
-edge: { sourcename: "_Z11input_setupv" targetname: "_Z22timer1Interrupts_setupm" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:228:27" }
-node: { title: "_Z16input_reg_updatev" label: "void input_reg_update()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:231:6" }
-edge: { sourcename: "_Z16input_reg_updatev" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:233:19" }
+edge: { sourcename: "_Z11input_setupv" targetname: "_Z22timer1Interrupts_setupm" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:300:27" }
+node: { title: "_Z16input_reg_updatev" label: "void input_reg_update()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:303:6" }
+edge: { sourcename: "_Z16input_reg_updatev" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.cpp:305:19" }
 }

@@ -2,19 +2,19 @@ graph: { title: "minimig_config.cpp"
 node: { title: "_Z12minimig_biosv" label: "void minimig_bios()\nminimig_config.cpp:29:6" }
 node: { title: "_Z13dataslot_sizet" label: "uint32_t dataslot_size(uint16_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.h:72:10" shape : ellipse }
 edge: { sourcename: "_Z12minimig_biosv" targetname: "_Z13dataslot_sizet" label: "minimig_config.cpp:31:22" }
-node: { title: "riscprintf_" label: ")\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/riscprintf.h:71:5" shape : ellipse }
-edge: { sourcename: "_Z12minimig_biosv" targetname: "riscprintf_" label: "minimig_config.cpp:33:15" }
+node: { title: "riscprintff_" label: ")\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/riscprintf.h:71:5" shape : ellipse }
+edge: { sourcename: "_Z12minimig_biosv" targetname: "riscprintff_" label: "minimig_config.cpp:33:15" }
 node: { title: "_Z13dataslot_readtmmm" label: "uint32_t dataslot_read(uint16_t, uint32_t, uint32_t, uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.h:75:10" shape : ellipse }
 edge: { sourcename: "_Z12minimig_biosv" targetname: "_Z13dataslot_readtmmm" label: "minimig_config.cpp:34:18" }
-edge: { sourcename: "_Z12minimig_biosv" targetname: "riscprintf_" label: "minimig_config.cpp:38:15" }
+edge: { sourcename: "_Z12minimig_biosv" targetname: "riscprintff_" label: "minimig_config.cpp:38:15" }
 edge: { sourcename: "_Z12minimig_biosv" targetname: "_Z13dataslot_readtmmm" label: "minimig_config.cpp:39:18" }
 edge: { sourcename: "_Z12minimig_biosv" targetname: "_Z13dataslot_readtmmm" label: "minimig_config.cpp:40:18" }
-edge: { sourcename: "_Z12minimig_biosv" targetname: "riscprintf_" label: "minimig_config.cpp:44:15" }
+edge: { sourcename: "_Z12minimig_biosv" targetname: "riscprintff_" label: "minimig_config.cpp:44:15" }
 edge: { sourcename: "_Z12minimig_biosv" targetname: "_Z13dataslot_readtmmm" label: "minimig_config.cpp:45:18" }
 edge: { sourcename: "_Z12minimig_biosv" targetname: "_Z13dataslot_readtmmm" label: "minimig_config.cpp:46:18" }
 edge: { sourcename: "_Z12minimig_biosv" targetname: "_Z13dataslot_readtmmm" label: "minimig_config.cpp:47:18" }
 edge: { sourcename: "_Z12minimig_biosv" targetname: "_Z13dataslot_readtmmm" label: "minimig_config.cpp:48:18" }
-edge: { sourcename: "_Z12minimig_biosv" targetname: "riscprintf_" label: "minimig_config.cpp:50:13" }
+edge: { sourcename: "_Z12minimig_biosv" targetname: "riscprintff_" label: "minimig_config.cpp:50:13" }
 node: { title: "minimig_restart_running_core" label: "void minimig_restart_running_core()\nminimig_config.cpp:75:6" }
 node: { title: "_Z16HPS_spi_uio_cmd8hh" label: "uint8_t HPS_spi_uio_cmd8(uint8_t, uint8_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:114:9" shape : ellipse }
 edge: { sourcename: "minimig_restart_running_core" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "minimig_config.cpp:77:19" }
@@ -22,7 +22,7 @@ edge: { sourcename: "minimig_restart_running_core" targetname: "_Z16HPS_spi_uio_
 edge: { sourcename: "minimig_restart_running_core" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "minimig_config.cpp:81:19" }
 edge: { sourcename: "minimig_restart_running_core" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "minimig_config.cpp:83:19" }
 edge: { sourcename: "minimig_restart_running_core" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "minimig_config.cpp:85:19" }
-edge: { sourcename: "minimig_restart_running_core" targetname: "riscprintf_" label: "minimig_config.cpp:86:13" }
+edge: { sourcename: "minimig_restart_running_core" targetname: "riscprintff_" label: "minimig_config.cpp:86:13" }
 node: { title: "minimig_fdd_update" label: "void minimig_fdd_update()\nminimig_config.cpp:89:6" }
 edge: { sourcename: "minimig_fdd_update" targetname: "_Z13dataslot_sizet" label: "minimig_config.cpp:93:22" }
 node: { title: "UnsertFloppy" label: "void UnsertFloppy(adfTYPE*)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/floppy_drive/fdd.h:79:6" shape : ellipse }
@@ -35,7 +35,7 @@ edge: { sourcename: "minimig_fdd_update" targetname: "InsertFloppy" label: "mini
 node: { title: "UpdateDriveStatus_fdd" label: "void UpdateDriveStatus_fdd()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/floppy_drive/fdd.h:78:6" shape : ellipse }
 edge: { sourcename: "minimig_fdd_update" targetname: "UpdateDriveStatus_fdd" label: "minimig_config.cpp:100:24" }
 node: { title: "minimig_hdd_update" label: "void minimig_hdd_update()\nminimig_config.cpp:103:6" }
-edge: { sourcename: "minimig_hdd_update" targetname: "riscprintf_" label: "minimig_config.cpp:104:13" }
+edge: { sourcename: "minimig_hdd_update" targetname: "riscprintff_" label: "minimig_config.cpp:104:13" }
 edge: { sourcename: "minimig_hdd_update" targetname: "_Z13dataslot_sizet" label: "minimig_config.cpp:106:22" }
 node: { title: "_Z8ide_openht" label: "int ide_open(uint8_t, uint16_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.h:234:5" shape : ellipse }
 edge: { sourcename: "minimig_hdd_update" targetname: "_Z8ide_openht" label: "minimig_config.cpp:107:15" }
@@ -46,9 +46,7 @@ edge: { sourcename: "minimig_hdd_update" targetname: "_Z8ide_openht" label: "min
 edge: { sourcename: "minimig_hdd_update" targetname: "_Z13dataslot_sizet" label: "minimig_config.cpp:120:20" }
 edge: { sourcename: "minimig_hdd_update" targetname: "_Z8ide_openht" label: "minimig_config.cpp:121:15" }
 edge: { sourcename: "minimig_hdd_update" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "minimig_config.cpp:127:19" }
-node: { title: "_Z9ide_checkv" label: "uint16_t ide_check()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.h:230:10" shape : ellipse }
-edge: { sourcename: "minimig_hdd_update" targetname: "_Z9ide_checkv" label: "minimig_config.cpp:128:12" }
-edge: { sourcename: "minimig_hdd_update" targetname: "riscprintf_" label: "minimig_config.cpp:129:13" }
+edge: { sourcename: "minimig_hdd_update" targetname: "riscprintff_" label: "minimig_config.cpp:128:13" }
 node: { title: "minimig_restart_first" label: "void minimig_restart_first()\nminimig_config.cpp:53:6" }
 edge: { sourcename: "minimig_restart_first" targetname: "_Z12minimig_biosv" label: "minimig_config.cpp:57:15" }
 edge: { sourcename: "minimig_restart_first" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "minimig_config.cpp:60:19" }
@@ -58,5 +56,5 @@ edge: { sourcename: "minimig_restart_first" targetname: "_Z16HPS_spi_uio_cmd8hh"
 edge: { sourcename: "minimig_restart_first" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "minimig_config.cpp:68:19" }
 edge: { sourcename: "minimig_restart_first" targetname: "minimig_fdd_update" label: "minimig_config.cpp:70:21" }
 edge: { sourcename: "minimig_restart_first" targetname: "minimig_hdd_update" label: "minimig_config.cpp:71:21" }
-edge: { sourcename: "minimig_restart_first" targetname: "riscprintf_" label: "minimig_config.cpp:72:13" }
+edge: { sourcename: "minimig_restart_first" targetname: "riscprintff_" label: "minimig_config.cpp:72:13" }
 }

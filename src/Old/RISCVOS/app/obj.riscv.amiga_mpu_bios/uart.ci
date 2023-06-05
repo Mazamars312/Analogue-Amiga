@@ -1,5 +1,0 @@
-graph: { title: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/uart/uart.cpp"
-node: { title: "riscputchar" label: "int riscputchar(int)\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/uart/uart.cpp:27:5" }
-node: { title: "_Z8riscputcc" label: "int riscputc(char)\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/uart/uart.cpp:36:5" }
-node: { title: "SetUART" label: "void SetUART()\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/uart/uart.cpp:60:6" }
-}

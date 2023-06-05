@@ -127,7 +127,7 @@ int sprintf(char *s, const char *format, ...)
     buf.function = 0;
     buf.buffer = s;
     buf.offset = 0;
-    buf.max_length = 32768; // default
+    buf.max_length = 128; // default
 
     vbuf_printf(&buf, format, argp);
 

@@ -1,5 +1,0 @@
-../lib/isalpha.c:10:5:isupper	0	static
-../lib/isalpha.c:20:5:isalpha	0	static
-../lib/isalpha.c:30:5:isdigit	0	static
-../lib/isalpha.c:40:5:isspace	0	static
-../lib/isalpha.c:50:5:isalnum	0	static

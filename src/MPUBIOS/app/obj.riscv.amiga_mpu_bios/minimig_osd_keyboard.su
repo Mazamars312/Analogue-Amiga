@@ -1,0 +1,7 @@
+minimig_osd_keyboard.cpp:37:6:void OSD_Keyboard_1_line(bool, int)	32	static
+minimig_osd_keyboard.cpp:113:6:void OSD_Keyboard_2_line(bool, int)	16	static
+minimig_osd_keyboard.cpp:181:6:void OSD_Keyboard_3_line(bool, int)	16	static
+minimig_osd_keyboard.cpp:247:6:void OSD_Keyboard_4_line(bool, int)	16	static
+minimig_osd_keyboard.cpp:311:6:void OSD_Keyboard_5_line(bool, int)	32	static
+minimig_osd_keyboard.cpp:376:6:void OSD_Keyboard_6_line(bool, int)	48	static
+minimig_osd_keyboard.cpp:450:6:void OSD_Keyboard_process()	32	static

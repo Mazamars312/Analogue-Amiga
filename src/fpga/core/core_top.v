@@ -325,7 +325,7 @@ assign vpll_feed = 1'bZ;
 wire [31:0] fpga_bridge_rd_data;
 wire [31:0] mpu_reg_bridge_rd_data; 
 wire [31:0] mpu_ram_bridge_rd_data;
-reg  [31:0] vga_bridge_rd_data;
+wire [31:0] vga_bridge_rd_data;
 
 wire clk_mpu;
 
@@ -588,11 +588,10 @@ wire        ide_f_led;
 //wire        ide_f_irq;
 wire  [5:0] ide_f_req;
 wire [15:0] ide_f_readdata;
-wire [15:0] joystick_enable;
-	wire [15:0] JOY0  =  {cont1_key_s[14], cont1_key_s[9], cont1_key_s[8], cont1_key_s[7], cont1_key_s[6], 
+	wire [15:0] JOY0  =  CORE_OUTPUT[4] ? 'b0 : {cont1_key_s[14], cont1_key_s[9], cont1_key_s[8], cont1_key_s[7], cont1_key_s[6], 
 								 cont1_key_s[5],  cont1_key_s[4], cont1_key_s[0], cont1_key_s[1], cont1_key_s[2], cont1_key_s[3]};
 	// joystick 2 [fire4,fire3,fire2,fire,up,down,left,right] (default joystick port)
-	wire [15:0] JOY1 = 	{cont2_key_s[14], cont2_key_s[9], cont2_key_s[8], cont2_key_s[7], cont2_key_s[6], 
+	wire [15:0] JOY1 = 	CORE_OUTPUT[5] ? 'b0 : {cont2_key_s[14], cont2_key_s[9], cont2_key_s[8], cont2_key_s[7], cont2_key_s[6], 
 								 cont2_key_s[5],  cont2_key_s[4], cont2_key_s[0], cont2_key_s[1], cont2_key_s[2], cont2_key_s[3]};
 	wire [15:0] JOY2;// = {16{joystick_enable[2]}} & {cont1_key[7], cont1_key[6], cont1_key[4], cont1_key[5], cont1_key[0], cont1_key[1], cont1_key[2], cont1_key[3]};
 	wire [15:0] JOY3;// = {16{joystick_enable[3]}} & {cont1_key[7], cont1_key[6], cont1_key[4], cont1_key[5], cont1_key[0], cont1_key[1], cont1_key[2], cont1_key[3]};
@@ -761,7 +760,7 @@ fastchip fastchip
 
 wire reset_mpu_l;
 wire [31:0] CORE_OUTPUT;
-wire [31:0] CORE_INPUT = {28'h0, res_reg};
+wire [31:0] CORE_INPUT = {32'h0};
 wire light_enable = CORE_OUTPUT[0];
 
 substitute_mcu_apf_mister substitute_mcu_apf_mister(
@@ -845,9 +844,10 @@ wire lace, field1;
 wire hblank_i, vblank_i, vbl, fx;
 wire  [1:0] res;
 
-wire  [1:0] cpu_state;
-wire  [3:0] cpu_cacr;
-wire  [14:0] ldata, rdata;
+wire  [1:0] 	cpu_state;
+wire  [3:0] 	cpu_cacr;
+wire  [14:0] 	ldata, rdata;
+wire 				ce_pix;
 
 wire 	pwr_led;
 
@@ -934,7 +934,7 @@ minimig minimig
 	.vblank       				(vblank_i            ),
 	.ar           				(ar               ),
 	.scanline     				(fx               ),
-	//.ce_pix     				(ce_pix           ),
+	.ce_pix     				(ce_pix           ),
 	.res          				(res              ),
 
 	//audio
@@ -968,6 +968,9 @@ minimig minimig
 	.ide_read     				(ide_rd           ),
 	.ide_readdata 				(ide_c_readdata   )
 );
+
+
+
 
 hps_ext hps_ext(
 .clk_sys				(clk_sys),
@@ -1074,136 +1077,51 @@ cpu_wrapper cpu_wrapper
 	.nmi_addr     (cpu_nmi_addr    )
 );
 
-/***************************************************************************
 
 
-	Video Core - THis does the decoding of the Vs and HS signals and the coding
-	for the interlacing.
-	
-	This keeps the core at a 640x480 interlaced image.
+	wire [23:0] 	video_rgb_reg;
+	wire 				video_hs_i_reg;
+	wire 				video_vs_i_reg;
+	wire 				video_de_reg;
+	wire 				hs_buf = hs;
+	wire 				vs_buf = vs;
+	wire 				hblank_i_buf = hblank_i;
+	wire 				vblank_i_buf = vblank_i;
+	wire [7:0]		r_buf = r; 
+	wire [7:0]		g_buf = g;
+	wire [7:0]		b_buf = b;	
 
-
-*****************************************************************************/
-
-
-reg hs_reg, vs_reg, hblank_i_reg;
-reg hs_delay0, hs_delay1, hs_delay2, hs_delay3;
-
-// lets get some video offsets working
-
-reg [7:0] x_offset = 0;
-reg [7:0] y_offset = 0;
-wire [7:0] x_offset_s;
-wire [7:0] y_offset_s;
-reg [31:0] vga_bridge_rd_data_reg;
-
-always @(posedge clk_74a) begin
-	if (bridge_wr && bridge_addr[31:8] == 24'hA00000) begin
-		case (bridge_addr[7:0])
-			8'h00 : begin
-				x_offset <= bridge_wr_data;
-			end
-			8'h04 : begin
-				y_offset <= bridge_wr_data;
-			end
-		endcase
-	end
-end
-
-always @(posedge clk_74a) begin
-	if (bridge_rd) begin
-		case (bridge_addr[7:0])
-			8'h00 : begin
-				vga_bridge_rd_data_reg <= x_offset;
-			end
-			8'h04 : begin
-				vga_bridge_rd_data_reg <= y_offset;
-			end
-		endcase
-	end
-	vga_bridge_rd_data <= vga_bridge_rd_data_reg;
-end
-
-synch_3 #(.WIDTH(8)) x_offset_sync(x_offset, x_offset_s, video_rgb_clock);
-synch_3 #(.WIDTH(8)) y_offset_sync(y_offset, y_offset_s, video_rgb_clock);
-
-reg [7:0] x_offset_vga; // these are the counters for the offset when the DE or each HS wit DE happens
-reg [7:0] y_offset_vga;
-reg [2:0] res_reg;
-
-reg [9:0] x_counter_vga;
-reg [9:0] y_counter_vga;
-reg 		 video_de_reg;
-reg 		 lace_reg;
-reg 		 field1_reg;
-reg [23:0] video_rgb_reg;
-reg 			video_hs_i_reg;
-reg 			video_vs_i_reg;
-reg 			video_de_reg_i;
-assign video_skip = 0;
-
-always @(posedge video_rgb_clock) begin
-	video_rgb_reg 	<= 'b0;
-	video_de_reg 	<= 'b0;
-	video_vs_i_reg 	<= 'b0;
-	hs_delay0 	<= 'b0;
-	hblank_i_reg <= hblank_i;
-	hs_delay1 <= hs_delay0;
-	hs_delay2 <= hs_delay1;
-	hs_delay3 <= hs_delay2;
-	video_hs_i_reg <= hs_delay3;
-	video_de_reg_i <= video_de_reg;
-	if (video_de_reg) x_counter_vga <= x_counter_vga + 1;
-	if (video_de_reg && ~video_de_reg_i) y_counter_vga <= y_counter_vga + 1;
-	
-	hs_reg <= hs;
-	
-	if (~hs && hs_reg)  begin
-		hs_delay0 	<= 'b1;
-		x_counter_vga <= 0;
-		field1_reg <= field1;
-		x_offset_vga <= x_offset_s;
-		if (y_offset_vga != 0) y_offset_vga <= y_offset_vga - 1;
-	end
-	
-	vs_reg <= vs;
-	
-	if (~vs && vs_reg) begin
-		res_reg <= {lace, res[1:0]};
-		lace_reg <= lace;
-		y_offset_vga <= y_offset_s;
-		y_counter_vga <= 0;
-		video_vs_i_reg 	<= 'b1;
-		video_rgb_reg 	<= {21'd0, 1'b0, field1_reg && lace_reg, lace_reg, ~field1_reg && lace_reg}; // This is the interlace part for the core.
-	end
-	
-	
-	
-	else if (~hblank_i && ~vblank_i) begin
-		if ((y_counter_vga <= 15 && y_counter_vga >= 5) && (x_counter_vga <= 15 && x_counter_vga >= 5) && LED && ~light_enable) 
-			video_rgb_reg 	<= {8'h0, 8'hF0, 8'h0};
-		else if ((y_counter_vga <= 15 && y_counter_vga >= 5) && (x_counter_vga <= 30 && x_counter_vga >= 20) && |{ide_c_led, ide_f_led} && ~light_enable) 
-			video_rgb_reg 	<= {8'hF0, 8'h0, 8'h0};
-		else video_rgb_reg 	<= {r, g, b};
-		
-		if (y_offset_vga == 0 && x_offset_vga == 0 ) video_de_reg 	<= 'b1;
-		if (x_offset_vga != 0) x_offset_vga <= x_offset_vga - 1;
-	end
-	
-	else if (hblank_i && ~hblank_i_reg) begin
-		case (res_reg)
-			3'd7		: video_rgb_reg 	<= {10'd0, 3'h7, 13'd0};
-			3'd6		: video_rgb_reg 	<= {10'd0, 3'h6, 13'd0};
-			3'd5		: video_rgb_reg 	<= {10'd0, 3'h5, 13'd0};
-			3'd4		: video_rgb_reg 	<= {10'd0, 3'h4, 13'd0};
-			3'd3		: video_rgb_reg 	<= {10'd0, 3'h3, 13'd0};
-			3'd2		: video_rgb_reg 	<= {10'd0, 3'h2, 13'd0};
-			3'd1		: video_rgb_reg 	<= {10'd0, 3'h1, 13'd0};
-			default : video_rgb_reg 	<= 24'h0;
-		endcase
-	end
-	
-end
+Analogue_video_encoder Analogue_video_encoder(
+	.clk_74a							( clk_74a					),
+	.bridge_wr						( bridge_wr					),
+	.bridge_rd						( bridge_rd					),
+	.bridge_addr					( bridge_addr				),
+	.bridge_wr_data				( bridge_wr_data			),
+	.vga_bridge_rd_data			( vga_bridge_rd_data		),
+	.video_rgb_clock				( video_rgb_clock			),
+	.hs								( hs_buf						),
+	.vs								( vs_buf						),
+	.hblank_i						( hblank_i_buf				),
+	.vblank_i						( vblank_i_buf				),
+	.field1							( field1						),
+	.lace								( lace						), 
+	.res								( res							),
+	.r									( r_buf						), 
+	.g									( g_buf						), 
+	.b									( b_buf						),	
+	.clk7n_en						( clk7n_en					),
+	.clk7_en							( clk7_en					),
+	.ce_pix							( ce_pix						),	
+	.LED								( LED							),
+	.light_enable					( light_enable				),
+	.ide_c_led						( ide_c_led					), 
+	.ide_f_led						( ide_f_led					),
+	.video_rgb_reg					( video_rgb_reg			),
+	.video_hs_i_reg				( video_hs_i_reg			),
+	.video_vs_i_reg				( video_vs_i_reg			),
+	.video_de_reg					( video_de_reg			),
+	.video_skip						( video_skip				)
+);
 
 osd osd
 (
@@ -1212,12 +1130,12 @@ osd osd
 	.io_osd		(io_osd),
 	.io_strobe	(io_strobe),
 	.io_din		(io_din),
-
 	.clk_video	(video_rgb_clock),
 	.din			(video_rgb_reg),
 	.hs_in		(video_hs_i_reg),
 	.vs_in		(video_vs_i_reg),
 	.de_in		(video_de_reg),
+	.ce_pix_wire(ce_pix),
 
 	.dout			(video_rgb),
 	.hs_out		(video_hs),

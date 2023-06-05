@@ -67,8 +67,8 @@ int riscprintff_(const char* format, ...);
 // int riscprintff_(const char* format, ...);
 
 // required stuff
-#define mainprintf riscprintf_
-int riscprintf_(const char* format, ...);
+#define mainprintf riscprintff_
+int riscprintff_(const char* format, ...);
 /**
  * Tiny sprintf implementation
  * Due to security reasons (buffer overflow) YOU SHOULD CONSIDER USING (V)SNPRINTF INSTEAD!

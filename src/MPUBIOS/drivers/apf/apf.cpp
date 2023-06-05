@@ -94,6 +94,7 @@ uint32_t dataslot_read(uint16_t dataslot, uint32_t address, uint32_t offset, uin
   mainprintf("APF read: %d, %0.4x, %0.4x, %0.4x, %d\r\n", dataslot, address, WRITE_TARGET_DATASLOT_BRIDGE_ADD(0), offset, length);
   int apf_codes;
   int i = 0;
+
   do
   {
     apf_codes = READ_TARGET_DATASLOT_CONTROL(0);
@@ -103,7 +104,8 @@ uint32_t dataslot_read(uint16_t dataslot, uint32_t address, uint32_t offset, uin
       return (apf_codes & APF_ERROR);
     }
     i++;
-  } while (!(apf_codes & APF_ACK) | (i <= 1000));
+    // mainprintf("apf_codes %0.8x\r\n", apf_codes);
+  } while (!(apf_codes & APF_ACK) && !(apf_codes & APF_DONE) && !(i >= 10000000));
 
 	do
 	{

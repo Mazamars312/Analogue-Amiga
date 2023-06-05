@@ -66,29 +66,29 @@ parameter COLORBASE = 9'h180;
 
 
 // local signals
-reg    [8:0] hpos;        // horizontal beamcounter
-reg    [3:0] l_bpu;      // latched bitplane enable
+reg    [8:0] 	hpos;        	// horizontal beamcounter
+reg    [3:0] 	l_bpu;      	// latched bitplane enable
 
-reg    [8:0] hdiwstrt;      // horizontal display window start position
-reg    [8:0] hdiwstop;      // horizontal display window stop position
+reg    [8:0] 	hdiwstrt;      // horizontal display window start position
+reg    [8:0] 	hdiwstop;      // horizontal display window stop position
 
-wire  [8:1] bpldata_out;    // bitplane serial data out from shifters
-wire  [8:1] bpldata;      // raw bitplane serial video data
-wire  [7:0] sprdata;      // sprite serial video data
-wire  [7:0] plfdata;      // playfield serial video data
-wire  [2:1] nplayfield;    // playfield 1,2 valid data signals
-wire  [7:0] nsprite;      // sprite 0-7 valid data signals
-wire  sprsel;          // sprite select
+wire  [8:1] 	bpldata_out;   // bitplane serial data out from shifters
+wire  [8:1] 	bpldata;      	// raw bitplane serial video data
+wire  [7:0] 	sprdata;      	// sprite serial video data
+wire  [7:0] 	plfdata;      	// playfield serial video data
+wire  [2:1] 	nplayfield;    // playfield 1,2 valid data signals
+wire  [7:0] 	nsprite;      	// sprite 0-7 valid data signals
+wire  			sprsel;        // sprite select
 
-wire  [23:0] ham_rgb;      // hold and modify mode RGB video data
-reg    [7:0] clut_data;    // colour table colour select in
-reg    window;          // window enable signal
+wire  [23:0] 	ham_rgb;      	// hold and modify mode RGB video data
+reg    [7:0] 	clut_data;    	// colour table colour select in
+reg    			window;        // window enable signal
 
-wire  [15:0] deniseid_out;   // deniseid data_out
-wire  [15:0] col_out;      // collision detection data_out
-wire  [15:0] rgb_out;      // RGB data_out (rdram)
+wire  [15:0] 	deniseid_out;  // deniseid data_out
+wire  [15:0] 	col_out;      	// collision detection data_out
+wire  [15:0] 	rgb_out;      	// RGB data_out (rdram)
 
-reg    display_ena;          // in OCS sprites are visible between first write to BPL1DAT and end of scanline
+reg    			display_ena;   // in OCS sprites are visible between first write to BPL1DAT and end of scanline
 
 //--------------------------------------------------------------------------------------
 

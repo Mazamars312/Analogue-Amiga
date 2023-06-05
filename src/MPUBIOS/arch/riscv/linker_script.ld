@@ -1,7 +1,7 @@
 GROUP("libgcc.a")
 
 MEMORY {
-  RAM (rwx) : ORIGIN = 0x00000000, LENGTH = 0x00020000
+  RAM (rwx) : ORIGIN = BASE_ADDRESS, LENGTH = MEM_SIZE
 }
 
 SECTIONS
@@ -11,7 +11,6 @@ SECTIONS
 	{
     *(.boot)
     KEEP(*(.boot))
-
 		*(.text .text.*)           /* remaining code */
 		*(.rodata)                 /* read-only data (constants) */
 		*(.rodata*)
@@ -37,7 +36,7 @@ SECTIONS
 
   .bss :
   {
-	. = ALIGN(4);
+	  . = ALIGN(4);
     _bss_start = . ;
 
     *(.bss*)
@@ -45,7 +44,7 @@ SECTIONS
     *(COMMON)
     /* Allocate room for stack */
     .   =  ALIGN(8) ;
-    .   += 1024 ;
+    .   += 16384 ;
     _sp =  . - 16;
   } > RAM
 
@@ -55,6 +54,6 @@ SECTIONS
   .payload :
   {
     *(.payload)
-  } > RAM
+  }
 
 }

@@ -1,7 +1,0 @@
-graph: { title: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/arch/riscv/interrupts.cpp"
-node: { title: "_handle_trap" label: "void _handle_trap()\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/arch/riscv/interrupts.cpp:26:17" }
-node: { title: "printf_" label: ")\n../lib/printf.h:68:5" shape : ellipse }
-edge: { sourcename: "_handle_trap" targetname: "printf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/arch/riscv/interrupts.cpp:27:8" }
-node: { title: "_Z16EnableInterruptsv" label: "void EnableInterrupts()\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/arch/riscv/interrupts.cpp:32:6" }
-node: { title: "_Z17DisableInterruptsv" label: "void DisableInterrupts()\n/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/arch/riscv/interrupts.cpp:38:6" }
-}

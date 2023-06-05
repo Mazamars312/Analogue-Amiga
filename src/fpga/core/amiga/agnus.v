@@ -95,6 +95,7 @@ module agnus
 	input         a1k,             // enable A1000 OCS features
 	input         ecs,             // enable ECS features
 	input         aga,             // enables AGA features
+	output         pal,             // enables AGA features
 	input         floppy_speed     // allocates refresh slots for disk DMA
 );
 
@@ -473,7 +474,8 @@ agnus_beamcounter  bc1
 	.vbl_int(vbl_int),
 	.htotal_out(htotal),
 	.harddis_out(harddis),
-	.varbeamen_out(varbeamen)
+	.varbeamen_out(varbeamen),
+	.pal(pal)
 );
 
 //horizontal strobe for Denise

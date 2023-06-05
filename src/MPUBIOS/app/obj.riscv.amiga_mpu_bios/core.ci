@@ -2,31 +2,31 @@ graph: { title: "core.cpp"
 node: { title: "_Z10core_reseti" label: "void core_reset(int)\ncore.cpp:7:7" }
 node: { title: "_Z16HPS_spi_uio_cmd8hh" label: "uint8_t HPS_spi_uio_cmd8(uint8_t, uint8_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:114:9" shape : ellipse }
 edge: { sourcename: "_Z10core_reseti" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "core.cpp:8:19" }
-node: { title: "riscprintf_" label: ")\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/riscprintf.h:71:5" shape : ellipse }
-edge: { sourcename: "_Z10core_reseti" targetname: "riscprintf_" label: "core.cpp:9:13" }
+node: { title: "riscprintff_" label: ")\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/riscprintf.h:71:5" shape : ellipse }
+edge: { sourcename: "_Z10core_reseti" targetname: "riscprintff_" label: "core.cpp:9:13" }
 node: { title: "_Z21core_update_dataslotsv" label: "void core_update_dataslots()\ncore.cpp:24:7" }
-edge: { sourcename: "_Z21core_update_dataslotsv" targetname: "riscprintf_" label: "core.cpp:26:13" }
+edge: { sourcename: "_Z21core_update_dataslotsv" targetname: "riscprintff_" label: "core.cpp:26:13" }
 edge: { sourcename: "_Z21core_update_dataslotsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "core.cpp:8:19" }
-edge: { sourcename: "_Z21core_update_dataslotsv" targetname: "riscprintf_" label: "core.cpp:9:13" }
+edge: { sourcename: "_Z21core_update_dataslotsv" targetname: "riscprintff_" label: "core.cpp:9:13" }
 node: { title: "_Z10riscusleepi" label: "void riscusleep(int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/timer.h:51:6" shape : ellipse }
 edge: { sourcename: "_Z21core_update_dataslotsv" targetname: "_Z10riscusleepi" label: "core.cpp:29:14" }
 node: { title: "minimig_restart_first" label: "void minimig_restart_first()\nminimig_config.h:51:6" shape : ellipse }
 edge: { sourcename: "_Z21core_update_dataslotsv" targetname: "minimig_restart_first" label: "core.cpp:30:25" }
 edge: { sourcename: "_Z21core_update_dataslotsv" targetname: "_Z10riscusleepi" label: "core.cpp:31:14" }
 edge: { sourcename: "_Z21core_update_dataslotsv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "core.cpp:8:19" }
-edge: { sourcename: "_Z21core_update_dataslotsv" targetname: "riscprintf_" label: "core.cpp:9:13" }
+edge: { sourcename: "_Z21core_update_dataslotsv" targetname: "riscprintff_" label: "core.cpp:9:13" }
 node: { title: "minimig_fdd_update" label: "void minimig_fdd_update()\nminimig_config.h:53:6" shape : ellipse }
 edge: { sourcename: "_Z21core_update_dataslotsv" targetname: "minimig_fdd_update" label: "core.cpp:34:22" }
 node: { title: "minimig_hdd_update" label: "void minimig_hdd_update()\nminimig_config.h:54:6" shape : ellipse }
 edge: { sourcename: "_Z21core_update_dataslotsv" targetname: "minimig_hdd_update" label: "core.cpp:36:22" }
 node: { title: "_Z15full_core_resetv" label: "void full_core_reset()\ncore.cpp:12:7" }
-edge: { sourcename: "_Z15full_core_resetv" targetname: "riscprintf_" label: "core.cpp:13:13" }
+edge: { sourcename: "_Z15full_core_resetv" targetname: "riscprintff_" label: "core.cpp:13:13" }
 edge: { sourcename: "_Z15full_core_resetv" targetname: "_Z10riscusleepi" label: "core.cpp:14:13" }
 edge: { sourcename: "_Z15full_core_resetv" targetname: "_Z10riscusleepi" label: "core.cpp:16:13" }
 edge: { sourcename: "_Z15full_core_resetv" targetname: "minimig_restart_first" label: "core.cpp:17:24" }
 edge: { sourcename: "_Z15full_core_resetv" targetname: "_Z21core_update_dataslotsv" label: "core.cpp:18:24" }
 edge: { sourcename: "_Z15full_core_resetv" targetname: "_Z10riscusleepi" label: "core.cpp:19:13" }
-edge: { sourcename: "_Z15full_core_resetv" targetname: "riscprintf_" label: "core.cpp:20:13" }
+edge: { sourcename: "_Z15full_core_resetv" targetname: "riscprintff_" label: "core.cpp:20:13" }
 node: { title: "_Z12core_poll_iov" label: "void core_poll_io()\ncore.cpp:40:7" }
 node: { title: "_Z14HPS_EnableFpgav" label: "void HPS_EnableFpga()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:75:6" shape : ellipse }
 edge: { sourcename: "_Z12core_poll_iov" targetname: "_Z14HPS_EnableFpgav" label: "core.cpp:44:20" }
@@ -37,23 +37,26 @@ edge: { sourcename: "_Z12core_poll_iov" targetname: "_Z12HPS_fpga_spit" label: "
 node: { title: "_Z15HPS_DisableFpgav" label: "void HPS_DisableFpga()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:76:6" shape : ellipse }
 edge: { sourcename: "_Z12core_poll_iov" targetname: "_Z15HPS_DisableFpgav" label: "core.cpp:50:21" }
 node: { title: "HandleFDD" label: "void HandleFDD(unsigned char, unsigned char)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/floppy_drive/fdd.h:81:6" shape : ellipse }
-edge: { sourcename: "_Z12core_poll_iov" targetname: "HandleFDD" label: "core.cpp:52:18" }
+edge: { sourcename: "_Z12core_poll_iov" targetname: "HandleFDD" label: "core.cpp:51:18" }
 node: { title: "_Z9ide_checkv" label: "uint16_t ide_check()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.h:230:10" shape : ellipse }
-edge: { sourcename: "_Z12core_poll_iov" targetname: "_Z9ide_checkv" label: "core.cpp:53:30" }
+edge: { sourcename: "_Z12core_poll_iov" targetname: "_Z9ide_checkv" label: "core.cpp:52:30" }
+edge: { sourcename: "_Z12core_poll_iov" targetname: "riscprintff_" label: "core.cpp:53:38" }
+edge: { sourcename: "_Z12core_poll_iov" targetname: "riscprintff_" label: "core.cpp:54:38" }
+edge: { sourcename: "_Z12core_poll_iov" targetname: "riscprintff_" label: "core.cpp:55:38" }
 node: { title: "_Z6ide_ioii" label: "void ide_io(int, int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.h:236:6" shape : ellipse }
-edge: { sourcename: "_Z12core_poll_iov" targetname: "_Z6ide_ioii" label: "core.cpp:56:10" }
-edge: { sourcename: "_Z12core_poll_iov" targetname: "_Z6ide_ioii" label: "core.cpp:57:10" }
-node: { title: "_Z15core_reg_updatev" label: "void core_reg_update()\ncore.cpp:61:7" }
-node: { title: "_Z18core_restart_firstv" label: "void core_restart_first()\ncore.cpp:77:7" }
+edge: { sourcename: "_Z12core_poll_iov" targetname: "_Z6ide_ioii" label: "core.cpp:58:10" }
+edge: { sourcename: "_Z12core_poll_iov" targetname: "_Z6ide_ioii" label: "core.cpp:59:10" }
+node: { title: "_Z15core_reg_updatev" label: "void core_reg_update()\ncore.cpp:63:7" }
+node: { title: "_Z18core_restart_firstv" label: "void core_restart_first()\ncore.cpp:70:7" }
 edge: { sourcename: "_Z18core_restart_firstv" targetname: "_Z16HPS_spi_uio_cmd8hh" label: "core.cpp:8:19" }
-edge: { sourcename: "_Z18core_restart_firstv" targetname: "riscprintf_" label: "core.cpp:9:13" }
-node: { title: "_Z25core_restart_running_corev" label: "void core_restart_running_core()\ncore.cpp:82:7" }
-node: { title: "_Z16core_input_setupv" label: "void core_input_setup()\ncore.cpp:87:7" }
-node: { title: "_Z11input_setupv" label: "void input_setup()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.h:62:6" shape : ellipse }
-edge: { sourcename: "_Z16core_input_setupv" targetname: "_Z11input_setupv" label: "core.cpp:89:14" }
-node: { title: "_Z17core_input_updatev" label: "void core_input_update()\ncore.cpp:92:7" }
-node: { title: "_Z12input_updatev" label: "void input_update()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.h:61:6" shape : ellipse }
-edge: { sourcename: "_Z17core_input_updatev" targetname: "_Z12input_updatev" label: "core.cpp:94:15" }
-node: { title: "_Z20core_interupt_updatev" label: "void core_interupt_update()\ncore.cpp:97:7" }
-edge: { sourcename: "_Z20core_interupt_updatev" targetname: "_Z11input_setupv" label: "core.cpp:89:14" }
+edge: { sourcename: "_Z18core_restart_firstv" targetname: "riscprintff_" label: "core.cpp:9:13" }
+node: { title: "_Z25core_restart_running_corev" label: "void core_restart_running_core()\ncore.cpp:75:7" }
+node: { title: "_Z16core_input_setupv" label: "void core_input_setup()\ncore.cpp:80:7" }
+node: { title: "_Z11input_setupv" label: "void input_setup()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.h:63:6" shape : ellipse }
+edge: { sourcename: "_Z16core_input_setupv" targetname: "_Z11input_setupv" label: "core.cpp:82:14" }
+node: { title: "_Z17core_input_updatev" label: "void core_input_update()\ncore.cpp:85:7" }
+node: { title: "_Z12input_updatev" label: "void input_update()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/KMIO/inputs.h:62:6" shape : ellipse }
+edge: { sourcename: "_Z17core_input_updatev" targetname: "_Z12input_updatev" label: "core.cpp:87:15" }
+node: { title: "_Z20core_interupt_updatev" label: "void core_interupt_update()\ncore.cpp:90:7" }
+edge: { sourcename: "_Z20core_interupt_updatev" targetname: "_Z11input_setupv" label: "core.cpp:82:14" }
 }

@@ -1,4 +1,0 @@
-minimig_config.cpp:29:6:void minimig_bios()	16	static
-minimig_config.cpp:70:6:void minimig_restart_running_core()	16	static
-minimig_config.cpp:83:6:void minimig_fdd_update()	32	static
-minimig_config.cpp:53:6:void minimig_restart_first()	16	static

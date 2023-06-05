@@ -1,2 +1,0 @@
-../lib/memcpy.c:10:7:memcpy	0	static
-../lib/memcpy.c:37:7:memccpy	0	static

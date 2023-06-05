@@ -399,7 +399,7 @@ wire        gayle_nrdy;       // HDD fifo is not ready for reading
 wire	[7:0] bank;					//memory bank select
 
 reg         ntsc = NTSC;		//PAL/NTSC video mode selection
-
+wire 			pal;
 // host interface
 wire        host_cs;
 wire [23:0] host_adr;
@@ -475,7 +475,8 @@ agnus AGNUS1
 	.a1k(chipset_config[2]),
 	.ecs(|chipset_config[4:3]),
 	.aga(chipset_config[4]),
-	.floppy_speed(floppy_config[0])
+	.floppy_speed(floppy_config[0]),
+	.pal(pal)
 );
 
 //instantiate paula
@@ -531,62 +532,62 @@ wire [2:0] cachecfg_pre;
 //instantiate user IO
 userio USERIO1 
 (	
-	.clk_74a(clk_74a),
-	.clk(clk),
-	.clk7_en(clk7_en),
-	.reset(reset),
-	.reset_n(reset_n),
-	.reg_address_in(reg_address),
-	.data_in(custom_data_in),
-	.data_out(user_data_out),
-	.pot_cnt_en(sol & ~c1 & ~c3),
-	._fire0(_fire0),
-	._fire1(_fire1),
-	._fire0_dat(_fire0_dat),
-	._fire1_dat(_fire1_dat),
-	._joy1(_joy1),
-	._joy2(_joy2),
-	.joy_ana1(joya1),
-	.joy_ana2(joya2),
-	.mouse_btn(mouse_btn),
-	.kbd_mouse_type(kbd_mouse_type),
-	.kms_level(kms_level),
-	.kbd_mouse_data(kbd_mouse_data), 
-	.aud_mix(aud_mix),
+	.clk_74a						(clk_74a),
+	.clk							(clk),
+	.clk7_en						(clk7_en),
+	.reset						(reset),
+	.reset_n						(reset_n),
+	.reg_address_in			(reg_address),
+	.data_in						(custom_data_in),
+	.data_out					(user_data_out),
+	.pot_cnt_en					(sol & ~c1 & ~c3),
+	._fire0						(_fire0),
+	._fire1						(_fire1),
+	._fire0_dat					(_fire0_dat),
+	._fire1_dat					(_fire1_dat),
+	._joy1						(_joy1),
+	._joy2						(_joy2),
+	.joy_ana1					(joya1),
+	.joy_ana2					(joya2),
+	.mouse_btn					(mouse_btn),
+	.kbd_mouse_type			(kbd_mouse_type),
+	.kms_level					(kms_level),
+	.kbd_mouse_data			(kbd_mouse_data), 
+	.aud_mix						(aud_mix),
 	.bridge_addr            ( bridge_addr ),
 	.bridge_rd              ( bridge_rd ),
 	.bridge_rd_data         ( bridge_rd_data ),
 	.bridge_wr              ( bridge_wr ),
 	.bridge_wr_data         ( bridge_wr_data ),
-	.IO_ENA(IO_UIO),
-	.IO_STROBE(IO_STROBE),
-	.IO_WAIT(IO_WAIT_OSD),
-	.IO_DIN(IO_DIN),
-	.memory_config(memory_config),
-	.chipset_config(chipset_config),
-	.floppy_config(floppy_config),
-	.scanline(scanline),
-	.ar(ar),
-	.blver(blver),
-	.ide_config(ide_config),
-	.cpu_config(cpucfg),
-	.cache_config(cachecfg_pre),
-	.usrrst(usrrst),
-	.cpurst(cpurst),
-	.cpuhlt(cpuhlt),
-	.bootrom(bootrom),
-	.host_cs(host_cs),
-	.host_adr(host_adr),
-	.host_we(host_we),
-	.host_bs(host_bs),
-	.host_wdat(host_wdat),
-	.host_rdat(host_rdat),
-	.host_ack(host_ack)
+	.IO_ENA						(IO_UIO),
+	.IO_STROBE					(IO_STROBE),
+	.IO_WAIT						(IO_WAIT_OSD),
+	.IO_DIN						(IO_DIN),
+	.memory_config				(memory_config),
+	.chipset_config			(chipset_config),
+	.floppy_config				(floppy_config),
+	.scanline					(scanline),
+	.ar							(ar),
+	.blver						(blver),
+	.ide_config					(ide_config),
+	.cpu_config					(cpucfg),
+	.cache_config				(cachecfg_pre),
+	.usrrst						(usrrst),
+	.cpurst						(cpurst),
+	.cpuhlt						(cpuhlt),
+	.bootrom						(bootrom),
+	.host_cs						(host_cs),
+	.host_adr					(host_adr),
+	.host_we						(host_we),
+	.host_bs						(host_bs),
+	.host_wdat					(host_wdat),
+	.host_rdat					(host_rdat),
+	.host_ack					(host_ack)
 );
 
 wire shres;
-assign ce_pix = (shres & |chipset_config[4:3]) | (hires & clk7n_en) | clk7_en;
-assign res = {shres & |chipset_config[4:3], hires};
+assign ce_pix = (hires & clk7n_en) | clk7_en;
+assign res = {pal, hires};
 
 //instantiate Denise
 denise DENISE1

@@ -1,3 +1,0 @@
-graph: { title: "../lib/toupper.c"
-node: { title: "toupper" label: "toupper\n../lib/toupper.c:10:5" }
-}

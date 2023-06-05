@@ -1,4 +1,0 @@
-../lib/strcmp.c:12:5:strcmp	0	static
-../lib/strcmp.c:29:5:strncmp	0	static
-../lib/strcmp.c:48:5:strcasecmp	32	static
-../lib/strcmp.c:64:5:strncasecmp	32	static

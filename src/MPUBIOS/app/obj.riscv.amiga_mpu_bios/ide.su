@@ -1,20 +1,21 @@
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:420:13:void put_lba(ide_config*, uint32_t)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:407:13:void put_lba(ide_config*, uint32_t)	0	static
 /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:233:13:void ide_set_geometry(drive_t*, uint16_t, uint16_t)	16	static
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:398:17:uint32_t get_lba(ide_config*)	0	static
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:36:6:void ide_reg_set(ide_config*, uint16_t, uint16_t)	16	static
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:46:6:void ide_sendbuf(ide_config*, uint16_t, uint32_t, uint16_t*, bool)	32	static
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:57:6:void ide_recvbuf(ide_config*, uint16_t, uint32_t, uint16_t*, bool)	32	static
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:71:10:uint16_t ide_check()	16	static
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:81:6:void ide_get_regs(ide_config*)	32	static
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:103:6:void ide_set_regs(ide_config*)	32	static
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:474:13:void process_read(ide_config*, int)	48	static
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:544:13:void process_write(ide_config*, int)	48	static
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:600:12:int handle_hdd(ide_config*)	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:385:17:uint32_t get_lba(ide_config*)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:38:6:void ide_reg_set(ide_config*, uint16_t, uint16_t)	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:48:6:void ide_sendbuf(ide_config*, uint16_t, uint32_t, uint16_t*, bool)	32	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:59:6:void ide_recvbuf(ide_config*, uint16_t, uint32_t, uint16_t*, bool)	32	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:72:10:uint16_t ide_check()	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:82:6:void ide_get_regs(ide_config*)	32	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:104:6:void ide_set_regs(ide_config*)	32	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:462:13:void process_read(ide_config*, int)	64	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:532:13:void process_write(ide_config*, int)	48	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:585:12:int handle_hdd(ide_config*)	16	static
 /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:130:6:void calc_geometry(hdfTYPE*)	16	static
 /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:160:6:void get_rdb_geometry(hdfTYPE*)	16	static
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:182:6:void guess_geometry(hdfTYPE*)	48	static
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:273:6:void ide_img_set(uint32_t, uint16_t, int, int, int, int)	48	static
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:695:6:void ide_io(int, int)	32	static
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:769:5:int ide_is_placeholder(int)	0	static
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:774:6:void ide_reset(uint8_t*)	0	static
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:787:5:int ide_open(uint8_t, uint16_t)	32	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:182:6:void guess_geometry(hdfTYPE*)	32	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:273:6:void ide_img_set(uint32_t, uint16_t, int, int, int, int)	80	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:680:6:void ide_io(int, int)	32	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:752:5:int ide_is_placeholder(int)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:757:6:void ide_reset(uint8_t*)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:770:5:int ide_open(uint8_t, uint16_t)	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:792:1:cpp)	0	static

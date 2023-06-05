@@ -1,7 +1,0 @@
-graph: { title: "../lib/isalpha.c"
-node: { title: "isupper" label: "isupper\n../lib/isalpha.c:10:5" }
-node: { title: "isalpha" label: "isalpha\n../lib/isalpha.c:20:5" }
-node: { title: "isdigit" label: "isdigit\n../lib/isalpha.c:30:5" }
-node: { title: "isspace" label: "isspace\n../lib/isalpha.c:40:5" }
-node: { title: "isalnum" label: "isalnum\n../lib/isalpha.c:50:5" }
-}

@@ -1,3 +1,0 @@
-graph: { title: "../lib/memmove.c"
-node: { title: "memmove" label: "memmove\n../lib/memmove.c:10:7" }
-}

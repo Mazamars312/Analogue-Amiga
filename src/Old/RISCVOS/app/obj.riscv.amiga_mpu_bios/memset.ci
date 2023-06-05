@@ -1,5 +1,0 @@
-graph: { title: "../lib/memset.c"
-node: { title: "memset" label: "memset\n../lib/memset.c:10:7" }
-node: { title: "memset" label: "__builtin_memset\n<built-in>" shape : ellipse }
-edge: { sourcename: "memset" targetname: "memset" label: "../lib/memset.c:16:15" }
-}

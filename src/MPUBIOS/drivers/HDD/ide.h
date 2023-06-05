@@ -121,26 +121,26 @@ struct PartitionBlock {
 
 struct regs_t
 {
-	uint8_t io_done;
-	uint8_t io_fast;
-	uint8_t features;
+	uint8_t io_done = 0;
+	uint8_t io_fast = 0;
+	uint8_t features = 0;
 	uint16_t dataslot = 0;
-	uint8_t sector_count;
-	uint8_t sector;
-	uint16_t cylinder;
-	uint8_t head;
-	uint8_t drv;
-	uint8_t lba;
-	uint8_t cmd;
+	uint8_t sector_count = 0;
+	uint8_t sector = 0;
+	uint16_t cylinder = 0;
+	uint8_t head = 0;
+	uint8_t drv = 0;
+	uint8_t lba = 0;
+	uint8_t cmd = 0;
 
-	uint16_t pkt_size_limit;
-	uint16_t pkt_io_size;
-	uint32_t pkt_lba;
-	uint32_t pkt_cnt;
+	uint16_t pkt_size_limit = 0;
+	uint16_t pkt_io_size = 0;
+	uint32_t pkt_lba = 0;
+	uint32_t pkt_cnt = 0;
 
-	uint8_t io_size;
-	uint8_t error;
-	uint8_t status;
+	uint8_t io_size = 0;
+	uint8_t error = 0;
+	uint8_t status = 0;
 };
 
 struct track_t
@@ -160,48 +160,48 @@ struct drive_t
 {
 	uint16_t dataslot = 0;
 
-	uint8_t  present;
-	uint8_t  drvnum;
-	uint32_t Size;
+	uint8_t  present = 0;
+	uint8_t  drvnum = 0;
+	uint32_t Size = 0;
 
-	uint16_t cylinders;
-	uint16_t heads;
-	uint16_t spt;
-	uint32_t total_sectors;
-	uint32_t spb;
+	uint16_t cylinders = 0;
+	uint16_t heads = 0;
+	uint16_t spt = 0;
+	uint32_t total_sectors = 0;
+	uint32_t spb = 0;
 
-	uint32_t offset;
-	uint32_t type;
+	uint32_t offset = 0;
+	uint32_t type = 0;
 
-	uint8_t  placeholder;
-	uint8_t  allow_placeholder;
-	uint8_t  cd;
-	uint8_t  load_state;
-	uint8_t  last_load_state;
-	uint8_t  track_cnt;
-	uint8_t  data_num;
+	uint8_t  placeholder = 0;
+	uint8_t  allow_placeholder = 0;
+	uint8_t  cd = 0;
+	uint8_t  load_state = 0;
+	uint8_t  last_load_state = 0;
+	uint8_t  track_cnt = 0;
+	uint8_t  data_num = 0;
 	track_t  track[50];
 
-	uint8_t  playing;
-	uint8_t  paused;
-	uint32_t play_start_lba;
-	uint32_t play_end_lba;
+	uint8_t  playing = 0;
+	uint8_t  paused = 0;
+	uint32_t play_start_lba = 0;
+	uint32_t play_end_lba = 0;
 
 	int      chd_hunknum;
-	uint8_t	 *chd_hunkbuf;
-	uint32_t  chd_total_size;
-	uint32_t  chd_last_partial_lba;
+	uint8_t	 *chd_hunkbuf = 0;
+	uint32_t  chd_total_size = 0;
+	uint32_t  chd_last_partial_lba = 0;
 
 	uint16_t id[256];
 };
 
 struct ide_config
 {
-	uint32_t base;
-	uint32_t bitoff;
-	uint32_t state;
-	uint32_t null;
-	uint32_t prepcnt;
+	uint32_t base = 0;
+	uint32_t bitoff = 0;
+	uint32_t state = 0;
+	uint32_t null = 0;
+	uint32_t prepcnt = 0;
 	regs_t   regs;
 
 	drive_t drive[2];
@@ -210,13 +210,13 @@ struct ide_config
 struct chs_t
 {
 	uint16_t dataslot = 0;
-	uint32_t sectors;
-	uint32_t heads;
-	uint32_t cylinders;
-	uint32_t offset;
+	uint32_t sectors = 0;
+	uint32_t heads = 0;
+	uint32_t cylinders = 0;
+	uint32_t offset = 0;
 };
 
-extern ide_config ide_inst[2];
+extern ide_config ide_inst[];
 extern const uint32_t ide_io_max_size;
 extern uint8_t ide_buf[];
 

@@ -157,26 +157,6 @@ void OsdWriteOffset(unsigned char n, const char *s, unsigned char invert, unsign
 		if (invert && i / 8 >= mininv) xormask = 255;
 		if (invert && i / 8 >= maxinv) xormask = 0;
 
-		// if (i == 0 && (n < osd_size))
-		// {	// Render sidestripe
-		// 	unsigned char tmp[8];
-		//
-		// 	if (leftchar)
-		// 	{
-		// 		unsigned char tmp2[8];
-		// 		memcpy(tmp2, charfont[(uint)leftchar], 8);
-		// 		rotatechar(tmp2, tmp);
-		// 		p = tmp;
-		// 	}
-		// 	else
-		// 	{
-		// 		p = &titlebuffer[(osd_size - 1 - n) * 8];
-		// 	}
-		//
-		// 	draw_title(p);
-		// 	i += 22;
-		// }
-		// else
 		if (n == (osd_size-1) && (arrowmask & OSD_ARROW_LEFT))
 		{	// Draw initial arrow
 			unsigned char b;
@@ -260,6 +240,58 @@ void OsdWriteOffset(unsigned char n, const char *s, unsigned char invert, unsign
 	}
 }
 
+// write a null-terminated string <s> to the OSD buffer starting at line <n>
+void OsdWriteDirect(uint16_t n, const char *s, bool invert, unsigned char stipple, int maxinv, int mininv)
+{
+	//printf("OsdWriteOffset(%d)\n", n);
+	unsigned short i;
+	const unsigned char *p;
+	unsigned char b;
+	unsigned char stipplemask = 0xff;
+	int linelimit = OSDLINELEN;
+	// if (n == (osd_size-1) && (arrow & OSD_ARROW_RIGHT))
+	// 	linelimit -= 22;
+
+
+	if (stipple) {
+		stipplemask = 0x55;
+		stipple = 0xff;
+	}
+	else
+		stipple = 0;
+
+
+	unsigned char xormask = 0;
+	unsigned char xorchar = 0;
+	osdbufpos = (n * 8);
+	i = 0;
+	if (invert && i / 8 >= mininv) xormask = 255;
+	if (invert && i / 8 >= maxinv) xormask = 0;
+	
+	b = *s;
+	if (b == 0xb)
+	{
+		stipplemask ^= 0xAA;
+		stipple ^= 0xff;
+	}
+	else if (b == 0xc)
+	{
+		xorchar ^= 0xff;
+	}
+	else 
+	{  // normal character
+		int8_t c;
+		p = &charfont[b][0];
+		for (c = 0; c<8; c++) {
+			osdbuf[osdbufpos++] = (((*p++)&stipplemask) ^ xormask ^ xorchar);
+			stipplemask ^= stipple;
+		}
+	}
+		
+
+
+}
+
 
 // clear OSD frame buffer
 void OsdClear(void)
@@ -307,10 +339,6 @@ void OsdUpdate(int line)
 {
 	// mainprintf("testering\r\n");
 		HPS_spi_osd_cmd_cont(OSD_CMD_WRITE | line);
-	  asm volatile("nop"); // needed as loops do not work in G++ RISCV compilers
-	  asm volatile("nop"); // needed as loops do not work in G++ RISCV compilers
-		OSD_HPS_spi_write(osdbuf, 256, 0);
-	  asm volatile("nop"); // needed as loops do not work in G++ RISCV compilers
-	  asm volatile("nop"); // needed as loops do not work in G++ RISCV compilers
+		HPS_OSD_spi_write(osdbuf, 256, 0);
 		HPS_DisableOsd();
 }

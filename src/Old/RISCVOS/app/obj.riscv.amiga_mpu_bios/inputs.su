@@ -1,5 +1,0 @@
-/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/KMIO/inputs.cpp:43:6:void update_mouse_inputs()	16	static
-/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/KMIO/inputs.cpp:90:6:void update_keyboard_inputs()	64	static
-/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/KMIO/inputs.cpp:221:6:void input_update()	16	static
-/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/KMIO/inputs.cpp:229:6:void input_setup()	0	static
-/mnt/f/Analogue/Analogue-Amiga/src/RISCVOS/drivers/KMIO/inputs.cpp:233:6:void input_reg_update()	0	static

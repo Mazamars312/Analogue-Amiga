@@ -1,179 +1,187 @@
 graph: { title: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp"
-node: { title: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL7put_lbaP10ide_configm" label: "void put_lba(ide_config*, uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:420:13" }
+node: { title: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL7put_lbaP10ide_configm" label: "void put_lba(ide_config*, uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:407:13" }
 node: { title: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL16ide_set_geometryP7drive_ttt" label: "void ide_set_geometry(drive_t*, uint16_t, uint16_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:233:13" }
-node: { title: "riscprintf_" label: ")\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/riscprintf.h:71:5" shape : ellipse }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL16ide_set_geometryP7drive_ttt" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:239:13" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL16ide_set_geometryP7drive_ttt" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:255:12" }
-node: { title: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL7get_lbaP10ide_config" label: "uint32_t get_lba(ide_config*)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:398:17" }
-node: { title: "_Z11ide_reg_setP10ide_configtt" label: "void ide_reg_set(ide_config*, uint16_t, uint16_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:36:6" }
+node: { title: "riscprintff_" label: ")\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/riscprintf.h:71:5" shape : ellipse }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL16ide_set_geometryP7drive_ttt" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:239:13" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL16ide_set_geometryP7drive_ttt" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:255:12" }
+node: { title: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL7get_lbaP10ide_config" label: "uint32_t get_lba(ide_config*)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:385:17" }
+node: { title: "_Z11ide_reg_setP10ide_configtt" label: "void ide_reg_set(ide_config*, uint16_t, uint16_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:38:6" }
+edge: { sourcename: "_Z11ide_reg_setP10ide_configtt" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:40:12" }
 node: { title: "_Z12HPS_EnableIOv" label: "void HPS_EnableIO()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:73:6" shape : ellipse }
-edge: { sourcename: "_Z11ide_reg_setP10ide_configtt" targetname: "_Z12HPS_EnableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:39:14" }
+edge: { sourcename: "_Z11ide_reg_setP10ide_configtt" targetname: "_Z12HPS_EnableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:41:14" }
 node: { title: "_Z12HPS_fpga_spit" label: "uint16_t HPS_fpga_spi(uint16_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:88:10" shape : ellipse }
 edge: { sourcename: "_Z11ide_reg_setP10ide_configtt" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:97:30" }
 node: { title: "_Z7spi32_wm" label: "uint32_t spi32_w(uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:71:10" shape : ellipse }
-edge: { sourcename: "_Z11ide_reg_setP10ide_configtt" targetname: "_Z7spi32_wm" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:41:9" }
+edge: { sourcename: "_Z11ide_reg_setP10ide_configtt" targetname: "_Z7spi32_wm" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:43:9" }
 edge: { sourcename: "_Z11ide_reg_setP10ide_configtt" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:92:21" }
 node: { title: "_Z13HPS_DisableIOv" label: "void HPS_DisableIO()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:74:6" shape : ellipse }
-edge: { sourcename: "_Z11ide_reg_setP10ide_configtt" targetname: "_Z13HPS_DisableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:43:15" }
-node: { title: "_Z11ide_sendbufP10ide_configtmPtb" label: "void ide_sendbuf(ide_config*, uint16_t, uint32_t, uint16_t*, bool)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:46:6" }
-edge: { sourcename: "_Z11ide_sendbufP10ide_configtmPtb" targetname: "_Z12HPS_EnableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:49:14" }
+edge: { sourcename: "_Z11ide_reg_setP10ide_configtt" targetname: "_Z13HPS_DisableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:45:15" }
+node: { title: "_Z11ide_sendbufP10ide_configtmPtb" label: "void ide_sendbuf(ide_config*, uint16_t, uint32_t, uint16_t*, bool)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:48:6" }
+edge: { sourcename: "_Z11ide_sendbufP10ide_configtmPtb" targetname: "_Z12HPS_EnableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:51:14" }
 node: { title: "_Z17HPS_fpga_spi_fastt" label: "uint16_t HPS_fpga_spi_fast(uint16_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:121:10" shape : ellipse }
-edge: { sourcename: "_Z11ide_sendbufP10ide_configtmPtb" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:50:19" }
-edge: { sourcename: "_Z11ide_sendbufP10ide_configtmPtb" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:51:19" }
 edge: { sourcename: "_Z11ide_sendbufP10ide_configtmPtb" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:52:19" }
+edge: { sourcename: "_Z11ide_sendbufP10ide_configtmPtb" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:53:19" }
+edge: { sourcename: "_Z11ide_sendbufP10ide_configtmPtb" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:54:19" }
 node: { title: "_Z29HPS_fpga_spi_fast_block_writePKtm" label: "void HPS_fpga_spi_fast_block_write(const uint16_t*, uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:123:6" shape : ellipse }
-edge: { sourcename: "_Z11ide_sendbufP10ide_configtmPtb" targetname: "_Z29HPS_fpga_spi_fast_block_writePKtm" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:53:31" }
-edge: { sourcename: "_Z11ide_sendbufP10ide_configtmPtb" targetname: "_Z13HPS_DisableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:54:15" }
-node: { title: "_Z11ide_recvbufP10ide_configtmPtb" label: "void ide_recvbuf(ide_config*, uint16_t, uint32_t, uint16_t*, bool)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:57:6" }
-edge: { sourcename: "_Z11ide_recvbufP10ide_configtmPtb" targetname: "_Z12HPS_EnableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:60:14" }
-edge: { sourcename: "_Z11ide_recvbufP10ide_configtmPtb" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:61:19" }
-edge: { sourcename: "_Z11ide_recvbufP10ide_configtmPtb" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:62:19" }
+edge: { sourcename: "_Z11ide_sendbufP10ide_configtmPtb" targetname: "_Z29HPS_fpga_spi_fast_block_writePKtm" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:55:31" }
+edge: { sourcename: "_Z11ide_sendbufP10ide_configtmPtb" targetname: "_Z13HPS_DisableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:56:15" }
+node: { title: "_Z11ide_recvbufP10ide_configtmPtb" label: "void ide_recvbuf(ide_config*, uint16_t, uint32_t, uint16_t*, bool)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:59:6" }
+edge: { sourcename: "_Z11ide_recvbufP10ide_configtmPtb" targetname: "_Z12HPS_EnableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:62:14" }
 edge: { sourcename: "_Z11ide_recvbufP10ide_configtmPtb" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:63:19" }
+edge: { sourcename: "_Z11ide_recvbufP10ide_configtmPtb" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:64:19" }
+edge: { sourcename: "_Z11ide_recvbufP10ide_configtmPtb" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:65:19" }
 node: { title: "_Z28HPS_fpga_spi_fast_block_readPtmb" label: "void HPS_fpga_spi_fast_block_read(uint16_t*, uint32_t, bool)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:125:6" shape : ellipse }
-edge: { sourcename: "_Z11ide_recvbufP10ide_configtmPtb" targetname: "_Z28HPS_fpga_spi_fast_block_readPtmb" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:64:30" }
-edge: { sourcename: "_Z11ide_recvbufP10ide_configtmPtb" targetname: "_Z13HPS_DisableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:65:15" }
-node: { title: "_Z9ide_checkv" label: "uint16_t ide_check()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:71:10" }
-edge: { sourcename: "_Z9ide_checkv" targetname: "_Z12HPS_EnableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:74:14" }
+edge: { sourcename: "_Z11ide_recvbufP10ide_configtmPtb" targetname: "_Z28HPS_fpga_spi_fast_block_readPtmb" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:66:30" }
+edge: { sourcename: "_Z11ide_recvbufP10ide_configtmPtb" targetname: "_Z13HPS_DisableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:67:15" }
+node: { title: "_Z9ide_checkv" label: "uint16_t ide_check()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:72:10" }
+edge: { sourcename: "_Z9ide_checkv" targetname: "_Z12HPS_EnableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:75:14" }
 edge: { sourcename: "_Z9ide_checkv" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:92:21" }
 edge: { sourcename: "_Z9ide_checkv" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:92:21" }
-edge: { sourcename: "_Z9ide_checkv" targetname: "_Z13HPS_DisableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:77:15" }
-node: { title: "_Z12ide_get_regsP10ide_config" label: "void ide_get_regs(ide_config*)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:81:6" }
-edge: { sourcename: "_Z12ide_get_regsP10ide_config" targetname: "_Z12HPS_EnableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:60:14" }
-edge: { sourcename: "_Z12ide_get_regsP10ide_config" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:61:19" }
-edge: { sourcename: "_Z12ide_get_regsP10ide_config" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:62:19" }
+edge: { sourcename: "_Z9ide_checkv" targetname: "_Z13HPS_DisableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:78:15" }
+node: { title: "_Z12ide_get_regsP10ide_config" label: "void ide_get_regs(ide_config*)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:82:6" }
+edge: { sourcename: "_Z12ide_get_regsP10ide_config" targetname: "_Z12HPS_EnableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:62:14" }
 edge: { sourcename: "_Z12ide_get_regsP10ide_config" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:63:19" }
-edge: { sourcename: "_Z12ide_get_regsP10ide_config" targetname: "_Z28HPS_fpga_spi_fast_block_readPtmb" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:64:30" }
-edge: { sourcename: "_Z12ide_get_regsP10ide_config" targetname: "_Z13HPS_DisableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:65:15" }
-node: { title: "_Z12ide_set_regsP10ide_config" label: "void ide_set_regs(ide_config*)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:103:6" }
-edge: { sourcename: "_Z12ide_set_regsP10ide_config" targetname: "_Z12HPS_EnableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:49:14" }
-edge: { sourcename: "_Z12ide_set_regsP10ide_config" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:50:19" }
-edge: { sourcename: "_Z12ide_set_regsP10ide_config" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:51:19" }
+edge: { sourcename: "_Z12ide_get_regsP10ide_config" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:64:19" }
+edge: { sourcename: "_Z12ide_get_regsP10ide_config" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:65:19" }
+edge: { sourcename: "_Z12ide_get_regsP10ide_config" targetname: "_Z28HPS_fpga_spi_fast_block_readPtmb" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:66:30" }
+edge: { sourcename: "_Z12ide_get_regsP10ide_config" targetname: "_Z13HPS_DisableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:67:15" }
+node: { title: "_Z12ide_set_regsP10ide_config" label: "void ide_set_regs(ide_config*)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:104:6" }
+edge: { sourcename: "_Z12ide_set_regsP10ide_config" targetname: "_Z12HPS_EnableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:51:14" }
 edge: { sourcename: "_Z12ide_set_regsP10ide_config" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:52:19" }
-edge: { sourcename: "_Z12ide_set_regsP10ide_config" targetname: "_Z29HPS_fpga_spi_fast_block_writePKtm" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:53:31" }
-edge: { sourcename: "_Z12ide_set_regsP10ide_config" targetname: "_Z13HPS_DisableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:54:15" }
-node: { title: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" label: "void process_read(ide_config*, int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:474:13" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL7get_lbaP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:476:24" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:479:12" }
+edge: { sourcename: "_Z12ide_set_regsP10ide_config" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:53:19" }
+edge: { sourcename: "_Z12ide_set_regsP10ide_config" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:54:19" }
+edge: { sourcename: "_Z12ide_set_regsP10ide_config" targetname: "_Z29HPS_fpga_spi_fast_block_writePKtm" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:55:31" }
+edge: { sourcename: "_Z12ide_set_regsP10ide_config" targetname: "_Z13HPS_DisableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:56:15" }
+node: { title: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" label: "void process_read(ide_config*, int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:462:13" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL7get_lbaP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:464:24" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:467:12" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:449:13" }
+node: { title: "_Z13dataslot_readtmmm" label: "uint32_t dataslot_read(uint16_t, uint32_t, uint32_t, uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.h:75:10" shape : ellipse }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z13dataslot_readtmmm" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:455:23" }
 node: { title: "memset" label: "void* __builtin_memset(void*, int, unsigned int)\n<built-in>" shape : ellipse }
 edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "memset" }
-node: { title: "_Z13dataslot_readtmmm" label: "uint32_t dataslot_read(uint16_t, uint32_t, uint32_t, uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.h:75:10" shape : ellipse }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z13dataslot_readtmmm" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:467:23" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "memset" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL7put_lbaP10ide_configm" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:490:10" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z12ide_set_regsP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:498:16" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z12HPS_EnableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:49:14" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:50:19" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:51:19" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL7put_lbaP10ide_configm" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:478:10" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:479:13" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z12ide_set_regsP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:486:16" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z12HPS_EnableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:51:14" }
 edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:52:19" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z29HPS_fpga_spi_fast_block_writePKtm" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:53:31" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z13HPS_DisableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:54:15" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z12HPS_EnableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:49:14" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:50:19" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:51:19" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:53:19" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:54:19" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z29HPS_fpga_spi_fast_block_writePKtm" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:55:31" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z13HPS_DisableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:56:15" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z12HPS_EnableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:51:14" }
 edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:52:19" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z29HPS_fpga_spi_fast_block_writePKtm" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:53:31" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z13HPS_DisableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:54:15" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z12ide_set_regsP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:505:16" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:529:12" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:53:19" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:54:19" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z29HPS_fpga_spi_fast_block_writePKtm" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:55:31" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z13HPS_DisableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:56:15" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z12ide_set_regsP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:493:16" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:517:12" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:449:13" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z13dataslot_readtmmm" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:455:23" }
 edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "memset" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z13dataslot_readtmmm" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:467:23" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "memset" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z12HPS_EnableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:74:14" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z12HPS_EnableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:75:14" }
 edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:92:21" }
 edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:92:21" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z13HPS_DisableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:77:15" }
-node: { title: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" label: "void process_write(ide_config*, int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:544:13" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" targetname: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL7get_lbaP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:546:24" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" targetname: "_Z12ide_set_regsP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:561:15" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" targetname: "_Z12HPS_EnableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:74:14" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" targetname: "_Z13HPS_DisableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:78:15" }
+node: { title: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" label: "void process_write(ide_config*, int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:532:13" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" targetname: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL7get_lbaP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:534:24" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" targetname: "_Z12ide_set_regsP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:547:15" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" targetname: "_Z12HPS_EnableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:75:14" }
 edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:92:21" }
 edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:92:21" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" targetname: "_Z13HPS_DisableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:77:15" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" targetname: "_Z12HPS_EnableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:60:14" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:61:19" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:62:19" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" targetname: "_Z13HPS_DisableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:78:15" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" targetname: "_Z12HPS_EnableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:62:14" }
 edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:63:19" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" targetname: "_Z28HPS_fpga_spi_fast_block_readPtmb" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:64:30" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" targetname: "_Z13HPS_DisableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:65:15" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:64:19" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:65:19" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" targetname: "_Z28HPS_fpga_spi_fast_block_readPtmb" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:66:30" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" targetname: "_Z13HPS_DisableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:67:15" }
 node: { title: "_Z14dataslot_writetmmm" label: "uint32_t dataslot_write(uint16_t, uint32_t, uint32_t, uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.h:76:10" shape : ellipse }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" targetname: "_Z14dataslot_writetmmm" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:540:24" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" targetname: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL7put_lbaP10ide_configm" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:587:11" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" targetname: "_Z12ide_set_regsP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:594:16" }
-node: { title: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" label: "int handle_hdd(ide_config*)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:600:12" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "_Z12HPS_EnableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:49:14" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:50:19" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:51:19" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" targetname: "_Z14dataslot_writetmmm" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:528:24" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" targetname: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL7put_lbaP10ide_configm" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:572:11" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" targetname: "_Z12ide_set_regsP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:579:16" }
+node: { title: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" label: "int handle_hdd(ide_config*)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:585:12" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "_Z12HPS_EnableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:51:14" }
 edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:52:19" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "_Z29HPS_fpga_spi_fast_block_writePKtm" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:53:31" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "_Z13HPS_DisableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:54:15" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "_Z12ide_set_regsP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:613:15" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:617:15" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:622:15" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:626:16" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:631:16" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:636:16" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:645:13" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "_Z12ide_set_regsP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:647:15" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:651:13" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "_Z12ide_set_regsP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:672:15" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:676:13" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "_Z12ide_set_regsP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:678:15" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL16ide_set_geometryP7drive_ttt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:682:19" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "_Z12ide_set_regsP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:684:15" }
-edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:688:13" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:53:19" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "_Z17HPS_fpga_spi_fastt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:54:19" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "_Z29HPS_fpga_spi_fast_block_writePKtm" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:55:31" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "_Z13HPS_DisableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:56:15" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "_Z12ide_set_regsP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:598:15" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:602:15" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL12process_readP10ide_configi" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:607:15" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:611:16" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:616:16" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL13process_writeP10ide_configi" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:621:16" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:630:13" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "_Z12ide_set_regsP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:632:15" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:636:13" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "_Z12ide_set_regsP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:657:15" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:661:13" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "_Z12ide_set_regsP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:663:15" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL16ide_set_geometryP7drive_ttt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:667:19" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "_Z12ide_set_regsP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:669:15" }
+edge: { sourcename: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:673:13" }
 node: { title: "_Z13calc_geometryP7hdfTYPE" label: "void calc_geometry(hdfTYPE*)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:130:6" }
 node: { title: "_Z16get_rdb_geometryP7hdfTYPE" label: "void get_rdb_geometry(hdfTYPE*)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:160:6" }
-edge: { sourcename: "_Z16get_rdb_geometryP7hdfTYPE" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:168:13" }
-edge: { sourcename: "_Z16get_rdb_geometryP7hdfTYPE" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:171:14" }
-edge: { sourcename: "_Z16get_rdb_geometryP7hdfTYPE" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:177:13" }
+edge: { sourcename: "_Z16get_rdb_geometryP7hdfTYPE" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:168:13" }
+edge: { sourcename: "_Z16get_rdb_geometryP7hdfTYPE" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:171:14" }
+edge: { sourcename: "_Z16get_rdb_geometryP7hdfTYPE" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:177:13" }
 edge: { sourcename: "_Z16get_rdb_geometryP7hdfTYPE" targetname: "_Z13calc_geometryP7hdfTYPE" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:178:16" }
 node: { title: "_Z14guess_geometryP7hdfTYPE" label: "void guess_geometry(hdfTYPE*)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:182:6" }
 edge: { sourcename: "_Z14guess_geometryP7hdfTYPE" targetname: "_Z13dataslot_readtmmm" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:190:16" }
-edge: { sourcename: "_Z14guess_geometryP7hdfTYPE" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:193:14" }
-edge: { sourcename: "_Z14guess_geometryP7hdfTYPE" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:198:14" }
+edge: { sourcename: "_Z14guess_geometryP7hdfTYPE" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:198:14" }
 edge: { sourcename: "_Z14guess_geometryP7hdfTYPE" targetname: "_Z16get_rdb_geometryP7hdfTYPE" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:199:20" }
-edge: { sourcename: "_Z14guess_geometryP7hdfTYPE" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:224:13" }
+edge: { sourcename: "_Z14guess_geometryP7hdfTYPE" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:224:13" }
 edge: { sourcename: "_Z14guess_geometryP7hdfTYPE" targetname: "_Z13calc_geometryP7hdfTYPE" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:228:16" }
-edge: { sourcename: "_Z14guess_geometryP7hdfTYPE" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:229:13" }
+edge: { sourcename: "_Z14guess_geometryP7hdfTYPE" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:229:13" }
 node: { title: "_Z11ide_img_setmtiiii" label: "void ide_img_set(uint32_t, uint16_t, int, int, int, int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:273:6" }
+edge: { sourcename: "_Z11ide_img_setmtiiii" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:277:12" }
+edge: { sourcename: "_Z11ide_img_setmtiiii" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:282:12" }
 node: { title: "_Z13dataslot_sizet" label: "uint32_t dataslot_size(uint16_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.h:72:10" shape : ellipse }
 edge: { sourcename: "_Z11ide_img_setmtiiii" targetname: "_Z13dataslot_sizet" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:291:32" }
 edge: { sourcename: "_Z11ide_img_setmtiiii" targetname: "_Z13dataslot_sizet" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:296:29" }
-edge: { sourcename: "_Z11ide_img_setmtiiii" targetname: "_Z12HPS_EnableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:39:14" }
+edge: { sourcename: "_Z11ide_img_setmtiiii" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:40:12" }
+edge: { sourcename: "_Z11ide_img_setmtiiii" targetname: "_Z12HPS_EnableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:41:14" }
 edge: { sourcename: "_Z11ide_img_setmtiiii" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:97:30" }
-edge: { sourcename: "_Z11ide_img_setmtiiii" targetname: "_Z7spi32_wm" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:41:9" }
+edge: { sourcename: "_Z11ide_img_setmtiiii" targetname: "_Z7spi32_wm" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:43:9" }
 edge: { sourcename: "_Z11ide_img_setmtiiii" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:92:21" }
-edge: { sourcename: "_Z11ide_img_setmtiiii" targetname: "_Z13HPS_DisableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:43:15" }
-edge: { sourcename: "_Z11ide_img_setmtiiii" targetname: "_Z12HPS_EnableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:39:14" }
+edge: { sourcename: "_Z11ide_img_setmtiiii" targetname: "_Z13HPS_DisableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:45:15" }
+edge: { sourcename: "_Z11ide_img_setmtiiii" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:40:12" }
+edge: { sourcename: "_Z11ide_img_setmtiiii" targetname: "_Z12HPS_EnableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:41:14" }
 edge: { sourcename: "_Z11ide_img_setmtiiii" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:97:30" }
-edge: { sourcename: "_Z11ide_img_setmtiiii" targetname: "_Z7spi32_wm" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:41:9" }
+edge: { sourcename: "_Z11ide_img_setmtiiii" targetname: "_Z7spi32_wm" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:43:9" }
 edge: { sourcename: "_Z11ide_img_setmtiiii" targetname: "_Z12HPS_fpga_spit" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/hps/spi.h:92:21" }
-edge: { sourcename: "_Z11ide_img_setmtiiii" targetname: "_Z13HPS_DisableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:43:15" }
+edge: { sourcename: "_Z11ide_img_setmtiiii" targetname: "_Z13HPS_DisableIOv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:45:15" }
 edge: { sourcename: "_Z11ide_img_setmtiiii" targetname: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL16ide_set_geometryP7drive_ttt" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:308:20" }
-edge: { sourcename: "_Z11ide_img_setmtiiii" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:395:12" }
-node: { title: "_Z6ide_ioii" label: "void ide_io(int, int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:695:6" }
-edge: { sourcename: "_Z6ide_ioii" targetname: "_Z12ide_set_regsP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:708:16" }
-edge: { sourcename: "_Z6ide_ioii" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:710:14" }
-edge: { sourcename: "_Z6ide_ioii" targetname: "_Z12ide_get_regsP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:716:15" }
-edge: { sourcename: "_Z6ide_ioii" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:718:13" }
-edge: { sourcename: "_Z6ide_ioii" targetname: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:722:45" }
-edge: { sourcename: "_Z6ide_ioii" targetname: "_Z12ide_set_regsP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:730:16" }
-edge: { sourcename: "_Z6ide_ioii" targetname: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:724:24" }
-edge: { sourcename: "_Z6ide_ioii" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:735:13" }
-edge: { sourcename: "_Z6ide_ioii" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:736:13" }
-edge: { sourcename: "_Z6ide_ioii" targetname: "_Z12ide_set_regsP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:740:15" }
-edge: { sourcename: "_Z6ide_ioii" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:747:14" }
-edge: { sourcename: "_Z6ide_ioii" targetname: "_Z12ide_get_regsP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:755:15" }
-edge: { sourcename: "_Z6ide_ioii" targetname: "_Z12ide_set_regsP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:763:15" }
-node: { title: "_Z18ide_is_placeholderi" label: "int ide_is_placeholder(int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:769:5" }
-node: { title: "_Z9ide_resetPh" label: "void ide_reset(uint8_t*)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:774:6" }
-node: { title: "_Z8ide_openht" label: "int ide_open(uint8_t, uint16_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:787:5" }
-edge: { sourcename: "_Z8ide_openht" targetname: "_Z13dataslot_sizet" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:793:27" }
-edge: { sourcename: "_Z8ide_openht" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:794:12" }
-edge: { sourcename: "_Z8ide_openht" targetname: "_Z14guess_geometryP7hdfTYPE" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:795:16" }
-edge: { sourcename: "_Z8ide_openht" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:796:12" }
-edge: { sourcename: "_Z8ide_openht" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:797:12" }
-edge: { sourcename: "_Z8ide_openht" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:798:12" }
-edge: { sourcename: "_Z8ide_openht" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:799:12" }
-edge: { sourcename: "_Z8ide_openht" targetname: "_Z11ide_img_setmtiiii" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:805:13" }
+edge: { sourcename: "_Z11ide_img_setmtiiii" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:382:12" }
+node: { title: "_Z6ide_ioii" label: "void ide_io(int, int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:680:6" }
+edge: { sourcename: "_Z6ide_ioii" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:687:27" }
+edge: { sourcename: "_Z6ide_ioii" targetname: "_Z12ide_set_regsP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:694:16" }
+edge: { sourcename: "_Z6ide_ioii" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:699:27" }
+edge: { sourcename: "_Z6ide_ioii" targetname: "_Z12ide_get_regsP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:701:15" }
+edge: { sourcename: "_Z6ide_ioii" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:702:13" }
+edge: { sourcename: "_Z6ide_ioii" targetname: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:706:54" }
+edge: { sourcename: "_Z6ide_ioii" targetname: "_Z12ide_set_regsP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:713:16" }
+edge: { sourcename: "_Z6ide_ioii" targetname: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_ZL10handle_hddP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:708:24" }
+edge: { sourcename: "_Z6ide_ioii" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:718:27" }
+edge: { sourcename: "_Z6ide_ioii" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:719:13" }
+edge: { sourcename: "_Z6ide_ioii" targetname: "_Z12ide_set_regsP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:723:15" }
+edge: { sourcename: "_Z6ide_ioii" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:730:14" }
+edge: { sourcename: "_Z6ide_ioii" targetname: "_Z12ide_get_regsP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:738:15" }
+edge: { sourcename: "_Z6ide_ioii" targetname: "_Z12ide_set_regsP10ide_config" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:746:15" }
+node: { title: "_Z18ide_is_placeholderi" label: "int ide_is_placeholder(int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:752:5" }
+node: { title: "_Z9ide_resetPh" label: "void ide_reset(uint8_t*)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:757:6" }
+node: { title: "_Z8ide_openht" label: "int ide_open(uint8_t, uint16_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:770:5" }
+edge: { sourcename: "_Z8ide_openht" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:773:12" }
+edge: { sourcename: "_Z8ide_openht" targetname: "_Z13dataslot_sizet" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:777:32" }
+edge: { sourcename: "_Z8ide_openht" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:778:12" }
+edge: { sourcename: "_Z8ide_openht" targetname: "_Z14guess_geometryP7hdfTYPE" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:779:16" }
+edge: { sourcename: "_Z8ide_openht" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:780:12" }
+edge: { sourcename: "_Z8ide_openht" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:781:12" }
+edge: { sourcename: "_Z8ide_openht" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:782:12" }
+edge: { sourcename: "_Z8ide_openht" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:783:12" }
+edge: { sourcename: "_Z8ide_openht" targetname: "_Z11ide_img_setmtiiii" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:789:13" }
+node: { title: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:_GLOBAL__sub_I_ide_inst" label: "cpp)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/HDD/ide.cpp:792:1" }
 }

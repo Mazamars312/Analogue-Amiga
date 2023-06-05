@@ -53,6 +53,8 @@ module agnus_beamcounter
 	output reg        vbl_int,        // vertical interrupt request (for Paula)
 	output      [8:0] htotal_out,     // video line length
 	output            harddis_out,
+	
+	output reg 			pal,	// pal mode switch
 	output            varbeamen_out
 );
 
@@ -161,7 +163,6 @@ always @(posedge clk) begin
 end
 
 //BEAMCON0 register
-reg pal;	// pal mode switch
 always @(posedge clk) begin
 	if (clk7_en) begin
 		if (reset)

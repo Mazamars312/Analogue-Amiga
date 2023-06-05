@@ -1,2 +1,0 @@
-../lib/strcat.c:10:7:strcat	0	static
-../lib/strcat.c:21:7:strncat	0	static

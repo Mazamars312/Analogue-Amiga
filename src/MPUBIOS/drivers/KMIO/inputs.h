@@ -58,6 +58,7 @@ extern unsigned int mouse_counter;
 extern signed short x_count;
 extern signed short y_count;
 
+void input_allow_osd(bool keyboard_active);
 void input_update();
 void input_setup();
 void input_reg_update();
