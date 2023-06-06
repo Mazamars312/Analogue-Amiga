@@ -2,16 +2,15 @@ Analogue Pocket - Commodore Amiga - 0.1.0
 =========================================
 
 The Commodore Amiga was a personal computer that replaced the well-loved
-Commodore C64 in the Commodore product line. It also was one of the many 68K
+Commodore 64 in the Commodore product line. It also was one of the many 68K-based
 personal computers that showed that this CPU was a powerhouse when integrated
-with great hardware beside it.
+with additional great hardware.
 
-This is based on the Mister Github of the Amiga Mist project (Also known as the
-minimig) and the VexRISCV RISC-V chip for the Media Processing Unit (MPU)
+This is based on the MiSTer Github of the Amiga MiST project (Also known as
+Minimig) and the VexRISCV RISC-V chip for the Media Processing Unit (MPU)
 between the core and APF framework for floppy, hard drive and CD-ROM access.
 
-This core works bet with the [Amiga-Vision](https://amiga.vision/) images to be
-released on the 6/6/2023!
+This core works best with the [AmigaVision](https://amiga.vision/) configurations.
 
 What can it do?
 ---------------
@@ -30,48 +29,42 @@ What can it do?
 
 -   Turbo boot
 
--   It can Read and write to ADF disk images (Floppy disks).
+-   It can Read and write to ADF disk images (Floppy disks)
 
 -   Can also access up to 4 Harddrive HDF files
 
 How to setup
 ------------
 
--   Place your ADF and HDF images in the `\Asset\amiga\common` folder.
+-   Place your ADF and HDF images in the `\Assets\amiga\common` folder.
 
--   Place the Kickstart BIOS rom in the `\Asset\amiga\common` folder (Any
+-   Place the Kickstart BIOS rom in the `\Assets\amiga\common` folder (Any
     original 256/512/1024kB firmware ROM will work - no encrypted BIOSes yet).
-    Currently the MagaAGS-Kickstart.rom is the default rom
+    Currently `MegaAGS-Kickstart.rom` is the default rom
 
--   Make sure that the `\Asset\amiga\Mazamars312.Amiga\` Folder has the
+-   Make sure that the `\Assets\amiga\Mazamars312.Amiga\` Folder has the
     `mpu.bin` file - this is supplied and should already be there.
 
 -   When changing system configurations, you must select the "CPU reset" in the
     menu to apply the config.
 
 -   All harddrive and floppy images are to be placed into the
-    `\Asset\amiga\common`
+    `\Assets\amiga\common`
 
--   For Harddrive images - In the \\Cores\\Mazamars312.Amiga\\ folder the
-    data.json file would need to be edited with the files names for each HDF file placed in data slots
-    310-313. Currently at the moment the Amiga-Vision images are referenced here for now. But change the names for other harddrives
-    These cannot be changed on the fly due to how the HDF images work in the core.
-	These are also limited to 4GBytes in size due to the APF restrictions
+-   For Harddrive images - In the `\\Cores\\Mazamars312.Amiga\\` folder the
+    `data.json` file would need to have the files names placed in data slots
+    310-313. Currently the AmigaVision images are referenced here for now.
+    These cannot be changed on the fly due to how the images work in the core.
 
-Ho can I get Amiga Vision running on this core?
+How can I get AmigaVision running on this core?
 -----------------------------------------------
 
 For this you are required to have the following 3 files to place in to the
-`\Asset\amiga\common` folder
+`\Assets\amiga\common` folder
 
--   The [Amiga-Vision](https://amiga.vision/) Kick-start ROM -
-    MegaAGS-Kickstart.rom
-
--   The [Amiga-Vision](https://amiga.vision/) Main Hard drive image - MegaAGS-Pocket.hdf
--   The [Amiga-Vision](https://amiga.vision/) Save Hard drive image - MegaAGS-Saves.hdf
-
--   There could be another Hard drive image coming out later and this would
-    require a change to the data.json to add this file to the 4 HDD locations
+-   The Kickstart ROM - MegaAGS-Kickstart.rom
+-   The Main Hard drive image - MegaAGS-Pocket.hdf
+-   The Save Hard drive image - MegaAGS-Saves.hdf
 
 Is the best way to play this using the dock?
 --------------------------------------------
@@ -87,7 +80,7 @@ Is the best way to play this using the dock?
 -   Be aware that you will need a controller to access the Menu if you want to
     make changes.
 
--   There is a bug being address by Analogue on the output at this moment and we
+-   There is a bug being addressed by Analogue on the output at this moment and we
     hope they can report back on what is causing the video to move over on
     random lines.
 
@@ -107,7 +100,7 @@ Menu Listing
 -   FDD/HDD LED - this places a FDD or HDD activity light on the screen. The HDD
     light stays on some times unknown why yet.
 
--   Installed Floppy Drives - this will allow you to select how many drives are
+-   Floppy Drives - this will allow you to select how many drives are
     installed, and delimit the transfer rate of the Amiga core.
 
 -   Port 1/Port 2 - This allows you to change and swap the controller ports with
@@ -126,11 +119,11 @@ Menu Listing
 -   CPU Type - Allows you which type of CPU you want installed 68000, 68010,
     68020 with no cache, 68020 with cache.
 
--   Memory Chip - Size of the Chip memory.
+-   Memory: Chip - Size of the Chip memory.
 
--   Memory Slow - Size of the slow memory.
+-   Memory: Slow - Size of the slow memory.
 
--   Memory Fast - on the 68000 and 68010 CPU this is none/2/4/8MB, on the 68020
+-   Memory: Fast - on the 68000 and 68010 CPU this is none/2/4/8MB, on the 68020
     this is 16 or 32.
 
 -   Audio Filter - there are 4 options - A500 or A1200 filters with or without
@@ -148,14 +141,14 @@ Is there an emulated mouse while not connected to the dock?
 Is there an emulated Keyboard?
 ------------------------------
 
--   Yes, now there is!!! Press the select button and a OSD keyboard will come
-    up. There are no double pressed buttons yet tho
+-   Yes, now there is! Press the Select button and a OSD keyboard will come
+    up. There are no double pressed buttons yet.
 
 Can we write to floppy disks at this moment?
 --------------------------------------------
 
 -   Yes you now can. So make sure you want to write to your images when they are
-    on here!!!
+    on here!
 
 Wait, you have another CPU in the FPGA?
 ---------------------------------------
@@ -164,9 +157,12 @@ Wait, you have another CPU in the FPGA?
     interface with the APF interface to the HPS bus currently in the MiSTer
     Amiga core.
 
-Specs: \* Running at 74.2MHz (Same as the APF bus). \* Connected to the core via
-a 16bit HPS Bus. \* Two timers - one for interrupts and the other for user
-timing. \* Currently, 128KB of memory/RAM for the MPU's program and buffers
+Specs: 
+
+* Running at 74.2MHz (Same as the APF bus). 
+* Connected to the core via a 16bit HPS Bus. 
+* Two timers - one for interrupts and the other for user timing. 
+* Currently, 128KB of memory/RAM for the MPU's program and buffers
 
 How did you speed up load times
 -------------------------------
@@ -183,13 +179,13 @@ Why are some of the resolutions not correct?
     is 1024x200 or 1024x400
 
 -   Due to memory access, the RTG resolutions will not work on this right now.
-    Also they are hardly used at this moment in the Amiga-vision list of games
+    They are also not used in the AmigaVision list of games
 
 I have game X that does not work!
 ---------------------------------
 
--   From the testing I have been doing, there are multiple configurations, BIOS
-    and even ADF Images that you need to try.
+-   A few games only work from ADF floppy images with the exact correct version of 
+    Kickstart.
 
 -   The main goal of this project was getting an MPU Framework so external media
     can be accessed, and help giving developers some tools to help create more
@@ -201,8 +197,8 @@ I have game X that does not work!
 -   For multi-disk games, also try putting disks in other drives. Make sure you
     change the amount of installed drives to the amount needed. (Up to 2)
 
--   Some games like another world does not work on the AmigaVision hardrive image 
-    right now. We are working on this issue for the next build
+-   Some games, like "Another World", do not work on the AmigaVision + Analogue
+    Pocket right now. Report any bugs you find!
 
 Change since 0.0.6 to 0.1.0
 ---------------------------
@@ -221,7 +217,7 @@ Change since 0.0.6 to 0.1.0
 -   A OSD Keyboard on the pocket when you are playing on pocket mode.
 
 -   Null modem support using a Gameboy serial cable between two pockets! This
-    could also open up Midi support.
+    could also open up MIDI support.
 
 -   Also a emulated mouse on a analogue joystick in docked mode (This is the
     left thumb stick and the left and right triggers for the mouse clicks)
@@ -257,23 +253,22 @@ What will be the next update?
 
 -   I have to find out why swapping disks will not always work.
 
--   Fix the bugs that cause some games not to boot on the
-    [Amiga-Vision](https://amiga.vision/) - Like Another world and the demo “
-
-Coda by Abyss” I believe this could be a memory issue. However these do work on
-FDD images.
+-   Fix the bugs that cause some games not to boot with the
+    [AmigaVision](https://amiga.vision/) configurations, e.g. Another World and
+	the demo “Coda by Abyss” I believe this could be a memory issue. 
+	However these do work on FDD images for now, if you want to play them.
 
 Credits
 -------
 
 -   This source code is based on Rok Krajnc project (minimig-de1).
 
--   Original minimig sources from Dennis van Weeren with updates by Jakub
+-   Original Minimig sources from Dennis van Weeren with updates by Jakub
     Bednarski are published on Google Code and the Community.
 
--   The [Amiga-Vision](https://amiga.vision/) team - Limi, Optiroc and hitm4n
-    for there help and insight into the amiga and helping debug the pocket at
-    the same time with me,
+-   The [AmigaVision](https://amiga.vision/) team - Limi, Optiroc and hitm4n
+    for their help and insight into the Amiga, and helping debug the Pocket at
+    the same time with me.
 
 -   ARM firmware updates and minimig-tc64 port changes by Christian Vogelsang
     (minimig_tc64) and A.M. Robinson (minimig_tc64).
@@ -291,4 +286,5 @@ Credits
 
 -   Terminator2k2 for his fantastic images for the bootup.
 
--   And many more, so please message me and I would happily add them to this!
+-   And many more, so please message me and I would happily add you to this 
+    if I forgot you!
