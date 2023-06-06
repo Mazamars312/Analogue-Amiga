@@ -36,20 +36,20 @@ What can it do?
 How to setup
 ------------
 
--   Place your ADF and HDF images in the `\Asset\amiga\common` folder.
+-   Place your ADF and HDF images in the `\Assets\amiga\common` folder.
 
--   Place the Kickstart BIOS rom in the `\Asset\amiga\common` folder (Any
+-   Place the Kickstart BIOS rom in the `\Assets\amiga\common` folder (Any
     original 256/512/1024kB firmware ROM will work - no encrypted BIOSes yet).
     Currently `MegaAGS-Kickstart.rom` is the default rom
 
--   Make sure that the `\Asset\amiga\Mazamars312.Amiga\` Folder has the
+-   Make sure that the `\Assets\amiga\Mazamars312.Amiga\` Folder has the
     `mpu.bin` file - this is supplied and should already be there.
 
 -   When changing system configurations, you must select the "CPU reset" in the
     menu to apply the config.
 
 -   All harddrive and floppy images are to be placed into the
-    `\Asset\amiga\common`
+    `\Assets\amiga\common`
 
 -   For Harddrive images - In the `\\Cores\\Mazamars312.Amiga\\` folder the
     `data.json` file would need to have the files names placed in data slots
@@ -60,7 +60,7 @@ How can I get AmigaVision running on this core?
 -----------------------------------------------
 
 For this you are required to have the following 3 files to place in to the
-`\Asset\amiga\common` folder
+`\Assets\amiga\common` folder
 
 -   The Kickstart ROM - MegaAGS-Kickstart.rom
 -   The Main Hard drive image - MegaAGS-Pocket.hdf
