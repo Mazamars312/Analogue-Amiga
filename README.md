@@ -51,10 +51,11 @@ How to setup
 -   All harddrive and floppy images are to be placed into the
     `\Assets\amiga\common`
 
--   For Harddrive images - In the `\\Cores\\Mazamars312.Amiga\\` folder the
-    `data.json` file would need to have the files names placed in data slots
-    310-313. Currently the AmigaVision images are referenced here for now.
-    These cannot be changed on the fly due to how the images work in the core.
+-   For Harddrive images - In the \\Cores\\Mazamars312.Amiga\\ folder the
+    data.json file would need to be edited with the files names for each HDF file placed in data slots
+    310-313. Currently at the moment the Amiga-Vision images are referenced here for now. But change the names for other harddrives
+    These cannot be changed on the fly due to how the HDF images work in the core.
+	These are also limited to 4GBytes in size due to the APF restrictions
 
 How can I get AmigaVision running on this core?
 -----------------------------------------------
