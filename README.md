@@ -2,16 +2,15 @@ Analogue Pocket - Commodore Amiga - 0.1.0
 =========================================
 
 The Commodore Amiga was a personal computer that replaced the well-loved
-Commodore C64 in the Commodore product line. It also was one of the many 68K
+Commodore 64 in the Commodore product line. It also was one of the many 68K-based
 personal computers that showed that this CPU was a powerhouse when integrated
-with great hardware beside it.
+with additional great hardware.
 
-This is based on the MiSTer Github of the Amiga MiST project (Also known as the
-minimig) and the VexRISCV RISC-V chip for the Media Processing Unit (MPU)
+This is based on the MiSTer Github of the Amiga MiST project (Also known as
+Minimig) and the VexRISCV RISC-V chip for the Media Processing Unit (MPU)
 between the core and APF framework for floppy, hard drive and CD-ROM access.
 
-This core works bet with the [AmigaVision](https://amiga.vision/) images to be
-released on the 6/6/2023!
+This core works best with the [AmigaVision](https://amiga.vision/) configurations.
 
 What can it do?
 ---------------
@@ -30,7 +29,7 @@ What can it do?
 
 -   Turbo boot
 
--   It can Read and write to ADF disk images (Floppy disks).
+-   It can Read and write to ADF disk images (Floppy disks)
 
 -   Can also access up to 4 Harddrive HDF files
 
@@ -41,7 +40,7 @@ How to setup
 
 -   Place the Kickstart BIOS rom in the `\Asset\amiga\common` folder (Any
     original 256/512/1024kB firmware ROM will work - no encrypted BIOSes yet).
-    Currently the MegaAGS-Kickstart.rom is the default rom
+    Currently `MegaAGS-Kickstart.rom` is the default rom
 
 -   Make sure that the `\Asset\amiga\Mazamars312.Amiga\` Folder has the
     `mpu.bin` file - this is supplied and should already be there.
@@ -57,7 +56,7 @@ How to setup
     310-313. Currently the AmigaVision images are referenced here for now.
     These cannot be changed on the fly due to how the images work in the core.
 
-Ho can I get AmigaVision running on this core?
+How can I get AmigaVision running on this core?
 -----------------------------------------------
 
 For this you are required to have the following 3 files to place in to the
@@ -158,9 +157,12 @@ Wait, you have another CPU in the FPGA?
     interface with the APF interface to the HPS bus currently in the MiSTer
     Amiga core.
 
-Specs: \* Running at 74.2MHz (Same as the APF bus). \* Connected to the core via
-a 16bit HPS Bus. \* Two timers - one for interrupts and the other for user
-timing. \* Currently, 128KB of memory/RAM for the MPU's program and buffers
+Specs: 
+
+* Running at 74.2MHz (Same as the APF bus). 
+* Connected to the core via a 16bit HPS Bus. 
+* Two timers - one for interrupts and the other for user timing. 
+* Currently, 128KB of memory/RAM for the MPU's program and buffers
 
 How did you speed up load times
 -------------------------------
@@ -177,13 +179,13 @@ Why are some of the resolutions not correct?
     is 1024x200 or 1024x400
 
 -   Due to memory access, the RTG resolutions will not work on this right now.
-    Also they are hardly used at this moment in the Amiga-vision list of games
+    They are also not used in the AmigaVision list of games
 
 I have game X that does not work!
 ---------------------------------
 
--   From the testing I have been doing, there are multiple configurations, BIOS
-    and even ADF Images that you need to try.
+-   A few games only work from ADF floppy images with the exact correct version of 
+    Kickstart.
 
 -   The main goal of this project was getting an MPU Framework so external media
     can be accessed, and help giving developers some tools to help create more
@@ -195,8 +197,8 @@ I have game X that does not work!
 -   For multi-disk games, also try putting disks in other drives. Make sure you
     change the amount of installed drives to the amount needed. (Up to 2)
 
--   Some games like another world does not work on the AmigaVision hardrive image 
-    right now. We are working on this issue for the next build
+-   Some games, like "Another World", do not work on the AmigaVision + Analogue
+    Pocket right now. Report any bugs you find!
 
 Change since 0.0.6 to 0.1.0
 ---------------------------
@@ -215,7 +217,7 @@ Change since 0.0.6 to 0.1.0
 -   A OSD Keyboard on the pocket when you are playing on pocket mode.
 
 -   Null modem support using a Gameboy serial cable between two pockets! This
-    could also open up Midi support.
+    could also open up MIDI support.
 
 -   Also a emulated mouse on a analogue joystick in docked mode (This is the
     left thumb stick and the left and right triggers for the mouse clicks)
@@ -251,21 +253,21 @@ What will be the next update?
 
 -   I have to find out why swapping disks will not always work.
 
--   Fix the bugs that cause some games not to boot on the
-    [AmigaVision](https://amiga.vision/) - Like Another World and the demo 
-    “Coda by Abyss” I believe this could be a memory issue. However these do 
-    work on FDD images.
+-   Fix the bugs that cause some games not to boot with the
+    [AmigaVision](https://amiga.vision/) configurations, e.g. Another World and
+	the demo “Coda by Abyss” I believe this could be a memory issue. 
+	However these do work on FDD images for now, if you want to play them.
 
 Credits
 -------
 
 -   This source code is based on Rok Krajnc project (minimig-de1).
 
--   Original minimig sources from Dennis van Weeren with updates by Jakub
+-   Original Minimig sources from Dennis van Weeren with updates by Jakub
     Bednarski are published on Google Code and the Community.
 
 -   The [AmigaVision](https://amiga.vision/) team - Limi, Optiroc and hitm4n
-    for there help and insight into the Amiga, and helping debug the pocket at
+    for their help and insight into the Amiga, and helping debug the Pocket at
     the same time with me.
 
 -   ARM firmware updates and minimig-tc64 port changes by Christian Vogelsang
@@ -284,4 +286,5 @@ Credits
 
 -   Terminator2k2 for his fantastic images for the bootup.
 
--   And many more, so please message me and I would happily add them to this!
+-   And many more, so please message me and I would happily add you to this 
+    if I forgot you!
