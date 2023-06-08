@@ -67,6 +67,20 @@ For this you are required to have the following 3 files to place in to the
 -   The Main Hard drive image - MegaAGS-Pocket.hdf
 -   The Save Hard drive image - MegaAGS-Saves.hdf
 
+The Recommended setting in the interact menu are as follows:
+
+-   FDD/HDD LED = Off
+-   Port 1/Port 2 = Mouse/CD32PAD
+-   Mouse Speed = 10
+-   System Config = AGA/Turbo/PAL
+-   CPU Type 68020K CPU - No Cache
+-   memory - Chip = 2Mb
+-   memory - Slow = None
+-   memory - Fast = 32Mbytes
+-   Audio Filter = A500/PWM
+
+These can also be defaulted by selecting "Reset all to Default" in the interaction menu
+
 Is the best way to play this using the dock?
 --------------------------------------------
 
@@ -200,6 +214,12 @@ I have game X that does not work!
 
 -   Some games, like "Another World", do not work on the AmigaVision + Analogue
     Pocket right now. Report any bugs you find!
+
+Amiga Vision does not start up and only a black screen is there
+---------------------------------------------------------------
+
+The Amiga Vision requires a 68020K CPU, AGS Chipset and extra memory to run. Make
+sure you do a "Reset all to Default" to atleast get the core to boot.
 
 Change since 0.0.6 to 0.1.0
 ---------------------------
