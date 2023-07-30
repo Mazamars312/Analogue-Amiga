@@ -109,7 +109,7 @@
 		"id": 125,
 		"type": "slider_u32",
 		"enabled": true,
-		"defaultval": "151",
+		"defaultval": "154",
 		"persist": true,
 		"address": "0xA0000000",
 		"mask": "0x00000000",
