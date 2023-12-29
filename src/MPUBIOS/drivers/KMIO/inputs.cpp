@@ -90,10 +90,10 @@ void update_mouse_inputs (){
   if (((CONTROLLER_KEY_REG(4)>>28) == 0x5) && (mouse_counter != (CONTROLLER_KEY_REG(4) & 0x0000FFFF))){
     // the normal mouse access via the dock
     // Right now this is just a shifter Will change this to something more accurate as this causes an issue with the emulated mouse
-    signed short x = (short)((CONTROLLER_JOY_REG(4) & 0x0000FFFF));
-    signed short y = (short)((CONTROLLER_TRIG_REG(4) & 0x0000FFFF));
-    x = x - speed;
-    y = y - speed;
+    signed short x = (short)((CONTROLLER_JOY_REG(4) & 0x0000FF00));
+    signed short y = (short)((CONTROLLER_TRIG_REG(4) & 0x0000FF00));
+    x = x / (speed << 5);
+    y = y / (speed << 5);
     x_count = x_count + ((x < -127) ? -127 : (x > 127) ? 127 : x);
     y_count = y_count + ((y < -127) ? -127 : (y > 127) ? 127 : y);
     HPS_spi_uio_cmd8(UIO_MOUSE_X, x_count);

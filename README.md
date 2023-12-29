@@ -98,6 +98,9 @@ Is the best way to play this using the dock?
 -   There is a bug being addressed by Analogue on the output at this moment and we
     hope they can report back on what is causing the video to move over on
     random lines.
+	
+-   Have fixed up the Mouse input when a joystick was connected to the dock after
+	has been release on the pocket firmware.
 
 Menu Listing
 ------------
@@ -221,6 +224,13 @@ Amiga Vision does not start up and only a black screen is there
 The Amiga Vision requires a 68020K CPU, AGS Chipset and extra memory to run. Make
 sure you do a "Reset all to Default" to atleast get the core to boot.
 
+Change since 0.1.0 to 0.1.2
+---------------------------
+
+-   Just getting the mouse working on the dock 
+
+- 	Thanks to Analogue fixing up the line bug that was found with this core on the dock.
+
 Change since 0.0.6 to 0.1.0
 ---------------------------
 
@@ -264,13 +274,7 @@ Change since 0.0.5 to 0.0.6
 What will be the next update?
 -----------------------------
 
--   Fix up the USB mouse control once we find out what is happening here
-
 -   Clock input for the Amiga to keep its time.
-
--   Fix up the video output on the dock - This looks to be a bug in the Analogue
-    APF on sending the Framebuffer out the HDMI port. They are aware and
-    confirming details for me.
 
 -   I have to find out why swapping disks will not always work.
 
