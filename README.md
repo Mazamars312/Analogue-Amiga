@@ -11,7 +11,7 @@ Will only work on Analogue OS firmware 2.1 and now works with the default AmigaV
 
 Support for >4GB hard drive images LBA48 has been turned on in the MPU and Analogue Firmware and the `data.json` file now has this as the `MegaAGS.hdf` as the default hard drive image to load.
 
-If you are upgrading from an earlier version of the Amiga core with AmigaVision installed: `MegaAGS-Pocket.hdf` is no longer referenced in the data.json file, so if you want to use the smaller image instead of downloading the full version, just rename the image file. But we recommend getting the full version to have access to all the games and demos.
+If you are upgrading from an earlier version of the Amiga core with AmigaVision installed: `MegaAGS-Pocket.hdf` is no longer referenced in the `data.json` file, so if you want to use the smaller setup instead of downloading the full version, just rename the image file. But we recommend getting the full version to have access to all the games and demos.
 
 What can it do?
 ---------------
@@ -30,7 +30,7 @@ What can it do?
 
 -   Turbo boot
 
--   LBA48 enabled - It can read and write to ADF disk images (Floppy disks) up to 2Tbytes now!
+-   LBA48 enabled - It can read and write to ADF disk images (floppy disks) up to 2Tbytes now!
 
 -   Can also access up to 4 Harddrive HDF files
 
@@ -47,7 +47,7 @@ How to setup
 
 -   All harddrive and floppy images are to be placed into the `\Assets\amiga\common`
 
--   For harddrive images - In the \\Cores\\Mazamars312.Amiga\\ folder the data.json file would need to be edited with the files names for each HDF file placed in data slots 310-313. By default, the AmigaVision images are referenced, but you can change the names for other hard drives. These cannot be changed on the fly due to how the HDF images work in the core. They are now limited to 2TB drives. Anything larger will need different sector sizes to run.
+-   For harddrive images - In the `\Cores\Mazamars312.Amiga\` folder, the `data.json` file would need to be edited with the files names for each HDF file placed in data slots 310-313. By default, the AmigaVision images are referenced, but you can change the names for other hard drives. These cannot be changed on the fly due to how the HDF images work in the core. They are now limited to 2TB drives. Anything larger will need different sector sizes to run.
 
 -   If HDD3 or HDD4 are needed make sure your Kickstart has been patched to support this, or install AtapiMagic/IDEFix97. This is not a Pocket Core/MPU issue, but a limitation of AmigaOS from back in the day.
 
@@ -56,11 +56,11 @@ How can I get AmigaVision running on this core?
 
 For this you are required to have the following 3 files to place in to the `\Assets\amiga\common` folder
 
--   The Kickstart ROM - MegaAGS-Kickstart.rom
+-   The Kickstart ROM - `MegaAGS-Kickstart.rom`
 
--   The Main Hard drive image - MegaAGS.hdf
+-   The Main Hard drive image - `MegaAGS.hdf`
 
--   The Save Hard drive image - MegaAGS-Saves.hdf
+-   The Save Hard drive image - `MegaAGS-Saves.hdf`
 
 The recommended settings in the interact menu are as follows:
 
@@ -189,7 +189,7 @@ I have game X that does not work!
 
 -   For multi-disk games, also try putting disks in other drives. Make sure you change the amount of installed drives to the amount needed. (Up to 2)
 
--   Found that there ICACHE system in the core was causing re-reads while a DMA was happening. Have corrected this and now the AmigaVision games work as well as they do on MiSTer.
+-   Found that the ICACHE system in the core was causing re-reads while a DMA was happening. Have corrected this and now the AmigaVision games work as well as they do on MiSTer.
 
 AmigaVision does not start up and only a black screen is there
 ---------------------------------------------------------------
