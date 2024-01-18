@@ -50,10 +50,12 @@ uint8_t dataslot_status(){
 uint32_t dataslot_search_id(uint16_t value)
 {
     int i = 0;
+    uint32_t temp;
     // while loop from 1 to 5
     do  {
-      if (DATASLOT_RAM_ACCESS(i<<2) == value){
-        return (i);
+      temp = DATASLOT_RAM_ACCESS(i<<2) & 0xffff;
+      if (temp == value){
+        return (i & 0xFFFF);
       };
       i=i+2;
     } while (i <= 0x100);
@@ -73,6 +75,21 @@ uint32_t dataslot_size(uint16_t value)
   return (size);
 }
 
+
+uint32_t dataslot_size_lba64(uint16_t value)
+{
+  int i;
+  uint32_t size;
+  riscprintf("lba64 number value: %d \r\n", value);
+  i = dataslot_search_id(value);
+  riscprintf("lba64 number slot: %d \r\n", i);
+  size = (DATASLOT_RAM_ACCESS((i)<<2) >> 16) & 0x1ff;
+  riscprintf("lba64 1st number size: %d \r\n", size);
+  size = (size << 24) | (DATASLOT_RAM_ACCESS((i+1)<<2) >> 9);
+  riscprintf("lba64 2nd number size: %d \r\n", size);
+  return (size);
+}
+
 // This checks the reg in the system on if there was an apf dataslot update. Once this reg is read it is cleared by hardware
 bool dataslot_updated()
 {
@@ -83,15 +100,29 @@ bool dataslot_updated()
 // The WRITE_* are the regs in the core for the location of the dataslow wanted to be read
 // This is used for block data with no pointer changes
 
-uint32_t dataslot_read(uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length)
+uint32_t dataslot_read(uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length, bool lba48)
 {
-
+  
   WRITE_TARGET_DATASLOT_ID(0) = dataslot;
   WRITE_TARGET_DATASLOT_BRIDGE_ADD(0) = address;
+  if (lba48) {
+    WRITE_TARGET_DATASLOT_OFFSET_LBA48HIG(0) = ((offset >> 23) & 0x1FF);
+    WRITE_TARGET_DATASLOT_OFFSET(0) = ((offset & 0x7FFFFF) << 9);
+    if (((offset >> 23) & 0x1FF) > 0) mainprintf("APF APF48 read overboard\r\n");
+  } else{
+    WRITE_TARGET_DATASLOT_OFFSET(0) = offset;
+  }
   WRITE_TARGET_DATASLOT_LENGTH(0) = length;
-  WRITE_TARGET_DATASLOT_OFFSET(0) = offset;
-  WRITE_TARGET_DATASLOT_CONTROL(0) = TARGET_DATASLOT_READ_REG;
-  mainprintf("APF read: %d, %0.4x, %0.4x, %0.4x, %d\r\n", dataslot, address, WRITE_TARGET_DATASLOT_BRIDGE_ADD(0), offset, length);
+  if (lba48) {
+    WRITE_TARGET_DATASLOT_CONTROL(0) = TARGET_DATASLOT_LBA_48_READ_REG;
+  } else{
+    WRITE_TARGET_DATASLOT_CONTROL(0) = TARGET_DATASLOT_READ_REG;
+  }
+  if (lba48) {
+    mainprintf("APF APF48 read: %d, %0.4x, %0.4x, %d\r\n", dataslot, address, offset, length);
+  } else{
+    mainprintf("APF read: %d, %0.4x, %0.4x, %d\r\n", dataslot, address, offset, length);
+  }
   int apf_codes;
   int i = 0;
 
@@ -123,14 +154,27 @@ uint32_t dataslot_read(uint16_t dataslot, uint32_t address, uint32_t offset, uin
 // This will send the write command to the APF and send back a error if true
 // This is used for block data with no pointer changes
 
-uint32_t dataslot_write(uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length)
+uint32_t dataslot_write(uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length, bool lba48)
 {
   WRITE_TARGET_DATASLOT_ID(0) = dataslot;
   WRITE_TARGET_DATASLOT_BRIDGE_ADD(0) = address;
+  if (lba48) {
+    WRITE_TARGET_DATASLOT_OFFSET_LBA48HIG(0) = ((offset >> 23) & 0x1FF);
+    WRITE_TARGET_DATASLOT_OFFSET(0) = ((offset & 0x7FFFFF) << 9);
+  } else{
+    WRITE_TARGET_DATASLOT_OFFSET(0) = offset;
+  }
   WRITE_TARGET_DATASLOT_LENGTH(0) = length;
-  WRITE_TARGET_DATASLOT_OFFSET(0) = offset;
-  WRITE_TARGET_DATASLOT_CONTROL(0) = TARGET_DATASLOT_WRITE_REG;
+  if (lba48) {
+    WRITE_TARGET_DATASLOT_CONTROL(0) = TARGET_DATASLOT_LBA_48_WRITE_REG;
+  } else{
+    WRITE_TARGET_DATASLOT_CONTROL(0) = TARGET_DATASLOT_WRITE_REG;
+  }
+  if (lba48) {
+  mainprintf("APF APF48 Write: %d, %0.4x, %0.4x, %d\r\n", dataslot, address, offset, length);
+  } else{
   mainprintf("APF Write: %d, %0.4x, %0.4x, %d\r\n", dataslot, address, offset, length);
+  }
   int apf_codes;
 	do
 	{

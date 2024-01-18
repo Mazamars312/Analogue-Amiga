@@ -1,6 +1,6 @@
 graph: { title: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/seektime.cpp"
 node: { title: "_Z14get_cd_seek_msii" label: "int get_cd_seek_ms(int, int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/seektime.cpp:63:5" }
-node: { title: "riscprintff_" label: ")\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/riscprintf.h:71:5" shape : ellipse }
-edge: { sourcename: "_Z14get_cd_seek_msii" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/seektime.cpp:122:12" }
-edge: { sourcename: "_Z14get_cd_seek_msii" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/seektime.cpp:123:12" }
+node: { title: "riscprintf_" label: ")\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/riscprintf.h:71:5" shape : ellipse }
+edge: { sourcename: "_Z14get_cd_seek_msii" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/seektime.cpp:122:12" }
+edge: { sourcename: "_Z14get_cd_seek_msii" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/seektime.cpp:123:12" }
 }

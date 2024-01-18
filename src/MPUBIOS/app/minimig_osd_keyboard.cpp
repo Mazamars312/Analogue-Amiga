@@ -711,7 +711,7 @@ void OSD_Keyboard_process(){
 
     if(keyboard_is_showing){
         uint32_t tmp = CORE_OUTPUT_REGISTOR();
-        tmp = tmp | 0x00000010;
+        tmp = tmp | 0x00000030;
         CORE_OUTPUT_REGISTOR() = tmp;
         bool enable = 0;
         if(updated_keyboard){
@@ -749,7 +749,7 @@ void OSD_Keyboard_process(){
     } else {    
         OsdDisable();
         uint32_t tmp = CORE_OUTPUT_REGISTOR();
-        tmp = tmp & 0xFFFFFFEF;
+        tmp = tmp & 0xFFFFFFCF;
         CORE_OUTPUT_REGISTOR() = tmp;
     }
 

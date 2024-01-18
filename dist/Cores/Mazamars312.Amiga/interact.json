@@ -239,7 +239,7 @@
 			]
 		},
 		{
-        "name": "memory - slow",
+        "name": "Memory: Slow",
         "id": 130,
         "type": "list",
         "enabled": true,
@@ -327,6 +327,34 @@
 			{
 				"value": "0x000E",
 				"name": "A1200/PWM"
+			}
+			]
+		},
+		{
+			"name": "Audio Mix",
+			"id": 132,
+			"type": "list",
+			"enabled": true,
+			"persist": true,
+			"address": "0xf000001C",
+			"defaultval": "0x0080",
+			"mask": "0xFFFFFF3F",
+			"options": [
+			{
+				"value": "0x0000",
+				"name": "0%"
+			},
+			{
+				"value": "0x0040",
+				"name": "25%"
+			},
+			{
+				"value": "0x0080",
+				"name": "50%"
+			},
+			{
+				"value": "0x00C0",
+				"name": "75%"
 			}
 			]
 		}

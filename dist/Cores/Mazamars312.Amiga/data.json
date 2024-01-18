@@ -8,7 +8,7 @@
         "id": "200",
         "required": true,
         "parameters": 2,
-        "filename": "mpu.bin",
+        "filename": "amiga_mpu_bios.bin",
         "extensions": [
 		"bin"
 		],
@@ -36,7 +36,7 @@
         "extensions": [
 		"hdf"
 		],
-        "filename": "MegaAGS-Pocket.hdf"
+        "filename": "MegaAGS.hdf"
       },
 	  {
         "name": "harddrive - IDE 1",

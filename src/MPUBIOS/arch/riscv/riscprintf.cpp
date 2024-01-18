@@ -813,6 +813,7 @@ static int _riscvsnprintf(out_fct_type out, char* buffer, const size_t maxlen, c
 
 int riscprintf_(const char* format, ...)
 {
+  return 0;
   va_list va;
   va_start(va, format);
   char buffer[1];
@@ -826,3 +827,5 @@ int riscprintff_(const char* format, ...) // this kills the print
 
   return 0;
 }
+
+

@@ -62,8 +62,8 @@
 
  void core_reg_update(){
 	uint32_t tmp = CORE_OUTPUT_REGISTOR();
-    tmp = tmp & 0xFFFFFFF0;
-    CORE_OUTPUT_REGISTOR() = tmp | (AFP_REGISTOR(7) & 0x0000000f);
+    tmp = tmp & 0xFFFFFF30;
+    CORE_OUTPUT_REGISTOR() = tmp | (AFP_REGISTOR(7) & 0x000000cf);
 
  };
 

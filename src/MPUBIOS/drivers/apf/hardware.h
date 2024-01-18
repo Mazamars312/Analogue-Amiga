@@ -41,6 +41,7 @@
 #define RAMBUFFER_BASE            0x00008000
 
 #define SYS_CLOCK  7425 // This is the CPU clock speed in a int size 74.2mhz
+// #define UART_RATE  1152 // This is the UART Rate shifted right by 2
 #define UART_RATE  4608 // This is the UART Rate shifted right by 2
 
 #define RESTARTBASE 0xFFFFFFA4

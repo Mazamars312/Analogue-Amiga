@@ -1,22 +1,22 @@
 graph: { title: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/fileio.cpp"
 node: { title: "_Z14clearbufferramv" label: "void clearbufferram()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/fileio.cpp:53:6" }
 node: { title: "_Z39sector_buffer_transfer_size_max_processim" label: "uint32_t sector_buffer_transfer_size_max_process(int, uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/fileio.cpp:61:10" }
-node: { title: "_Z13dataslot_sizet" label: "uint32_t dataslot_size(uint16_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.h:72:10" shape : ellipse }
+node: { title: "_Z13dataslot_sizet" label: "uint32_t dataslot_size(uint16_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.h:79:10" shape : ellipse }
 edge: { sourcename: "_Z39sector_buffer_transfer_size_max_processim" targetname: "_Z13dataslot_sizet" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/fileio.cpp:63:28" }
 node: { title: "_Z12RISCFileSeektmm" label: "uint32_t RISCFileSeek(uint16_t, uint32_t, uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/fileio.cpp:75:10" }
-node: { title: "_Z14dataslot_readyv" label: "bool dataslot_ready()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.h:83:11" shape : ellipse }
+node: { title: "_Z14dataslot_readyv" label: "bool dataslot_ready()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.h:92:11" shape : ellipse }
 edge: { sourcename: "_Z12RISCFileSeektmm" targetname: "_Z14dataslot_readyv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/fileio.cpp:101:29" }
 edge: { sourcename: "_Z12RISCFileSeektmm" targetname: "_Z14dataslot_readyv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/fileio.cpp:104:29" }
 edge: { sourcename: "_Z12RISCFileSeektmm" targetname: "_Z14dataslot_readyv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/fileio.cpp:120:27" }
-node: { title: "_Z21dataslot_read_lba_settmm" label: "uint32_t dataslot_read_lba_set(uint16_t, uint32_t, uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.h:78:10" shape : ellipse }
+node: { title: "_Z21dataslot_read_lba_settmm" label: "uint32_t dataslot_read_lba_set(uint16_t, uint32_t, uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.h:87:10" shape : ellipse }
 edge: { sourcename: "_Z12RISCFileSeektmm" targetname: "_Z21dataslot_read_lba_settmm" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/fileio.cpp:122:26" }
 edge: { sourcename: "_Z12RISCFileSeektmm" targetname: "_Z13dataslot_sizet" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/fileio.cpp:63:28" }
-node: { title: "_Z17dataslot_read_lbam" label: "uint32_t dataslot_read_lba(uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.h:79:10" shape : ellipse }
+node: { title: "_Z17dataslot_read_lbam" label: "uint32_t dataslot_read_lba(uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.h:88:10" shape : ellipse }
 edge: { sourcename: "_Z12RISCFileSeektmm" targetname: "_Z17dataslot_read_lbam" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/fileio.cpp:123:22" }
 edge: { sourcename: "_Z12RISCFileSeektmm" targetname: "_Z13dataslot_sizet" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/fileio.cpp:125:22" }
 edge: { sourcename: "_Z12RISCFileSeektmm" targetname: "_Z21dataslot_read_lba_settmm" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/fileio.cpp:127:28" }
 edge: { sourcename: "_Z12RISCFileSeektmm" targetname: "_Z13dataslot_sizet" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/fileio.cpp:63:28" }
-node: { title: "_Z22dataslot_read_lba_fastmb" label: "uint32_t dataslot_read_lba_fast(uint32_t, bool)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.h:80:10" shape : ellipse }
+node: { title: "_Z22dataslot_read_lba_fastmb" label: "uint32_t dataslot_read_lba_fast(uint32_t, bool)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.h:89:10" shape : ellipse }
 edge: { sourcename: "_Z12RISCFileSeektmm" targetname: "_Z22dataslot_read_lba_fastmb" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/fileio.cpp:128:29" }
 edge: { sourcename: "_Z12RISCFileSeektmm" targetname: "_Z14dataslot_readyv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/fileio.cpp:140:32" }
 edge: { sourcename: "_Z12RISCFileSeektmm" targetname: "_Z21dataslot_read_lba_settmm" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/fileio.cpp:142:31" }

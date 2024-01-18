@@ -4,3 +4,6 @@
 *.d
 *.map
 *.zip
+*.o
+*.ci
+*.map

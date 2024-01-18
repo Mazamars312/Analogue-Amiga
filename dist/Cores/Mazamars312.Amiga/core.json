@@ -9,8 +9,8 @@
       "description": "Amiga Core",
       "author": "Mazamars312",
       "url": "https://github.com/Mazamars312/Analogue-Amiga",
-      "version": "0.1.2",
-      "date_release": "2023-12-29"
+      "version": "0.1.5",
+      "date_release": "2024-01-13"
     },
     "framework": {
       "target_product": "Analogue Pocket",

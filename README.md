@@ -1,16 +1,27 @@
-Analogue Pocket - Commodore Amiga - 0.1.0
+Analogue Pocket - Commodore Amiga - 0.2.1
 =========================================
 
 The Commodore Amiga was a personal computer that replaced the well-loved
-Commodore 64 in the Commodore product line. It also was one of the many 68K-based
-personal computers that showed that this CPU was a powerhouse when integrated
-with additional great hardware.
+Commodore 64 in the Commodore product line. It also was one of the many
+68K-based personal computers that showed that this CPU was a powerhouse when
+integrated with additional great hardware.
 
 This is based on the MiSTer Github of the Amiga MiST project (Also known as
 Minimig) and the VexRISCV RISC-V chip for the Media Processing Unit (MPU)
 between the core and APF framework for floppy, hard drive and CD-ROM access.
 
-This core works best with the [AmigaVision](https://amiga.vision/) configurations.
+This core works best with the [AmigaVision](https://amiga.vision/)
+configurations.
+
+Will only work on Analogue OS firmware 2.1 and now works with the Default
+AmigaVision harddrive image of 8GB!!!
+
+LDA48 Sizes have been turned on in the MPU and Analogue Firmware and the
+Data.Json now has this as the MegaAGS.hdf as the default image loader
+
+MegaAGS-Pocket.hdf is no longer referenced in the data.json file, so if you want
+to use this image just replace the name in the data.json or rename the image
+file name if required too.
 
 What can it do?
 ---------------
@@ -29,7 +40,8 @@ What can it do?
 
 -   Turbo boot
 
--   It can Read and write to ADF disk images (Floppy disks)
+-   LBA48 enabled - It can read and write to ADF disk images (Floppy disks) up
+    to 2Tbytes now!!!
 
 -   Can also access up to 4 Harddrive HDF files
 
@@ -43,7 +55,7 @@ How to setup
     Currently `MegaAGS-Kickstart.rom` is the default rom
 
 -   Make sure that the `\Assets\amiga\Mazamars312.Amiga\` Folder has the
-    `mpu.bin` file - this is supplied and should already be there.
+    `amiga_mpu_bios.bin` file - this is supplied and should already be there.
 
 -   When changing system configurations, you must select the "CPU reset" in the
     menu to apply the config.
@@ -51,11 +63,16 @@ How to setup
 -   All harddrive and floppy images are to be placed into the
     `\Assets\amiga\common`
 
--   For Harddrive images - In the \\Cores\\Mazamars312.Amiga\\ folder the
-    data.json file would need to be edited with the files names for each HDF file placed in data slots
-    310-313. Currently at the moment the Amiga-Vision images are referenced here for now. But change the names for other harddrives
-    These cannot be changed on the fly due to how the HDF images work in the core.
-	These are also limited to 4GBytes in size due to the APF restrictions
+-   For harddrive images - In the \\Cores\\Mazamars312.Amiga\\ folder the
+    data.json file would need to be edited with the files names for each HDF
+    file placed in data slots 310-313. Currently at the moment the Amiga-Vision
+    images are referenced here for now. But change the names for other hard
+    drives These cannot be changed on the fly due to how the HDF images work in
+    the core. This are now limited to 2Tbyte drives. Anything larger will need
+    different sector sizes to run.
+
+-   If HDD3 or HDD4 are needed make sure you BIOS rom has this enabled as this
+    is a Amiga Bios issue and not the Core/MPU causing these not to be seen.
 
 How can I get AmigaVision running on this core?
 -----------------------------------------------
@@ -64,22 +81,35 @@ For this you are required to have the following 3 files to place in to the
 `\Assets\amiga\common` folder
 
 -   The Kickstart ROM - MegaAGS-Kickstart.rom
--   The Main Hard drive image - MegaAGS-Pocket.hdf
+
+-   The Main Hard drive image - MegaAGS.hdf
+
 -   The Save Hard drive image - MegaAGS-Saves.hdf
 
 The Recommended setting in the interact menu are as follows:
 
 -   FDD/HDD LED = Off
+
 -   Port 1/Port 2 = Mouse/CD32PAD
+
 -   Mouse Speed = 10
+
 -   System Config = AGA/Turbo/PAL
+
 -   CPU Type 68020K CPU - No Cache
+
 -   memory - Chip = 2Mb
+
 -   memory - Slow = None
+
 -   memory - Fast = 32Mbytes
+
 -   Audio Filter = A500/PWM
 
-These can also be defaulted by selecting "Reset all to Default" in the interaction menu
+-   Audio Mix = 50%
+
+These can also be defaulted by selecting "Reset all to Default" in the
+interaction menu
 
 Is the best way to play this using the dock?
 --------------------------------------------
@@ -90,17 +120,19 @@ Is the best way to play this using the dock?
     with the mouse plugged in - am awaiting for an update on this).
 
 -   Also the mouse is emulated on the left analogue thumb stick at the same time
-    as the joypad 1 is being used
+    as the joy-pad 1 is being used
 
 -   Be aware that you will need a controller to access the Menu if you want to
     make changes.
 
--   There is a bug being addressed by Analogue on the output at this moment and we
-    hope they can report back on what is causing the video to move over on
-    random lines.
-	
--   Have fixed up the Mouse input when a joystick was connected to the dock after
-	has been release on the pocket firmware.
+-   The mouse needs some more work on the clamping and timing for it to work
+    with every mouse. The current mouse I have is a lower sensitivity mouse and
+    I find that it works fine, but high res based mice will cause the mouse to
+    fly off in random locations. Work will be done more once the MPU has some
+    resources changed in it
+
+-   Have fixed up the Mouse input when a joystick was connected to the dock
+    after has been release on the pocket firmware.
 
 Menu Listing
 ------------
@@ -118,8 +150,8 @@ Menu Listing
 -   FDD/HDD LED - this places a FDD or HDD activity light on the screen. The HDD
     light stays on some times unknown why yet.
 
--   Floppy Drives - this will allow you to select how many drives are
-    installed, and delimit the transfer rate of the Amiga core.
+-   Floppy Drives - this will allow you to select how many drives are installed,
+    and delimit the transfer rate of the Amiga core.
 
 -   Port 1/Port 2 - This allows you to change and swap the controller ports with
     CD32/Normal Joysticks/Mouse - if you need to use the emulated mouse, make
@@ -144,8 +176,11 @@ Menu Listing
 -   Memory: Fast - on the 68000 and 68010 CPU this is none/2/4/8MB, on the 68020
     this is 16 or 32.
 
--   Audio Filter - there are 4 options - A500 or A1200 filters with or without
+-   Audio Filter: there are 4 options - A500 or A1200 filters with or without
     PWM
+
+-   Audio Mixer: This will mix the left and right audio streams together. this
+    is defaulted to 50%
 
 Is there an emulated mouse while not connected to the dock?
 -----------------------------------------------------------
@@ -159,8 +194,8 @@ Is there an emulated mouse while not connected to the dock?
 Is there an emulated Keyboard?
 ------------------------------
 
--   Yes, now there is! Press the Select button and a OSD keyboard will come
-    up. There are no double pressed buttons yet.
+-   Yes, now there is! Press the Select button and a OSD keyboard will come up.
+    There are no double pressed buttons yet.
 
 Can we write to floppy disks at this moment?
 --------------------------------------------
@@ -175,19 +210,25 @@ Wait, you have another CPU in the FPGA?
     interface with the APF interface to the HPS bus currently in the MiSTer
     Amiga core.
 
-Specs: 
+Specs:
 
-* Running at 74.2MHz (Same as the APF bus). 
-* Connected to the core via a 16bit HPS Bus. 
-* Two timers - one for interrupts and the other for user timing. 
-* Currently, 128KB of memory/RAM for the MPU's program and buffers
+-   Running at 74.2MHz (Same as the APF bus).
+
+-   Connected to the core via a 16bit HPS Bus.
+
+-   Two timers - one for interrupts and the other for user timing.
+
+-   Currently, 128KB of memory/RAM for the MPU's program and buffers
+
+-   Work on interrupts and using a PSRAM chip is needed on the next steps
 
 How did you speed up load times
 -------------------------------
 
 -   Through talking to the Analogue Techs, it is faster to buffer more data and
     have that ready for the core to use then smaller 512 chunks that the
-    original code would do.
+    original code would do. This is affected by the block size of the SDCARD
+    Formats and also if you use FAT32 or NTFS.
 
 Why are some of the resolutions not correct?
 --------------------------------------------
@@ -202,8 +243,8 @@ Why are some of the resolutions not correct?
 I have game X that does not work!
 ---------------------------------
 
--   A few games only work from ADF floppy images with the exact correct version of 
-    Kickstart.
+-   A few games only work from ADF floppy images with the exact correct version
+    of Kickstart.
 
 -   The main goal of this project was getting an MPU Framework so external media
     can be accessed, and help giving developers some tools to help create more
@@ -215,21 +256,38 @@ I have game X that does not work!
 -   For multi-disk games, also try putting disks in other drives. Make sure you
     change the amount of installed drives to the amount needed. (Up to 2)
 
--   Some games, like "Another World", do not work on the AmigaVision + Analogue
-    Pocket right now. Report any bugs you find!
+-   Found that there ICACHE system in the core was causing re-reads while a DMA
+    was happening. Have correct this and now the Amigavision games work as to
+    how they are in the Mister core as well now.
 
 Amiga Vision does not start up and only a black screen is there
 ---------------------------------------------------------------
 
-The Amiga Vision requires a 68020K CPU, AGS Chipset and extra memory to run. Make
-sure you do a "Reset all to Default" to atleast get the core to boot.
+The Amiga Vision requires a 68020K CPU, AGS Chipset and extra memory to run.
+Make sure you do a "Reset all to Default" to atleast get the core to boot.
+
+Change since 0.1.2 to 0.2.1
+---------------------------
+
+-   ICACHE Fixed for WDLOADER to work correctly
+
+-   LBA48 is done to make larger HDD images to 2TB in size
+
+-   The Joysticks are completely disabled when using the emulated mouse or
+    keyboard
+
+-   Audio Mixing - Still some work to be done here to get rid of the snap or
+    pops from the lower frequencys to 48Khz
+
+-   Some changes to the caching for the MPU to speed up some processes
 
 Change since 0.1.0 to 0.1.2
 ---------------------------
 
--   Just getting the mouse working on the dock 
+-   Just getting the mouse working on the dock
 
-- 	Thanks to Analogue fixing up the line bug that was found with this core on the dock.
+-   Thanks to Analogue fixing up the line bug that was found with this core on
+    the dock.
 
 Change since 0.0.6 to 0.1.0
 ---------------------------
@@ -253,8 +311,8 @@ Change since 0.0.6 to 0.1.0
 -   Also a emulated mouse on a analogue joystick in docked mode (This is the
     left thumb stick and the left and right triggers for the mouse clicks)
 
--   Dropped the floppy drives from 4 to 2 as there was not enough room in the interation menu
-    at this moment.
+-   Dropped the floppy drives from 4 to 2 as there was not enough room in the
+    interation menu at this moment.
 
 Change since 0.0.5 to 0.0.6
 ---------------------------
@@ -278,11 +336,6 @@ What will be the next update?
 
 -   I have to find out why swapping disks will not always work.
 
--   Fix the bugs that cause some games not to boot with the
-    [AmigaVision](https://amiga.vision/) configurations, e.g. Another World and
-	the demo “Coda by Abyss” I believe this could be a memory issue. 
-	However these do work on FDD images for now, if you want to play them.
-
 Credits
 -------
 
@@ -291,9 +344,9 @@ Credits
 -   Original Minimig sources from Dennis van Weeren with updates by Jakub
     Bednarski are published on Google Code and the Community.
 
--   The [AmigaVision](https://amiga.vision/) team - Limi, Optiroc and hitm4n
-    for their help and insight into the Amiga, and helping debug the Pocket at
-    the same time with me.
+-   The [AmigaVision](https://amiga.vision/) team - Limi, Optiroc and hitm4n for
+    their help and insight into the Amiga, and helping debug the Pocket at the
+    same time with me.
 
 -   ARM firmware updates and minimig-tc64 port changes by Christian Vogelsang
     (minimig_tc64) and A.M. Robinson (minimig_tc64).
@@ -311,5 +364,5 @@ Credits
 
 -   Terminator2k2 for his fantastic images for the bootup.
 
--   And many more, so please message me and I would happily add you to this 
-    if I forgot you!
+-   And many more, so please message me and I would happily add you to this if I
+    forgot you!

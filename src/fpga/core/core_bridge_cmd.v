@@ -47,6 +47,7 @@ input   wire            dataslot_requestwrite_ok,
 
 output  reg             dataslot_update,
 output  reg     [15:0]  dataslot_update_id,
+output  reg     [15:0]  dataslot_update_size_lba48,
 output  reg     [31:0]  dataslot_update_size,
 
 output  reg             dataslot_allcomplete,
@@ -77,6 +78,7 @@ input   wire            savestate_load_err,
 
 input   wire            target_dataslot_read,       // rising edge triggered
 input   wire            target_dataslot_write,
+input   wire 				target_dataslot_enableLBA48,
 
 output  reg             target_dataslot_ack,        // asserted upon command start until completion
 output  reg             target_dataslot_done,       // asserted upon command finish until next command is issued    
@@ -84,6 +86,7 @@ output  reg     [2:0]   target_dataslot_err,        // contains result of comman
 
 input   wire    [15:0]  target_dataslot_id,         // parameters for each of the read/reload/write commands
 input   wire    [31:0]  target_dataslot_slotoffset,
+input   wire    [15:0]  target_dataslot_slotoffsetLBA48,
 input   wire    [31:0]  target_dataslot_bridgeaddr,
 input   wire    [31:0]  target_dataslot_length,
 
@@ -137,7 +140,7 @@ end
     reg     [31:0]  host_40; // response data
     reg     [31:0]  host_44;
     reg     [31:0]  host_48;
-    reg     [31:0]  host_4C;    
+    reg     [31:0]  host_4C;   
     
     reg             host_cmd_start;
     reg     [15:0]  host_cmd_startval;
@@ -166,7 +169,8 @@ localparam  [3:0]   ST_DONE_ERR     = 'd15;
     reg     [31:0]  target_40; // response data
     reg     [31:0]  target_44;
     reg     [31:0]  target_48;
-    reg     [31:0]  target_4C;  
+    reg     [31:0]  target_4C; 
+    reg     [31:0]  target_50; 
     
 localparam  [3:0]   TARG_ST_IDLE        = 'd0;
 localparam  [3:0]   TARG_ST_READYTORUN  = 'd1;
@@ -249,6 +253,7 @@ always @(posedge clk) begin
             8'h44: target_44 <= bridge_wr_data_in;
             8'h48: target_48 <= bridge_wr_data_in;
             8'h4C: target_4C <= bridge_wr_data_in;
+            8'h50: target_50 <= bridge_wr_data_in;
             endcase
         end
         32'hF8xx2xxx: begin
@@ -366,6 +371,15 @@ always @(posedge clk) begin
             // Data slot update (sent on deferload marked slots only)
             dataslot_update <= 1;
             dataslot_update_id <= host_20[15:0];
+            dataslot_update_size_lba48 <= host_20[31:16];
+            dataslot_update_size <= host_24;
+            hstate <= ST_DONE_OK;
+        end
+		  16'h008B: begin
+            // Data slot update LBA48 (sent on deferload marked slots only)
+            dataslot_update <= 1;
+            dataslot_update_id <= host_20[15:0];
+            dataslot_update_size_lba48 <= host_20[31:16];
             dataslot_update_size <= host_24;
             hstate <= ST_DONE_OK;
         end
@@ -467,9 +481,9 @@ always @(posedge clk) begin
             
         end else if(target_dataslot_read_queue) begin
             target_dataslot_read_queue <= 0;
-            target_0[15:0] <= 16'h0180;
+            target_0[15:0] <=  target_dataslot_enableLBA48 ? 16'h0181 : 16'h0180;
             
-            target_20 <= target_dataslot_id;
+            target_20 <= {target_dataslot_slotoffsetLBA48, target_dataslot_id};
             target_24 <= target_dataslot_slotoffset;
             target_28 <= target_dataslot_bridgeaddr;
             target_2C <= target_dataslot_length;
@@ -478,9 +492,9 @@ always @(posedge clk) begin
             
         end else if(target_dataslot_write_queue) begin
             target_dataslot_write_queue <= 0;
-            target_0[15:0] <= 16'h0184;
+            target_0[15:0] <= target_dataslot_enableLBA48 ? 16'h0185 : 16'h0184;
             
-            target_20 <= target_dataslot_id;
+            target_20 <= {target_dataslot_slotoffsetLBA48, target_dataslot_id};
             target_24 <= target_dataslot_slotoffset;
             target_28 <= target_dataslot_bridgeaddr;
             target_2C <= target_dataslot_length;

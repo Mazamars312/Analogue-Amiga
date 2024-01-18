@@ -380,6 +380,7 @@ end
     wire            dataslot_update;
     wire    [15:0]  dataslot_update_id;
     wire    [31:0]  dataslot_update_size;
+    wire    [15:0]  dataslot_update_size_lba48;
     
     wire            dataslot_allcomplete;
 
@@ -412,12 +413,15 @@ end
 
     wire             target_dataslot_read;       
     wire             target_dataslot_write;
+	 wire 				target_dataslot_enableLBA48;
+
 
     wire            target_dataslot_ack;        
     wire            target_dataslot_done;
     wire    [2:0]   target_dataslot_err;
 
     wire     [15:0]  target_dataslot_id;
+	 wire 	 [15:0]	target_dataslot_slotoffsetLBA48;
     wire     [31:0]  target_dataslot_slotoffset;
     wire     [31:0]  target_dataslot_bridgeaddr;
     wire     [31:0]  target_dataslot_length;
@@ -462,6 +466,7 @@ core_bridge_cmd icb (
     .dataslot_update            ( dataslot_update ),
     .dataslot_update_id         ( dataslot_update_id ),
     .dataslot_update_size       ( dataslot_update_size ),
+    .dataslot_update_size_lba48 ( dataslot_update_size_lba48 ),
     
     .dataslot_allcomplete   ( dataslot_allcomplete ),
 
@@ -498,6 +503,8 @@ core_bridge_cmd icb (
 
     .target_dataslot_id         ( target_dataslot_id ),
     .target_dataslot_slotoffset ( target_dataslot_slotoffset ),
+    .target_dataslot_slotoffsetLBA48 ( target_dataslot_slotoffsetLBA48 ),
+		.target_dataslot_enableLBA48	(target_dataslot_enableLBA48),
     .target_dataslot_bridgeaddr ( target_dataslot_bridgeaddr ),
     .target_dataslot_length     ( target_dataslot_length ),
 
@@ -682,7 +689,7 @@ sdram_ctrl ram1
 	.sysclk       (clk_114         ),
 	.reset_n      (~reset_d        ),
 	.c_7m         (c1              ),
-	.cache_inhibit	(1'b1),
+	.cache_inhibit	(1'b0),
 	.cache_rst    (cpu_rst         ),
 	.cpu_cache_ctrl(cpu_cacr       ),
 
@@ -714,6 +721,7 @@ sdram_ctrl ram1
 	.chipRD       (ramdata_in      ),
 	.chip48       (chip48          )
 );
+
 
 fastchip fastchip
 (
@@ -803,6 +811,8 @@ substitute_mcu_apf_mister substitute_mcu_apf_mister(
 		.dataslot_update            	( dataslot_update ),
 		.dataslot_update_id         	( dataslot_update_id ),
 		.dataslot_update_size       	( dataslot_update_size ),
+		.dataslot_update_size_lba48   ( dataslot_update_size_lba48 ),
+		.target_dataslot_enableLBA48	(target_dataslot_enableLBA48),
 	  
 		.target_dataslot_read       	( target_dataslot_read ),
 		.target_dataslot_write      	( target_dataslot_write ),
@@ -813,6 +823,7 @@ substitute_mcu_apf_mister substitute_mcu_apf_mister(
 
 		.target_dataslot_id         	( target_dataslot_id ),
 		.target_dataslot_slotoffset 	( target_dataslot_slotoffset ),
+      .target_dataslot_slotoffsetLBA48 ( target_dataslot_slotoffsetLBA48 ),
 		.target_dataslot_bridgeaddr 	( target_dataslot_bridgeaddr ),
 		.target_dataslot_length     	( target_dataslot_length ),
 
@@ -1220,11 +1231,24 @@ always @(posedge clk_sys) begin
 	out_r <= (^tmp_r[16:15]) ? {tmp_r[16], {15{tmp_r[15]}}} : tmp_r[15:0];
 end
 
+wire [15:0] out_l_wire;
+wire [15:0] out_r_wire;
+
+audio_final_filter audio_final_filter (
+	.audio_clk		(clk_sys),
+	.reset_l			(cpu_rst),
+	.audio_signed	(1),
+	.left_input		(out_l),
+	.right_input	(out_r),
+	.mixing			(CORE_OUTPUT[7:6]),
+	.left_output	(out_l_wire),
+	.right_output	(out_r_wire)
+);
 
 i2s i2s (
 .clk_74a			(clk_74a),
-.left_audio		(out_l),
-.right_audio	(out_r),
+.left_audio		(out_l_wire),
+.right_audio	(out_r_wire),
 
 .audio_mclk		(audio_mclk),
 .audio_dac		(audio_dac),

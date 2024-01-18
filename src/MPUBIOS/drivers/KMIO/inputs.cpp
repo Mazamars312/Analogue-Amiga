@@ -60,7 +60,7 @@ void update_mouse_inputs (){
     OsdClear();
     if (mouse_enabled){
       uint32_t tmp = CORE_OUTPUT_REGISTOR();
-      tmp = tmp | 0x00000010;
+      tmp = tmp | 0x00000030;
       CORE_OUTPUT_REGISTOR() = tmp;
         OsdWrite("Mouse Disabled");
         OsdUpdate(0);
@@ -68,7 +68,7 @@ void update_mouse_inputs (){
         
     } else {
       uint32_t tmp = CORE_OUTPUT_REGISTOR();
-      tmp = tmp & 0xFFFFFFEF;
+      tmp = tmp & 0xFFFFFFCF;
       CORE_OUTPUT_REGISTOR() = tmp;
       OsdWrite("Mouse Enabled");
     }
@@ -137,7 +137,7 @@ void update_mouse_inputs (){
     // Emulating the mouse on the dpad by pressing both left and right triggers
     
     uint32_t tmp = CORE_OUTPUT_REGISTOR();
-    tmp = tmp | 0x00000010;
+    tmp = tmp | 0x00000030;
     CORE_OUTPUT_REGISTOR() = tmp;
     int tmp_joy = CONTROLLER_KEY_REG(1);
     if ((tmp_joy & 0x1) == 1)       y_count = y_count - speed;
@@ -150,7 +150,7 @@ void update_mouse_inputs (){
   } else {
     HPS_spi_uio_cmd8(UIO_MOUSE_BTN, ((CONTROLLER_KEY_REG(1)>>8) & 0x3));
     uint32_t tmp = CORE_OUTPUT_REGISTOR();
-    tmp = tmp & 0xFFFFFFEF;
+    tmp = tmp & 0xFFFFFFCF;
     CORE_OUTPUT_REGISTOR() = tmp;
   }
   return;

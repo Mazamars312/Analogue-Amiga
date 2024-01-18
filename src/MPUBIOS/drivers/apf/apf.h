@@ -39,11 +39,16 @@
 #define TARGET_DATASLOT_LENGTH        0xFFFFFF88
 #define TARGET_DATASLOT_OFFSET        0xFFFFFF8C
 #define TARGET_DATASLOT_CONTROL       0xFFFFFF90
+#define TARGET_DATASLOT_OFFSET_LBA48HIG      0xFFFFFF9C
 
 #define DATASLOT_UPDATE_FLAG_REG      0xFFFFFFB0
 
 #define TARGET_DATASLOT_READ_REG      0x1
 #define TARGET_DATASLOT_WRITE_REG     0x2
+
+
+#define TARGET_DATASLOT_LBA_48_READ_REG      0x5
+#define TARGET_DATASLOT_LBA_48_WRITE_REG     0x6
 
 // APF commands and address locations
 #define APF_ADDRESS_OFFSET      0x00000000 // We want to make sure we advise the APF where the BRAM is of the CPU
@@ -59,10 +64,12 @@
 #define WRITE_TARGET_DATASLOT_BRIDGE_ADD(x) *(volatile unsigned int *)(TARGET_DATASLOT_BRIDGE_ADD+(x))
 #define WRITE_TARGET_DATASLOT_LENGTH(x) *(volatile unsigned int *)(TARGET_DATASLOT_LENGTH+(x))
 #define WRITE_TARGET_DATASLOT_OFFSET(x) *(volatile unsigned int *)(TARGET_DATASLOT_OFFSET+(x))
+#define WRITE_TARGET_DATASLOT_OFFSET_LBA48HIG(x) *(volatile unsigned int *)(TARGET_DATASLOT_OFFSET_LBA48HIG+(x))
 #define WRITE_TARGET_DATASLOT_CONTROL(x) *(volatile unsigned int *)(TARGET_DATASLOT_CONTROL+(x))
 
 #define READ_TARGET_DATASLOT_ID(x) *(volatile unsigned int *)(TARGET_DATASLOT_ID+(x))
 #define READ_TARGET_DATASLOT_BRIDGE_ADD(x) *(volatile unsigned int *)(TARGET_DATASLOT_BRIDGE_ADD+(x))
+#define READ_TARGET_DATASLOT_OFFSET_LBA48HIG(x) *(volatile unsigned int *)(TARGET_DATASLOT_OFFSET_LBA48HIG+(x))
 #define READ_TARGET_DATASLOT_LENGTH(x) *(volatile unsigned int *)(TARGET_DATASLOT_LENGTH+(x))
 #define READ_TARGET_DATASLOT_OFFSET(x) *(volatile unsigned int *)(TARGET_DATASLOT_OFFSET+(x))
 #define READ_TARGET_DATASLOT_CONTROL(x) *(volatile unsigned int *)(TARGET_DATASLOT_CONTROL+(x))
@@ -70,10 +77,12 @@
 
 uint32_t dataslot_search_id(uint16_t value);
 uint32_t dataslot_size(uint16_t value);
+uint32_t dataslot_size_lba64(uint16_t value);
+
 void dataslot_search_active(uint16_t value);
-// bool dataslot_updated();
-uint32_t dataslot_read(uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length);
-uint32_t dataslot_write(uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length);
+uint64_t dataslot_updated(uint16_t value);
+uint32_t dataslot_read(uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length, bool lba48 = false);
+uint32_t dataslot_write(uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length, bool lba48 = false);
 uint32_t dataslot_read_lba_set_fast(uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length);
 uint32_t dataslot_read_lba_set(uint16_t dataslot, uint32_t address, uint32_t offset);
 uint32_t dataslot_read_lba(uint32_t length);

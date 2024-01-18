@@ -37,7 +37,6 @@ uint8_t sector_buffer[ide_io_max_size * 512];
 
 void ide_reg_set(ide_config *ide, uint16_t reg, uint16_t value)
 {
-	mainprintf("ide_reg_set %0.8X %0.4X\r\n", ide->base + reg, value);
 	HPS_EnableIO();
 	spi8(UIO_DMA_WRITE);
 	spi32_w(ide->base + reg);
@@ -131,7 +130,7 @@ void calc_geometry(hdfTYPE *hdf)
 {
 	uint32_t head = 0, cyl = 0, spt = 0;
 	uint32_t sptt[] = { 63, 127, 255, 0 };
-	uint32_t total = hdf->size / 512;
+	uint32_t total = hdf->size;
 	for (int i = 0; sptt[i] != 0; i++)
 	{
 		spt = sptt[i];
@@ -208,7 +207,7 @@ void guess_geometry(hdfTYPE *hdf)
 
 		for (int i = 32; i <= 2048; i <<= 1)
 		{
-			int cylinders = hdf->size / (512 * i) + 1;
+			int cylinders = hdf->size / (i) + 1;
 			if (cylinders < 65536)
 			{
 				hdf->sectors = (i < 128) ? i : 128;
@@ -218,7 +217,7 @@ void guess_geometry(hdfTYPE *hdf)
 		}
 
 		int spc = hdf->heads * hdf->sectors;
-		hdf->cylinders = hdf->size / (512 * spc) + 1;
+		hdf->cylinders = hdf->size / ( spc) + 1;
 		if (hdf->cylinders > 65535) hdf->cylinders = 65535;
 		hdf->offset = -spc;
 		mainprintf("No RDB header found in HDF image. Assume it's image of single partition. Use Virtual RDB header.\r\n");
@@ -242,7 +241,7 @@ static void ide_set_geometry(drive_t *drive, uint16_t sectors, uint16_t heads)
 	drive->heads = heads ? heads : 16;
 	drive->spt = sectors ? sectors : 256;
 
-	uint32_t cylinders = drive->Size / (drive->heads * drive->spt * 512);
+	uint32_t cylinders = drive->Size / (drive->heads * drive->spt);
 	if (drive->offset)
 	{
 		cylinders++;
@@ -293,7 +292,7 @@ void ide_img_set(uint32_t drvnum, uint16_t dataslot, int cd, int sectors, int he
 	ide_inst[port].bitoff = port * 3;
 
 	drive->cd = drive->present && cd;
-	drive->Size = dataslot_size(dataslot);
+	drive->Size = dataslot_size_lba64(dataslot);
 
 	drive->placeholder = drive->allow_placeholder;
 	if (drive->placeholder && drive->present && !drive->cd) drive->placeholder = 0;
@@ -301,7 +300,7 @@ void ide_img_set(uint32_t drvnum, uint16_t dataslot, int cd, int sectors, int he
 
 	ide_reg_set(&ide_inst[port], 6, ((drive->present || drive->placeholder) ? 9 : 8) << (drv * 4));
 	ide_reg_set(&ide_inst[port], 6, 0x200);
-	drive->total_sectors = (drive->Size / 512);
+	drive->total_sectors = (drive->Size);
 
 		if (drive->present)
 		{
@@ -373,7 +372,7 @@ void ide_img_set(uint32_t drvnum, uint16_t dataslot, int cd, int sectors, int he
 			drive->id[87] = 1 << 14;	    									//word 87
 			drive->id[93] = (1 << 14) | (1 << 13) | (1 << 9) | (1 << 8) | (1 << 3) | (1 << 1) | (1 << 0); //word 93
 			drive->id[100] = (uint16_t)(drive->total_sectors & 0xFFFF);			//word 100 LBA-48
-			drive->id[101] = (uint16_t)(drive->total_sectors >> 16);				//word 101 LBA-48
+			drive->id[101] = (uint16_t)(drive->total_sectors >> 16);			//word 101 LBA-48
 
 		}
 
@@ -452,7 +451,7 @@ inline int readhdd(drive_t *drive, uint32_t lba, int cnt)
 	else
 	{
 		// dataslot_read(uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length);
-		return dataslot_read(drive-> dataslot, (uint32_t)&sector_buffer, lba << 9, cnt * 512);
+		return dataslot_read(drive-> dataslot, (uint32_t)&sector_buffer, lba, cnt * 512, true);
 		// return FileReadAdv(drive->dataslot, (uint32_t)&sector_buffer, cnt * 512, -1);
 	}
 }
@@ -476,7 +475,7 @@ static void process_read(ide_config *ide, int multi)
 		lba += cnt;
 		ide->regs.sector_count -= cnt;
 		put_lba(ide, lba);
-		mainprintf("  loop: %d\r\n", ide->regs.sector_count);
+		// mainprintf("  loop: %d\r\n", ide->regs.sector_count);
 		ide->regs.io_size = cnt;
 		ide->regs.status = ATA_STATUS_RDP | ATA_STATUS_RDY | ATA_STATUS_DRQ | ATA_STATUS_IRQ;
 		if (!ide->regs.sector_count) ide->regs.status |= ATA_STATUS_END;
@@ -525,7 +524,7 @@ inline int writehdd(drive_t *drive, uint32_t lba, int cnt)
 	}
 	else
 	{
-		return dataslot_write(drive-> dataslot, (uint32_t)&sector_buffer, lba << 9, cnt * 512);
+		return dataslot_write(drive-> dataslot, (uint32_t)&sector_buffer, lba, cnt * 512, true);
 	}
 }
 
@@ -774,7 +773,7 @@ int ide_open(uint8_t unit, 	uint16_t dataslot)
 	HDF[unit].unit = unit;
 	HDF[unit].enabled = 1;
 	HDF[unit].dataslot = dataslot;
-	HDF[unit].size = dataslot_size(dataslot);
+	HDF[unit].size = dataslot_size_lba64(dataslot);
 	mainprintf("\nChecking HDD %d\r\n", unit);
 	guess_geometry(&HDF[unit]);
 	mainprintf("size: %d (%d MB)\r\n", HDF[unit].size, HDF[unit].size >> 20);

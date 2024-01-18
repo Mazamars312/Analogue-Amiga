@@ -1,15 +1,15 @@
 graph: { title: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp"
 node: { title: "_ZN5cue_tC2Ev" label: "cue_t::cue_t()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:9:1" }
 node: { title: "_ZN5cue_t7LoadCUEEi" label: "uint16_t cue_t::LoadCUE(int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:71:10" }
-node: { title: "_Z13dataslot_sizet" label: "uint32_t dataslot_size(uint16_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.h:72:10" shape : ellipse }
+node: { title: "_Z13dataslot_sizet" label: "uint32_t dataslot_size(uint16_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.h:79:10" shape : ellipse }
 edge: { sourcename: "_ZN5cue_t7LoadCUEEi" targetname: "_Z13dataslot_sizet" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:76:26" }
 edge: { sourcename: "_ZN5cue_t7LoadCUEEi" targetname: "_Z13dataslot_sizet" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:79:19" }
 node: { title: "_Z14clearbufferramv" label: "void clearbufferram()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/fileio.h:48:6" shape : ellipse }
 edge: { sourcename: "_ZN5cue_t7LoadCUEEi" targetname: "_Z14clearbufferramv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:83:16" }
-node: { title: "_Z13dataslot_readtmmm" label: "uint32_t dataslot_read(uint16_t, uint32_t, uint32_t, uint32_t)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.h:75:10" shape : ellipse }
-edge: { sourcename: "_ZN5cue_t7LoadCUEEi" targetname: "_Z13dataslot_readtmmm" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:85:15" }
-node: { title: "riscprintff_" label: ")\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/riscprintf.h:71:5" shape : ellipse }
-edge: { sourcename: "_ZN5cue_t7LoadCUEEi" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:90:13" }
+node: { title: "_Z13dataslot_readtmmmb" label: "uint32_t dataslot_read(uint16_t, uint32_t, uint32_t, uint32_t, bool)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.h:84:10" shape : ellipse }
+edge: { sourcename: "_ZN5cue_t7LoadCUEEi" targetname: "_Z13dataslot_readtmmmb" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:85:15" }
+node: { title: "riscprintf_" label: ")\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/arch/riscv/riscprintf.h:71:5" shape : ellipse }
+edge: { sourcename: "_ZN5cue_t7LoadCUEEi" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:90:13" }
 node: { title: "strstr" label: "char* strstr(const char*, const char*)\n/opt/riscv/riscv32-unknown-elf/include/string.h:48:8" shape : ellipse }
 edge: { sourcename: "_ZN5cue_t7LoadCUEEi" targetname: "strstr" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:97:14" }
 edge: { sourcename: "_ZN5cue_t7LoadCUEEi" targetname: "strstr" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:104:15" }
@@ -28,15 +28,15 @@ edge: { sourcename: "_ZN5cue_t7LoadCUEEi" targetname: "sscanf" label: "/mnt/f/An
 edge: { sourcename: "_ZN5cue_t7LoadCUEEi" targetname: "sscanf" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:162:11" }
 edge: { sourcename: "_ZN5cue_t7LoadCUEEi" targetname: "sscanf" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:169:19" }
 edge: { sourcename: "_ZN5cue_t7LoadCUEEi" targetname: "sscanf" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:170:11" }
-edge: { sourcename: "_ZN5cue_t7LoadCUEEi" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:63:13" }
-edge: { sourcename: "_ZN5cue_t7LoadCUEEi" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:208:12" }
-edge: { sourcename: "_ZN5cue_t7LoadCUEEi" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:209:13" }
-edge: { sourcename: "_ZN5cue_t7LoadCUEEi" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:210:13" }
-edge: { sourcename: "_ZN5cue_t7LoadCUEEi" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:211:13" }
-edge: { sourcename: "_ZN5cue_t7LoadCUEEi" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:212:13" }
-edge: { sourcename: "_ZN5cue_t7LoadCUEEi" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:213:13" }
+edge: { sourcename: "_ZN5cue_t7LoadCUEEi" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:63:13" }
+edge: { sourcename: "_ZN5cue_t7LoadCUEEi" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:208:12" }
+edge: { sourcename: "_ZN5cue_t7LoadCUEEi" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:209:13" }
+edge: { sourcename: "_ZN5cue_t7LoadCUEEi" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:210:13" }
+edge: { sourcename: "_ZN5cue_t7LoadCUEEi" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:211:13" }
+edge: { sourcename: "_ZN5cue_t7LoadCUEEi" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:212:13" }
+edge: { sourcename: "_ZN5cue_t7LoadCUEEi" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:213:13" }
 edge: { sourcename: "_ZN5cue_t7LoadCUEEi" targetname: "_Z14clearbufferramv" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:215:16" }
-edge: { sourcename: "_ZN5cue_t7LoadCUEEi" targetname: "riscprintff_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:206:13" }
+edge: { sourcename: "_ZN5cue_t7LoadCUEEi" targetname: "riscprintf_" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:206:13" }
 node: { title: "_ZN5cue_t4LoadEi" label: "uint16_t cue_t::Load(int)\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:219:10" }
 edge: { sourcename: "_ZN5cue_t4LoadEi" targetname: "_ZN5cue_t7LoadCUEEi" label: "/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:222:25" }
 node: { title: "_ZN5cue_t6UnloadEv" label: "void cue_t::Unload()\n/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/cue/cue.cpp:233:6" }

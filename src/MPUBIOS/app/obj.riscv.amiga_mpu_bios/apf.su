@@ -1,13 +1,14 @@
 /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:35:6:bool dataslot_ready()	16	static
 /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:43:9:uint8_t dataslot_status()	0	static
 /mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:50:10:uint32_t dataslot_search_id(uint16_t)	0	static
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:64:10:uint32_t dataslot_size(uint16_t)	16	static
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:77:6:bool dataslot_updated()	0	static
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:86:10:uint32_t dataslot_read(uint16_t, uint32_t, uint32_t, uint32_t)	32	static
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:126:10:uint32_t dataslot_write(uint16_t, uint32_t, uint32_t, uint32_t)	32	static
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:148:10:uint32_t dataslot_read_lba_set_fast(uint16_t, uint32_t, uint32_t, uint32_t)	0	static
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:178:10:uint32_t dataslot_read_lba_set(uint16_t, uint32_t, uint32_t)	16	static
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:189:10:uint32_t dataslot_read_lba(uint32_t)	16	static
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:218:10:uint32_t dataslot_read_lba_fast(uint32_t, bool)	0	static
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:242:10:uint32_t dataslot_write_lba_set(uint16_t, uint32_t, uint32_t)	0	static
-/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:265:10:uint32_t dataslot_write_lba(uint32_t, bool)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:66:10:uint32_t dataslot_size(uint16_t)	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:79:10:uint32_t dataslot_size_lba64(uint16_t)	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:94:6:bool dataslot_updated()	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:103:10:uint32_t dataslot_read(uint16_t, uint32_t, uint32_t, uint32_t, bool)	32	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:157:10:uint32_t dataslot_write(uint16_t, uint32_t, uint32_t, uint32_t, bool)	32	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:192:10:uint32_t dataslot_read_lba_set_fast(uint16_t, uint32_t, uint32_t, uint32_t)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:222:10:uint32_t dataslot_read_lba_set(uint16_t, uint32_t, uint32_t)	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:233:10:uint32_t dataslot_read_lba(uint32_t)	16	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:262:10:uint32_t dataslot_read_lba_fast(uint32_t, bool)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:286:10:uint32_t dataslot_write_lba_set(uint16_t, uint32_t, uint32_t)	0	static
+/mnt/f/Analogue/Analogue-Amiga/src/MPUBIOS/drivers/apf/apf.cpp:309:10:uint32_t dataslot_write_lba(uint32_t, bool)	0	static

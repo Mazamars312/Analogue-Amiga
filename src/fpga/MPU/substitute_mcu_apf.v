@@ -36,9 +36,11 @@ module substitute_mcu_apf_mister(
     input 	     	        	dataslot_update,
     input 	     	[15:0]  	dataslot_update_id,
     input 	     	[31:0]  	dataslot_update_size,
+    input 	     	[15:0]  	dataslot_update_size_lba48,
 
 	output reg             	target_dataslot_read,       // rising edge triggered
 	output reg             	target_dataslot_write,
+	output reg       			target_dataslot_enableLBA48,
 
 	input                  	target_dataslot_ack,        // asserted upon command start until completion
 	input                  	target_dataslot_done,       // asserted upon command finish until next command is issued    
@@ -46,6 +48,7 @@ module substitute_mcu_apf_mister(
 
 	output reg   [15:0]    	target_dataslot_id,         // parameters for each of the read/reload/write commands
 	output reg   [31:0]    	target_dataslot_slotoffset,
+	output reg   [15:0]    	target_dataslot_slotoffsetLBA48,
 	output reg   [31:0]    	target_dataslot_bridgeaddr,
 	output reg   [31:0]    	target_dataslot_length,
 
@@ -316,6 +319,16 @@ clock_reg_latch #(.data_size(32) ) dataslot_update_size_latch(
 	.write_trigger         (dataslot_update),
 	.write_data_in         (dataslot_update_size),
 	.read_data_out         (dataslot_update_size_latched)
+);
+wire [15:0] dataslot_update_size_lba48_latched;
+
+clock_reg_latch #(.data_size(15) ) dataslot_update_size_lba48_latch(
+	.write_clk             (clk_74a),        // the APF clock
+	.read_clk              (clk_mpu),        // the system clock
+	.reset_n               (reset_n),
+	.write_trigger         (dataslot_update),
+	.write_data_in         (dataslot_update_size_lba48),
+	.read_data_out         (dataslot_update_size_lba48_latched)
 );
     
 // external access to the CPU or cores for other cool stuff
@@ -663,7 +676,9 @@ always @(posedge clk_mpu) begin
 					'h98 : begin // System clock set
 					ext_data_out <= {32'b0, sysclk_frequency};
 					end
-					
+					'h9C : begin // target_dataslot_slotoffsetLBA48 read
+					ext_data_out <= target_dataslot_slotoffsetLBA48;
+					end
 					// Core reset from the MPU if required
 					'hA4 : begin // The reset the core function incase the system wants to make sure it is in sync
 					ext_data_out <= {32'b0, reset_out};
@@ -678,6 +693,9 @@ always @(posedge clk_mpu) begin
 					end
 					'hB8 : begin // dataslot_update_size ID
 					ext_data_out <= {32'b0, dataslot_update_size_latched};
+					end
+					'hBC : begin // dataslot_update_size ID
+					ext_data_out <= {32'b0, dataslot_update_size_lba48_latched};
 					end
 					// UART access
 					'hC0 : begin
@@ -740,7 +758,7 @@ always @(posedge clk_mpu) begin
 					target_dataslot_slotoffset <= dBus_cmd_payload_data;
 					end
 					'h90 : begin // target_dataslot_slotoffset read
-					{externalInterrupt_enabled, target_dataslot_write, target_dataslot_read} <= dBus_cmd_payload_data;
+					{externalInterrupt_enabled, target_dataslot_enableLBA48, target_dataslot_write, target_dataslot_read} <= dBus_cmd_payload_data;
 					end
 					// uart_divisor set
 					'h94 : begin 
@@ -749,6 +767,9 @@ always @(posedge clk_mpu) begin
 					// System clock set
 					'h98 : begin 
 					sysclk_frequency <= dBus_cmd_payload_data;
+					end
+					'h9C : begin // target_dataslot_slotoffset read
+					target_dataslot_slotoffsetLBA48 <= dBus_cmd_payload_data;
 					end
 					// The reset the core function incase the system wants to make sure it is in sync
 					'hA4 : begin 
