@@ -1,12 +1,11 @@
-The Amiga Core - Alpha core 0.1.0
+The Amiga Core - 0.2.1
 
 The Amiga core is a general implementation of the Amiga family of computers.
+LBA48 support
+Analogue OS Firmware 2.1 required
 
 To Be Done:
 * Clock
-* USB Mouse support on the dock
-* Fix up the video output on the dock, Will look into this more after Analogue confirms some things.
-* and code tidy up - So much to do!!!
 
 Special Thanks
 * VexRISCV - For the bases of the MPU for this core

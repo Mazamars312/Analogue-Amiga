@@ -9,12 +9,12 @@
       "description": "Amiga Core",
       "author": "Mazamars312",
       "url": "https://github.com/Mazamars312/Analogue-Amiga",
-      "version": "0.1.5",
-      "date_release": "2024-01-13"
+      "version": "0.2.1",
+      "date_release": "2024-01-18"
     },
     "framework": {
       "target_product": "Analogue Pocket",
-      "version_required": "1.1",
+      "version_required": "2.1",
       "sleep_supported": false,
       "dock": {
         "supported": true,
