@@ -42,11 +42,11 @@
 			},
 			{
 				"value": "0x00000004",
-				"name": "2 Drive 1x Speed"
+				"name": "2 Drives 1x Speed"
 			},
 			{
 				"value": "0x00000005",
-				"name": "2 Drive 2x Speed"
+				"name": "2 Drives 2x Speed"
 			}
 			]
 		},
