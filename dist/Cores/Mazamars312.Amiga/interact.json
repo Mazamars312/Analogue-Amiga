@@ -150,19 +150,19 @@
         "options": [
 			{
 				"value": "0x0000",
-				"name": "OG/PAL/Std"
+				"name": "ECS/PAL/Std"
 			},
 			{
 				"value": "0x0002",
-				"name": "OG/NTSC/Std"
+				"name": "ECS/NTSC/Std"
 			},
 			{
 				"value": "0x0001",
-				"name": "OCS/PAL/Turbo"
+				"name": "ECS/PAL/Turbo"
 			},
 			{
 				"value": "0x0003",
-				"name": "OCS/NTSC/Turbo"
+				"name": "ECS/NTSC/Turbo"
 			},
 			{
 				"value": "0x0010",
