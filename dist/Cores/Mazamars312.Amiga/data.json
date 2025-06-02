@@ -24,7 +24,7 @@
 		"extensions": [
 		"rom"
 		],
-        "filename": "MegaAGS-Kickstart.rom",
+        "filename": "AmigaVision.rom",
         "address": "0x90f00000"
       },
 	  {
@@ -36,7 +36,7 @@
         "extensions": [
 		"hdf"
 		],
-        "filename": "MegaAGS.hdf"
+        "filename": "AmigaVision.hdf"
       },
 	  {
         "name": "Hard Drive - IDE 1",
@@ -47,7 +47,7 @@
         "extensions": [
 		"hdf"
 		],
-        "filename": "MegaAGS-Saves.hdf"
+        "filename": "AmigaVision-Saves.hdf"
       },		  
 	  {
         "name": "Hard Drive - IDE 2",
