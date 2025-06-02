@@ -28,7 +28,7 @@
         "address": "0x90f00000"
       },
 	  {
-        "name": "harddrive - IDE 0",
+        "name": "Hard Drive - IDE 0",
         "id": "310",
         "required": false,
 		"deferload": true,
@@ -39,7 +39,7 @@
         "filename": "MegaAGS.hdf"
       },
 	  {
-        "name": "harddrive - IDE 1",
+        "name": "Hard Drive - IDE 1",
         "id": "311",
         "required": false,
 		"deferload": true,
@@ -50,7 +50,7 @@
         "filename": "MegaAGS-Saves.hdf"
       },		  
 	  {
-        "name": "harddrive - IDE 2",
+        "name": "Hard Drive - IDE 2",
         "id": "312",
         "required": false,
 		"deferload": true,
@@ -61,7 +61,7 @@
         "filename": "HDD-3.hdf"
       },
 	  {
-        "name": "harddrive - IDE 3",
+        "name": "Hard Drive - IDE 3",
         "id": "313",
         "required": false,
 		"deferload": true,
@@ -72,7 +72,7 @@
         "filename": "HDD-4.hdf"
       },
 	  {
-        "name": "Floppy drive 0",
+        "name": "Floppy Drive 0",
         "id": "320",
         "required": false,
 		"deferload": true,
@@ -85,7 +85,7 @@
         "address": "0x00000000"
       },
 	  {
-        "name": "Floppy drive 1",
+        "name": "Floppy Drive 1",
         "id": "321",
         "required": false,
 		"deferload": true,
