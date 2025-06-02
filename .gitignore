@@ -7,3 +7,4 @@
 *.o
 *.ci
 *.map
+.DS_Store
