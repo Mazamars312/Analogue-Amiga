@@ -3,7 +3,7 @@
     "magic": "APF_VER_1",
     "variables": [
 	{
-        "name": "CPU Reset",
+        "name": "Reset Amiga",
         "id": 120,
         "type": "action",
         "enabled": true,
@@ -278,7 +278,7 @@
         "options": [
 				{
 					"value": "0x0000",
-					"name": "0 MB"
+					"name": "None"
 				},
 				{
 					"value": "0x0010",
