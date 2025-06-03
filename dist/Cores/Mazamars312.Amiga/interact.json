@@ -70,7 +70,7 @@
 			},
 			{
 				"value": "0x80000000",
-				"name": "Mouse/Joystick 1"
+				"name": "Mouse/Joystick"
 			},
 			{
 				"value": "0x20000000",
@@ -82,7 +82,7 @@
 			},
 			{
 				"value": "0xa0000000",
-				"name": "Mouse/CD32 1"
+				"name": "Mouse/CD32"
 			}
 			]
 		},
