@@ -44,7 +44,7 @@ For this you are required to have the following 3 files to place in to the `\Ass
 
 * The Kickstart ROM — `AmigaVision.rom`
 * The Main Hard drive image — `AmigaVision.hdf`
-* The Save Hard drive image — `AmigaVision.hdf`
+* The Save Hard drive image — `AmigaVision-Saves.hdf`
 
 The recommended settings in the menu are as follows:
 
