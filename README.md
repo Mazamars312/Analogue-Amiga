@@ -27,6 +27,7 @@ If you are upgrading from an earlier version of the Amiga core on Pocket with Am
 * Floppy Read/Write support for ADF files
 * LBA48 support enabled — it can read and write to HDF hard disk images up to 2Tbytes now!
 * Can also access up to 4 hard drive HDF files (requires drivers on the Amiga side)
+* Can use a GameBoy link cable for Amiga games that support nullmodem for multiplayer action!
 
 ## How to set up
 
@@ -75,7 +76,7 @@ These can also be set to these values by selecting "Reset all to Default" in the
 * **Reset Amiga:** This will reset the core, and any change in settings will be applied.
 * **FDD/HDD LED:** this places a FDD or HDD activity light on the screen. The HDD light sometimes permanently stays on, unknown why yet.
 * **Floppy Drives:** this will allow you to select how many drives are installed, and delimit the transfer rate of the Amiga core.
-* **Port 1/Port 2:** This allows you to change and swap the controller ports with CD32/Normal Joystick/Mouse — if you need to use the emulated mouse, make sure you use the mouse/joystick or mouse/CD32 options.
+* **Port 1/Port 2:** This allows you to change and swap the controller ports with CD32 Gamepad (4 buttons + L1/R1), Normal Joystick (1 button) and/or Mouse — if you need to use the emulated mouse, make sure you use the Mouse/Joystick or Mouse/CD32 options.
 * **Mouse Speed:** This will change the update rate of both the emulated and real mouse movements.
 * **Screen Movement X/Y:** Moves the screen around.
 * **System Config:** Allows you to select PAL/NTSC refresh, ECS (Amiga 500/600/2000) hardware or newer AGA (Advanced Graphics Architecture) hardware, Turbo Boot or standard boot modes.
@@ -119,14 +120,14 @@ These can also be set to these values by selecting "Reset all to Default" in the
 * Currently, the standard Amiga resolutions for both the OCS and AGA work. Special ECS resolutions like 1024x200 or 1024x400 will not, since the max resolution of the Analogue Pocket is 800x720.
 * Due to memory access, the RTG resolutions will not work right now. They are also not used in the AmigaVision list of games, so it's not something that is particularly important to support.
 
-## I have game X that does not work!
+## Game X does not work!
 
 * A few games only work from ADF floppy images with the exact correct version of Kickstart.
 * The main goal of this project was getting an MPU Framework so external media can be accessed, and help giving developers some tools to help create more cores on the Pocket.
 * I do expect that there is more to learn about the Amiga to get many of these bugs resolved.
 * For multi-disk games, also try putting disks in other drives. Make sure you change the amount of installed drives to the amount needed. (Up to 2)
 
-## AmigaVision does not start up and only a black screen is there
+## AmigaVision does not start up, I only get a black screen
 
 The AmigaVision setup requires a 68020 CPU, AGA Chipset and Fast Memory to run. Make sure you do a "Reset all to Default" to get the core to boot.
 
@@ -140,7 +141,7 @@ Do note that it takes a while to boot up, especially if you have a slow SD card.
 
 ## Changes from 0.1.2 to 0.2.1
 
-* ICACHE Fixed for WDLOADER to work correctly
+* ICACHE Fixed for WHDLoad to work correctly
 * LBA48 added to support larger HDD images to 2TB in size
 * The joysticks are completely disabled when using the emulated mouse or keyboard
 * Audio Mixing — Still some work to be done here to get rid of the snap or pops from the lower frequencies to 48kHz
@@ -159,7 +160,7 @@ Do note that it takes a while to boot up, especially if you have a slow SD card.
 * More memory for the fast memory locations and tested working correctly.
 * Larger memory footprint for the MPU to hold all this awesomeness!!! 128KBYTE OF POWER!
 * A OSD Keyboard on the pocket when you are playing on pocket mode.
-* Null modem support using a Gameboy serial cable between two pockets! This could also open up MIDI support.
+* Null modem support using a Gameboy serial cable between two Pockets! This could also open up MIDI support.
 * Also a emulated mouse on a analogue joystick in docked mode (This is the left thumb stick and the left and right triggers for the mouse clicks)
 * Dropped the floppy drives from 4 to 2 as there was not enough room in the interation menu at this moment.
 
@@ -168,7 +169,6 @@ Do note that it takes a while to boot up, especially if you have a slow SD card.
 * Interlace mode corrected for games like DarkSeed.
 * Folder names changed for Unix/Linux/Mac OS and to help with the uploader system.
 * Faster floppy access times using a larger buffer in the MPU core and caching.
-* But what about the things below? I wanted to sort out these key issues out first and I'm awaiting a bugfix from Analogue to be released. This is due to files being corrupted when writing back to disk.
 
 ## What will be next for updates?
 * Clock input for the Amiga to keep its time.
