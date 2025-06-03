@@ -49,7 +49,7 @@ For this you are required to have the following 3 files to place in to the `/Ass
 The recommended settings in the menu are as follows:
 
 * **FDD/HDD LED**: `Off`
-* **Port 1/Port 2**: `Mouse/CD32Pad`
+* **Port 1/Port 2**: `Mouse/CD32`
 * **Mouse Speed**: `10`
 * **System Config**: `AGA/PAL/Turbo`
 * **CPU Type:** `68020 CPU — No Cache`
@@ -61,12 +61,12 @@ The recommended settings in the menu are as follows:
 
 These can also be set to these values by selecting "Reset all to Default" in the interaction menu. You should always Reset to Defaults when you do an upgrade to ensure you have the latest settings.
 
-## Is the best way to play this using the Dock?
+## Do you recommend using the Dock?
 
-* Yes, as you can then fully use the keyboard and mouse to interface with the core. Just make sure you select Port1/Port2 as Mouse/Joystick1 or Mouse/CD32 when using the real mouse (The new APF firmware has been found to have a bug with the mouse plugged in — am awaiting for an update on this).
-* Also the mouse is emulated on the left analogue thumb stick at the same time as joypad 1 is being used
+* Yes, as you can then fully use the keyboard and mouse to interface with the core. Just make sure you select Port1/Port2 as Mouse/Joystick1 or Mouse/CD32 when using the real mouse. (The new APF firmware has been found to have a bug with the mouse plugged in — am awaiting for an update on this)
+* The mouse is also emulated on the left analogue thumb stick at the same time as joypad 1 is being used.
 * Be aware that you will need a controller to access the Menu if you want to make changes.
-* The mouse needs some more work on the clamping and timing for it to work with every mouse. The current mouse I have is a lower sensitivity mouse and I find that it works fine, but high res based mice will cause the mouse to fly off in random locations. Work will be done more once the MPU has some resources changed in it.
+* The mouse needs some more work on the clamping and timing for it to work with every mouse. The current mouse I have is a lower sensitivity mouse and I find that it works fine, but high res based mice will cause the mouse to fly off in random locations. More work will be done once the MPU has some resources changed in it.
 
 ## Menu Overview
 
