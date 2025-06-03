@@ -21,7 +21,7 @@ If you are upgrading from an earlier version of the Amiga core on Pocket with Am
 * Chip Memory: 512kB, 1MB, 1.5MB and 2MB
 * Slow Memory: None, 512kB, 1MB, 1.5MB
 * Fast Memory: None/2/4/8MB for the 68000 CPU
-* Fast memory: None/2/4/8/16/32MB for the 68020 CPU setup
+* Fast Memory: None/2/4/8/16/32MB for the 68020 CPU setup
 * ECS and AGA Chipsets
 * Turbo Boot
 * Floppy Read/Write support for ADF files
