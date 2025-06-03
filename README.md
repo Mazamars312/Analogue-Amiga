@@ -30,17 +30,17 @@ If you are upgrading from an earlier version of the Amiga core on Pocket with Am
 
 ## How to set up
 
-* Place your ADF and HDF images in the `\Assets\amiga\common` folder.
-* Place the Kickstart ROM (what you call BIOS on the PC) in the `\Assets\amiga\common` folder (Any original 256/512/1024kB firmware ROM will work — no encrypted ROMs yet). Currently `AmigaVision.rom` is the default ROM.
-* Make sure that the `\Assets\amiga\Mazamars312.Amiga\` folder has the `amiga_mpu_bios.bin` file — this is supplied and should already be there.
+* Place your ADF and HDF images in the `/Assets/amiga/common` folder.
+* Place the Kickstart ROM (what you call BIOS on the PC) in the `/Assets/amiga/common` folder (Any original 256/512/1024kB firmware ROM will work — no encrypted ROMs yet). Currently `AmigaVision.rom` is the default ROM.
+* Make sure that the `/Assets/amiga/Mazamars312.Amiga/` folder has the `amiga_mpu_bios.bin` file — this is supplied and should already be there.
 * When changing system configurations, you **must** select the "Reset Amiga" in the menu to apply the config.
-* All hard drive and floppy images should be placed in the `\Assets\amiga\common` folder.
-* For custom hard drive images: In the `\Cores\Mazamars312.Amiga\` folder, the `data.json` file would need to be edited with the files names for each HDF file placed in data slots 310-313. By default, the AmigaVision images are referenced, but you can change the names to use other hard drive files. These cannot be changed on the fly due to how the HDF images work in the core. They are limited to 2TB drives. Anything larger will need different sector sizes to run.
+* All hard drive and floppy images should be placed in the `/Assets/amiga/common` folder.
+* For custom hard drive images: In the `/Cores/Mazamars312.Amiga/` folder, the `data.json` file would need to be edited with the files names for each HDF file placed in data slots 310-313. By default, the AmigaVision images are referenced, but you can change the names to use other hard drive files. These cannot be changed on the fly due to how the HDF images work in the core. They are limited to 2TB drives. Anything larger will need different sector sizes to run.
 * If HDD3 or HDD4 are needed make sure your Kickstart has been patched to support this, or install AtapiMagic/IDEFix97. This is not a Pocket Core/MPU issue, but a limitation of AmigaOS from back in the day.
 
 ## How can I get AmigaVision running on this core?
 
-For this you are required to have the following 3 files to place in to the `\Assets\amiga\common` folder
+For this you are required to have the following 3 files to place in to the `/Assets/amiga/common` folder
 
 * The Kickstart ROM — `AmigaVision.rom`
 * The Main hard drive image — `AmigaVision.hdf`
