@@ -43,21 +43,21 @@ If you are upgrading from an earlier version of the Amiga core on Pocket with Am
 For this you are required to have the following 3 files to place in to the `\Assets\amiga\common` folder
 
 * The Kickstart ROM — `AmigaVision.rom`
-* The Main Hard drive image — `AmigaVision.hdf`
-* The Save Hard drive image — `AmigaVision-Saves.hdf`
+* The Main hard drive image — `AmigaVision.hdf`
+* The Save hard drive image — `AmigaVision-Saves.hdf`
 
 The recommended settings in the menu are as follows:
 
-* FDD/HDD LED = Off
-* Port 1/Port 2 = Mouse/CD32PAD
-* Mouse Speed = 10
-* System Config = AGA/PAL/Turbo
-* CPU Type 68020 CPU — No Cache
-* Memory: Chip = 2MB
-* Memory: Slow = None
-* Memory: Fast = 32MB
-* Audio Filter = A500/PWM
-* Audio Mix = 50%
+* **FDD/HDD LED**: `Off`
+* **Port 1/Port 2**: `Mouse/CD32Pad`
+* **Mouse Speed**: `10`
+* **System Config**: `AGA/PAL/Turbo`
+* **CPU Type:** `68020 CPU — No Cache`
+* **Memory: Chip**: `2MB`
+* **Memory: Slow**: `None`
+* **Memory: Fast**: `32MB`
+* **Audio Filter**: `A500/PWM`
+* **Audio Mix**: `50%`
 
 These can also be set to these values by selecting "Reset all to Default" in the interaction menu. You should always Reset to Defaults when you do an upgrade to ensure you have the latest settings.
 
