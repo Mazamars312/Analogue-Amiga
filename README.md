@@ -14,7 +14,7 @@ If you are upgrading from an earlier version of the Amiga core on Pocket with Am
 
 * `MegaAGS-Pocket.hdf` and `MegaAGS.hdf` are no longer referenced in the `data.json` file, so we recommend downloading the latest release that has the file names `AmigaVision.hdf` and `AmigaVision-Saves.hdf`. 
 * If you want to use your existing setup instead of downloading the latest version, just rename the files, but we always recommend using the latest version, since the project is very active in fixing any issues.
-.
+
 ## What can it do?
 
 * 68000, 68010 and 68020 CPUs
