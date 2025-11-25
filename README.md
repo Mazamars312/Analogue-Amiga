@@ -1,4 +1,4 @@
-# Commodore Amiga core for Analogue Pocket — v0.2.1
+# Commodore Amiga core for Analogue Pocket — v0.2.2
 
 The Commodore Amiga was a personal computer that replaced the well-loved Commodore 64 in the Commodore product line. It also was one of the many 68K-based personal computers that showed that this CPU was a powerhouse when integrated with additional great hardware.
 
