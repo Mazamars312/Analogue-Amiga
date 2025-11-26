@@ -1281,9 +1281,9 @@ module VexRiscv (
   assign _zz__zz_decode_IS_DIV_93 = 32'h00000004;
   assign _zz__zz_decode_IS_DIV_95 = (decode_INSTRUCTION & 32'h00000044);
   assign _zz__zz_decode_IS_DIV_96 = 32'h00000004;
-  initial begin
-    $readmemb("F:/Analogue/openfpga-pcengine-cd/src/fpga/MPU/VexRiscv.v_toplevel_RegFilePlugin_regFile.bin",RegFilePlugin_regFile);
-  end
+  //initial begin
+  //  $readmemb("F:/Analogue/openfpga-pcengine-cd/src/fpga/MPU/VexRiscv.v_toplevel_RegFilePlugin_regFile.bin",RegFilePlugin_regFile);
+  //end
   always @(posedge clk) begin
     if(_zz_decode_RegFilePlugin_rs1Data) begin
       _zz_RegFilePlugin_regFile_port0 <= RegFilePlugin_regFile[decode_RegFilePlugin_regFileReadAddress1];
