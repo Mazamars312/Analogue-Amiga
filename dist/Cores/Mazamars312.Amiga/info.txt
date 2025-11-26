@@ -1,4 +1,4 @@
-The Amiga Core - 0.2.1
+Amiga Core for Analogue Pocket
 
 The Amiga core is a general implementation of the Amiga family of computers.
 LBA48 support
