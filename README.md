@@ -135,7 +135,7 @@ Do note that it takes a while to boot up, especially if you have a slow SD card.
 
 ## Changes from 0.2.2 to 0.2.3
 
-* Recent MiSTer improvements by robinson5 ported to the core by rsn8887, thanks! This fixes audio in Pit-Fighter, Torvak the Warrior, Risky Woods. Also fixes issues in Nexus 7, Roots 2.0, and Domination demos.
+* Recent MiSTer improvements by robinsonb5 ported to the core by rsn8887, thanks! This fixes audio in Pit-Fighter, Torvak the Warrior, Risky Woods. Also fixes issues in Nexus 7, Roots 2.0, and Domination demos.
 
 ## Changes from 0.2.1 to 0.2.2
 
