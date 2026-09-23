@@ -23,6 +23,7 @@
 
 #ifndef TIMER_H
 #include <stdio.h>
+#include <inttypes.h>
 
 // We have two timers one for User use and the other for the Keyboard and mouse checks
 #define TIMERBASE1 0xffffffc4
