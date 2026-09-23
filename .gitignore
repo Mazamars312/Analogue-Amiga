@@ -14,3 +14,6 @@
 src/MPUBIOS/app/build.riscv.*/
 src/MPUBIOS/app/dep.riscv.*/
 src/MPUBIOS/app/obj.riscv.*/
+
+# Compiled host-side unit test binary (see src/MPUBIOS/drivers/KMIO/test/)
+src/MPUBIOS/drivers/KMIO/test/test_mouse_math

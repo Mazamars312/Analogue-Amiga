@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  mouse-math-tests:
+    name: Mouse math unit tests (host)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run tests
+        run: make -C src/MPUBIOS/drivers/KMIO/test test
+
+  firmware-build:
+    name: MPU firmware build (riscv32)
+    runs-on: ubuntu-latest
+    env:
+      XPACK_VERSION: 15.2.0-1
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install xPack riscv-none-elf-gcc
+        run: |
+          curl -L -o /tmp/xpack-gcc.tar.gz \
+            "https://github.com/xpack-dev-tools/riscv-none-elf-gcc-xpack/releases/download/v${XPACK_VERSION}/xpack-riscv-none-elf-gcc-${XPACK_VERSION}-linux-x64.tar.gz"
+          mkdir -p "$HOME/opt"
+          tar -xzf /tmp/xpack-gcc.tar.gz -C "$HOME/opt"
+          echo "$HOME/opt/xpack-riscv-none-elf-gcc-${XPACK_VERSION}/bin" >> "$GITHUB_PATH"
+      - name: Build amiga_mpu_bios.bin
+        working-directory: src/MPUBIOS/app
+        run: |
+          # The repo has committed build-artifact directories baked with the
+          # original author's local path; they break a fresh build (stale
+          # absolute-path .d dependency files) and are fully regenerable.
+          rm -rf build.riscv.amiga_mpu_bios dep.riscv.amiga_mpu_bios obj.riscv.amiga_mpu_bios
+          make GCC_PREFIX=riscv-none-elf- \
+            EXTRA_CFLAGS="-c -I../ -I../api -march=rv32imac_zicsr_zifencei -mabi=ilp32"
+      - name: Verify output binary
+        working-directory: src/MPUBIOS/app
+        run: |
+          test -s build.riscv.amiga_mpu_bios/amiga_mpu_bios.bin
+          ls -la build.riscv.amiga_mpu_bios/amiga_mpu_bios.bin
