@@ -1,7 +1,0 @@
-graph: { title: "../lib/memcmp.c"
-node: { title: "memcmp" label: "memcmp\n../lib/memcmp.c:11:5" }
-node: { title: "memicmp" label: "memicmp\n../lib/memcmp.c:26:5" }
-node: { title: "tolower" label: "tolower\n../lib/_string.h:36:5" shape : ellipse }
-edge: { sourcename: "memicmp" targetname: "tolower" label: "../lib/memcmp.c:34:13" }
-edge: { sourcename: "memicmp" targetname: "tolower" label: "../lib/memcmp.c:35:13" }
-}

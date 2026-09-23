@@ -1,6 +1,0 @@
-graph: { title: "../lib/strtok.c"
-node: { title: "strspn" label: "strspn\n../lib/strtok.c:10:8" }
-node: { title: "strtok" label: "strtok\n../lib/strtok.c:31:8" }
-node: { title: "strpbrk" label: "strpbrk\n../lib/_string.h:25:8" shape : ellipse }
-edge: { sourcename: "strtok" targetname: "strpbrk" label: "../lib/strtok.c:46:11" }
-}

@@ -1,2 +1,0 @@
-../lib/memcmp.c:11:5:memcmp	0	static
-../lib/memcmp.c:26:5:memicmp	32	static

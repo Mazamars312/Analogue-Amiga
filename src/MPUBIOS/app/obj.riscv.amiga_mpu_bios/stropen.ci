@@ -1,8 +1,0 @@
-graph: { title: "../lib/stropen.c"
-node: { title: "../lib/stropen.c:buf_getchar" label: "buf_getchar\n../lib/stropen.c:16:1" }
-node: { title: "../lib/stropen.c:buf_peekchar" label: "buf_peekchar\n../lib/stropen.c:28:1" }
-node: { title: "../lib/stropen.c:buf_feof" label: "buf_feof\n../lib/stropen.c:39:1" }
-node: { title: "../lib/stropen.c:buf_putchar" label: "buf_putchar\n../lib/stropen.c:6:1" }
-node: { title: "stropen" label: "stropen\n../lib/stropen.c:68:1" }
-node: { title: "strclose" label: "strclose\n../lib/stropen.c:77:1" }
-}

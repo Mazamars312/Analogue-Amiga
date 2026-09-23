@@ -1,5 +1,0 @@
-graph: { title: "../lib/itoa.c"
-node: { title: "itoa" label: "itoa\n../lib/itoa.c:25:8" }
-node: { title: "strlen" label: "strlen\n../lib/_string.h:18:8" shape : ellipse }
-edge: { sourcename: "itoa" targetname: "strlen" label: "../lib/itoa.c:15:21" }
-}
