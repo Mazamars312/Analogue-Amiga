@@ -92,6 +92,11 @@ These can also be set to these values by selecting "Reset all to Default" in the
 * You can toggle this with the start button — the D-pad becomes the movement, and the buttons are emulated on the left and right triggers.
 * Please note that you need to have the Port1/Port2 setup as Mouse/Joystick1 or Mouse/CD32 for the mouse to work.
 
+## The mouse pointer feels too fast or too slow
+
+* Try the "Mouse Speed" setting in the core's menu (1-32, default 10) — this is the main control for pointer sensitivity.
+* Different mice will still feel different from each other at the same setting. The Pocket's dock reports mouse movement over standard USB HID, which doesn't include the mouse's DPI/CPI (its own sensor resolution) — a higher-DPI mouse sends more raw movement counts for the same physical hand movement than a lower-DPI one, and the core has no way to detect or correct for this automatically. This is normal (it's true of real Amiga mice and most other systems too), not a bug — just try adjusting the Mouse Speed setting for your particular mouse.
+
 ## Is there a way to emulate a keyboard while not connected to the dock?
 
 * Press the Select button and an on-screen keyboard will come up. There is no way to press two keys at once yet.
