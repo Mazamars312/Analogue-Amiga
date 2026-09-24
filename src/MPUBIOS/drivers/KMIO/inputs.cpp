@@ -41,6 +41,7 @@ bool    MOD_RALT;
 bool    MOD_LSHIFT;
 bool    MOD_RSHIFT;
 bool    MOD_LWIN;
+bool    MOD_RWIN;
 bool    MOD_CTRL;
 bool    MOD_CAPS_LOCK;
 bool    keyboard_osd_showing = 0;
@@ -240,7 +241,7 @@ void update_keyboard_inputs (){
     keyboard_buffer_updated[j] = keyboard_buffer_input[j];  // Store the Pressed keys and the current keys down still to a temp buffer for now.
     if (failed_key) {
       tmp = mapHidToAmiga[keyboard_buffer_input[j]]; // Convert to the Amiga standard
-      HPS_spi_uio_cmd8(UIO_KEYBOARD, tmp); // we send the new keys to the HPS bus
+      if (tmp != AMIGA_UNKNOWN) HPS_spi_uio_cmd8(UIO_KEYBOARD, tmp); // we send the new keys to the HPS bus
     }
 
     j++;
@@ -264,8 +265,7 @@ void update_keyboard_inputs (){
     } while (i < old_buf_len);
     if (failed_key) {
       tmp = mapHidToAmiga[keyboard_buffer[j]]; // To unpress we send the MSB to 1 and the same code back to say unpressed
-      tmp = 0x80 | tmp;
-      HPS_spi_uio_cmd8(UIO_KEYBOARD, tmp);
+      if (tmp != AMIGA_UNKNOWN) HPS_spi_uio_cmd8(UIO_KEYBOARD, 0x80 | tmp);
     }
 
     j++;
@@ -279,6 +279,7 @@ void update_keyboard_inputs (){
   bool    MOD_LWIN_TMP    = ((CONTROLLER_KEY_REG(3)>>11) & 0x01);
   bool    MOD_LCTRL_TMP   = ((CONTROLLER_KEY_REG(3)>>8)  & 0x01);
   bool    MOD_RCTRL_TMP   = ((CONTROLLER_KEY_REG(3)>>12) & 0x01);
+  bool    MOD_RWIN_TMP    = ((CONTROLLER_KEY_REG(3)>>15) & 0x01);
   // Left Alt Key
   if (MOD_LALT_TMP && !MOD_LALT) {
     MOD_LALT = 1;
@@ -290,10 +291,10 @@ void update_keyboard_inputs (){
 // Right  Alt Key
   if (MOD_RALT_TMP && !MOD_RALT) {
     MOD_RALT = 1;
-    HPS_spi_uio_cmd8(UIO_KEYBOARD, AMIGA_RSHIFT);
+    HPS_spi_uio_cmd8(UIO_KEYBOARD, AMIGA_RALT);
   } else if (!MOD_RALT_TMP && MOD_RALT){
     MOD_RALT = 0;
-    HPS_spi_uio_cmd8(UIO_KEYBOARD, (AMIGA_RSHIFT| 0x80));
+    HPS_spi_uio_cmd8(UIO_KEYBOARD, (AMIGA_RALT| 0x80));
   }
   // Left Shift Key
   if (MOD_LSHIFT_TMP && !MOD_LSHIFT) {
@@ -323,9 +324,18 @@ void update_keyboard_inputs (){
   if ((MOD_LCTRL_TMP | MOD_RCTRL_TMP) && !MOD_CTRL) {
     MOD_CTRL = 1;
     HPS_spi_uio_cmd8(UIO_KEYBOARD, AMIGA_CTRL);
-  } else if (!MOD_LWIN_TMP && MOD_CTRL){
+  } else if (!(MOD_LCTRL_TMP | MOD_RCTRL_TMP) && MOD_CTRL){
     MOD_CTRL = 0;
     HPS_spi_uio_cmd8(UIO_KEYBOARD, (AMIGA_CTRL| 0x80));
+  }
+  // Right Winkey (GUI) Key -- bit 15, same "meaningful byte on top" layout
+  // as the other seven modifier bits, just never read.
+  if (MOD_RWIN_TMP && !MOD_RWIN) {
+    MOD_RWIN = 1;
+    HPS_spi_uio_cmd8(UIO_KEYBOARD, AMIGA_RAMIGA);
+  } else if (!MOD_RWIN_TMP && MOD_RWIN){
+    MOD_RWIN = 0;
+    HPS_spi_uio_cmd8(UIO_KEYBOARD, (AMIGA_RAMIGA| 0x80));
   }
   return;
 }
