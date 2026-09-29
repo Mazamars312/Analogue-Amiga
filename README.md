@@ -138,6 +138,11 @@ The AmigaVision setup requires a 68020 CPU, AGA Chipset and Fast Memory to run. 
 
 Do note that it takes a while to boot up, especially if you have a slow SD card. It's a 9GB+ hard drive file that needs to be mounted and booted from.
 
+## Changes from 0.2.3 to 0.2.4
+
+* Fixed dock-mouse tracking: buttons, HID delta decode, speed scaling, and a torn-read guard that could act on inconsistent register reads. See "The mouse pointer feels too fast or too slow" below if movement still feels off for your particular mouse.
+* Fixed several keyboard modifier/mapping bugs: Right Alt was sending Right Shift instead; Ctrl could get stuck down or release early depending on unrelated key state; Right GUI/Windows (Right Amiga) was never read; unmapped keys were sent as phantom keypresses; the ISO extra key (`\|`) and non-US `#~` now map to their Amiga international-layout equivalents.
+
 ## Changes from 0.2.2 to 0.2.3
 
 * Recent MiSTer improvements by robinsonb5 ported to the core by rsn8887, thanks! This fixes audio in Pit-Fighter, Torvak the Warrior, Risky Woods. Also fixes issues in Nexus 7, Roots 2.0, and Domination demos.
