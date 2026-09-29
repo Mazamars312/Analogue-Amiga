@@ -97,6 +97,11 @@ These can also be set to these values by selecting "Reset all to Default" in the
 * Try the "Mouse Speed" setting in the core's menu (1-32, default 10) — this is the main control for pointer sensitivity.
 * Different mice will still feel different from each other at the same setting. The Pocket's dock reports mouse movement over standard USB HID, which doesn't include the mouse's DPI/CPI (its own sensor resolution) — a higher-DPI mouse sends more raw movement counts for the same physical hand movement than a lower-DPI one, and the core has no way to detect or correct for this automatically. This is normal (it's true of real Amiga mice and most other systems too), not a bug — just try adjusting the Mouse Speed setting for your particular mouse.
 
+## I unplugged my USB mouse from the dock but a docked controller's analog stick isn't taking over as the mouse
+
+* The core does automatically fall back to emulating the mouse on a docked Bluetooth/USB controller's left analog stick when no USB mouse is present. However, the dock doesn't always notice a mouse has been unplugged until it's power-cycled — until it does, the core still thinks the mouse is there.
+* If the analog stick doesn't take over after unplugging the mouse, power-cycle the dock (and the Pocket, if needed) and it should pick up the controller correctly.
+
 ## Is there a way to emulate a keyboard while not connected to the dock?
 
 * Press the Select button and an on-screen keyboard will come up. There is no way to press two keys at once yet.
