@@ -1,3 +1,0 @@
-graph: { title: "../lib/strstr.c"
-node: { title: "strstr" label: "strstr\n../lib/strstr.c:7:7" }
-}

@@ -92,6 +92,16 @@ These can also be set to these values by selecting "Reset all to Default" in the
 * You can toggle this with the start button — the D-pad becomes the movement, and the buttons are emulated on the left and right triggers.
 * Please note that you need to have the Port1/Port2 setup as Mouse/Joystick1 or Mouse/CD32 for the mouse to work.
 
+## The mouse pointer feels too fast or too slow
+
+* Try the "Mouse Speed" setting in the core's menu (1-32, default 10) — this is the main control for pointer sensitivity.
+* Different mice will still feel different from each other at the same setting. The Pocket's dock reports mouse movement over standard USB HID, which doesn't include the mouse's DPI/CPI (its own sensor resolution) — a higher-DPI mouse sends more raw movement counts for the same physical hand movement than a lower-DPI one, and the core has no way to detect or correct for this automatically. This is normal (it's true of real Amiga mice and most other systems too), not a bug — just try adjusting the Mouse Speed setting for your particular mouse.
+
+## I unplugged my USB mouse from the dock but a docked controller's analog stick isn't taking over as the mouse
+
+* The core does automatically fall back to emulating the mouse on a docked Bluetooth/USB controller's left analog stick when no USB mouse is present. However, the dock doesn't always notice a mouse has been unplugged until it's power-cycled — until it does, the core still thinks the mouse is there.
+* If the analog stick doesn't take over after unplugging the mouse, power-cycle the dock (and the Pocket, if needed) and it should pick up the controller correctly.
+
 ## Is there a way to emulate a keyboard while not connected to the dock?
 
 * Press the Select button and an on-screen keyboard will come up. There is no way to press two keys at once yet.
@@ -132,6 +142,11 @@ These can also be set to these values by selecting "Reset all to Default" in the
 The AmigaVision setup requires a 68020 CPU, AGA Chipset and Fast Memory to run. Make sure you do a "Reset all to Default" to get the core to boot.
 
 Do note that it takes a while to boot up, especially if you have a slow SD card. It's a 9GB+ hard drive file that needs to be mounted and booted from.
+
+## Changes from 0.2.3 to 0.2.4
+
+* Fixed dock-mouse tracking: buttons, HID delta decode, speed scaling, and a torn-read guard that could act on inconsistent register reads. See "The mouse pointer feels too fast or too slow" below if movement still feels off for your particular mouse.
+* Fixed several keyboard modifier/mapping bugs: Right Alt was sending Right Shift instead; Ctrl could get stuck down or release early depending on unrelated key state; Right GUI/Windows (Right Amiga) was never read; unmapped keys were sent as phantom keypresses; the ISO extra key (`\|`) and non-US `#~` now map to their Amiga international-layout equivalents.
 
 ## Changes from 0.2.2 to 0.2.3
 
