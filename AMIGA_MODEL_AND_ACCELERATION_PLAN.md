@@ -1,6 +1,6 @@
 # Amiga model profiles and accelerated A1200 support
 
-Status: proposed implementation plan. No implementation is included in this document.
+Status: Plan A (named model profiles) is implemented - resolver in `src/MPUBIOS/app/machine_profiles.h`, menu entry id 140, host tests in `tests/test_machine_profiles.cpp`, field audit in PROFILE_FIELD_MAPPING.md. Plan B (accelerated A1200) remains a proposed implementation plan.
 
 The work has two deliverables:
 
