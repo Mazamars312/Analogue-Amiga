@@ -12,6 +12,10 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run tests
         run: make -C src/MPUBIOS/drivers/KMIO/test test
+      - name: Machine profile resolver tests (host)
+        run: |
+          g++ -std=c++14 -Wall tests/test_machine_profiles.cpp -o /tmp/test_machine_profiles
+          /tmp/test_machine_profiles
 
   firmware-build:
     name: MPU firmware build (riscv32)

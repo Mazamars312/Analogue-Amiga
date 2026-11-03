@@ -29,6 +29,41 @@ If you are upgrading from an earlier version of the Amiga core on Pocket with Am
 * Can also access up to 4 hard drive HDF files (requires drivers on the Amiga side)
 * Can use a GameBoy link cable for Amiga games that support nullmodem for multiplayer action!
 
+## Machine Profiles
+
+The **Machine Profile** menu entry applies a complete, documented machine
+configuration in one step - no need to pick CPU, chipset and memory sizes
+by hand. The selection is staged until you choose **Reset Amiga**, and it
+persists across power cycles.
+
+| Profile | CPU | Chipset | Chip RAM | Slow RAM | Fast RAM | Recommended Kickstart |
+|---|---|---|---:|---:|---:|---|
+| Custom (existing settings) | yours | yours | yours | yours | yours | yours |
+| A500 | 68000 | OCS | 512K | 512K | - | 1.3 |
+| A500 Plus | 68000 | ECS | 1M | - | - | 2.0+ |
+| A600 | 68000 | ECS | 1M | - | - | 2.0+ |
+| A1200 | 68020 | AGA | 2M | - | - | 3.0/3.1 |
+| A1200 Accelerated | 68020+cache | AGA | 2M | - | 32M | 3.0/3.1 |
+| AmigaVision | 68020 | AGA | 2M | - | 32M | AmigaVision ROM |
+
+Notes:
+
+* A named profile overrides the CPU Type, System Configuration and Memory
+  menu entries at reset time. Pick **Custom** to use those individual
+  settings again - your previous choices are kept.
+* PAL/NTSC stays independent: the profile keeps whatever video standard
+  you selected in System Configuration.
+* The IDE hard drive interface is enabled automatically whenever HDF
+  images are mounted (data slots 310-313), on every profile - the A600
+  profile just documents that an A600-class machine expects it.
+* Compatibility limits: the 68000 path is fx68k (68000-compatible, not
+  cycle-exact); the 68020 path is TG68K (020-compatible, no MMU/FPU);
+  AGA implies ECS. No profile emulates A1000 boot hardware, A3000
+  SCSI/MMU, 68030/68040, CDTV or CD32 peripherals.
+* "A1200 Accelerated" enables the existing TG68K cache and 32MB Fast
+  RAM; it is a configuration preset, not a new faster CPU (see
+  AMIGA_MODEL_AND_ACCELERATION_PLAN.md Plan B for real acceleration work).
+
 ## How to set up
 
 * Place your ADF and HDF images in the `/Assets/amiga/common` folder.

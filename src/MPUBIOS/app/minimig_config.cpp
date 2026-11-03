@@ -26,58 +26,8 @@
  #include "minimig_config.h"
 
 
-// ============================================================================
-// Machine Profile definitions (Plan A - Named Model Profiles)
-// ============================================================================
-//
-// Profile identifiers (0 = Custom, pass-through existing settings).
-// Stable identifiers: do not repurpose released values.
-//
-// Register field encodings (as consumed by userio.v / minimig.v):
-//
-//   chipset_config (reg 2, 0xF0000008, 5 bits):
-//     bit 0 = Turbo (0 for profiles)
-//     bit 1 = NTSC (merged from existing video-standard choice)
-//     bit 2 = A1000 mode (0 for profiles)
-//     bit 3 = ECS
-//     bit 4 = AGA
-//     Hardware decodes: ecs = |chipset_config[4:3], aga = chipset_config[4]
-//
-//   cpu_config (reg 3, 0xF000000C, 5 bits):
-//     bits[1:0] = CPU type (00=68k/fx68k, 01=68k10/fx68k, 11=68k20/TG68K)
-//     bit 2     = Cache enable
-//     bit 3     = Fast kickstart
-//
-//   memory_config (reg 4, 0xF0000010, 8 bits):
-//     bits[1:0] = Chip RAM (0=512K, 1=1M, 2=1.5M, 3=2M)
-//     bits[3:2] = Slow RAM (0=None, 1=512K, 2=1M, 3=1.5M)
-//     bits[5:4] = Fast RAM (0=None, 1=2M, 2=4M, 3=8M, 4=16M, 5=32M)
-//
+#include "machine_profiles.h"
 
-#include "profile_def.h"
-
-// Resolve the effective machine configuration from a profile identifier and
-// the current menu register snapshot using the shared profile definitions.
-static void resolve_profile(uint8_t profile_id, uint8_t reg_chip, uint8_t reg_cpu,
-                            uint8_t reg_mem, uint8_t *eff_chip, uint8_t *eff_cpu,
-                            uint8_t *eff_mem, bool *eff_ide) {
-  const struct ProfileDef *prof = nullptr;
-  bool ok = resolve_profile_lookup(profile_id, reg_chip, reg_cpu, reg_mem,
-                                   eff_chip, eff_cpu, eff_mem, eff_ide, &prof);
-
-  if (!ok || prof == nullptr) {
-    mainprintf("Profile warning: unknown profile ID %u, falling back to Custom\r\n", profile_id);
-    return;
-  }
-
-  if (prof->id == PROFILE_CUSTOM) {
-    mainprintf("Profile: Custom (pass-through existing settings)\r\n");
-    return;
-  }
-
-  mainprintf("Profile: %s (ID %u) -> chip=0x%02X cpu=0x%02X mem=0x%02X ide=%d\r\n",
-             prof->name, profile_id, *eff_chip, *eff_cpu, *eff_mem, *eff_ide ? 1 : 0);
-}
 
 void minimig_bios (){
   int tmp;
@@ -119,8 +69,7 @@ void minimig_restart_first() {
 
   // Resolve effective configuration through the profile resolver
   uint8_t eff_chip, eff_cpu, eff_mem;
-  bool eff_ide;
-  resolve_profile(reg_prof, reg_chip, reg_cpu, reg_mem, &eff_chip, &eff_cpu, &eff_mem, &eff_ide);
+  resolve_profile(reg_prof, reg_chip, reg_cpu, reg_mem, &eff_chip, &eff_cpu, &eff_mem);
 
   // Get the Floppy Controllers sorted
   HPS_spi_uio_cmd8(UIO_MM2_FLP , reg_flop);
@@ -149,8 +98,7 @@ void minimig_restart_running_core() {
 
   // Resolve effective configuration through the profile resolver
   uint8_t eff_chip, eff_cpu, eff_mem;
-  bool eff_ide;
-  resolve_profile(reg_prof, reg_chip, reg_cpu, reg_mem, &eff_chip, &eff_cpu, &eff_mem, &eff_ide);
+  resolve_profile(reg_prof, reg_chip, reg_cpu, reg_mem, &eff_chip, &eff_cpu, &eff_mem);
 
   // Get the Floppy Controllers sorted
   HPS_spi_uio_cmd8(UIO_MM2_FLP , reg_flop);
