@@ -98,7 +98,12 @@ Shared by Memory: Chip (id 129), Slow (id 130), Fast (id 131).
 |------|-------|--------|
 | [1:0] | Chip RAM | 0=512K, 1=1M, 2=1.5M, 3=2M |
 | [3:2] | Slow RAM | 0=None, 1=512K, 2=1M, 3=1.5M |
-| [5:4] | Fast RAM | 0=None, 1=2M, 2=4M, 3=8M, 4=16M, 5=32M |
+| [6:4] | Fast RAM | 0=None, 1=2M, 2=4M, 3=8M, 4=16M, 5=32M |
+| [7] | HRTmon enable | Not used by profiles |
+
+(Fast RAM is three bits at [6:4], not [5:4] as first drafted - `core_top.v`
+wires `fastramcfg = memcfg[6:4]`. The profile values were already correct;
+only this table and the firmware comments were wrong.)
 
 Default: Chip=3 (2M), Slow=0 (None), Fast=5 (32M) → `0x53`
 
@@ -173,10 +178,16 @@ Configs are already staged until reset because `userio.v` only latches
 | 0 | Custom | User | User | User | User | User | User | — | User |
 | 1 | A500 | 68000 | OCS | 512K | 512K | None | No | No | KS 1.3 |
 | 2 | A500 Plus | 68000 | ECS | 1M | None | None | No | No | KS 2.0+ |
-| 3 | A600 | 68000 | ECS | 1M | None | None | No | Yes | KS 2.0+ |
+| 3 | A600 | 68000 | ECS | 1M | None | None | No | Auto* | KS 2.0+ |
 | 4 | A1200 | 020 | AGA | 2M | None | None | No | No | KS 3.0/3.1 |
 | 5 | A1200 Accel | 020 | AGA | 2M | None | 32M | Yes | No | KS 3.0/3.1 |
 | 6 | AmigaVision | 020 | AGA | 2M | None | 32M | No | No | KS 3.0/3.1 |
+
+\* **IDE is not profile-controlled.** `minimig_hdd_update()` sends
+`UIO_MM2_HDD` with Gayle/master/slave enable bits derived from which HDF data
+slots (310-313) are occupied, on every profile. The resolver therefore carries
+no IDE flag (the initial draft's `ide_enable` was dead code and was removed);
+the A600 profile's "IDE" is descriptive - mount an HDF and the interface is on.
 
 ## 7. Compatibility Limits (documented differences)
 
@@ -198,13 +209,25 @@ peripherals have been implemented.
 |------|--------|
 | `dist/Cores/Mazamars312.Amiga/interact.json` | Added Machine Profile menu entry (id 140, addr 0xF0000018) |
 | `dist/Settings/Mazamars312.Amiga/Interact/_core/interact_persist.json` | Added profile persistence (id 140, default 0=Custom) |
-| `src/MPUBIOS/app/minimig_config.cpp` | Added profile table, resolver, modified both restart functions |
-| `PROFILE_FIELD_MAPPING.md` | This document (new) |
+| `src/MPUBIOS/app/machine_profiles.h` | Profile table + resolver, shared between firmware and host tests (extracted from minimig_config.cpp; dead `ide_enable` removed) |
+| `src/MPUBIOS/app/minimig_config.cpp` | Both restart functions resolve via `resolve_profile()` |
+| `tests/test_machine_profiles.cpp` | Host unit tests: encodings, NTSC merge, turbo clear, Custom pass-through, unknown-ID fallback (Plan A6) |
+| `dist/Cores/Mazamars312.Amiga/amiga_mpu_bios.bin` | Rebuilt with the profile resolver (previous binary predated it) |
+| `.github/workflows/ci.yml`, `Dockerfile` | Run the resolver tests in CI |
+| `.github/workflows/build.yml` | Push trigger limited to bitstream-affecting paths; PRs still always build |
+| `README.md` | User-facing Machine Profiles section |
+| `PROFILE_FIELD_MAPPING.md` | This document |
 
 ## 9. Build Verification
 
-The RISC-V cross-toolchain was not available in this environment. The profile
-resolver logic was syntax-checked with a host C++ compiler (g++ -std=c++14) and
-produces correct results for all profile IDs including unknown-ID fallback.
-
-Full build requires `riscv64-unknown-elf-g++` per `src/MPUBIOS/make/makefile.riscv`.
+- Host unit tests (`tests/test_machine_profiles.cpp`) compile and pass with
+  g++ -std=c++14; they exercise the same `machine_profiles.h` the firmware
+  includes.
+- Firmware rebuilt with `riscv-none-elf-gcc` 15.2.0 (xPack), same flags as
+  `.github/workflows/ci.yml`: builds clean, 81504 B of 128 KB RAM used, and
+  the profile strings are present in `amiga_mpu_bios.bin`. The rebuilt binary
+  is committed to `dist/` (the previously committed binary predated the
+  profile feature).
+- Pocket hardware validation (cold boot, Reset Amiga per profile, PAL/NTSC,
+  memory layouts) is still outstanding - see Plan A6. Nothing here has been
+  tested on a physical Pocket.

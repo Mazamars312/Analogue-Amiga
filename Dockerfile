@@ -7,4 +7,4 @@ RUN apt-get update -qq && \
 
 WORKDIR /src
 
-CMD ["bash", "-c", "clang++ -std=c++14 tests/test_amiga_shortcuts.cpp -o test_shortcuts && ./test_shortcuts && cd src/MPUBIOS/app && make clean && make"]
+CMD ["bash", "-c", "clang++ -std=c++14 tests/test_amiga_shortcuts.cpp -o test_shortcuts && ./test_shortcuts && clang++ -std=c++14 tests/test_machine_profiles.cpp -o test_profiles && ./test_profiles && cd src/MPUBIOS/app && make clean && make"]

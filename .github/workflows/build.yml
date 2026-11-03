@@ -3,6 +3,17 @@ name: Build Amiga Core and Release
 on:
   push:
     branches: [ main, feature/** ]
+    # The Quartus compile only depends on the FPGA sources and packaging
+    # inputs. Firmware-only (src/MPUBIOS), menu JSON, test or doc changes
+    # cannot change the bitstream, so skip the ~2h compile for those pushes.
+    # pull_request stays unfiltered: every PR to main still gets a full
+    # build before merge, and workflow_dispatch allows a manual run anytime.
+    paths:
+      - 'src/fpga/**'
+      - 'utils/**'
+      - 'Dockerfile'
+      - '.github/workflows/build.yml'
+      - '.github/scripts/**'
   pull_request:
     branches: [ main ]
   workflow_dispatch:
