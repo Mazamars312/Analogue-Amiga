@@ -279,6 +279,25 @@
         "address": "0xf0000000",
         "value": 1,
         "mask": "0xFFFFFFFE"
+      },
+      {
+        "name": "Machine Profile",
+        "id": 140,
+        "type": "list",
+        "enabled": true,
+        "persist": true,
+        "address": "0xf0000018",
+        "defaultval": 0,
+        "mask": "0xFFFFFFF8",
+        "options": [
+          { "value": "0x0000", "name": "Custom (existing settings)" },
+          { "value": "0x0001", "name": "A500 (68000/OCS/512K Chip/512K Slow)" },
+          { "value": "0x0002", "name": "A500 Plus (68000/ECS/1M Chip)" },
+          { "value": "0x0003", "name": "A600 (68000/ECS/1M Chip/IDE)" },
+          { "value": "0x0004", "name": "A1200 (020/AGA/2M Chip)" },
+          { "value": "0x0005", "name": "A1200 Accelerated (020/AGA/2M Chip/32M Fast/Cache)" },
+          { "value": "0x0006", "name": "AmigaVision (020/AGA/2M Chip/32M Fast/No Cache)" }
+        ]
       }
     ]
   }

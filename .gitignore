@@ -22,3 +22,7 @@ src/MPUBIOS/app/obj.riscv.*/
 
 # Compiled host-side unit test binary (see src/MPUBIOS/drivers/KMIO/test/)
 src/MPUBIOS/drivers/KMIO/test/test_mouse_math
+
+# Local build environment notes — Windows RISC-V box + shared Quartus host.
+# Contains machine-specific paths and job-control script usage. Do NOT sync to GitHub.
+LOCAL_BUILD_NOTES.md
