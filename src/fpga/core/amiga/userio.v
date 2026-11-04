@@ -419,20 +419,19 @@ reg [4:0] t_chipset_config = 0;
 always @(posedge clk) begin
 	reg [5:0] ide_cfg = 0;
 	reg [1:0] cpu_cfg = 0;
+	reg [2:0] cache_cfg = 0;
 
 	if (reset) begin
 		chipset_config <= t_chipset_config;
 		ide_cfg <= t_ide_config;
 		cpu_cfg <= t_cpu_config[1:0];
+		cache_cfg <= t_cpu_config[4:2];
 		memory_config[7:0] <= t_memory_config[7:0];
 	end
 	
 	ide_config <= ide_cfg;
 	cpu_config <= cpu_cfg;
-end
-
-always @(posedge clk) begin
-	cache_config[2:0] <= t_cpu_config[4:2];
+	cache_config <= cache_cfg;
 end
 
 reg [7:0] cmd;

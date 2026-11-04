@@ -1,0 +1,35 @@
+Plan B Cache Simulation Baseline — cpu_cache_new.v
+===================================================
+Cache: 2-way set-assoc, 256 sets x 2 ways x 16-byte lines = 8 KB total
+      (header says 4KB but actual RTL is 256 sets x 16B x 2 ways = 8KB)
+      Write-through, look-through, LRU replacement
+      Fill: 4 beats (1 word per sdr_read_ack)
+
+Testbench: planB/sim/cache_tb.v (iverilog, behavioral dpram model)
+SDRAM model: 4-beat burst, 1 cycle per beat (idealized, no arbitration delay)
+
+Test sequence (1856 accesses, re-run gives 3520 due to test changes):
+  Test 1: Sequential reads, 256 bytes (small working set)
+  Test 2: Strided reads, 8KB working set, stride 256
+  Test 3: Random data reads, 4KB working set
+  Test 4: Write-then-read (self-modifying), 64 iterations
+  Test 5: Sequential reads, cache OFF, 128 accesses
+
+Results (latest run, 3520 accesses incl. test re-run effects):
+  Total accesses:   3520
+  Cache misses:     1537  (43.66%)
+  Cache hits:       1983  (56.34%)
+  Fill cycles:      10759
+  Total cycles:     207120
+  Cycles/access:    58.84
+
+Key observations:
+- Cache hit rate varies significantly by access pattern (as expected)
+- Sequential code with small working set: high hit rate after warmup
+- Strided access with 8KB working set: most accesses miss (index aliasing,
+  only 8 unique cache sets for stride-256 accesses in 2-way assoc cache)
+- Cache OFF: every read goes to SDRAM (counted as miss via sdr_read_req)
+- Fill penalty: 4 cycles per cache line miss (one word per sdr_read_ack)
+- Write buffer handles CPU writes without stalling (wb_en path)
+
+Next: SDRAM arbitration testbench to measure chipset DMA vs CPU contention.
