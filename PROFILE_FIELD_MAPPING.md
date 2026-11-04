@@ -130,9 +130,13 @@ menu CPU Type (0xF000000C)
         else            → fx68k
 ```
 
-**Live cache update issue:** `cache_config` is updated continuously (not just during reset),
-so a cache menu change takes effect immediately without reset. This violates the
-"staged until reset" principle for profiles. Noted for future work.
+**Live cache update issue — RESOLVED:** `cache_config` was updated continuously (not just
+during reset), so a cache menu change took effect immediately and violated the "staged
+until reset" principle. `userio.v` now latches `cache_config[2:0]` from `t_cpu_config[4:2]`
+inside the same `if (reset)` block as `chipset_config`, `cpu_config`, `memory_config`, and
+`ide_config`. All machine-config outputs are now staged until reset. The menu-facing
+`t_cpu_config` staging register can still be written at any time via `UIO_MM2_CPU`; it only
+takes effect on the next reset.
 
 ## 4. MPU Configuration Command Sequence
 
