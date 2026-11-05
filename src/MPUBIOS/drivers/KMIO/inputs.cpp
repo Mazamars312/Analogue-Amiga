@@ -382,6 +382,17 @@ void input_setup() {
   }
 
 void input_reg_update(){
-  // Get the JOY setup sorted
-  HPS_spi_uio_cmd8(UIO_MM2_JOY , (AFP_REGISTOR(5)>>28));
+  // Performance optimization:
+  // mainloop() calls input_reg_update() on every iteration of its busy loop.
+  // Previously, HPS_spi_uio_cmd8(UIO_MM2_JOY, ...) was called unconditionally every loop,
+  // performing blocking SPI commands and busy-wait sleeps (riscusleep) over the HPS bus.
+  // Because the joystick mode setting (AFP reg 5 bits 31:28) only changes on user menu
+  // interaction, caching the last-sent value eliminates thousands of redundant SPI
+  // bus transactions per second, reducing MPU CPU load and freeing HPS bus bandwidth.
+  static uint8_t last_joy_setting = 0xFF;
+  uint8_t current_joy_setting = (uint8_t)(AFP_REGISTOR(5) >> 28);
+  if (current_joy_setting != last_joy_setting) {
+    last_joy_setting = current_joy_setting;
+    HPS_spi_uio_cmd8(UIO_MM2_JOY, current_joy_setting);
+  }
 }
