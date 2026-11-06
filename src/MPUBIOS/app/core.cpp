@@ -61,10 +61,18 @@
  };
 
  void core_reg_update(){
-	uint32_t tmp = CORE_OUTPUT_REGISTOR();
-    tmp = tmp & 0xFFFFFF30;
-    CORE_OUTPUT_REGISTOR() = tmp | (AFP_REGISTOR(7) & 0x000000cf);
-
+  // Performance optimization:
+  // mainloop() calls core_reg_update() on every iteration of its continuous polling loop.
+  // Previously, CORE_OUTPUT_REGISTOR() was unconditionally written every loop iteration,
+  // causing thousands of redundant MMIO bus writes per second to the APF/FPGA bridge.
+  // Because AFP_REGISTOR(7) menu settings and other output register bits rarely change,
+  // checking if the new value differs before writing eliminates redundant bus transactions,
+  // reducing MPU bus contention and instruction cycles in the hot polling loop.
+  uint32_t tmp = CORE_OUTPUT_REGISTOR();
+  uint32_t next = (tmp & 0xFFFFFF30) | (AFP_REGISTOR(7) & 0x000000cf);
+  if (tmp != next) {
+    CORE_OUTPUT_REGISTOR() = next;
+  }
  };
 
  void core_restart_first(){
