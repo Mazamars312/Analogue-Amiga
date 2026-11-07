@@ -80,6 +80,7 @@ uint32_t dataslot_size(uint16_t value);
 uint32_t dataslot_size_lba64(uint16_t value);
 
 void dataslot_search_active(uint16_t value);
+void dataslot_cache_invalidate(void);
 uint64_t dataslot_updated(uint16_t value);
 uint32_t dataslot_read(uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length, bool lba48 = false);
 uint32_t dataslot_write(uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length, bool lba48 = false);

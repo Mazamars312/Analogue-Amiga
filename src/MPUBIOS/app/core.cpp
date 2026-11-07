@@ -24,6 +24,9 @@
  void core_update_dataslots(){
  	int tmp = DATASLOT_UPDATE_REG(1);
  	mainprintf("dataslot Update %d\r\n", tmp);
+ 	// Invalidate the dataslot search cache: the dataslot RAM table may have
+ 	// changed when disks were inserted or removed, so cached indices are stale.
+ 	dataslot_cache_invalidate();
  	if (tmp == DATASLOT_BIOS_BASE){
 		core_reset(6);
  		riscusleep(200);

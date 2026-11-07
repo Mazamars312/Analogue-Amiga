@@ -46,19 +46,49 @@ uint8_t dataslot_status(){
   return(apf_codes & 0x7);
 }
 
+// Cache for dataslot_search_id() results.
+// The dataslot RAM table only changes when disks are inserted or removed
+// (via core_update_dataslots()), so the index for a given dataslot number
+// stays valid across repeated lookups during normal file reads. Caching it
+// eliminates up to 128 volatile MMIO reads per lookup on the hot path
+// (RISCFileSeek -> sector_buffer_transfer_size_max_process -> dataslot_size
+// -> dataslot_search_id).
+static uint16_t g_ds_cache_value = 0xFFFF;  // dataslot number currently cached
+static int g_ds_cache_index = -1;           // index found for that dataslot
+static bool g_ds_cache_valid = false;       // whether the cache holds a valid hit
+
+// Invalidate the dataslot search cache. Call this whenever the dataslot RAM
+// table may have changed (disks inserted/removed).
+void dataslot_cache_invalidate(void)
+{
+    g_ds_cache_valid = false;
+}
+
 // This is to search though the dataslot ram looking for the location of the data slot in it
 uint32_t dataslot_search_id(uint16_t value)
 {
+    // Fast path: return cached index if we already searched for this dataslot
+    // and the table has not changed since. Zero volatile MMIO reads.
+    if (g_ds_cache_valid && g_ds_cache_value == value) {
+        return g_ds_cache_index;
+    }
+
     int i = 0;
     uint32_t temp;
     // while loop from 1 to 5
     do  {
       temp = DATASLOT_RAM_ACCESS(i<<2) & 0xffff;
       if (temp == value){
+        g_ds_cache_value = value;
+        g_ds_cache_index = i;
+        g_ds_cache_valid = true;
         return (i & 0xFFFF);
       };
       i=i+2;
     } while (i <= 0x100);
+    
+    // Not found: do not cache a negative result (index 0 is a valid hit).
+    g_ds_cache_valid = false;
     return (0);
 }
 
