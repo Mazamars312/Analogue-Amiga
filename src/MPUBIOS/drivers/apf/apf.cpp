@@ -46,19 +46,52 @@ uint8_t dataslot_status(){
   return(apf_codes & 0x7);
 }
 
+// Cache for dataslot_search_id() results.
+// The dataslot RAM table only changes when disks are inserted or removed
+// (via core_update_dataslots()), so the index and size for a given dataslot
+// number stay valid across repeated lookups during normal file reads.
+// Caching eliminates up to 128 volatile MMIO reads per lookup (the linear
+// search) plus 1 more read (the size fetch) on the hot path
+// (RISCFileSeek -> sector_buffer_transfer_size_max_process -> dataslot_size
+// -> dataslot_search_id).
+static uint16_t g_ds_cache_value = 0xFFFF;  // dataslot number currently cached
+static int g_ds_cache_index = -1;           // index found for that dataslot
+static uint32_t g_ds_cache_size = 0;        // size found for that dataslot
+static bool g_ds_cache_valid = false;       // whether the cache holds a valid hit
+
+// Invalidate the dataslot search cache. Call this whenever the dataslot RAM
+// table may have changed (disks inserted/removed).
+void dataslot_cache_invalidate(void)
+{
+    g_ds_cache_valid = false;
+}
+
 // This is to search though the dataslot ram looking for the location of the data slot in it
 uint32_t dataslot_search_id(uint16_t value)
 {
+    // Fast path: return cached index if we already searched for this dataslot
+    // and the table has not changed since. Zero volatile MMIO reads.
+    if (g_ds_cache_valid && g_ds_cache_value == value) {
+        return g_ds_cache_index;
+    }
+
     int i = 0;
     uint32_t temp;
     // while loop from 1 to 5
     do  {
       temp = DATASLOT_RAM_ACCESS(i<<2) & 0xffff;
       if (temp == value){
+        g_ds_cache_value = value;
+        g_ds_cache_index = i;
+        g_ds_cache_size = DATASLOT_RAM_ACCESS((i+1)<<2);  // also cache the size word
+        g_ds_cache_valid = true;
         return (i & 0xFFFF);
       };
       i=i+2;
     } while (i <= 0x100);
+    
+    // Not found: do not cache a negative result (index 0 is a valid hit).
+    g_ds_cache_valid = false;
     return (0);
 }
 
@@ -68,9 +101,19 @@ uint32_t dataslot_size(uint16_t value)
   int i;
   uint32_t size;
   mainprintf("number value: %d \r\n", value);
+  // Fast path: return cached size with zero volatile MMIO reads.
+  if (g_ds_cache_valid && g_ds_cache_value == value) {
+    return g_ds_cache_size;
+  }
   i = dataslot_search_id(value);
   mainprintf("number slot: %d \r\n", i);
-  size = DATASLOT_RAM_ACCESS((i+1)<<2);
+  // dataslot_search_id() already cached the size on a hit; on a miss,
+  // read it from RAM directly (same behaviour as before the cache).
+  if (g_ds_cache_valid && g_ds_cache_value == value) {
+    size = g_ds_cache_size;
+  } else {
+    size = DATASLOT_RAM_ACCESS((i+1)<<2);
+  }
   mainprintf("number size: %d \r\n", size);
   return (size);
 }
