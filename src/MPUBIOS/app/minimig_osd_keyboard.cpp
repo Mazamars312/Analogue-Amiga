@@ -454,10 +454,21 @@ void OSD_Keyboard_process(){
     bool keyboard_down_pressed = 0;
     bool keyboard_left_pressed = 0;
     bool keyboard_right_pressed = 0;
-    bool mod_l = ((CONTROLLER_KEY_REG(1) & 0x00000100) != 0); // L shoulder button
+    // Performance optimization:
+    // OSD_Keyboard_process() runs on every mainloop iteration. Each
+    // CONTROLLER_KEY_REG() access is a volatile MMIO read over the APF bus, and
+    // the button/debounce checks below used to re-read registers 1 and 4 on the
+    // order of a dozen times per call (up to 23 when buttons are held, 12 in
+    // the idle path). Snapshot both registers once per call so the rest of the
+    // function works on plain locals: one consistent poll of the controller
+    // state and at most two bus reads, no matter which buttons are down.
+    const uint32_t controller_keys = CONTROLLER_KEY_REG(1);
+    const uint32_t controller4 = CONTROLLER_KEY_REG(4);
+    const bool no_phys_keyboard = ((controller4 >> 28) != 0x4);
+    bool mod_l = ((controller_keys & 0x00000100) != 0); // L shoulder button
     // toggle of the keyboard menu (Select without L)
     // A simple debouncer and toggle system
-    if (((CONTROLLER_KEY_REG(1) & 0x00004000) == 0x00004000) && !mod_l && (CONTROLLER_KEY_REG(4) >> 28) != 0x4 && keyboard_toggle_button_pressed == 0){
+    if (((controller_keys & 0x00004000) == 0x00004000) && !mod_l && no_phys_keyboard && keyboard_toggle_button_pressed == 0){
         if (keyboard_is_showing == 0) {
             keyboard_is_showing = 1;
             x = 3;
@@ -471,7 +482,7 @@ void OSD_Keyboard_process(){
         }
     }
     // this is a debouncer for this button
-    if (((CONTROLLER_KEY_REG(1) & 0x00004000) == 0x00004000) && (CONTROLLER_KEY_REG(4) >> 28) != 0x4){
+    if (((controller_keys & 0x00004000) == 0x00004000) && no_phys_keyboard){
         keyboard_toggle_button_pressed = 1;
     } else {
         keyboard_toggle_button_pressed = 0;
@@ -479,7 +490,7 @@ void OSD_Keyboard_process(){
 
     // toggle of the up button
     // A simple debouncer and toggle system
-    if (((CONTROLLER_KEY_REG(1) & 0x00000001) == 0x00000001) && (CONTROLLER_KEY_REG(4) >> 28) != 0x4 && keyboard_toggle_up_button_pressed == 0){
+    if (((controller_keys & 0x00000001) == 0x00000001) && no_phys_keyboard && keyboard_toggle_up_button_pressed == 0){
         if (keyboard_is_showing == 1) {
             keyboard_up_pressed = 1;
             updated_keyboard = 1;
@@ -490,7 +501,7 @@ void OSD_Keyboard_process(){
         }
     }
 
-    if (((CONTROLLER_KEY_REG(1) & 0x00000001) == 0x00000001) && (CONTROLLER_KEY_REG(4) >> 28) != 0x4){
+    if (((controller_keys & 0x00000001) == 0x00000001) && no_phys_keyboard){
         keyboard_toggle_up_button_pressed = 1;
     } else {
         keyboard_toggle_up_button_pressed = 0;
@@ -498,7 +509,7 @@ void OSD_Keyboard_process(){
 
     // toggle of the Down button
     // A simple debouncer and toggle system
-    if (((CONTROLLER_KEY_REG(1) & 0x00000002) == 0x00000002) && (CONTROLLER_KEY_REG(4) >> 28) != 0x4 && keyboard_toggle_down_button_pressed == 0){
+    if (((controller_keys & 0x00000002) == 0x00000002) && no_phys_keyboard && keyboard_toggle_down_button_pressed == 0){
         if (keyboard_is_showing == 1) {
             keyboard_down_pressed = 1;
             updated_keyboard = 1;
@@ -509,7 +520,7 @@ void OSD_Keyboard_process(){
         }
     }
 
-    if (((CONTROLLER_KEY_REG(1) & 0x00000002) == 0x00000002) && (CONTROLLER_KEY_REG(4) >> 28) != 0x4){
+    if (((controller_keys & 0x00000002) == 0x00000002) && no_phys_keyboard){
         keyboard_toggle_down_button_pressed = 1;
     } else {
         keyboard_toggle_down_button_pressed = 0;
@@ -517,7 +528,7 @@ void OSD_Keyboard_process(){
 
     // toggle of the left button
     // A simple debouncer and toggle system
-    if (((CONTROLLER_KEY_REG(1) & 0x00000004) == 0x00000004) && (CONTROLLER_KEY_REG(4) >> 28) != 0x4 && keyboard_toggle_left_button_pressed == 0){
+    if (((controller_keys & 0x00000004) == 0x00000004) && no_phys_keyboard && keyboard_toggle_left_button_pressed == 0){
         if (keyboard_is_showing == 1) {
             keyboard_left_pressed = 1;
             updated_keyboard = 1;
@@ -528,7 +539,7 @@ void OSD_Keyboard_process(){
         }
     }
 
-    if (((CONTROLLER_KEY_REG(1) & 0x00000004) == 0x00000004) && (CONTROLLER_KEY_REG(4) >> 28) != 0x4){
+    if (((controller_keys & 0x00000004) == 0x00000004) && no_phys_keyboard){
         keyboard_toggle_left_button_pressed = 1;
     } else {
         keyboard_toggle_left_button_pressed = 0;
@@ -536,7 +547,7 @@ void OSD_Keyboard_process(){
 
     // toggle of the right button
     // A simple debouncer and toggle system
-    if (((CONTROLLER_KEY_REG(1) & 0x00000008) == 0x00000008) && (CONTROLLER_KEY_REG(4) >> 28) != 0x4 && keyboard_toggle_right_button_pressed == 0){
+    if (((controller_keys & 0x00000008) == 0x00000008) && no_phys_keyboard && keyboard_toggle_right_button_pressed == 0){
         if (keyboard_is_showing == 1) {
             keyboard_right_pressed = 1;
             updated_keyboard = 1;
@@ -550,7 +561,7 @@ void OSD_Keyboard_process(){
         
     }   
 
-    if (((CONTROLLER_KEY_REG(1) & 0x00000008) == 0x00000008) && (CONTROLLER_KEY_REG(4) >> 28) != 0x4){
+    if (((controller_keys & 0x00000008) == 0x00000008) && no_phys_keyboard){
         keyboard_toggle_right_button_pressed = 1;
     } else {
         keyboard_toggle_right_button_pressed = 0;
@@ -558,7 +569,7 @@ void OSD_Keyboard_process(){
 
   // toggle of the a button
   // A simple debouncer and toggle system
-    if (((CONTROLLER_KEY_REG(1) & 0x00000010) == 0x00000010) && (CONTROLLER_KEY_REG(4) >> 28) != 0x4 && keyboard_is_showing == 1){
+    if (((controller_keys & 0x00000010) == 0x00000010) && no_phys_keyboard && keyboard_is_showing == 1){
         keyboard_a_pressed = 1;
     } else {
         keyboard_a_pressed = 0;
