@@ -45,8 +45,13 @@
    		uint16_t tmp = spi_w(0);
    		c1 = (uint8_t)(tmp >> 8); // cmd request and drive number
    		c2 = (uint8_t)tmp;      // track number
-   		spi_w(0);
-   		spi_w(0);
+   		// Performance optimization:
+   		// The two discarded spi_w(0) reads below were vestigial. For cmd=0x00
+   		// (which spi_w(0) sends), the FPGA's &cmd[7:4] condition is false, so
+   		// additional strobes change no FPGA state (verified against
+   		// src/fpga/core/amiga/userio.v). IO_WAIT is also hardwired to 0, so
+   		// no wait-state issues. Removing them saves 2 volatile MMIO reads per
+   		// mainloop iteration - the hottest path in the firmware.
    		HPS_DisableFpga();
         HandleFDD(c1, c2);
 		uint16_t sd_req = ide_check();
