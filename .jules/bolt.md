@@ -24,3 +24,7 @@ All bolt PRs against `ollisulopuisto/Analogue-Amiga`:
 
 Remaining candidate evaluation: OSD SPI hardware-limited (1 byte/strobe, menu-only). `mouse_math.h`/`pocket_shortcuts.h` marginal. `put_lba()` CHS divisions only affect non-LBA mode (rare).
 **Decision:** No safe measurable targets remain on `main` beyond PR #25.
+
+## 2026-11-08 - MPU firmware can be built and disassembled locally
+**Learning:** The riscv toolchain is NOT unavailable: CI's xPack `riscv-none-elf-gcc` 15.2.0-1 tarball (see `.github/workflows/ci.yml`) unpacks into `~/opt` and builds `amiga_mpu_bios` with the same `make GCC_PREFIX=riscv-none-elf- EXTRA_CFLAGS=...` line. Build in a copy of the repo, because `src/MPUBIOS/app/{build,dep,obj}.riscv.*` are committed. `riscv-none-elf-objdump -d` of the ELF gives exact per-iteration instruction counts for the real target, which is a better metric than host timing.
+**Action:** For firmware CPU-bound loops, measure baseline/after as target instruction counts from the disassembly. Use host timing only as a secondary signal.
