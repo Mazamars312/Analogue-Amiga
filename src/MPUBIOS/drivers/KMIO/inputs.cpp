@@ -226,14 +226,24 @@ void update_keyboard_inputs (){
     keyboard_buffer_updated[i] = 0;
     keyboard_buffer_input[i] = 0;
   };
+  // Performance optimization:
+  // update_keyboard_inputs() runs from the input poll and the six HID report
+  // bytes live in two volatile controller registers. The sampling used to sit
+  // inside the per-slot loop below, so one poll re-read both registers once for
+  // every one of the six slots (36 MMIO bus reads) and the values could even
+  // change between slots. Snapshot the report once instead: three register
+  // reads total (including the modifier register) and all slots compare
+  // against the same consistent report.
+  const uint32_t joy3 = CONTROLLER_JOY_REG(3);
+  const uint32_t trig3 = CONTROLLER_TRIG_REG(3);
+  keyboard_buffer_input[0] = ((joy3 >> 24) & 0xff);
+  keyboard_buffer_input[1] = ((joy3 >> 16) & 0xff);
+  keyboard_buffer_input[2] = ((joy3 >> 8) & 0xff);
+  keyboard_buffer_input[3] = (joy3 & 0xff);
+  keyboard_buffer_input[4] = ((trig3 >> 8) & 0xff);
+  keyboard_buffer_input[5] = (trig3 & 0xff);
   // For we check for pressed down and currently pressed keys
   do {
-  keyboard_buffer_input[0] = ((CONTROLLER_JOY_REG(3)>>24) & 0xff);
-  keyboard_buffer_input[1] = ((CONTROLLER_JOY_REG(3)>>16) & 0xff);
-  keyboard_buffer_input[2] = ((CONTROLLER_JOY_REG(3)>>8) & 0xff);
-  keyboard_buffer_input[3] = (CONTROLLER_JOY_REG(3) & 0xff);
-  keyboard_buffer_input[4] = ((CONTROLLER_TRIG_REG(3)>>8) & 0xff);
-  keyboard_buffer_input[5] = (CONTROLLER_TRIG_REG(3) & 0xff);
     // check if a key is new to the buffer or current
     i = 0;
     do {
@@ -282,14 +292,17 @@ void update_keyboard_inputs (){
   } while (j < old_buf_len);
   for (i = 0; i < old_buf_len; i++) keyboard_buffer[i] = keyboard_buffer_updated[i];
   // Now for the controll keys
-  bool    MOD_LALT_TMP    = ((CONTROLLER_KEY_REG(3)>>10) & 0x01);
-  bool    MOD_RALT_TMP    = ((CONTROLLER_KEY_REG(3)>>14) & 0x01);
-  bool    MOD_LSHIFT_TMP  = ((CONTROLLER_KEY_REG(3)>>9) & 0x01);
-  bool    MOD_RSHIFT_TMP  = ((CONTROLLER_KEY_REG(3)>>13) & 0x01);
-  bool    MOD_LWIN_TMP    = ((CONTROLLER_KEY_REG(3)>>11) & 0x01);
-  bool    MOD_LCTRL_TMP   = ((CONTROLLER_KEY_REG(3)>>8)  & 0x01);
-  bool    MOD_RCTRL_TMP   = ((CONTROLLER_KEY_REG(3)>>12) & 0x01);
-  bool    MOD_RWIN_TMP    = ((CONTROLLER_KEY_REG(3)>>15) & 0x01);
+  // Performance optimization: one snapshot instead of eight volatile reads of
+  // the same MMIO register; every modifier bit comes from the same poll.
+  const uint32_t key3 = CONTROLLER_KEY_REG(3);
+  bool    MOD_LALT_TMP    = ((key3>>10) & 0x01);
+  bool    MOD_RALT_TMP    = ((key3>>14) & 0x01);
+  bool    MOD_LSHIFT_TMP  = ((key3>>9) & 0x01);
+  bool    MOD_RSHIFT_TMP  = ((key3>>13) & 0x01);
+  bool    MOD_LWIN_TMP    = ((key3>>11) & 0x01);
+  bool    MOD_LCTRL_TMP   = ((key3>>8)  & 0x01);
+  bool    MOD_RCTRL_TMP   = ((key3>>12) & 0x01);
+  bool    MOD_RWIN_TMP    = ((key3>>15) & 0x01);
   // Left Alt Key
   if (MOD_LALT_TMP && !MOD_LALT) {
     MOD_LALT = 1;
