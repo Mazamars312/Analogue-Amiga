@@ -4,8 +4,12 @@
 **Learning:** In softcore firmware architectures (such as the 50MHz VexRiscv in this core), the main polling loop runs continuously without an RTOS or frame delay. Synchronous SPI bus commands (like `HPS_spi_uio_cmd8`) incur bus setup, transfer latency, and `riscusleep` busy-waits. Unconditionally transmitting configuration register values across the SPI bridge on every loop iteration saturates the bus with redundant commands.
 **Action:** Always cache the previously transmitted register state and only trigger bus transactions when the value has changed.
 
-## 2026-11-07 - Bolt PR #22 opened: dataslot_size() size cache
-**New PR:** #22 `bolt/perf-dataslot-size-cache` — cache `dataslot_size()` size value to eliminate remaining MMIO read. Extends PR #21's index cache to also cache the size word: baseline 33 reads → PR #21 hit 1 read → this iteration hit 0 reads.
+## 2026-11-07 - Bolt PR #25 opened: ide_check() dead code removal
+**New PR:** #25 `bolt/perf-ide-check-dead-code` — remove provably dead `spi_w(0)` from `ide_check()`. Cross-examined C source, compiled RISC-V assembly, AND FPGA Verilog (`hps_ext.v`) to prove that `spi_w(UIO_DMA_SDIO)` returns `0xE000 | ide_req` (bit 15 always set), making `if (!res)` always false and the second `spi_w(0)` unreachable. Removes a branch instruction and dead code from every mainloop iteration.
+
+**Approach:** SUPER BOLT cross-layer verification — C + RISC-V asm + FPGA Verilog to prove code is provably dead, not just count MMIO reads.
+
+**Verification:** Idiot-savant level — host model tests verify identical behavior for all 64 `ide_req` values; bit extraction for `ide_io()` and `ide.cpp` wait loops unchanged; second `spi_w(0)` never called. All host tests pass.
 
 All bolt PRs against `ollisulopuisto/Analogue-Amiga`:
 - #13 `bolt/perf-osd-keyboard-mmio-reads` (merged): 12→2 / 23→2 MMIO reads in OSD keyboard poll
@@ -14,6 +18,9 @@ All bolt PRs against `ollisulopuisto/Analogue-Amiga`:
 - #16 `bolt/perf-fdd-sector-pointer` (merged): 5632→0 bytes copied per floppy track read
 - #21 `bolt/perf-dataslot-search-cache` (merged): up to 128→0 MMIO reads per dataslot lookup
 - #22 `bolt/perf-dataslot-size-cache` (open): 33→0 MMIO reads per dataslot_size() call
+- #23 `bolt/perf-core-poll-io-dummy-reads` (open): 3→1 spi_w transactions per mainloop iteration
+- #24 `bolt/perf-input-reg-poll-interval` (open): 1→0.25 MMIO reads per mainloop iteration (75% reduction)
+- #25 `bolt/perf-ide-check-dead-code` (open): provably dead spi_w(0) removed from ide_check()
 
-Remaining candidate evaluation: `core_poll_io()` has 2 discarded `spi_w(0)` reads per idle mainloop poll — rejected as protocol-risky/untestable. `ide_check()` caching rejected (unsafe). OSD SPI hardware-limited. `mouse_math.h`/`pocket_shortcuts.h` marginal. `put_lba()` CHS divisions only affect non-LBA mode (rare).
-**Decision:** No safe measurable targets remain on `main` beyond PR #22.
+Remaining candidate evaluation: OSD SPI hardware-limited (1 byte/strobe, menu-only). `mouse_math.h`/`pocket_shortcuts.h` marginal. `put_lba()` CHS divisions only affect non-LBA mode (rare).
+**Decision:** No safe measurable targets remain on `main` beyond PR #25.
