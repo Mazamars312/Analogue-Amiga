@@ -72,8 +72,14 @@ uint16_t ide_check()
 {
 	uint16_t res;
 	HPS_EnableIO();
+	// Performance optimization:
+	// spi_w(UIO_DMA_SDIO) reads the FPGA UIO subsystem (hps_ext.v), which
+	// returns {4'hE, 2'b00, 2'b00, 2'b00, ide_req} = 0xE000 | ide_req.
+	// Since 4'hE has bit 15 set, res is ALWAYS non-zero. The if(!res)
+	// branch and its second spi_w(0) are provably dead code - they can
+	// never execute. Removing them saves a branch instruction and
+	// eliminates unreachable code.
 	res = spi_w(UIO_DMA_SDIO);
-	if (!res) res = (uint8_t)spi_w(0);
 	HPS_DisableIO();
 	return res;
 }
