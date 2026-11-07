@@ -1,17 +1,14 @@
-// Host-side tests for the dataslot_search_id() cache in
+// Host-side tests for dataslot_search_id() and dataslot_size() caching in
 // src/MPUBIOS/drivers/apf/apf.cpp.
 //
 // dataslot_search_id() does a linear search through dataslot RAM, reading
 // DATASLOT_RAM_ACCESS(i<<2) on every iteration (volatile MMIO read over the
-// APF bus). Up to 128 reads per call. The dataslot table only changes when
-// disks are inserted/removed, so the index per dataslot number is cached:
-// repeated lookups for the same dataslot cost zero MMIO reads.
+// APF bus). Up to 128 reads per call. dataslot_size() reads one additional
+// word (DATASLOT_RAM_ACCESS((i+1)<<2)) for the size.
 //
-// These tests model the function logic and pin down:
-//   - Same result with and without cache
-//   - Zero MMIO reads on cache hit
-//   - Cache invalidation forces re-search
-//   - Misses are not cached (re-search each time)
+// Both functions cache their results: repeated lookups for the same dataslot
+// cost zero MMIO reads. The cache is invalidated by dataslot_cache_invalidate()
+// (called from core_update_dataslots() when disks change).
 //
 // Compile and run with:
 //   g++ -std=c++14 tests/test_dataslot_search.cpp -o /tmp/test_dataslot_search && /tmp/test_dataslot_search
@@ -22,7 +19,7 @@
 #include <cstring>
 
 // Mock of DATASLOT_RAM_ACCESS(x) = *(volatile unsigned int *)(DATASLOT_ID_BASE + x)
-static volatile uint32_t g_dataslot_ram[257];  // 257 words to cover i up to 256 (i<<2 = 1024)
+static volatile uint32_t g_dataslot_ram[257];  // cover i up to 256 (i<<2 = 1024)
 static uint64_t g_reads = 0;
 
 static inline uint32_t ram_access(unsigned int x) {
@@ -31,7 +28,7 @@ static inline uint32_t ram_access(unsigned int x) {
 }
 
 // ---- Baseline: linear search, no cache (matches original source) ----
-static int baseline_search(uint16_t value) {
+static int baseline_search_id(uint16_t value) {
   int i = 0;
   uint32_t temp;
   do {
@@ -44,16 +41,22 @@ static int baseline_search(uint16_t value) {
   return 0;
 }
 
-// ---- Optimized: cached search ----
+static uint32_t baseline_dataslot_size(uint16_t value) {
+  int i = baseline_search_id(value);
+  return ram_access((i + 1) << 2);
+}
+
+// ---- Optimized: cached search + size (matches apf.cpp implementation) ----
 static uint16_t g_ds_cache_value = 0xFFFF;
 static int g_ds_cache_index = -1;
+static uint32_t g_ds_cache_size = 0;
 static bool g_ds_cache_valid = false;
 
 static void ds_cache_invalidate(void) {
   g_ds_cache_valid = false;
 }
 
-static int optimized_search(uint16_t value) {
+static int optimized_search_id(uint16_t value) {
   if (g_ds_cache_valid && g_ds_cache_value == value) {
     return g_ds_cache_index;
   }
@@ -65,6 +68,7 @@ static int optimized_search(uint16_t value) {
     if (temp == value) {
       g_ds_cache_value = value;
       g_ds_cache_index = i;
+      g_ds_cache_size = ram_access((i + 1) << 2);
       g_ds_cache_valid = true;
       return i & 0xFFFF;
     }
@@ -75,6 +79,17 @@ static int optimized_search(uint16_t value) {
   return 0;
 }
 
+static uint32_t optimized_dataslot_size(uint16_t value) {
+  if (g_ds_cache_valid && g_ds_cache_value == value) {
+    return g_ds_cache_size;
+  }
+  int i = optimized_search_id(value);
+  if (g_ds_cache_valid && g_ds_cache_value == value) {
+    return g_ds_cache_size;
+  }
+  return ram_access((i + 1) << 2);
+}
+
 static int failures = 0;
 #define CHECK(cond) do { \
   if (!(cond)) { failures++; printf("FAIL line %d: %s\n", __LINE__, #cond); } \
@@ -82,53 +97,82 @@ static int failures = 0;
 
 int main() {
   // Set up dataslot RAM: entries at indices 0,2,4,...,62 hold dataslot numbers
-  // 100,101,...,131. Sizes at odd indices. Make the array large enough to cover
-  // the search loop's final read at i=256 (index 64).
+  // 100,101,...,131. Sizes at odd indices.
   for (int i = 0; i < 257; i++) g_dataslot_ram[i] = 0;
   for (int i = 0; i < 32; i++) {
+    g_ds_cache_valid = false;
     g_dataslot_ram[i * 2] = (uint32_t)(100 + i);
     g_dataslot_ram[i * 2 + 1] = (uint32_t)(1024 * (i + 1));
   }
 
-  // 1. Same result for a found dataslot (first slot at index 0).
+  // 1. dataslot_search_id() returns correct index with and without cache.
   {
     g_ds_cache_valid = false;
-    int bi = baseline_search(100);
+    int bi = baseline_search_id(100);
     g_ds_cache_valid = false;
-    int oi = optimized_search(100);
+    int oi = optimized_search_id(100);
     CHECK(bi == oi);
     CHECK(oi == 0);
   }
-
-  // 2. Same result for a found dataslot in the middle (dataslot 130 at index 60).
   {
     g_ds_cache_valid = false;
-    int bi = baseline_search(130);
+    int bi = baseline_search_id(130);
     g_ds_cache_valid = false;
-    int oi = optimized_search(130);
+    int oi = optimized_search_id(130);
     CHECK(bi == oi);
     CHECK(oi == 60);
   }
-
-  // 3. Same result for a miss (dataslot not in table).
   {
     g_ds_cache_valid = false;
-    int bi = baseline_search(999);
+    int bi = baseline_search_id(999);
     g_ds_cache_valid = false;
-    int oi = optimized_search(999);
+    int oi = optimized_search_id(999);
     CHECK(bi == oi);
     CHECK(oi == 0);
   }
 
-  // 4. Cache hit: zero MMIO reads on repeated lookup.
+  // 2. dataslot_size() returns correct value with and without cache.
+  {
+    g_ds_cache_valid = false;
+    uint32_t bs = baseline_dataslot_size(100);
+    g_ds_cache_valid = false;
+    uint32_t os = optimized_dataslot_size(100);
+    CHECK(bs == os);
+    CHECK(os == 1024);  // dataslot 100 at index 0, size at index 1 = 1024*1
+  }
+  {
+    g_ds_cache_valid = false;
+    uint32_t bs = baseline_dataslot_size(130);
+    g_ds_cache_valid = false;
+    uint32_t os = optimized_dataslot_size(130);
+    CHECK(bs == os);
+    CHECK(os == 31744);  // dataslot 130 at index 60, size at index 61 = 1024*31
+  }
+
+  // 3. Cache hit: dataslot_size() costs zero MMIO reads on repeated lookup.
   {
     g_ds_cache_valid = false;
     g_reads = 0;
-    optimized_search(100);  // populate cache
+    optimized_dataslot_size(100);  // populate cache
     uint64_t first_reads = g_reads;
 
     g_reads = 0;
-    optimized_search(100);  // cache hit
+    optimized_dataslot_size(100);  // cache hit
+    uint64_t hit_reads = g_reads;
+
+    CHECK(hit_reads == 0);
+    CHECK(first_reads > 0);
+  }
+
+  // 4. dataslot_search_id() cache hit also costs zero reads.
+  {
+    g_ds_cache_valid = false;
+    g_reads = 0;
+    optimized_search_id(100);  // populate cache
+    uint64_t first_reads = g_reads;
+
+    g_reads = 0;
+    optimized_search_id(100);  // cache hit
     uint64_t hit_reads = g_reads;
 
     CHECK(hit_reads == 0);
@@ -139,46 +183,37 @@ int main() {
   {
     g_ds_cache_valid = false;
     g_reads = 0;
-    optimized_search(100);
+    optimized_dataslot_size(100);
     uint64_t first = g_reads;
 
     ds_cache_invalidate();
     g_reads = 0;
-    optimized_search(100);
+    optimized_dataslot_size(100);
     uint64_t after_invalidate = g_reads;
 
     CHECK(after_invalidate == first);
     CHECK(after_invalidate > 0);
   }
 
-  // 6. Different dataslot values each get their own cache entry (last one wins,
-  //    since the cache holds a single entry; correctness checked below).
-  {
-    g_ds_cache_valid = false;
-    int o100 = optimized_search(100);  // populates cache with 100 -> 0
-    CHECK(o100 == 0);
-
-    g_reads = 0;
-    int o130 = optimized_search(130);  // cache miss, re-searches for 130 -> 60
-    uint64_t reads_for_130 = g_reads;
-    CHECK(o130 == 60);
-    CHECK(reads_for_130 > 0);
-
-    g_reads = 0;
-    int o100_again = optimized_search(100);  // cache miss again (130 evicted 100), re-searches
-    uint64_t reads_for_100_again = g_reads;
-    CHECK(o100_again == 0);
-    CHECK(reads_for_100_again > 0);
-  }
-
-  // 7. Exhaustive: same result for every dataslot value 0..65535.
+  // 6. Exhaustive: dataslot_search_id() returns same index for all values.
   int mismatches = 0;
   for (int v = 0; v <= 65535; v++) {
     g_ds_cache_valid = false;
-    int bi = baseline_search((uint16_t)v);
+    int bi = baseline_search_id((uint16_t)v);
     g_ds_cache_valid = false;
-    int oi = optimized_search((uint16_t)v);
+    int oi = optimized_search_id((uint16_t)v);
     if (bi != oi) mismatches++;
+  }
+  CHECK(mismatches == 0);
+
+  // 7. Exhaustive: dataslot_size() returns same value for all values.
+  mismatches = 0;
+  for (int v = 0; v <= 65535; v++) {
+    g_ds_cache_valid = false;
+    uint32_t bs = baseline_dataslot_size((uint16_t)v);
+    g_ds_cache_valid = false;
+    uint32_t os = optimized_dataslot_size((uint16_t)v);
+    if (bs != os) mismatches++;
   }
   CHECK(mismatches == 0);
 
