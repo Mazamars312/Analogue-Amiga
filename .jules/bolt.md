@@ -28,3 +28,11 @@ Remaining candidate evaluation: OSD SPI hardware-limited (1 byte/strobe, menu-on
 ## 2026-11-08 - MPU firmware can be built and disassembled locally
 **Learning:** The riscv toolchain is NOT unavailable: CI's xPack `riscv-none-elf-gcc` 15.2.0-1 tarball (see `.github/workflows/ci.yml`) unpacks into `~/opt` and builds `amiga_mpu_bios` with the same `make GCC_PREFIX=riscv-none-elf- EXTRA_CFLAGS=...` line. Build in a copy of the repo, because `src/MPUBIOS/app/{build,dep,obj}.riscv.*` are committed. `riscv-none-elf-objdump -d` of the ELF gives exact per-iteration instruction counts for the real target, which is a better metric than host timing.
 **Action:** For firmware CPU-bound loops, measure baseline/after as target instruction counts from the disassembly. Use host timing only as a secondary signal.
+
+## 2026-11-08 - Remaining candidates rejected after PR #26
+**Learning:** These remaining targets are protocol-risky or marginal:
+- `HPS_spi_write()` → `HPS_spi_write_fast()` on the CD/HDD data path: the original author left the fast, ACK-less variant commented out, and the `asm volatile("nop")` padding in `HPS_fpga_spi()` is load-bearing.
+- `SendSector()` odd/even MFM loops (16-bit packing): dominated by the per-word `spi_w()` handshake, and `fdd.cpp` is already touched by PR #26.
+- `lib/memset.c` is a byte loop, but its only callers are a one-time init, a 32-byte buffer, and the rare IDE null path.
+- `cue_t::GetTrackByLBA()` runs a linear search of at most 99 tracks, once per command rather than per sector.
+**Action:** Revisit these only with on-hardware timing.
