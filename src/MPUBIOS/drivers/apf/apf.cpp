@@ -191,13 +191,15 @@ uint32_t dataslot_write(uint16_t dataslot, uint32_t address, uint32_t offset, ui
 // THis will set the pointers read to go on the APF regs
 uint32_t dataslot_read_lba_set_fast(uint16_t dataslot, uint32_t address, uint32_t offset, uint32_t length)
 {
-  int i = 0;
   int apf_codes;
+  // Performance optimization: the old condition ORed in (i <= 10000), so the
+  // loop always made 10001 volatile MMIO polls before even checking DONE (and
+  // after that the counter stopped bounding anything). Wait on the flag alone,
+  // like the other handshake loops in this file.
   do
 	{
     apf_codes = READ_TARGET_DATASLOT_CONTROL(0);
-    i++;
-  } while (!(apf_codes & APF_DONE) | (i <=10000));
+  } while (!(apf_codes & APF_DONE));
 
   READ_TARGET_DATASLOT_ID(0) = dataslot;
   READ_TARGET_DATASLOT_BRIDGE_ADD(0) = APF_ADDRESS_OFFSET | address;
@@ -235,14 +237,15 @@ uint32_t dataslot_read_lba(uint32_t length)
   READ_TARGET_DATASLOT_LENGTH(0) = length;
   READ_TARGET_DATASLOT_CONTROL(0) = TARGET_DATASLOT_READ_REG;
   mainprintf("READ_TARGET_DATASLOT_LENGTH Sent %.4x\r\n", WRITE_TARGET_DATASLOT_LENGTH(0));
-  int i = 0;
   int apf_codes;
+  // Performance optimization: (i <= 100) was ORed into the condition, forcing
+  // 101 volatile MMIO polls per 16 KB read even when the bridge had already
+  // ACKed (and it never acted as a timeout). Poll only until ACK, as before
+  // the minimum spin.
   do
 	{
     apf_codes = READ_TARGET_DATASLOT_CONTROL(0);
-
-    i++;
-  } while (!(apf_codes & APF_ACK) | (i <=100));
+  } while (!(apf_codes & APF_ACK));
 	do
 	{
 		apf_codes = READ_TARGET_DATASLOT_CONTROL(0);
@@ -262,18 +265,18 @@ uint32_t dataslot_read_lba(uint32_t length)
 uint32_t dataslot_read_lba_fast( uint32_t length, bool wait_update)
 {
   int apf_codes;
-  int i = 0;
   if (length > 0)READ_TARGET_DATASLOT_LENGTH(0) = length;
   else return(0);
   READ_TARGET_DATASLOT_CONTROL(0) = TARGET_DATASLOT_READ_REG;
 
   // mainprintf("READ_TARGET_DATASLOT_LENGTH fast Sent %.4x\r\n", length);
   if (wait_update) {
+    // Performance optimization: same minimum-spin bug as the other handshake
+    // loops; poll only until the bridge ACKs.
     do
   	{
       apf_codes = READ_TARGET_DATASLOT_CONTROL(0);
-      i++;
-    } while (!(apf_codes & APF_ACK) | (i <=10000));
+    } while (!(apf_codes & APF_ACK));
     int tmp = WRITE_TARGET_DATASLOT_OFFSET(0);
     WRITE_TARGET_DATASLOT_OFFSET(0) = tmp + length;
     // uint32_t address = READ_TARGET_DATASLOT_BRIDGE_ADD(0);
