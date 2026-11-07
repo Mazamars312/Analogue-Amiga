@@ -713,10 +713,20 @@ void OSD_Keyboard_process(){
     // First we do the down actions
 
 
+    // Performance optimization:
+    // OSD_Keyboard_process() runs on every iteration of mainloop()'s continuous polling loop.
+    // Previously, OsdDisable() and CORE_OUTPUT_REGISTOR() writes were executed unconditionally
+    // on every loop when the keyboard was inactive, resulting in continuous blocking SPI bus
+    // commands (HPS_spi_osd_cmd), repeated DisableInterrupts()/EnableInterrupts() toggles,
+    // and redundant MMIO writes. Initializing keyboard_was_showing to true ensures an initial
+    // cleanup pass, while subsequent idle loops incur zero bus transactions or register writes.
+    static bool keyboard_was_showing = true;
     if(keyboard_is_showing){
+        keyboard_was_showing = true;
         uint32_t tmp = CORE_OUTPUT_REGISTOR();
-        tmp = tmp | 0x00000030;
-        CORE_OUTPUT_REGISTOR() = tmp;
+        if ((tmp & 0x00000030) != 0x00000030) {
+            CORE_OUTPUT_REGISTOR() = tmp | 0x00000030;
+        }
         bool enable = 0;
         if(updated_keyboard){
             OsdClear();
@@ -752,11 +762,13 @@ void OSD_Keyboard_process(){
             HPS_spi_uio_cmd8(UIO_KEYBOARD, tmpk);
             keyboard_last_sent_key = 0;
         }
-    } else {    
+    } else if (keyboard_was_showing) {
+        keyboard_was_showing = false;
         OsdDisable();
         uint32_t tmp = CORE_OUTPUT_REGISTOR();
-        tmp = tmp & 0xFFFFFFCF;
-        CORE_OUTPUT_REGISTOR() = tmp;
+        if (tmp & 0x00000030) {
+            CORE_OUTPUT_REGISTOR() = tmp & 0xFFFFFFCF;
+        }
     }
 
     // this allows me to hold the state of the key press after the next time the function passes like a debounce
