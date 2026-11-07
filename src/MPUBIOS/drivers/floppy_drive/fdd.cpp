@@ -553,13 +553,14 @@ void ReadTrack(adfTYPE *drive)
 	// int tmp_count = 0;
 	while (1)
 	{
-		tmp = 0;
 		mainprintf("sector %d\r\n", sector);
-		while (tmp <= 511){
-			sector_bufferfdd0[tmp] = sector_bufferfdd1[((sector<<9)|tmp)];
-  		// mainprintf("\033[36;1;1mDATA  %0.4x  Pointer %0.2x\033[0m\r\n", sector_bufferfdd1[((sector<<9)|tmp)], tmp);
-			tmp++;
-		}
+		// Performance optimization:
+		// The whole track (SECTOR_COUNT * 512 bytes) is already resident in
+		// sector_bufferfdd1 here, and SendSector() only reads its pData buffer.
+		// This used to byte-copy each 512-byte sector into sector_bufferfdd0
+		// first -- 5632 redundant load/store pairs per track read, on the hot
+		// disk-loading path. Hand SendSector() a pointer into the track buffer
+		// instead and skip the staging copy entirely.
 		mainprintf("data sector %d\r\n", ((sector<<9)));
 		HPS_EnableFpga();
 
@@ -593,7 +594,7 @@ void ReadTrack(adfTYPE *drive)
 			if (status & CMD_RDTRK)
 			{
 
-				SendSector(sector_bufferfdd0, sector, track, (unsigned char)(dsksync >> 8), (unsigned char)dsksync);
+				SendSector(&sector_bufferfdd1[(sector << 9)], sector, track, (unsigned char)(dsksync >> 8), (unsigned char)dsksync);
 
 				if (sector == LAST_SECTOR)
 					SendGap();
