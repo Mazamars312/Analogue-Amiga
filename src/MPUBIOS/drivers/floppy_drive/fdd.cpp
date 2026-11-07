@@ -31,7 +31,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 unsigned char drives = 0; // number of active drives reported by FPGA (may change only during reset)
 adfTYPE df[4] = {};    // drive information structure
 adfTYPE_CACHE df_cache = {};
-uint8_t sector_bufferfdd1[5632];
+// 4-byte aligned so SendSector() can checksum sectors a word at a time.
+uint8_t sector_bufferfdd1[5632] __attribute__((aligned(4)));
 // uint8_t *sector_buffer1 __attribute__((section("SRAM")));
 uint8_t sector_bufferfdd0[512];
 unsigned char Error;
@@ -379,24 +380,22 @@ void SendSector(unsigned char *pData, unsigned char sector, unsigned char track,
 	spi_w(B2W(checksum[2] | 0xAA, checksum[3] | 0xAA));
 
 	// calculate data checksum
-	checksum[0] = 0;
-	checksum[1] = 0;
-	checksum[2] = 0;
-	checksum[3] = 0;
-	p = pData;
-	i = DATA_SIZE / 2 / 4;
-	while (i--)
+	// Performance optimization: checksum[k] is the XOR of (x ^ x >> 1) over
+	// every 4th byte, which is linear over XOR. So XOR the sector as 32-bit
+	// words first and apply the per-byte (x ^ x >> 1) once at the end:
+	// 128 word loads instead of 512 byte iterations per sector. pData points
+	// at a 512-byte-aligned sector inside the 4-byte-aligned track buffer.
 	{
-
-		x = *p++;
-		checksum[0] ^= x ^ x >> 1;
-		x = *p++;
-		checksum[1] ^= x ^ x >> 1;
-		x = *p++;
-		checksum[2] ^= x ^ x >> 1;
-		x = *p++;
-		checksum[3] ^= x ^ x >> 1;
-		;
+		typedef uint32_t __attribute__((may_alias)) u32_alias;
+		const u32_alias *w = (const u32_alias *)pData;
+		uint32_t acc = 0;
+		i = DATA_SIZE / 2 / 4;
+		while (i--) acc ^= *w++;
+		acc ^= (acc >> 1) & 0x7F7F7F7Fu; // per-byte x ^ x >> 1 (little-endian)
+		checksum[0] = (unsigned char)acc;
+		checksum[1] = (unsigned char)(acc >> 8);
+		checksum[2] = (unsigned char)(acc >> 16);
+		checksum[3] = (unsigned char)(acc >> 24);
 	}
 
 	// send data checksum
