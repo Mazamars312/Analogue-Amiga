@@ -17,13 +17,14 @@ All bolt PRs against `ollisulopuisto/Analogue-Amiga`:
 - #15 `bolt/perf-apf-timeout-spin` (merged): 101→1 / 10001→1 APF handshake polls (~90×)
 - #16 `bolt/perf-fdd-sector-pointer` (merged): 5632→0 bytes copied per floppy track read
 - #21 `bolt/perf-dataslot-search-cache` (merged): up to 128→0 MMIO reads per dataslot lookup
-- #22 `bolt/perf-dataslot-size-cache` (open): 33→0 MMIO reads per dataslot_size() call
-- #23 `bolt/perf-core-poll-io-dummy-reads` (open): 3→1 spi_w transactions per mainloop iteration
-- #24 `bolt/perf-input-reg-poll-interval` (open): 1→0.25 MMIO reads per mainloop iteration (75% reduction)
-- #25 `bolt/perf-ide-check-dead-code` (open): provably dead spi_w(0) removed from ide_check()
+- #22 `bolt/perf-dataslot-size-cache` (merged): 33→0 MMIO reads per dataslot_size() call
+- #23 `bolt/perf-core-poll-io-dummy-reads` (merged): 3→1 spi_w transactions per mainloop iteration
+- #24 `bolt/perf-input-reg-poll-interval` (merged): 1→0.25 MMIO reads per mainloop iteration (75% reduction)
+- #25 `bolt/perf-ide-check-dead-code` (merged): provably dead spi_w(0) removed from ide_check()
+- #26 `bolt/perf-fdd-data-checksum-word` (merged): 512→128 word iterations per floppy sector data checksum
 
 Remaining candidate evaluation: OSD SPI hardware-limited (1 byte/strobe, menu-only). `mouse_math.h`/`pocket_shortcuts.h` marginal. `put_lba()` CHS divisions only affect non-LBA mode (rare).
-**Decision:** No safe measurable targets remain on `main` beyond PR #25.
+**Decision:** No safe measurable targets remain on `main` beyond PR #26.
 
 ## 2026-11-08 - MPU firmware can be built and disassembled locally
 **Learning:** The riscv toolchain is NOT unavailable: CI's xPack `riscv-none-elf-gcc` 15.2.0-1 tarball (see `.github/workflows/ci.yml`) unpacks into `~/opt` and builds `amiga_mpu_bios` with the same `make GCC_PREFIX=riscv-none-elf- EXTRA_CFLAGS=...` line. Build in a copy of the repo, because `src/MPUBIOS/app/{build,dep,obj}.riscv.*` are committed. `riscv-none-elf-objdump -d` of the ELF gives exact per-iteration instruction counts for the real target, which is a better metric than host timing.
