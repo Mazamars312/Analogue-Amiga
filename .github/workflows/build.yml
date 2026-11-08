@@ -17,9 +17,18 @@ on:
   pull_request:
     branches: [ main ]
   workflow_dispatch:
+    inputs:
+      create_release:
+        description: 'Create a GitHub release from the built core zip'
+        required: false
+        default: 'false'
+        type: boolean
 
 env:
   QUARTUS_CACHE_KEY: quartus-lite-25.1std.0.1129-cyclonev-v2
+
+permissions:
+  contents: write  # required to create release tags and GitHub releases
 
 jobs:
   test-and-build-mpu:
@@ -127,3 +136,45 @@ jobs:
             src/fpga/output_files/bitstream.rbf_r
             src/fpga/output_files/*.fit.summary
             src/fpga/output_files/*.sta.summary
+
+  release:
+    name: Create GitHub Release
+    needs: [build-fpga]
+    if: >
+      github.ref == 'refs/heads/main' ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.create_release == 'true')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Download release zip artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: amiga-pocket-release
+          path: release-assets
+      - name: Read version and release date from core.json
+        id: release-meta
+        run: |
+          ZIP="release-assets/Amiga-Pocket.zip"
+          VERSION=$(unzip -p "$ZIP" Cores/Mazamars312.Amiga/core.json | \
+            python3 -c "import json,sys; print(json.load(sys.stdin)['core']['metadata']['version'])")
+          DATE=$(unzip -p "$ZIP" Cores/Mazamars312.Amiga/core.json | \
+            python3 -c "import json,sys; print(json.load(sys.stdin)['core']['metadata']['date_release'])")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "date=$DATE" >> $GITHUB_OUTPUT
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.release-meta.outputs.version }}
+          name: Amiga Core ${{ steps.release-meta.outputs.version }}
+          body: |
+            Amiga core for Analogue Pocket — build `${{ steps.release-meta.outputs.version }}` released on ${{ steps.release-meta.outputs.date }}.
+
+            **Install:** unzip `Amiga-Pocket.zip` and copy the `Cores/Mazamars312.Amiga/` folder onto your Pocket at `/Cores/Mazamars312.Amiga/`, then reset the core.
+
+            The zip contains the Quartus-compiled bitstream, MPU BIOS, settings, interact profiles, and `data.json`.
+          files: release-assets/Amiga-Pocket.zip
+          draft: false
+          prerelease: false
