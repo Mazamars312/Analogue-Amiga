@@ -56,7 +56,18 @@ void input_allow_osd(bool keyboard_active){
 }
 
 void update_mouse_inputs (){
-  mouse_enabled_press = ((CONTROLLER_KEY_REG(1) >> 15) & 0x1) ; //|| ( ((CONTROLLER_KEY_REG(1)>>28) == 0x3) && ((CONTROLLER_KEY_REG(1) >> 15) & 0x1))
+  // Performance optimization:
+  // update_mouse_inputs() runs on every mouse polling cycle (~every 2ms).
+  // 1. Snapshot CONTROLLER_KEY_REG(1) once at the start into c1_raw instead of
+  //    performing multiple volatile MMIO reads across the APF bus per poll.
+  // 2. Previously, OsdDisable() was called unconditionally every poll whenever
+  //    keyboard_osd_showing == 0 and mouse_enabled_press == 0, issuing a
+  //    blocking SPI bus command (HPS_spi_osd_cmd) ~500 times per second during
+  //    normal idle gameplay. Tracking mouse_info_was_showing ensures OsdDisable()
+  //    is called only once when the info overlay is dismissed, eliminating
+  //    thousands of redundant SPI transactions.
+  const uint32_t c1_raw = CONTROLLER_KEY_REG(1);
+  mouse_enabled_press = ((c1_raw >> 15) & 0x1) ; //|| ( ((c1_raw>>28) == 0x3) && ((c1_raw >> 15) & 0x1))
   if (keyboard_osd_showing == 1) {
     mouse_enabled = 0;
   } else if (mouse_enabled_press && !mouse_enabled_press_old) {
@@ -85,10 +96,13 @@ void update_mouse_inputs (){
     OsdClear();
   } 
   mouse_enabled_press_old = mouse_enabled_press;
+  static bool mouse_info_was_showing = false;
   if (keyboard_osd_showing == 0){
     if (mouse_enabled_press){
+      mouse_info_was_showing = true;
       InfoEnable(10, 10, 32, 3, 291, 31744); // Had to use the info as some of the PCE outputs are smaller
-    } else {
+    } else if (mouse_info_was_showing) {
+      mouse_info_was_showing = false;
       OsdDisable();
     }
   }
@@ -138,7 +152,7 @@ void update_mouse_inputs (){
       mouse_counter = new_ctr;
     }
 
-  } else if (((CONTROLLER_KEY_REG(1)>>28) == 0x3)){
+  } else if (((c1_raw>>28) == 0x3)){
     // Analog-stick mouse emulation via the dock. Both halves of the
     // original left/right and up/down split wanted the same signed
     // (x-0x80)/(y-0x80) distance from center; computed as unsigned
@@ -164,7 +178,6 @@ void update_mouse_inputs (){
 
   } else {
     // Mouse Mode (persistent) or momentary mouse: R shoulder (bit 9) held.
-    uint32_t c1_raw = CONTROLLER_KEY_REG(1);
     bool r_held = ((c1_raw & (1 << 9)) != 0);
     if (mouse_enabled || r_held) {
       // Emulating the mouse on the dpad; suppress joystick in FPGA
