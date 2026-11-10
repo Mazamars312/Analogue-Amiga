@@ -179,11 +179,18 @@ void update_mouse_inputs (){
   } else {
     // Mouse Mode (persistent) or momentary mouse: R shoulder (bit 9) held.
     bool r_held = ((c1_raw & (1 << 9)) != 0);
+    // Performance optimization:
+    // update_mouse_inputs() runs on every mouse polling cycle (~every 2ms).
+    // In both the mouse-active and mouse-idle branches, CORE_OUTPUT_REGISTOR()
+    // was previously read and rewritten unconditionally on every poll (~500/sec).
+    // Guarding writes so bits 0x30 are only changed when the state transitions
+    // eliminates thousands of redundant MMIO bus writes per second.
+    uint32_t core_out = CORE_OUTPUT_REGISTOR();
     if (mouse_enabled || r_held) {
       // Emulating the mouse on the dpad; suppress joystick in FPGA
-      uint32_t tmp = CORE_OUTPUT_REGISTOR();
-      tmp = tmp | 0x00000030;
-      CORE_OUTPUT_REGISTOR() = tmp;
+      if ((core_out & 0x00000030) != 0x00000030) {
+        CORE_OUTPUT_REGISTOR() = core_out | 0x00000030;
+      }
       int32_t dx = 0, dy = 0;
       if ((c1_raw & 0x1) == 1)        dy -= speed;
       if (((c1_raw >> 1) & 0x1) == 1) dy += speed;
@@ -199,9 +206,9 @@ void update_mouse_inputs (){
       if (c1_raw & (1 << 6)) dock_btn |= (1 << 2);
     } else {
       dock_btn = 0;
-      uint32_t tmp = CORE_OUTPUT_REGISTOR();
-      tmp = tmp & 0xFFFFFFCF;
-      CORE_OUTPUT_REGISTOR() = tmp;
+      if (core_out & 0x00000030) {
+        CORE_OUTPUT_REGISTOR() = core_out & 0xFFFFFFCF;
+      }
     }
   }
 
@@ -395,10 +402,20 @@ void input_update() {
     disk_swap_press_old = disk_swap_press;
 
     pocket_amiga_shortcuts_update(c1, is_cd32, keyboard_osd_showing);
+    // Performance optimization:
+    // Guard CORE_OUTPUT_REGISTOR() bit 0x10 (joystick suppression) updates.
+    // Previously, an unconditional read-modify-write was executed on every 2ms
+    // timer interrupt (~500/sec). Checking before writing avoids redundant bus writes.
     if (pocket_amiga_shortcuts_suppress_joystick() || mod_l) {
-      CORE_OUTPUT_REGISTOR() |= 0x00000010;
+      uint32_t out = CORE_OUTPUT_REGISTOR();
+      if (!(out & 0x00000010)) {
+        CORE_OUTPUT_REGISTOR() = out | 0x00000010;
+      }
     } else if (!mouse_enabled && !keyboard_osd_showing) {
-      CORE_OUTPUT_REGISTOR() &= ~0x00000010;
+      uint32_t out = CORE_OUTPUT_REGISTOR();
+      if (out & 0x00000010) {
+        CORE_OUTPUT_REGISTOR() = out & ~0x00000010;
+      }
     }
     return;
   }

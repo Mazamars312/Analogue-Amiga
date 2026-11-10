@@ -8,6 +8,9 @@
 //    when mouse_enabled_press was 0 (~500 times/sec). Now only called once
 //    when dismissing the info overlay (mouse_info_was_showing transitioning from
 //    true to false).
+// 3. Guarded CORE_OUTPUT_REGISTOR() writes: previously in update_mouse_inputs()
+//    and input_update(), CORE_OUTPUT_REGISTOR was read and unconditionally
+//    written every poll (~500 times/sec). Guarding prevents redundant bus writes.
 //
 // Compile and run with:
 //   g++ -std=c++14 -Wall -Wextra tests/test_mouse_inputs.cpp -o /tmp/test_mouse_inputs && /tmp/test_mouse_inputs
@@ -18,6 +21,8 @@
 
 static uint32_t s_mock_controller1 = 0;
 static uint32_t s_mock_controller4 = 0;
+static uint32_t s_mock_core_output = 0;
+static uint64_t s_core_output_writes = 0;
 static uint64_t s_controller1_reads = 0;
 static uint64_t s_info_enable_count = 0;
 static uint64_t s_osd_disable_count = 0;
@@ -77,7 +82,35 @@ struct MouseInputModel {
       // analog stick path: uses c1_raw, zero extra controller1 reads
     } else {
       // dpad / R-shoulder path: uses c1_raw, zero extra controller1 reads
-      // bool r_held = ((c1_raw & (1 << 9)) != 0);
+      bool r_held = ((c1_raw & (1 << 9)) != 0);
+      uint32_t core_out = s_mock_core_output;
+      if (mouse_enabled || r_held) {
+        if ((core_out & 0x00000030) != 0x00000030) {
+          s_mock_core_output = core_out | 0x00000030;
+          s_core_output_writes++;
+        }
+      } else {
+        if (core_out & 0x00000030) {
+          s_mock_core_output = core_out & 0xFFFFFFCF;
+          s_core_output_writes++;
+        }
+      }
+    }
+  }
+
+  void input_update_model(bool suppress_joystick, bool mod_l) {
+    if (suppress_joystick || mod_l) {
+      uint32_t out = s_mock_core_output;
+      if (!(out & 0x00000010)) {
+        s_mock_core_output = out | 0x00000010;
+        s_core_output_writes++;
+      }
+    } else if (!mouse_enabled && !keyboard_osd_showing) {
+      uint32_t out = s_mock_core_output;
+      if (out & 0x00000010) {
+        s_mock_core_output = out & ~0x00000010;
+        s_core_output_writes++;
+      }
     }
   }
 };
@@ -184,6 +217,68 @@ int main() {
     CHECK(s_info_enable_count == 0);
     CHECK(s_osd_disable_count == 0);
     CHECK(model.mouse_enabled == false);
+  }
+
+  // Test 6: CORE_OUTPUT_REGISTOR() writes are zero during idle polling
+  {
+    model.reset();
+    s_mock_core_output = 0;
+    s_core_output_writes = 0;
+    s_mock_controller1 = 0;
+    s_mock_controller4 = 0;
+
+    for (int i = 0; i < 1000; i++) {
+      model.update_mouse_inputs_model();
+      model.input_update_model(false, false);
+    }
+    CHECK(s_core_output_writes == 0);
+    CHECK(s_mock_core_output == 0);
+  }
+
+  // Test 7: Holding R shoulder activates mouse mode, sets bits 0x30 once, and produces no further writes
+  {
+    model.reset();
+    s_mock_core_output = 0;
+    s_core_output_writes = 0;
+    s_mock_controller1 = (1u << 9); // R held
+    s_mock_controller4 = 0;
+
+    for (int i = 0; i < 500; i++) {
+      model.update_mouse_inputs_model();
+    }
+    // Wrote bits 0x30 once on initial assertion
+    CHECK(s_core_output_writes == 1);
+    CHECK((s_mock_core_output & 0x30) == 0x30);
+
+    // Release R shoulder
+    s_mock_controller1 = 0;
+    for (int i = 0; i < 500; i++) {
+      model.update_mouse_inputs_model();
+    }
+    // Cleared bits 0x30 once on release
+    CHECK(s_core_output_writes == 2);
+    CHECK((s_mock_core_output & 0x30) == 0);
+  }
+
+  // Test 8: Joystick suppression (bit 0x10) in input_update_model writes once on change and is silent while steady
+  {
+    model.reset();
+    s_mock_core_output = 0;
+    s_core_output_writes = 0;
+
+    // Suppress joystick (e.g. Mod_L held)
+    for (int i = 0; i < 500; i++) {
+      model.input_update_model(true, true);
+    }
+    CHECK(s_core_output_writes == 1);
+    CHECK((s_mock_core_output & 0x10) == 0x10);
+
+    // Release suppression
+    for (int i = 0; i < 500; i++) {
+      model.input_update_model(false, false);
+    }
+    CHECK(s_core_output_writes == 2);
+    CHECK((s_mock_core_output & 0x10) == 0);
   }
 
   if (failures == 0) {
