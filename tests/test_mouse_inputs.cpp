@@ -11,6 +11,9 @@
 // 3. Guarded CORE_OUTPUT_REGISTOR() writes: previously in update_mouse_inputs()
 //    and input_update(), CORE_OUTPUT_REGISTOR was read and unconditionally
 //    written every poll (~500 times/sec). Guarding prevents redundant bus writes.
+// 4. Single snapshot of AFP_REGISTOR(5): in input_update(), AFP_REGISTOR(5) is
+//    snapshotted once per tick instead of re-read up to 3 times per poll
+//    (mouse check, CD32 check, speed extraction).
 //
 // Compile and run with:
 //   g++ -std=c++14 -Wall -Wextra tests/test_mouse_inputs.cpp -o /tmp/test_mouse_inputs && /tmp/test_mouse_inputs
@@ -22,14 +25,21 @@
 static uint32_t s_mock_controller1 = 0;
 static uint32_t s_mock_controller4 = 0;
 static uint32_t s_mock_core_output = 0;
+static uint32_t s_mock_afp_reg5 = 0;
 static uint64_t s_core_output_writes = 0;
 static uint64_t s_controller1_reads = 0;
+static uint64_t s_afp_reg5_reads = 0;
 static uint64_t s_info_enable_count = 0;
 static uint64_t s_osd_disable_count = 0;
 
 static uint32_t mock_read_controller1() {
   s_controller1_reads++;
   return s_mock_controller1;
+}
+
+static uint32_t mock_read_afp_reg5() {
+  s_afp_reg5_reads++;
+  return s_mock_afp_reg5;
 }
 
 static void mock_info_enable() {
@@ -55,7 +65,8 @@ struct MouseInputModel {
     mouse_info_was_showing = false;
   }
 
-  void update_mouse_inputs_model() {
+  void update_mouse_inputs_model(uint16_t speed = 1) {
+    (void)speed;
     const uint32_t c1_raw = mock_read_controller1();
     mouse_enabled_press = ((c1_raw >> 15) & 0x1);
     if (keyboard_osd_showing == 1) {
@@ -99,6 +110,14 @@ struct MouseInputModel {
   }
 
   void input_update_model(bool suppress_joystick, bool mod_l) {
+    const uint32_t afp5 = mock_read_afp_reg5();
+    uint8_t afp5_top = (uint8_t)(afp5 >> 24);
+    if ((afp5_top == 0x80) | (afp5_top == 0xa0)) {
+      update_mouse_inputs_model((uint16_t)(afp5 & 0xffff));
+    }
+    bool is_cd32 = (((afp5 >> 28) & 0x2) != 0);
+    (void)is_cd32;
+
     if (suppress_joystick || mod_l) {
       uint32_t out = s_mock_core_output;
       if (!(out & 0x00000010)) {
@@ -279,6 +298,36 @@ int main() {
     }
     CHECK(s_core_output_writes == 2);
     CHECK((s_mock_core_output & 0x10) == 0);
+  }
+
+  // Test 9: AFP_REGISTOR(5) is read exactly once per input_update_model() poll
+  // even in active mouse mode with CD32 mode flag set
+  {
+    model.reset();
+    s_afp_reg5_reads = 0;
+    s_mock_afp_reg5 = 0x80000005 | 0x20000000; // mouse active (0x80), CD32 mode (0x20000000), speed 5
+    s_mock_controller1 = 0;
+    s_mock_controller4 = 0;
+
+    for (int i = 0; i < 500; i++) {
+      model.input_update_model(false, false);
+    }
+    // Exactly 500 reads for 500 polls (1 read per tick, down from 3)
+    CHECK(s_afp_reg5_reads == 500);
+  }
+
+  // Test 10: AFP_REGISTOR(5) in non-mouse mode also reads exactly once per poll
+  {
+    model.reset();
+    s_afp_reg5_reads = 0;
+    s_mock_afp_reg5 = 0x00000000; // non-mouse mode
+    s_mock_controller1 = 0;
+    s_mock_controller4 = 0;
+
+    for (int i = 0; i < 500; i++) {
+      model.input_update_model(false, false);
+    }
+    CHECK(s_afp_reg5_reads == 500);
   }
 
   if (failures == 0) {

@@ -62,6 +62,7 @@ void input_allow_osd(bool keyboard_active);
 void input_update();
 void input_setup();
 void input_reg_update();
+void update_mouse_inputs(uint16_t speed);
 
 // amiga keycodes (transcribed from amiga developer cd 2.1)
 #define AMIGA_BACKTICK  0x00 // backtick / shifted tilde
