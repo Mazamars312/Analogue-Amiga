@@ -15,6 +15,13 @@
 //    snapshotted once per tick instead of re-read up to 3 times per poll
 //    (mouse check, CD32 check, speed extraction).
 //
+// NOTE: this file validates a host-side MODEL of the firmware logic. Its
+// read-count assertions measure the model, so a firmware change that added
+// register reads back would still pass here. tests/test_input_update_firmware.cpp
+// compiles the REAL src/MPUBIOS/drivers/KMIO/inputs.cpp against mock registers
+// and measures its actual AFP_REGISTOR(5) reads per input_update() poll; keep
+// the two in sync when either side changes.
+//
 // Compile and run with:
 //   g++ -std=c++14 -Wall -Wextra tests/test_mouse_inputs.cpp -o /tmp/test_mouse_inputs && /tmp/test_mouse_inputs
 
@@ -301,7 +308,9 @@ int main() {
   }
 
   // Test 9: AFP_REGISTOR(5) is read exactly once per input_update_model() poll
-  // even in active mouse mode with CD32 mode flag set
+  // even in active mouse mode with CD32 mode flag set.
+  // The same assertion against the real firmware input_update() lives in
+  // tests/test_input_update_firmware.cpp (Test 1).
   {
     model.reset();
     s_afp_reg5_reads = 0;
