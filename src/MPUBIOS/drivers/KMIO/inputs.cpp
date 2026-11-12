@@ -55,7 +55,7 @@ void input_allow_osd(bool keyboard_active){
   mainprintf ("Active %d\r\n", keyboard_osd_showing);
 }
 
-void update_mouse_inputs (){
+void update_mouse_inputs (uint16_t speed){
   // Performance optimization:
   // update_mouse_inputs() runs on every mouse polling cycle (~every 2ms).
   // 1. Snapshot CONTROLLER_KEY_REG(1) once at the start into c1_raw instead of
@@ -66,6 +66,8 @@ void update_mouse_inputs (){
   //    normal idle gameplay. Tracking mouse_info_was_showing ensures OsdDisable()
   //    is called only once when the info overlay is dismissed, eliminating
   //    thousands of redundant SPI transactions.
+  // 3. Mouse speed is received directly from input_update()'s snapshot of
+  //    AFP_REGISTOR(5), avoiding an extra volatile MMIO read per poll.
   const uint32_t c1_raw = CONTROLLER_KEY_REG(1);
   mouse_enabled_press = ((c1_raw >> 15) & 0x1) ; //|| ( ((c1_raw>>28) == 0x3) && ((c1_raw >> 15) & 0x1))
   if (keyboard_osd_showing == 1) {
@@ -106,7 +108,6 @@ void update_mouse_inputs (){
       OsdDisable();
     }
   }
-  uint16_t speed = (AFP_REGISTOR(5) & 0xffff);
   if (speed == 0) speed = 1; // avoid divide-by-zero before settings load
 
   static uint8_t dock_btn = 0;                     // persists across idle polls -- fixes buttons pulsing for one 2ms poll per report
@@ -387,10 +388,20 @@ void update_keyboard_inputs (){
 void input_update() {
     timer1Interrupts_reset();
     if (((CONTROLLER_KEY_REG(3)>>28) == 0x4)) update_keyboard_inputs(); // We want to update the keyboard 6 time every
-    if ((((AFP_REGISTOR(5)>>24)) == 0x80) | ((AFP_REGISTOR(5)>>24) == 0xa0)) {
-      update_mouse_inputs();
+
+    // Performance optimization:
+    // input_update() runs on a 2ms timer interrupt (~500 times/sec).
+    // Previously, AFP_REGISTOR(5) was read up to 3 separate times on every poll:
+    // once for the mouse mode check (bits 31:24), once for is_cd32 (bit 29),
+    // and once inside update_mouse_inputs() for mouse speed (bits 15:0).
+    // Snapshotting AFP_REGISTOR(5) once into afp5 eliminates up to 2 redundant
+    // volatile MMIO reads over the APF bridge per poll (~1,000 reads/sec).
+    const uint32_t afp5 = AFP_REGISTOR(5);
+    uint8_t afp5_top = (uint8_t)(afp5 >> 24);
+    if ((afp5_top == 0x80) | (afp5_top == 0xa0)) {
+      update_mouse_inputs((uint16_t)(afp5 & 0xffff));
     }
-    bool is_cd32 = (((AFP_REGISTOR(5) >> 28) & 0x2) != 0);
+    bool is_cd32 = (((afp5 >> 28) & 0x2) != 0);
     uint32_t c1 = CONTROLLER_KEY_REG(1);
     // Shortcut for disk swap: Hold L (bit 8) and press Select (bit 14) while virtual keyboard is not showing
     bool mod_l = (c1 & (1 << 8)) != 0;
