@@ -71,13 +71,24 @@
  void core_reg_update(){
   // Performance optimization:
   // mainloop() calls core_reg_update() on every iteration of its continuous polling loop.
-  // Previously, CORE_OUTPUT_REGISTOR() was unconditionally written every loop iteration,
-  // causing thousands of redundant MMIO bus writes per second to the APF/FPGA bridge.
-  // Because AFP_REGISTOR(7) menu settings and other output register bits rarely change,
-  // checking if the new value differs before writing eliminates redundant bus transactions,
-  // reducing MPU bus contention and instruction cycles in the hot polling loop.
+  // Previously, AFP_REGISTOR(7) (menu/AFP settings) was re-read on every iteration,
+  // issuing a volatile MMIO read over the APF bus each time even though those settings
+  // only change on user menu interaction. Snapshot AFP_REGISTOR(7) at a fixed interval
+  // instead and reuse the cached value between polls. CORE_OUTPUT_REGISTOR() is still
+  // read every iteration because bits 4-5 (mouse/joystick suppression, 0x30) are owned
+  // by other functions (update_mouse_inputs, input_update, OSD_Keyboard_process) and
+  // must be preserved, so caching the whole register would be unsafe without a shared
+  // writer cache. Detection delay for menu changes is bounded by POLL_INTERVAL
+  // mainloop iterations - imperceptible, same pattern as input_reg_update().
+  static uint8_t afp7_poll_counter = 0;
+  static uint32_t cached_afp7 = 0xFFFFFFFFu; // force an AFP read on the first call
+  constexpr uint8_t POLL_INTERVAL = 4;       // Check menu settings every 4th poll
+  if (++afp7_poll_counter >= POLL_INTERVAL) {
+    afp7_poll_counter = 0;
+    cached_afp7 = AFP_REGISTOR(7);
+  }
   uint32_t tmp = CORE_OUTPUT_REGISTOR();
-  uint32_t next = (tmp & 0xFFFFFF30) | (AFP_REGISTOR(7) & 0x000000cf);
+  uint32_t next = (tmp & 0xFFFFFF30) | (cached_afp7 & 0x000000cf);
   if (tmp != next) {
     CORE_OUTPUT_REGISTOR() = next;
   }
